@@ -1,0 +1,2835 @@
+/* NABTA / Botanical edition — shared visual system. */
+:root {
+    --bg: #c8c3b0;
+    --panel: #ded8c4;
+    --panel2: #b7b4a1;
+    --line: #aaa58e;
+    --text: #193c30;
+    --muted: #3e5a46;
+    --accent: #244e3a;
+    --ink: #f3f4df;
+    --sky: #9dbdc0;
+    --earth: #954e33;
+    --ease: cubic-bezier(.2, .7, .2, 1)
+}
+
+body {
+    font-size: 15px;
+    line-height: 1.65;
+    background: linear-gradient(125deg, #c9c4b0, #b7b8a6);
+    color: var(--text)
+}
+
+h1,
+h2,
+h3 {
+    text-wrap: balance
+}
+
+p {
+    color: var(--muted);
+    text-wrap: pretty
+}
+
+.small,
+.label,
+.muted {
+    line-height: 1.65
+}
+
+.small {
+    font-size: 12px
+}
+
+.eyebrow {
+    font-size: 11px;
+    letter-spacing: .16em;
+    color: #345640
+}
+
+.container {
+    width: min(1440px, calc(100% - 72px))
+}
+
+::selection {
+    background: #345b42;
+    color: #f1f4dc
+}
+
+:focus-visible {
+    outline: 3px solid #9c4c2d;
+    outline-offset: 4px
+}
+
+.header {
+    height: 76px;
+    background: #d4cebaf2;
+    border-color: #829d8780;
+    box-shadow: 0 3px 25px #26433109
+}
+
+.main-nav a,
+.header-actions a {
+    font-size: 12px;
+    color: #214331
+}
+
+.main-nav a {
+    position: relative;
+    padding: 8px 0
+}
+
+.main-nav a:after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .35s var(--ease)
+}
+
+.main-nav a:hover:after {
+    transform: scaleX(1)
+}
+
+.logo-sub {
+    font-size: 8px
+}
+
+.leaf-logo {
+    stroke: #355c3b
+}
+
+.register-link {
+    border-color: #789274;
+    border-radius: 0 14px 0 14px
+}
+
+.btn {
+    border-radius: 3px 15px 3px 15px;
+    min-height: 46px;
+    font-size: 13px;
+    padding: 12px 22px;
+    box-shadow: 0 5px 14px #28412d0c;
+    transition: background .3s, color .3s, box-shadow .3s, transform .3s var(--ease)
+}
+
+.btn:hover {
+    background: #183c2a;
+    box-shadow: 0 9px 24px #28412d22;
+    transform: translateY(-3px)
+}
+
+.btn .icon {
+    transition: transform .3s
+}
+
+.btn:hover .icon {
+    transform: translateX(4px)
+}
+
+.btn.secondary {
+    border-color: #738d6c;
+    color: #24492f
+}
+
+.btn.secondary:hover {
+    background: #b8cba9
+}
+
+.link {
+    font-size: 13px;
+    color: #244c35;
+    border-color: #718f68;
+    transition: color .25s, gap .3s
+}
+
+.link:hover {
+    color: #81432d;
+    gap: 36px
+}
+
+.icon-btn {
+    transition: transform .3s, background .3s
+}
+
+.icon-btn:hover {
+    transform: rotate(-12deg);
+    background: #bdd09d
+}
+
+.bag-count {
+    background: #30533b;
+    color: #f4f4e0
+}
+
+.page-main {
+    padding: 24px 0 42px;
+    background: linear-gradient(135deg, #cbc5b0, #b8baa8)
+}
+
+.page-main>.container {
+    position: relative
+}
+
+.breadcrumbs {
+    color: #234333;
+    background: #d8e3cbd9;
+    border-radius: 30px;
+    width: fit-content;
+    padding: 5px 12px;
+    margin-bottom: 20px;
+    font-size: 11px
+}
+
+.page-heading {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: 24px 30px;
+    min-height: 155px;
+    border-radius: 4px 35px 4px 4px;
+    background: #234737;
+    color: #eef2d8;
+    align-items: center;
+    margin-bottom: 28px
+}
+
+.page-heading:before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, #163c30f5 12%, #214d39c7 58%, #1f433744), url(hero.jpg) right 48%/cover;
+    transition: transform 1s var(--ease)
+}
+
+.page-heading:hover:before {
+    transform: scale(1.025)
+}
+
+.page-heading h1 {
+    font-size: clamp(30px, 3.5vw, 46px);
+    margin: 7px 0
+}
+
+.page-heading .eyebrow,
+.page-heading p {
+    color: #d9e7c5
+}
+
+.page-heading p {
+    font-size: 13px;
+    max-width: 580px
+}
+
+.page-heading>.link {
+    color: #e4edcb;
+    border-color: #bed09c
+}
+
+.products-page .page-heading:before {
+    background-image: linear-gradient(90deg, #153d2ff5, #204b38b5 60%, #1f433733), url(garden-sky.jpg)
+}
+
+.sell-page .page-heading:before {
+    background-image: linear-gradient(90deg, #153d2ff5, #204b38b5 60%, #1f433733), url(editorial.jpg)
+}
+
+.panel {
+    background: #ded8c4df;
+    border: 1px solid #8ba17c;
+    border-radius: 4px 24px 4px 4px;
+    padding: 26px;
+    box-shadow: 0 12px 30px #23432e0b;
+    transition: border-color .3s, box-shadow .3s
+}
+
+.panel:hover {
+    border-color: #6b865f;
+    box-shadow: 0 18px 35px #23432e12
+}
+
+.panel h2 {
+    font-size: 25px;
+    letter-spacing: -.04em
+}
+
+.panel h3 {
+    font-size: 18px
+}
+
+.field {
+    gap: 6px;
+    margin-bottom: 16px
+}
+
+.field label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #284c34
+}
+
+.field input,
+.field select,
+.field textarea,
+select.control,
+input.control {
+    background: #ece4cfbf;
+    border: 1px solid #829970;
+    color: #203e2d;
+    min-height: 46px;
+    border-radius: 3px;
+    font-size: 14px;
+    transition: border .25s, box-shadow .25s, background .25s
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+input.control:focus,
+select.control:focus {
+    outline: none;
+    border-color: #375e39;
+    background: #eee6d1;
+    box-shadow: 0 0 0 3px #597e4026
+}
+
+.field input::placeholder,
+.field textarea::placeholder,
+input.control::placeholder {
+    color: #52664b
+}
+
+.check {
+    font-size: 12px;
+    color: #2f4e35
+}
+
+.notice,
+.assistant-preview {
+    background: #c6c7ac;
+    color: #29482e;
+    border-color: #7f9e6d;
+    font-size: 12px
+}
+
+.pill {
+    background: #bbc2a0;
+    color: #23462b;
+    font-size: 11px
+}
+
+.pill.pending {
+    background: #dfc89c;
+    color: #593d20
+}
+
+.summary-row {
+    font-size: 14px
+}
+
+.summary-row.total {
+    font-size: 22px
+}
+
+.steps {
+    font-size: 12px;
+    color: #38583f
+}
+
+.order-mini p,
+.bag-item p {
+    font-size: 12px;
+    color: #3f5a43
+}
+
+.bag-item h3 {
+    font-size: 17px
+}
+
+.bag-item img {
+    border-radius: 4px 18px 4px 4px
+}
+
+.bag-item {
+    transition: background .3s
+}
+
+.bag-item:hover {
+    background: #b5c9a52e
+}
+
+.products-grid {
+    gap: 28px 22px
+}
+
+.product-card {
+    padding: 10px;
+    background: #d8d1bb;
+    border: 1px solid #8fa78070;
+    border-radius: 4px 32px 4px 4px;
+    transition: transform .5s var(--ease), background .4s, box-shadow .4s
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    background: #e1d9c2;
+    box-shadow: 0 18px 32px #183b2520
+}
+
+.product-visual,
+.garden-home .product-visual {
+    border-radius: 3px 26px 3px 3px;
+    background: #d9dece
+}
+
+.product-visual img {
+    transition: transform 1s var(--ease), filter .7s
+}
+
+.product-visual:hover img {
+    transform: scale(1.055);
+    filter: saturate(1.07)
+}
+
+.product-tag {
+    background: #e3d9bd;
+    color: #2b4931;
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 2px
+}
+
+.product-browse {
+    background: #e3d9bd;
+    color: #2b4931
+}
+
+.product-info {
+    padding: 15px 3px 6px;
+    gap: 8px
+}
+
+.product-info h3 {
+    font-size: 16px
+}
+
+.product-info p,
+.product-info .price {
+    font-size: 12px;
+    color: #35543b
+}
+
+.product-info .price {
+    font-weight: 600
+}
+
+.category-strip {
+    gap: 8px
+}
+
+.category-strip a {
+    font-size: 12px;
+    padding: 8px 16px;
+    border-color: #77956c;
+    color: #29492f;
+    background: #ddd4bca8;
+    transition: background .3s, transform .3s
+}
+
+.category-strip a:hover {
+    background: #abc598;
+    transform: translateY(-2px)
+}
+
+.shop-filter {
+    background: #d9d1bc;
+    border: 1px solid #97ae86;
+    padding: 20px;
+    border-radius: 3px 24px 3px 3px;
+    height: fit-content
+}
+
+.filter-block h3 {
+    font-size: 15px
+}
+
+.shop-toolbar {
+    font-size: 13px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #8da580
+}
+
+.product-layout {
+    gap: 42px;
+    background: #d3cbb6;
+    padding: 24px;
+    border: 1px solid #8da383;
+    border-radius: 4px 36px 4px 4px
+}
+
+.detail-photo {
+    border-radius: 3px 60px 3px 3px;
+    position: relative;
+    overflow: hidden
+}
+
+.detail-photo img {
+    transition: transform 1.4s var(--ease)
+}
+
+.detail-photo:hover img {
+    transform: scale(1.055)
+}
+
+.detail-info h1 {
+    font-size: clamp(32px, 3.5vw, 48px)
+}
+
+.detail-info p {
+    font-size: 14px
+}
+
+.detail-price {
+    font-size: 30px;
+    color: #6c422d
+}
+
+.rating {
+    font-size: 13px;
+    color: #3b593c
+}
+
+.detail-benefits {
+    font-size: 12px;
+    color: #36523b;
+    flex-wrap: wrap;
+    gap: 12px
+}
+
+.choice-row label {
+    background: #dfd6bf;
+    border-color: #7f9c70;
+    min-width: 46px;
+    height: 44px
+}
+
+.product-specs>div {
+    font-size: 12px;
+    border-bottom: 1px solid #91aa812e;
+    padding: 4px 0
+}
+
+.product-specs span {
+    color: #3e5841
+}
+
+.product-specs strong {
+    font-weight: 500
+}
+
+.detail-info>.btn.full {
+    margin-top: 8px
+}
+
+.auth-layout {
+    padding: 28px;
+    gap: 0;
+    background: #d8d0ba;
+    border: 1px solid #8fa780;
+    border-radius: 4px 40px 4px 4px;
+    margin: 24px 0;
+    height: calc(100svh - 124px);
+    min-height: 620px;
+    grid-template-columns: 1fr 1fr
+}
+
+.auth-visual {
+    border-radius: 3px 50px 3px 3px
+}
+
+.auth-visual img {
+    transition: transform 6s var(--ease)
+}
+
+.auth-layout:hover .auth-visual img {
+    transform: scale(1.04)
+}
+
+.auth-form {
+    padding: 20px 12px;
+    width: min(410px, 100%)
+}
+
+.auth-form h1 {
+    font-size: 38px
+}
+
+.auth-form>p,
+.auth-note {
+    font-size: 13px;
+    color: #36513c
+}
+
+.auth-quote {
+    font-size: clamp(26px, 3vw, 44px);
+    text-shadow: 0 2px 20px #173c38
+}
+
+.or {
+    color: #49623e;
+    font-size: 12px
+}
+
+.account-nav {
+    padding: 18px;
+    background: linear-gradient(#1d4538ed, #1d4538a6), url(garden-sky.jpg) center/cover;
+    border-radius: 3px 24px 3px 3px;
+    min-height: 340px;
+    height: fit-content
+}
+
+.account-nav a {
+    font-size: 13px;
+    color: #e4edcf;
+    transition: background .3s, transform .3s
+}
+
+.account-nav a.active {
+    background: #d8cba5;
+    color: #23442f
+}
+
+.account-nav a:hover {
+    background: #d8cba533;
+    transform: translateX(3px)
+}
+
+.account-nav a.active:hover {
+    background: #d8cba5
+}
+
+.account-avatar {
+    background: #c0b38c;
+    border: 1px solid #839d6e;
+    color: #24472d
+}
+
+.account-layout {
+    grid-template-columns: 210px 1fr
+}
+
+.assistant-layout {
+    gap: 28px
+}
+
+.assistant-title {
+    background: linear-gradient(#153d30bb, #153d30eb), url(garden-sky.jpg) center/cover;
+    padding: 32px;
+    color: #edf1d5;
+    min-height: 490px;
+    border-radius: 4px 45px 4px 4px
+}
+
+.assistant-title h1 {
+    font-size: clamp(34px, 4vw, 55px);
+    margin: 18px 0
+}
+
+.assistant-title p,
+.assistant-title .eyebrow {
+    color: #dbe6c9;
+    font-size: 13px
+}
+
+.prompt-tags span {
+    border-color: #bfd09a99;
+    color: #e5edce;
+    font-size: 11px
+}
+
+.assistant-title .link {
+    color: #dce8bc
+}
+
+.suggestion-list a {
+    background: #ccdcb9;
+    border-color: #91ab7b;
+    transition: background .3s
+}
+
+.suggestion-list a:hover {
+    background: #b8ce9f
+}
+
+/* Management uses quiet surfaces and photography only outside data tables. */
+.admin-body {
+    background: linear-gradient(125deg, #b9b7a4, #ccc7b2)
+}
+
+.admin-shell {
+    grid-template-columns: 232px minmax(0, 1fr)
+}
+
+.admin-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    background: linear-gradient(#173f34f7 35%, #173f34a8), url(garden-sky.jpg) 60% center/cover;
+    color: #e8efd7;
+    padding: 30px 22px;
+    border-color: #608371
+}
+
+.admin-sidebar .leaf-logo {
+    stroke: #d3dfaf
+}
+
+.admin-sidebar .eyebrow,
+.admin-bottom {
+    color: #cbdcb8
+}
+
+.admin-sidebar nav a {
+    font-size: 13px;
+    color: #e1ebcf;
+    transition: background .3s, transform .3s
+}
+
+.admin-sidebar nav a.active {
+    background: #d8cba5;
+    color: #1e402b
+}
+
+.admin-sidebar nav a:hover {
+    background: #b6cda033;
+    transform: translateX(3px)
+}
+
+.admin-sidebar nav a.active:hover {
+    background: #d8cba5
+}
+
+.admin-content {
+    padding-inline: 32px
+}
+
+.admin-top {
+    color: #345440;
+    font-size: 12px;
+    border-color: #88a38c
+}
+
+.admin-title {
+    padding: 20px 26px;
+    background: linear-gradient(90deg, #264d3af2, #294c3890), url(editorial.jpg) right center/cover;
+    color: #eff1dc;
+    border-radius: 3px 28px 3px 3px
+}
+
+.admin-title h1 {
+    font-size: 34px
+}
+
+.admin-title p {
+    color: #e0e9cc;
+    font-size: 13px
+}
+
+.admin-title .btn {
+    background: #d8cba5;
+    color: #23422b;
+    border-color: #d8cba5
+}
+
+.stat {
+    position: relative;
+    overflow: hidden;
+    background: #ddd7c3;
+    border-color: #8da57c;
+    border-radius: 3px 24px 3px 3px;
+    padding: 22px;
+    transition: transform .4s, box-shadow .4s
+}
+
+.stat:after {
+    content: '';
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    right: -30px;
+    top: -35px;
+    border: 1px solid #8aa47788;
+    border-radius: 50%
+}
+
+.stat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 25px #24482e12
+}
+
+.stat .value {
+    font-size: 32px
+}
+
+.stat .trend {
+    color: #365630;
+    font-size: 11px
+}
+
+.stat .label {
+    font-size: 12px;
+    color: #3b593f
+}
+
+.chart-col div {
+    background: #72976e;
+    transform-origin: bottom;
+    animation: grow-bars 1s var(--ease) both
+}
+
+.chart-col:nth-child(2n) div {
+    background: #7faaa5
+}
+
+.chart-col:last-child div {
+    background: #b5865e
+}
+
+.chart-labels {
+    color: #3e5940;
+    font-size: 11px
+}
+
+table {
+    font-size: 13px
+}
+
+th {
+    background: #c8c1aa;
+    color: #2e4e35;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 14px 12px
+}
+
+td {
+    padding: 16px 12px;
+    border-color: #9cb48e;
+    transition: background .25s
+}
+
+tbody tr:hover td {
+    background: #c9c1a766
+}
+
+.table-button,
+.plain-link,
+.table-actions a {
+    font-size: 12px;
+    color: #244e36;
+    padding: 7px 3px
+}
+
+.table-button:hover,
+.plain-link:hover {
+    color: #8b452d
+}
+
+.table-actions {
+    gap: 12px
+}
+
+.table-product img {
+    width: 44px;
+    height: 52px
+}
+
+.admin-panels .panel:last-child {
+    display: block
+}
+
+.popover {
+    border-radius: 4px 30px 4px 4px;
+    background: #ded8c4;
+    border: 1px solid #809967;
+    box-shadow: 0 30px 100px #0d2a2959;
+    padding: 28px
+}
+
+.popover:popover-open {
+    animation: dialog-arrive .35s var(--ease)
+}
+
+.popover::backdrop {
+    background: #173b3673;
+    backdrop-filter: blur(8px)
+}
+
+.popover h2 {
+    font-size: 27px
+}
+
+.popover p {
+    font-size: 13px;
+    color: #3e583b
+}
+
+.popover .field label {
+    font-size: 12px
+}
+
+.popover-top {
+    padding-bottom: 16px;
+    border-bottom: 1px solid #9eb48a
+}
+
+.popover .icon-btn:hover {
+    background: #c3d5ad
+}
+
+.footer,
+.garden-home .footer {
+    position: relative;
+    background: linear-gradient(90deg, #1c4536f5, #244d3be8), url(garden-sky.jpg) center 70%/cover;
+    color: #e6edcf;
+    padding: 44px 0 20px
+}
+
+.footer .logo,
+.footer .leaf-logo {
+    color: #e6edcf;
+    stroke: #d0dfac
+}
+
+.footer p,
+.footer-title,
+.footer-bottom {
+    color: #cbdcb7
+}
+
+.footer-links {
+    font-size: 13px
+}
+
+.footer-links a {
+    transition: color .3s, transform .3s
+}
+
+.footer-links a:hover {
+    color: #fff3c3;
+    transform: translateX(3px)
+}
+
+.footer-bottom {
+    border-color: #658269;
+    font-size: 11px
+}
+
+/* Editorial storefront chapters. */
+.garden-home .hero-copy {
+    padding-top: 100px
+}
+
+.garden-home .hero-copy .eyebrow {
+    font-size: 11px
+}
+
+.garden-home .hero p {
+    font-size: 15px
+}
+
+.garden-home .hero .btn {
+    border-radius: 2px 16px 2px 16px
+}
+
+.garden-home .hero .link {
+    font-size: 13px
+}
+
+.garden-home .hero-caption {
+    pointer-events: auto
+}
+
+.garden-home .hero-bottom {
+    font-size: 10px
+}
+
+.garden-home .hero-caption p {
+    font-size: 10px
+}
+
+.garden-home .hero h1 em,
+.garden-home .hero-heading em {
+    color: #d9e9b4
+}
+
+.garden-home .collection {
+    background: linear-gradient(120deg, #d0cab6, #bebda9)
+}
+
+.garden-home #edit {
+    background: #abb7a8
+}
+
+.garden-home .editorial-content {
+    background: linear-gradient(135deg, #d4ceba, #c6c4ae);
+    border-radius: 3px 45px 3px 3px
+}
+
+.garden-home .editorial-image {
+    border-radius: 50px 3px 3px 3px
+}
+
+.editorial-image img {
+    transition: transform 1.6s var(--ease)
+}
+
+.editorial-image:hover img {
+    transform: scale(1.04)
+}
+
+.benefit h3 {
+    font-size: 16px
+}
+
+.benefit p {
+    font-size: 12px;
+    color: #36524a
+}
+
+.garden-home #faq {
+    background: linear-gradient(90deg, #183d32f2, #244d3ae0), url(hero.jpg) center/cover;
+    color: #edf0d7
+}
+
+.garden-home #faq p,
+.garden-home #faq .eyebrow {
+    color: #dce6c8
+}
+
+.garden-home #faq .link {
+    color: #dce7ba;
+    border-color: #9bb781
+}
+
+.garden-home .faq-item {
+    border-color: #819f7370
+}
+
+.garden-home .faq-item summary {
+    font-size: 16px
+}
+
+.garden-home .faq-item summary:after {
+    color: #d4e3b2
+}
+
+.garden-home .faq-item p {
+    font-size: 14px
+}
+
+.faq-item[open] p {
+    animation: dialog-arrive .35s var(--ease)
+}
+
+.section-top p {
+    font-size: 13px
+}
+
+.section-base {
+    font-size: 11px;
+    color: #3f6046
+}
+
+.garden-paths {
+    background: #214a3d
+}
+
+.paths-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    min-height: 0
+}
+
+.path-card {
+    position: relative;
+    height: clamp(180px, 26vh, 290px);
+    overflow: hidden;
+    border-radius: 3px 35px 3px 3px;
+    isolation: isolate;
+    display: flex;
+    align-items: end;
+    padding: 22px;
+    color: #edf2d8;
+    background: #234837
+}
+
+.path-card:after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, #173a30f2, transparent 100%);
+    z-index: -1
+}
+
+.path-card img {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s var(--ease), filter .6s;
+    filter: brightness(.8) saturate(.8)
+}
+
+.path-card:hover img {
+    transform: scale(1.075);
+    filter: brightness(.95) saturate(1)
+}
+
+.path-card h3 {
+    font-size: 26px
+}
+
+.path-card p {
+    font-size: 12px;
+    color: #e0e9ce;
+    margin-top: 6px
+}
+
+.path-number {
+    position: absolute;
+    top: 18px;
+    left: 22px;
+    font-size: 11px;
+    color: #edf2d8
+}
+
+.path-arrow {
+    margin-left: auto;
+    align-self: end;
+    font-size: 24px;
+    transition: transform .4s
+}
+
+.path-card:hover .path-arrow {
+    transform: translate(3px, -3px)
+}
+
+@keyframes dialog-arrive {
+    from {
+        opacity: 0;
+        transform: translateY(12px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@keyframes grow-bars {
+    from {
+        transform: scaleY(.1)
+    }
+
+    to {
+        transform: scaleY(1)
+    }
+}
+
+@keyframes reveal-chapter {
+    from {
+        opacity: .85;
+        transform: translateY(26px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@keyframes photo-drift {
+    from {
+        transform: scale(1.045)
+    }
+
+    to {
+        transform: scale(1)
+    }
+}
+
+/* Browsers without scroll timelines retain fully visible content. */
+@supports(animation-timeline:view()) {
+    @media(prefers-reduced-motion:no-preference) {
+
+        .product-card,
+        .path-card,
+        .benefit,
+        .garden-home .section-top,
+        .editorial-content,
+        .faq-item {
+            animation: reveal-chapter linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 85%
+        }
+
+        .editorial-image img {
+            animation: photo-drift linear both;
+            animation-timeline: view();
+            animation-range: entry 0% exit 100%
+        }
+    }
+}
+
+@media(max-width:1100px) {
+    .container {
+        width: calc(100% - 40px)
+    }
+
+    .main-nav {
+        gap: 15px
+    }
+
+    .main-nav a {
+        font-size: 11px
+    }
+
+    .admin-shell {
+        grid-template-columns: 195px minmax(0, 1fr)
+    }
+
+    .admin-sidebar {
+        padding-inline: 16px
+    }
+
+    .admin-content {
+        padding-inline: 22px
+    }
+
+    .product-info {
+        grid-template-columns: 1fr
+    }
+
+    .product-info .price {
+        grid-row: 3
+    }
+
+    .product-info .swatches {
+        display: none
+    }
+
+    .product-layout {
+        gap: 26px;
+        padding: 20px
+    }
+
+    .auth-layout {
+        padding: 20px
+    }
+
+    .paths-grid {
+        gap: 12px
+    }
+
+    .path-card {
+        padding: 18px
+    }
+
+    .path-card h3 {
+        font-size: 23px
+    }
+}
+
+@media(max-width:760px) {
+    :root {
+        --head: 66px
+    }
+
+    .header {
+        height: 66px
+    }
+
+    .container {
+        width: calc(100% - 32px)
+    }
+
+    .header-actions a {
+        font-size: 12px
+    }
+
+    .mobile-nav nav {
+        background: #c9c3ad;
+        border-color: #809b7b
+    }
+
+    .page-main {
+        padding-top: 18px;
+        background-size: auto 240px
+    }
+
+    .page-heading {
+        padding: 22px;
+        min-height: 165px;
+        border-radius: 3px 30px 3px 3px;
+        align-items: start;
+        gap: 10px;
+        margin-bottom: 22px
+    }
+
+    .page-heading h1 {
+        font-size: 32px
+    }
+
+    .page-heading p {
+        font-size: 13px
+    }
+
+    .page-heading .eyebrow {
+        font-size: 10px
+    }
+
+    .breadcrumbs {
+        font-size: 10px;
+        margin-bottom: 16px
+    }
+
+    .panel {
+        padding: 20px;
+        border-radius: 3px 22px 3px 3px
+    }
+
+    .panel h2 {
+        font-size: 23px
+    }
+
+    .products-grid {
+        gap: 17px 12px
+    }
+
+    .product-card {
+        padding: 7px;
+        border-radius: 3px 23px 3px 3px
+    }
+
+    .product-visual,
+    .garden-home .product-visual {
+        border-radius: 3px 18px 3px 3px
+    }
+
+    .product-info {
+        padding: 10px 2px 4px;
+        gap: 4px
+    }
+
+    .product-info h3 {
+        font-size: 14px
+    }
+
+    .product-info p {
+        font-size: 11px
+    }
+
+    .product-info .price {
+        font-size: 12px
+    }
+
+    .product-tag {
+        font-size: 9px;
+        left: 7px;
+        top: 7px
+    }
+
+    .category-strip a {
+        font-size: 11px;
+        padding: 6px 11px
+    }
+
+    .shop-toolbar {
+        font-size: 12px;
+        gap: 10px
+    }
+
+    .shop-toolbar .btn {
+        font-size: 12px;
+        padding-inline: 14px
+    }
+
+    .product-layout {
+        padding: 15px;
+        gap: 22px
+    }
+
+    .detail-photo {
+        height: 360px;
+        border-radius: 3px 45px 3px 3px
+    }
+
+    .detail-info h1 {
+        font-size: 34px
+    }
+
+    .detail-info p {
+        font-size: 14px
+    }
+
+    .product-specs>div {
+        font-size: 12px
+    }
+
+    .account-layout {
+        grid-template-columns: 1fr
+    }
+
+    .account-nav {
+        min-height: 0;
+        padding: 8px;
+        border-radius: 3px 18px 3px 3px;
+        gap: 3px
+    }
+
+    .account-nav a {
+        font-size: 12px;
+        padding: 11px
+    }
+
+    .auth-layout {
+        display: block;
+        padding: 24px 16px;
+        min-height: calc(100svh - 105px);
+        height: auto;
+        margin: 18px 0;
+        background: linear-gradient(#d9d1bbed, #c8c0aaed), url(garden-sky.jpg) center/cover
+    }
+
+    .auth-form {
+        padding: 8px
+    }
+
+    .auth-form h1 {
+        font-size: 33px
+    }
+
+    .auth-visual {
+        display: none
+    }
+
+    .assistant-title {
+        min-height: 0;
+        padding: 26px
+    }
+
+    .assistant-title h1 {
+        font-size: 38px
+    }
+
+    .assistant-title p {
+        font-size: 13px
+    }
+
+    .admin-shell {
+        display: block
+    }
+
+    .admin-sidebar {
+        height: auto;
+        position: static;
+        padding: 18px 16px;
+        background: linear-gradient(#173f34e6, #173f34de), url(garden-sky.jpg) center/cover
+    }
+
+    .admin-sidebar nav {
+        gap: 6px
+    }
+
+    .admin-sidebar nav a {
+        font-size: 11px;
+        padding: 10px
+    }
+
+    .admin-content {
+        padding-inline: 16px
+    }
+
+    .admin-top {
+        font-size: 11px;
+        height: 55px;
+        margin-bottom: 18px
+    }
+
+    .admin-title {
+        padding: 20px;
+        align-items: start
+    }
+
+    .admin-title h1 {
+        font-size: 28px
+    }
+
+    .admin-title p {
+        font-size: 12px
+    }
+
+    .stats {
+        gap: 12px
+    }
+
+    .stat {
+        padding: 17px
+    }
+
+    .stat .value {
+        font-size: 28px
+    }
+
+    .stat .trend {
+        font-size: 11px
+    }
+
+    .admin-panels {
+        grid-template-columns: 1fr
+    }
+
+    .toolbar input {
+        max-width: 100%
+    }
+
+    .popover {
+        padding: 21px;
+        border-radius: 3px 24px 3px 3px
+    }
+
+    .popover h2 {
+        font-size: 25px
+    }
+
+    .popover .field {
+        margin-bottom: 12px
+    }
+
+    .popover .field input,
+    .popover .field select {
+        min-height: 42px;
+        font-size: 13px
+    }
+
+    .popover-top {
+        margin-bottom: 16px;
+        padding-bottom: 12px
+    }
+
+    .footer {
+        padding-top: 32px
+    }
+
+    .footer-links {
+        font-size: 13px
+    }
+
+    .footer p {
+        font-size: 13px
+    }
+
+    .footer-bottom {
+        font-size: 10px;
+        flex-wrap: wrap
+    }
+
+    .garden-home .hero-copy {
+        padding: 118px 0 160px;
+        width: calc(100% - 40px)
+    }
+
+    .garden-home .hero-copy .eyebrow {
+        font-size: 9px
+    }
+
+    .garden-home .hero h1,
+    .garden-home .hero-heading {
+        font-size: clamp(42px, 10.7vw, 66px)
+    }
+
+    .garden-home .hero p {
+        font-size: 13px;
+        line-height: 1.7
+    }
+
+    .garden-home .hero .btn {
+        font-size: 12px
+    }
+
+    .garden-home .hero .link {
+        font-size: 12px
+    }
+
+    .garden-home .hero-caption p {
+        font-size: 9px
+    }
+
+    .garden-home .hero-caption h2 {
+        font-size: 21px
+    }
+
+    .garden-home .hero-tag {
+        display: none
+    }
+
+    .garden-home .collection .product-visual {
+        max-height: 24vh
+    }
+
+    .garden-home .section-top h2 {
+        font-size: 31px
+    }
+
+    .garden-home .section-top .link {
+        font-size: 11px
+    }
+
+    .garden-home .section-base {
+        font-size: 9px
+    }
+
+    .garden-home .editorial {
+        grid-template-rows: 230px auto
+    }
+
+    .garden-home .editorial-content {
+        padding: 24px
+    }
+
+    .garden-home .editorial-content h2 {
+        font-size: 33px
+    }
+
+    .garden-home .benefits {
+        grid-template-columns: 1fr;
+        gap: 15px
+    }
+
+    .benefit {
+        border-right: 0;
+        border-bottom: 1px solid #6c938c66;
+        padding: 0 0 13px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        align-items: center
+    }
+
+    .benefit h3 {
+        font-size: 14px;
+        margin: 0
+    }
+
+    .benefit p {
+        font-size: 12px
+    }
+
+    .garden-home .faq-item summary {
+        font-size: 14px
+    }
+
+    .garden-home .faq-item p {
+        font-size: 13px
+    }
+
+    .paths-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px
+    }
+
+    .path-card {
+        height: 175px;
+        padding: 14px;
+        border-radius: 3px 25px 3px 3px
+    }
+
+    .path-card h3 {
+        font-size: 20px
+    }
+
+    .path-card p {
+        font-size: 11px;
+        line-height: 1.4
+    }
+
+    .path-number {
+        top: 12px;
+        left: 14px;
+        font-size: 10px
+    }
+
+    .path-arrow {
+        font-size: 20px
+    }
+
+    .garden-paths .section-top {
+        align-items: start
+    }
+
+    .garden-paths .section-top>p {
+        display: none
+    }
+
+    .garden-home .garden-paths {
+        min-height: 100svh
+    }
+
+    .garden-home #main>.container>section:not(.promo-slider) {
+        padding-inline: 20px
+    }
+}
+
+@media(max-width:380px) {
+
+    .garden-home .hero h1,
+    .garden-home .hero-heading {
+        font-size: 40px
+    }
+
+    .garden-home .hero .cta-row {
+        gap: 12px
+    }
+
+    .garden-home .hero .link {
+        font-size: 11px
+    }
+
+    .path-card {
+        height: 170px
+    }
+
+    .path-card h3 {
+        font-size: 18px
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .popover .form-grid {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .stats {
+        gap: 9px
+    }
+
+    .stat {
+        padding: 13px
+    }
+
+    .stat .value {
+        font-size: 25px
+    }
+}
+
+@media(min-width:1000px) and (max-height:780px) {
+    .garden-home .screen:not(.promo-slider) {
+        height: auto;
+        min-height: calc(100svh - var(--head))
+    }
+
+    .garden-home .collection .product-visual {
+        max-height: 35vh
+    }
+
+    .path-card {
+        height: 22vh;
+        min-height: 150px
+    }
+
+    .garden-home .section-top {
+        margin-bottom: 18px
+    }
+
+    .garden-home .hero h1,
+    .garden-home .hero-heading {
+        font-size: clamp(48px, 6vw, 80px)
+    }
+
+    .garden-home .hero-copy {
+        padding-top: 90px
+    }
+
+    .auth-layout {
+        min-height: 600px
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    html {
+        scroll-behavior: auto
+    }
+
+    *,
+    *:before,
+    *:after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important
+    }
+
+    .product-card:hover,
+    .stat:hover,
+    .btn:hover {
+        transform: none
+    }
+
+    .garden-home .hero-media>img {
+        transform: none
+    }
+}
+
+@media(max-width:760px) {
+    .account-nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        overflow: visible
+    }
+
+    .account-nav a {
+        white-space: normal
+    }
+
+    .admin-sidebar nav {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        overflow: visible;
+        gap: 4px
+    }
+
+    .admin-sidebar nav a {
+        justify-content: center;
+        padding: 8px 4px;
+        gap: 6px;
+        font-size: 10px;
+        white-space: normal
+    }
+
+    .admin-sidebar nav .icon {
+        width: 14px;
+        height: 14px;
+        flex: none
+    }
+
+    .assistant-title img {
+        display: none
+    }
+
+    .assistant-title h1 {
+        font-size: 32px;
+        margin: 10px 0
+    }
+
+    .assistant-title {
+        padding: 22px
+    }
+
+    .assistant-title .prompt-tags {
+        margin-bottom: 0
+    }
+
+    .table-scroll {
+        overflow: visible
+    }
+
+    .table-scroll table {
+        min-width: 0;
+        width: 100%;
+        display: block
+    }
+
+    .table-scroll thead {
+        display: none
+    }
+
+    .table-scroll tbody {
+        display: grid;
+        gap: 14px
+    }
+
+    .table-scroll tr {
+        display: grid;
+        background: #d8d0b9;
+        border: 1px solid #8fa97d;
+        border-radius: 3px 20px 3px 3px;
+        overflow: hidden
+    }
+
+    .table-scroll td {
+        display: grid;
+        grid-template-columns: 90px minmax(0, 1fr);
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        font-size: 12px;
+        border-bottom: 1px solid #a4ba92
+    }
+
+    .table-scroll td:last-child {
+        border-bottom: 0
+    }
+
+    .table-scroll td:before {
+        content: attr(data-label);
+        font-size: 11px;
+        font-weight: 500;
+        color: #3c5939
+    }
+
+    .table-product {
+        min-width: 0;
+        gap: 10px
+    }
+
+    .table-actions {
+        flex-wrap: wrap;
+        gap: 12px
+    }
+
+    .table-scroll .table-product img {
+        width: 34px;
+        height: 42px
+    }
+
+    .admin-title .btn {
+        white-space: nowrap
+    }
+
+    .profile-page .panel>.flex>.btn {
+        white-space: nowrap;
+        padding: 10px 14px;
+        font-size: 12px
+    }
+}
+
+/* Forest & limestone: final palette and clearly visible motion. */
+:root {
+    --bg: #c8c3b0;
+    --panel: #ded8c4;
+    --panel2: #bbbba5;
+    --line: #aaa58e;
+    --text: #213e32;
+    --muted: #4a5546;
+    --accent: #244936;
+    --ink: #eee5cf;
+    --sky: #a5b8b1;
+    --earth: #805137
+}
+
+body {
+    background: #c8c3b0;
+    color: #213e32
+}
+
+.page-main {
+    background: linear-gradient(110deg, #c8c3b0f5, #c8c3b0e8), url(garden-sky.jpg) center/cover;
+    background-attachment: fixed
+}
+
+.header {
+    background: #193d32f5;
+    color: #efe6cd;
+    border-bottom-color: #a9b49140
+}
+
+.header .logo,
+.header a,
+.header .main-nav a,
+.header .header-actions a {
+    color: #efe6cd
+}
+
+.header .leaf-logo {
+    stroke: #cfcca8
+}
+
+.register-link {
+    border-color: #c8c1a480
+}
+
+.bag-count {
+    background: #d5c798;
+    color: #203d2c
+}
+
+.field input,
+.field select,
+.field textarea,
+select.control,
+input.control {
+    background: #e9e1cc;
+    color: #273e30;
+    border-color: #a29e86
+}
+
+.field input::placeholder,
+.field textarea::placeholder,
+input.control::placeholder {
+    color: #59604e
+}
+
+.panel,
+.stat {
+    background: #ded8c4;
+    border-color: #b2ac94;
+    box-shadow: 0 14px 28px #2a392214
+}
+
+.panel:hover {
+    border-color: #8f987a
+}
+
+.btn,
+.btn.full {
+    background: #244936;
+    color: #eee5cf;
+    border-color: #244936
+}
+
+.btn:hover {
+    background: #153b29
+}
+
+.btn.secondary {
+    background: transparent;
+    color: #294735;
+    border-color: #869072
+}
+
+.btn.secondary:hover {
+    background: #c9c5ad
+}
+
+.category-strip a {
+    background: #d9d0b8;
+    color: #2d4b35;
+    border-color: #a4a68a
+}
+
+.category-strip a:hover {
+    background: #c2c2a1
+}
+
+.product-card {
+    background: #d8d1bb;
+    border-color: #a8a38d;
+    box-shadow: none
+}
+
+.product-card:hover {
+    background: #e1d9c2;
+    border-color: #879779
+}
+
+.product-tag,
+.product-browse {
+    background: #e3d9bd;
+    color: #304530
+}
+
+.shop-filter {
+    background: #d9d1bc;
+    border-color: #b0a991
+}
+
+.page-heading,
+.admin-title {
+    border-radius: 4px 28px 4px 4px
+}
+
+.stat:after {
+    display: none
+}
+
+.stat .trend,
+.stat .label,
+.field label,
+.check,
+.product-info p {
+    color: #46563d
+}
+
+th {
+    background: #c8c1aa;
+    color: #2c4733
+}
+
+td {
+    border-color: #b0aa92
+}
+
+tbody tr:hover td {
+    background: #c9c1a744
+}
+
+.pill {
+    background: #bcc7a5;
+    color: #25482e
+}
+
+.pill.pending {
+    background: #d3b78a;
+    color: #553c22
+}
+
+.notice,
+.assistant-preview {
+    background: #c8c9ae;
+    border-color: #a3ac87;
+    color: #344b32
+}
+
+.account-nav a.active,
+.admin-sidebar nav a.active {
+    background: #d8cba5;
+    color: #23432d
+}
+
+.admin-body {
+    background: #c1bfac
+}
+
+.admin-sidebar {
+    background: linear-gradient(#153c31eb, #153c3188), url(garden-sky.jpg) 60% center/cover
+}
+
+.chart-col div {
+    background: #5d7f60
+}
+
+.chart-col:nth-child(2n) div {
+    background: #8ca093
+}
+
+.chart-col:last-child div {
+    background: #aa8960
+}
+
+.popover {
+    background: #ded8c4;
+    border-color: #a4a68b
+}
+
+.popover::backdrop {
+    background: #132f2c9c
+}
+
+.footer,
+.garden-home .footer {
+    background: linear-gradient(90deg, #163c30e8, #173d32c7), url(garden-sky.jpg) center 65%/cover
+}
+
+.garden-home .hero-bottom {
+    display: none
+}
+
+.garden-home .slider-controls {
+    bottom: 45px
+}
+
+.garden-home .hero-caption {
+    bottom: 34px
+}
+
+.garden-home .hero-copy {
+    width: min(1440px, calc(100% - 112px));
+    height: 100%;
+    padding: 110px 0 140px
+}
+
+.garden-home .hero .btn {
+    background: #d9cfaa;
+    color: #213c2c;
+    border-color: #d9cfaa
+}
+
+.garden-home .hero .btn:hover {
+    background: #e8dfbf
+}
+
+.garden-home .hero h1 em,
+.garden-home .hero-heading em {
+    color: #d8dfb9
+}
+
+.garden-home .header {
+    background: linear-gradient(#12332dcc, transparent)
+}
+
+.garden-home .garden-paths {
+    position: relative;
+    background: linear-gradient(90deg, #153c31ec, #153c31b0), url(hero.jpg) center/cover;
+    color: #efe6cf;
+    background-attachment: fixed
+}
+
+.garden-paths .eyebrow,
+.garden-paths .section-top p {
+    color: #d6dfbe
+}
+
+.path-card {
+    border: 1px solid #d0d9b842
+}
+
+.path-card:after {
+    background: linear-gradient(0deg, #15392fed, transparent 100%)
+}
+
+.garden-home .collection {
+    background: linear-gradient(100deg, #d0c9b5ed, #c8c3b0e5), url(editorial.jpg) center/cover;
+    background-attachment: fixed
+}
+
+.garden-home #edit {
+    background: linear-gradient(90deg, #a9b7a9d9, #b6bfacd9), url(garden-sky.jpg) center/cover;
+    background-attachment: fixed
+}
+
+.garden-home .editorial-content {
+    background: #d1cbb6eF
+}
+
+.garden-home #faq {
+    background: linear-gradient(90deg, #173b30e8, #244937b8), url(hero.jpg) center/cover;
+    background-attachment: fixed
+}
+
+.auth-layout {
+    background: #d3cbb5
+}
+
+.assistant-layout>.panel {
+    background: linear-gradient(#ded8c4f5, #ded8c4ed), url(editorial.jpg) center/cover
+}
+
+.profile-page .panel,
+.sell-page .panel:last-child {
+    background: linear-gradient(110deg, #ded8c4fa, #ded8c4e6), url(hero.jpg) right center/cover
+}
+
+.content-split>.panel:last-child {
+    background: linear-gradient(#ded8c4ed, #ded8c4ed), url(garden-sky.jpg) center/cover
+}
+
+/* Content stays visible in browsers without scroll-linked animation support. */
+@keyframes garden-reveal {
+    from {
+        opacity: .3;
+        transform: translateY(65px) scale(.97)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1)
+    }
+}
+
+@keyframes garden-photo {
+    from {
+        transform: scale(1.14) translateY(-2%)
+    }
+
+    to {
+        transform: scale(1.02) translateY(2%)
+    }
+}
+
+@keyframes garden-title {
+    from {
+        opacity: .4;
+        transform: translateY(32px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@supports(animation-timeline:view()) {
+    @media(prefers-reduced-motion:no-preference) {
+
+        .product-card,
+        .path-card,
+        .benefit,
+        .faq-item,
+        .stat,
+        .panel {
+            animation: garden-reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 100%
+        }
+
+        .garden-home .section-top,
+        .page-heading,
+        .admin-title {
+            animation: garden-title linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 100%
+        }
+
+        .editorial-image img {
+            animation: garden-photo linear both;
+            animation-timeline: view();
+            animation-range: entry 0% exit 100%
+        }
+
+        .garden-home .editorial-content {
+            animation: garden-reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 90%
+        }
+    }
+}
+
+@media(hover:hover) and (prefers-reduced-motion:no-preference) {
+    .product-card:hover {
+        translate: 0 -8px;
+        box-shadow: 0 22px 40px #14322530
+    }
+
+    .product-card {
+        transition: translate .45s var(--ease), box-shadow .45s, background .4s
+    }
+
+    .path-card:hover {
+        box-shadow: 0 18px 35px #061d2859
+    }
+
+    .path-card:hover h3 {
+        transform: translateX(6px)
+    }
+
+    .path-card h3 {
+        transition: transform .4s var(--ease)
+    }
+}
+
+@media(max-width:760px) {
+    .mobile-nav nav {
+        background: #244737
+    }
+
+    .header .mobile-nav nav a {
+        color: #efe6cd
+    }
+
+    .garden-home .hero-copy {
+        width: calc(100% - 40px);
+        height: 100%;
+        padding: 110px 0 165px
+    }
+
+    .garden-home .slider-controls {
+        bottom: 110px
+    }
+
+    .garden-home .hero-caption {
+        bottom: 28px
+    }
+
+    .page-main,
+    .garden-home .garden-paths,
+    .garden-home .collection,
+    .garden-home #edit,
+    .garden-home #faq {
+        background-attachment: scroll
+    }
+
+    .auth-layout {
+        background: linear-gradient(#d4ccbae8, #c7c0ace0), url(garden-sky.jpg) center/cover
+    }
+
+    .table-scroll tr {
+        background: #d8d0b9;
+        border-color: #a8a78a
+    }
+
+    .table-scroll td {
+        border-color: #b6b096
+    }
+
+    .account-nav a.active,
+    .admin-sidebar nav a.active {
+        background: #d8cba5
+    }
+
+    .admin-sidebar nav {
+        background: transparent
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+    *,
+    *:before,
+    *:after {
+        animation: none !important;
+        transition: none !important;
+        translate: none !important
+    }
+
+    .product-card,
+    .path-card,
+    .panel,
+    .stat,
+    .page-heading {
+        opacity: 1;
+        transform: none
+    }
+}
+
+.admin-title .btn,
+.admin-title .btn.secondary {
+    background: #d8cba5;
+    color: #23432d;
+    border-color: #d8cba5
+}
+
+.admin-title .btn:hover {
+    background: #e6dab8
+}
+
+.garden-home .hero .btn {
+    background: #d9cfaa;
+    color: #213c2c
+}
+
+.page-heading .btn.secondary {
+    color: #eee5cf;
+    border-color: #d2d7b5
+}
+
+.garden-home .hero .link {
+    color: #eee5cf
+}
+
+/* Calm visual pass: soften edges, palette jumps and scroll motion site-wide. */
+:root {
+    --bg: #c9c4b2;
+    --panel: #d8d3c1;
+    --panel2: #c3c2ae;
+    --line: #b8b29e;
+    --text: #253c32;
+    --muted: #4c5d4e;
+    --accent: #315543;
+    --ink: #eee8d6
+}
+
+body {
+    background: linear-gradient(135deg, #c9c4b2 0%, #c4c5b2 48%, #c0c7bb 100%);
+    color: #253c32
+}
+
+.page-main {
+    background: linear-gradient(135deg, #c9c4b2f5, #c3c6b5f5 55%, #bfc7bbf5), url(garden-sky.jpg) center/cover fixed
+}
+
+.header {
+    background: #c9c4b2f5;
+    color: #253c32;
+    box-shadow: 0 2px 18px #203c3010;
+    border-color: #aaa89155
+}
+
+.header .logo,
+.header a,
+.header .main-nav a,
+.header .header-actions a {
+    color: #f3f2de
+}
+
+.header .leaf-logo {
+    stroke: #496c53
+}
+
+.register-link {
+    border-radius: 7px;
+    border-color: #829078
+}
+
+.page-heading,
+.admin-title {
+    border-radius: 18px;
+    overflow: hidden
+}
+
+.page-heading:before {
+    background: linear-gradient(100deg, #204637ed, #355c48bf 60%, #69765970), url(hero.jpg) center 55%/cover
+}
+
+.admin-title {
+    background-image: linear-gradient(100deg, #284b3c, #45634d) !important
+}
+
+.page-heading h1,
+.admin-title h1 {
+    color: #f0ead8
+}
+
+.panel,
+.stat,
+.shop-filter,
+.product-layout,
+.auth-layout,
+.popover,
+.product-card {
+    border-radius: 16px;
+    border: 1px solid #aaa78f88;
+    box-shadow: 0 8px 24px #283e3010
+}
+
+.panel {
+    background: linear-gradient(145deg, #ddd8c8f2, #d3d0bded)
+}
+
+.stat {
+    background: linear-gradient(145deg, #d9d5c3, #ceccba)
+}
+
+.product-card {
+    background: linear-gradient(150deg, #d5d2bf, #cccbb8)
+}
+
+.product-card:hover,
+.panel:hover,
+.stat:hover {
+    box-shadow: 0 12px 28px #283e3018;
+    transform: translateY(-2px);
+    border-color: #929982
+}
+
+.product-visual,
+.detail-photo {
+    border-radius: 11px
+}
+
+.product-tag {
+    border-radius: 5px;
+    background: #e0dcc9;
+    color: #344d3a
+}
+
+.product-browse {
+    background: #e0dcc9;
+    color: #344d3a
+}
+
+.field input,
+.field select,
+.field textarea,
+select.control,
+input.control {
+    background: #e7e2cf;
+    border: 1px solid #aaa78f;
+    border-radius: 8px;
+    box-shadow: none
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+input.control:focus,
+select.control:focus {
+    background: #eee9d7;
+    border-color: #63816a;
+    box-shadow: 0 0 0 3px #58795a1c
+}
+
+.btn,
+.btn.full,
+.garden-home .hero .btn {
+    border-radius: 9px;
+    background: #315543;
+    color: #f0ead7;
+    border-color: #315543;
+    box-shadow: none
+}
+
+.btn:hover,
+.garden-home .hero .btn:hover {
+    background: #3f6650;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px #25453524
+}
+
+.btn.secondary {
+    background: #d5d2c0;
+    color: #31513d;
+    border-color: #aaa78f
+}
+
+.btn.secondary:hover {
+    background: #c9c8b4
+}
+
+.link {
+    color: #355743;
+    border-color: #97a08a
+}
+
+.pill {
+    border-radius: 7px;
+    background: #c2c9ae;
+    color: #35503b
+}
+
+.pill.pending {
+    background: #d6c8a9;
+    color: #59472d
+}
+
+.admin-sidebar {
+    background: linear-gradient(180deg, #294e40f5, #355747ed 65%, #405d4bdb), url(garden-sky.jpg) center/cover
+}
+
+.admin-sidebar nav a.active {
+    background: #d8d2bc;
+    color: #294536;
+    border-radius: 8px
+}
+
+.admin-content {
+    color: #2a4537
+}
+
+.admin-top {
+    color: #435c48
+}
+
+.admin-panels .panel {
+    background: linear-gradient(145deg, #d9d5c3, #cfcebb)
+}
+
+th {
+    background: #cbc9b4;
+    color: #344b3a
+}
+
+td {
+    border-color: #bbb69f
+}
+
+tbody tr:hover td {
+    background: #c9c7b455
+}
+
+.table-scroll tr {
+    border-radius: 10px
+}
+
+.popover {
+    background: linear-gradient(145deg, #e0dbc9, #d2cfbc);
+    border-color: #aaa78f
+}
+
+.popover::backdrop {
+    background: #263d3370;
+    backdrop-filter: blur(4px)
+}
+
+.account-nav {
+    border-radius: 14px;
+    background: linear-gradient(145deg, #315644f2, #49684fdc), url(garden-sky.jpg) center/cover
+}
+
+.account-nav a,
+.admin-sidebar nav a {
+    border-radius: 8px
+}
+
+.account-nav a.active {
+    background: #d6d0b9;
+    color: #2a4937
+}
+
+.garden-home .garden-paths {
+    background: linear-gradient(125deg, #24483be8, #315948d9), url(hero.jpg) center/cover fixed
+}
+
+.garden-home .collection {
+    background: linear-gradient(120deg, #d0cab9ee, #c8c5b5ed), url(editorial.jpg) center/cover fixed
+}
+
+.garden-home #edit {
+    background: linear-gradient(110deg, #b6c0b2ed, #c3c6b6ed), url(garden-sky.jpg) center/cover fixed
+}
+
+.garden-home #faq {
+    background: linear-gradient(120deg, #294c3eea, #345746df), url(hero.jpg) center/cover fixed
+}
+
+.path-card {
+    border-radius: 14px;
+    background: #385a47;
+    border-color: #b9c3a866;
+    transition: transform .45s ease, box-shadow .45s ease
+}
+
+.path-card:after {
+    background: linear-gradient(0deg, #213e34e8, #294c3760 45%, #253f3033)
+}
+
+.path-card img {
+    filter: brightness(.86) saturate(.78);
+    transition: transform .8s ease, filter .6s
+}
+
+.path-card:hover img {
+    filter: brightness(.94) saturate(.9);
+    transform: scale(1.035)
+}
+
+.path-card:hover {
+    transform: translateY(-3px)
+}
+
+.path-card h3 {
+    transition: transform .35s
+}
+
+.path-card:hover h3 {
+    transform: translateX(3px)
+}
+
+.garden-home .hero-media:after {
+    background: linear-gradient(90deg, #17362fab, #17362d52 55%, #17362d25), linear-gradient(0deg, #17372d7a, transparent 40%)
+}
+
+.garden-home .hero-caption {
+    bottom: 28px
+}
+
+.garden-home .slider-controls {
+    bottom: 34px
+}
+
+.garden-home .hero .btn {
+    background: #d8d0b4;
+    color: #294535;
+    border-color: #d8d0b4
+}
+
+.garden-home .hero .link {
+    color: #f0ead7
+}
+
+.hero .icon-btn {
+    border-radius: 50%
+}
+
+.footer,
+.garden-home .footer {
+    background: linear-gradient(120deg, #284b3deF, #345745e8), url(garden-sky.jpg) center 65%/cover
+}
+
+.footer-grid,
+.footer-bottom {
+    color: #ece7d4
+}
+
+.garden-home .editorial-content {
+    border-radius: 14px;
+    background: #d5d2c1ed
+}
+
+.garden-home .editorial-image {
+    border-radius: 14px
+}
+
+.benefit {
+    border-color: #8f9a8170
+}
+
+@keyframes gentle-rise {
+    from {
+        opacity: .78;
+        transform: translateY(18px)
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0)
+    }
+}
+
+@supports(animation-timeline:view()) {
+    @media(prefers-reduced-motion:no-preference) {
+
+        .product-card,
+        .path-card,
+        .benefit,
+        .faq-item,
+        .stat,
+        .panel,
+        .page-heading,
+        .admin-title,
+        .garden-home .section-top,
+        .editorial-content {
+            animation: gentle-rise linear both;
+            animation-timeline: view();
+            animation-range: entry 0% entry 72%
+        }
+
+        .editorial-image img {
+            animation: none
+        }
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+
+    *,
+    *:before,
+    *:after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important
+    }
+}
+
+@media(max-width:760px) {
+    .page-main {
+        background: linear-gradient(135deg, #c9c4b2f5, #c3c6b5f5 55%, #bfc7bbf5), url(garden-sky.jpg) center/cover
+    }
+
+    .garden-home .garden-paths,
+    .garden-home .collection,
+    .garden-home #edit,
+    .garden-home #faq {
+        background-attachment: scroll
+    }
+
+    .account-nav {
+        background: linear-gradient(145deg, #315644f5, #49684ff5)
+    }
+
+    .admin-sidebar {
+        background: linear-gradient(145deg, #294e40f5, #355747f5)
+    }
+
+    .path-card {
+        border-radius: 11px
+    }
+
+    .panel,
+    .stat,
+    .product-card,
+    .shop-filter,
+    .product-layout {
+        border-radius: 12px
+    }
+}

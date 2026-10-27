@@ -1,0 +1,17 @@
+NABTA asset notes
+Local fonts: Manrope and DM Sans. SIL Open Font Licenses included in assets.
+Photos used as product/editorial examples:
+plant.jpg — https://images.unsplash.com/photo-1501004318641-b39e6451bec6
+ decor.jpg — https://images.unsplash.com/photo-1485955900006-10f4d324d411
+editorial.jpg — https://images.unsplash.com/photo-1416879595882-3373a0480b5b
+
+Project assets created with the built-in image generation tool:
+assets/hero.jpg: photorealistic botanical campaign; monstera and rubber plant in matte stone and terracotta pots, travertine, warm plaster, side sunlight, forest green and warm stone, no text or branding.
+assets/pot.jpg: empty matte ivory ceramic pot with saucer, ivory studio, natural light, no logo.
+assets/soil.jpg: unmarked open kraft paper bag of dark potting substrate with perlite, pale ivory background.
+assets/tools.jpg: wooden-handle hand trowel and rake, dark steel, pale ivory tabletop, natural light.
+assets/care.jpg: unbranded amber trigger bottle, blank cream label, pale ivory botanical still life. Used as a generic treatment-packaging concept, not an actual licensed treatment product.
+
+Product specifications and prices are illustrative. Replace with verified product photography and specifications before launch. No original banking or fashion assets are included.
+
+Garden sky hero: built-in image generation, photorealistic-natural. Prompt: open-air Mediterranean nursery, terracotta and stone pots on sandstone steps, layered green foliage, olive tree, blue sky, calm shaded left area for text, natural morning light, no text or logos. File: assets/garden-sky.jpg.

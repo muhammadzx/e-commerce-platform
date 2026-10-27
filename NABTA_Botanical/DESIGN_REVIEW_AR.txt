@@ -1,0 +1,28 @@
+مراجعة الكود والتنسيق — 24 صفحة
+تم تعديل قابلية تمدد الأقسام، التفاف العناوين وأشرطة الأدوات، قوائم الشاشات المتوسطة، أحجام حقول الهاتف، النوافذ المنبثقة، تركيز لوحة المفاتيح، وتقليل حركة اللوحات التي تحتوي حقولاً.
+لم يكتمل الفحص البصري في متصفح: تعذر تنزيل محرك Chromium. لذلك لا يُعد هذا ضماناً بخلو التصميم من جميع العيوب. وظائف الدفع والتسجيل والإدارة هي واجهات HTML/CSS وليست نظاماً خلفياً فعلياً.
+نتيجة فحص الروابط المحلية والمعرفات وأهداف النوافذ لكل صفحة:
+admin-categories.html: OK
+admin-orders.html: OK
+admin-products.html: OK
+admin-reviews.html: OK
+admin-users.html: OK
+admin.html: OK
+assistant.html: OK
+cart.html: OK
+checkout.html: OK
+index.html: OK
+login.html: OK
+my-listings.html: OK
+orders.html: OK
+product-care.html: OK
+product-decor.html: OK
+product-plant.html: OK
+product-pot.html: OK
+product-soil.html: OK
+product-tools.html: OK
+product.html: OK
+products.html: OK
+profile.html: OK
+register.html: OK
+sell.html: OK

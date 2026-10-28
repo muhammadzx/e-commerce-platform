@@ -1,0 +1,169 @@
+/* NABTA — "Alive" layer. Loaded last. Pure CSS, no JavaScript.
+   One rhythm drives everything: a slow breath (--breath). */
+
+@font-face{
+  font-family:'Fraunces';
+  font-style:normal;
+  font-weight:100 900;
+  font-display:swap;
+  src:url(fraunces.woff2) format('woff2');
+}
+
+:root{
+  --breath:5.5s;
+  --sun:255,238,176;
+  --leaf-shadow:0 12px 18px rgba(4,32,18,.38);
+}
+
+/* ---------- Softer, more organic headlines ---------- */
+body.botanical-edition:not(.admin-body) :is(h1,h2){
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:380;
+  font-variation-settings:"SOFT" 100,"WONK" 1,"opsz" 96;
+  letter-spacing:-.015em;
+}
+.garden-home .hero h1,
+.garden-home .hero-heading{
+  font-weight:320;
+  line-height:1.04;
+  letter-spacing:-.02em;
+  font-size:clamp(46px,6.2vw,96px);
+  text-shadow:0 2px 30px rgba(6,40,24,.35);
+}
+.garden-home .hero h1 em,
+.garden-home .hero-heading em{font-style:normal;color:#e6f0c4}
+
+/* Calmer chrome: drop the small capital labels over the hero */
+.garden-home .hero-tag,
+.garden-home .hero-bottom,
+.garden-home .hero-caption p,
+.garden-home .hero-copy .eyebrow:not(.eyebrow-offer){display:none}
+.garden-home .hero-copy .eyebrow-offer{
+  display:inline-block;text-transform:none;letter-spacing:.01em;font-size:14px;font-weight:600;
+  color:#1f3d2c;background:#e9f0c6;padding:7px 16px;border-radius:999px;margin-bottom:6px;
+}
+.garden-home .hero-caption{border-top:0;padding-top:0}
+.garden-home .hero p{font-size:16px;line-height:1.7;max-width:430px;color:#eef3de}
+
+/* ---------- The photo breathes and drifts ---------- */
+.garden-home .hero-media>img{
+  transform-origin:62% 62%;
+  filter:saturate(1.1) brightness(1.05);
+  animation:drift 26s ease-in-out infinite alternate;
+}
+@keyframes drift{
+  from{scale:1.02;translate:0 0}
+  to{scale:1.085;translate:-1.4% -.8%}
+}
+/* lighter, warmer veil so the garden feels sunlit, not shaded */
+.garden-home .hero-media:after{
+  background:
+    linear-gradient(96deg,rgba(12,46,32,.66) 0%,rgba(18,60,40,.3) 40%,rgba(18,60,40,0) 70%),
+    linear-gradient(0deg,rgba(16,48,34,.5),transparent 38%)!important;
+}
+
+/* ---------- Living layer (sits between the photo and the text) ---------- */
+.alive{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+
+.alive-glow{
+  position:absolute;right:-12%;top:-30%;width:72vw;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,rgba(var(--sun),.62) 0,rgba(var(--sun),.2) 38%,transparent 66%);
+  mix-blend-mode:screen;
+  animation:glow var(--breath) ease-in-out infinite alternate;
+}
+@keyframes glow{from{scale:.92;opacity:.6}to{scale:1.1;opacity:1}}
+
+.alive-rays{
+  position:absolute;top:-25%;right:-8%;width:80vw;height:150%;transform-origin:85% 0;
+  background:repeating-linear-gradient(104deg,transparent 0 6%,rgba(var(--sun),.17) 8.5%,transparent 11% 17%);
+  -webkit-mask:radial-gradient(ellipse 70% 60% at 85% 0,#000 0,transparent 72%);
+          mask:radial-gradient(ellipse 70% 60% at 85% 0,#000 0,transparent 72%);
+  mix-blend-mode:screen;
+  animation:rays 13s ease-in-out infinite alternate;
+}
+@keyframes rays{from{rotate:-5deg;opacity:.5}to{rotate:4deg;opacity:1}}
+
+/* Foliage framing the corners */
+.fol{position:absolute;overflow:visible;filter:drop-shadow(var(--leaf-shadow))}
+.fol-a{top:-14px;left:-34px;width:min(46vw,660px)}
+.fol-b{top:-14px;right:-34px;width:min(34vw,500px);transform:scaleX(-1)}
+.fol .br{transform-box:view-box;transform-origin:0 0;
+  animation:sway var(--t,9s) ease-in-out infinite alternate;animation-delay:var(--d,0s)}
+.fol .fl{transform-box:view-box;transform-origin:0 0;
+  animation:flutter var(--t,5s) ease-in-out infinite alternate;animation-delay:var(--d,0s)}
+@keyframes sway{from{rotate:-2.4deg}to{rotate:2.8deg}}
+@keyframes flutter{from{rotate:-5deg}to{rotate:6deg}}
+
+/* Pollen, dust and the odd drifting leaf */
+.p{
+  position:absolute;left:var(--x);bottom:-4vh;width:var(--s);height:var(--s);border-radius:50%;opacity:0;
+  background:radial-gradient(circle,rgba(255,248,210,.95),rgba(255,238,170,0) 70%);
+  animation:rise var(--t) linear infinite,wobble calc(var(--t)/3.2) ease-in-out infinite alternate;
+  animation-delay:var(--d),var(--d);
+}
+.p.lf{
+  width:calc(var(--s)*1.7);height:var(--s);border-radius:0 100% 0 100%;
+  background:linear-gradient(135deg,#b8d58a,#5f8f47);box-shadow:0 2px 6px rgba(0,30,10,.3);
+}
+@keyframes rise{
+  0%{translate:0 0;opacity:0}
+  12%{opacity:.95}
+  85%{opacity:.8}
+  100%{translate:var(--dx) -108vh;opacity:0}
+}
+@keyframes wobble{from{transform:translateX(-18px) rotate(-20deg)}to{transform:translateX(18px) rotate(25deg)}}
+
+/* ---------- One orchestrated moment: the headline unfurls ---------- */
+.garden-home .hero h1 .w,
+.garden-home .hero-heading .w{display:inline-block}
+.promo-slider:has(#promo-0:checked) .slide-0 .w,
+.promo-slider:has(#promo-1:checked) .slide-1 .w,
+.promo-slider:has(#promo-2:checked) .slide-2 .w{
+  animation:unfurl 1.5s cubic-bezier(.2,.7,.2,1) both;
+  animation-delay:calc(.25s + var(--i)*.13s);
+}
+@keyframes unfurl{
+  from{opacity:0;transform:translateY(.55em) rotate(2.5deg);filter:blur(9px)}
+  to{opacity:1;transform:none;filter:blur(0)}
+}
+.promo-slider:has(#promo-0:checked) .slide-0 .hero-copy>:is(p,.cta-row,.eyebrow-offer),
+.promo-slider:has(#promo-1:checked) .slide-1 .hero-copy>:is(p,.cta-row,.eyebrow-offer),
+.promo-slider:has(#promo-2:checked) .slide-2 .hero-copy>:is(p,.cta-row,.eyebrow-offer){
+  animation:settle 1.4s ease-out 1.1s both;
+}
+@keyframes settle{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* Button that quietly breathes */
+.garden-home .hero .btn{border-radius:999px;padding-inline:26px;position:relative;
+  background:#e9f0c6;border-color:#e9f0c6}
+.garden-home .hero .btn::after{
+  content:"";position:absolute;inset:-7px;border-radius:inherit;border:1px solid rgba(233,240,198,.7);
+  animation:halo var(--breath) ease-in-out infinite;
+}
+@keyframes halo{0%,100%{scale:.95;opacity:0}50%{scale:1.06;opacity:.8}}
+
+/* Slide controls: soft, rounded */
+.garden-home .slider-controls label{border-top-width:3px;border-radius:99px}
+
+/* ---------- The hero flows into the next section like water ---------- */
+.garden-home .promo-slider::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:64px;z-index:1;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 64' preserveAspectRatio='none'%3E%3Cpath d='M0 34C150 6 300 6 450 30S750 58 900 30 1050 6 1200 34V64H0Z' fill='%231a4034'/%3E%3C/svg%3E") repeat-x 0 100%/1200px 100%;
+  animation:tide 22s linear infinite;
+}
+@keyframes tide{to{background-position-x:-1200px}}
+
+/* ---------- Small screens ---------- */
+@media(max-width:760px){
+  .fol-a{width:78vw}.fol-b{width:56vw}
+  .p:nth-child(n+9){display:none}
+  .garden-home .hero p{font-size:14px}
+  .garden-home .promo-slider::after{height:40px}
+}
+
+/* ---------- Respect reduced motion: keep it beautiful, but still ---------- */
+@media(prefers-reduced-motion:reduce){
+  .alive *,.garden-home .hero-media>img,.garden-home .hero .btn::after,.garden-home .promo-slider::after,
+  .w,.garden-home .hero-copy>*{animation:none!important}
+  .p{display:none}
+}

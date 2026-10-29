@@ -1,0 +1,201 @@
+.admin-shell {
+    display: grid;
+    grid-template-columns: 246px minmax(0, 1fr);
+    min-height: 100svh;
+    background: var(--ad-bg, #eeede5);
+}
+
+.admin-sidebar {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #f4f1e6;
+    background:
+        radial-gradient(ellipse at 10% 90%, #647b5a 0, transparent 40%),
+        linear-gradient(165deg, #1c382d, #254536 70%, #18342a);
+}
+
+.admin-sidebar .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #f5f0dc;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: .1em;
+}
+
+.admin-sidebar .leaf-logo {
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: #c7d4a9;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.logo-sub {
+    align-self: flex-end;
+    margin-left: -5px;
+    padding-bottom: 2px;
+    font-size: 8px;
+    letter-spacing: .18em;
+}
+
+.sidebar-label {
+    padding: 30px 12px 15px;
+    color: #a9bea1;
+    font-size: 9px;
+    letter-spacing: .2em;
+}
+
+.admin-sidebar nav {
+    display: grid;
+    gap: 5px;
+}
+
+.admin-sidebar nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 13px;
+    border: 1px solid transparent;
+    border-radius: 11px;
+    color: #dce3d1;
+    font-size: 12px;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.admin-sidebar nav a:hover {
+    background: #ffffff10;
+    transform: translateX(3px);
+}
+
+.admin-sidebar nav a.active {
+    color: #294332;
+    background: #d4ddbf;
+}
+
+.admin-sidebar .icon {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.admin-bottom {
+    padding-top: 18px;
+    border-top: 1px solid #ffffff25;
+    color: #dce3d1;
+    font-size: 11px;
+}
+
+.admin-account {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.account-avatar {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    place-items: center;
+    border-radius: 50%;
+    color: #264332;
+    background: #d4ddbf;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.admin-bottom a {
+    color: #c7d4a9;
+}
+
+.admin-content {
+    min-width: 0;
+    padding: 25px clamp(22px, 4vw, 62px) 56px;
+}
+
+.admin-top {
+    min-height: 44px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    border-bottom: 1px solid var(--ad-line, #d5d9cc);
+    color: var(--ad-muted, #718072);
+    font-size: 11px;
+}
+
+.admin-top-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-photo-strip {
+    min-height: 132px;
+    margin-bottom: 26px;
+    padding: 22px 26px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border-radius: 18px;
+    color: #fff;
+    background:
+        linear-gradient(90deg, #14291dc9, #14291d20),
+        url("../img/garden-sky.jpg") center 45% / cover no-repeat;
+}
+
+.admin-photo-strip span {
+    font-size: 10px;
+    letter-spacing: .18em;
+}
+
+.admin-photo-strip small {
+    display: block;
+    margin-top: 7px;
+    color: #e1e8d8;
+    font-size: 9px;
+    letter-spacing: .14em;
+}
+
+@media (max-width: 760px) {
+    .admin-shell {
+        display: block;
+    }
+
+    .admin-sidebar {
+        position: relative;
+        height: auto;
+        padding: 18px;
+    }
+
+    .admin-sidebar nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .admin-content {
+        padding: 18px 14px 34px;
+    }
+
+    .admin-top {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .admin-photo-strip {
+        min-height: 100px;
+    }
+}

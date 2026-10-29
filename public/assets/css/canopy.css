@@ -225,3 +225,442 @@ body:has(.admin-shell){background:radial-gradient(ellipse at 85% 5%,#4567464d,tr
 
 .admin-overview .admin-sidebar .overview-link, .admin-products .admin-sidebar .products-link { background:#d4ddbf!important; color:#294332!important; box-shadow:0 8px 25px #111e1733; }
 .admin-sidebar nav a[aria-disabled="true"] { opacity:.62; cursor:default; }
+
+/* Overview page styles */
+.admin-overview .desk-intro {
+      align-items: center;
+      padding-bottom: 14px
+    }
+
+    .admin-overview .overview-intro-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .admin-overview .overview-ai-button {
+      gap: 10px;
+      min-height: 42px;
+      padding: 10px 17px
+    }
+
+    .admin-overview .overview-alert {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin: 0 0 15px;
+      padding: 14px 18px;
+      border: 1px solid #e1b87566;
+      border-radius: 15px;
+      background: linear-gradient(110deg, #543d27, #342b20);
+      color: #fff2d9
+    }
+
+    .admin-overview .overview-alert p {
+      font-size: 12px;
+      color: #e5d4b8;
+      margin-top: 3px
+    }
+
+    .admin-overview .overview-alert a {
+      white-space: nowrap;
+      color: #f1ce91;
+      font-size: 11px;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 2px
+    }
+
+    .admin-overview .overview-section {
+      margin: 14px 0
+    }
+
+    .admin-overview .overview-section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 12px
+    }
+
+    .admin-overview .overview-section-heading h2 {
+      margin: 5px 0 0;
+      font-size: 21px
+    }
+
+    .admin-overview .overview-chart-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px
+    }
+
+    .admin-overview .overview-chart-card {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-width: 0;
+      min-height: 300px;
+      background: transparent !important;
+      border-color: rgba(197, 231, 140, .38) !important;
+      box-shadow: inset 0 1px rgba(255, 255, 255, .12), 0 14px 34px rgba(0, 0, 0, .28) !important
+    }
+
+    .admin-overview .overview-chart-card:before {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background-image: var(--chart-image);
+      background-position: center;
+      background-size: cover;
+      transform: scale(1);
+      transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .7s;
+      filter: saturate(.82) brightness(.9)
+    }
+
+    .admin-overview .overview-chart-card:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background: linear-gradient(115deg, rgba(9, 23, 14, .66), rgba(15, 36, 23, .55) 55%, rgba(15, 33, 23, .66))
+    }
+
+    .admin-overview .overview-chart-card:hover:before {
+      transform: scale(1.07);
+      filter: saturate(1.02) brightness(.98)
+    }
+
+    .admin-overview .overview-chart-card>* {
+      position: relative;
+      z-index: 2
+    }
+
+    .admin-overview .chart-best {
+      --chart-image: url('../img/chart-best-sellers.png')
+    }
+
+    .admin-overview .chart-category {
+      --chart-image: url('../img/chart-category-sales.png')
+    }
+
+    .admin-overview .chart-weekly {
+      --chart-image: url('../img/chart-weekly-sales.png')
+    }
+
+    .admin-overview .chart-orders {
+      --chart-image: url('../img/chart-orders-status.png')
+    }
+
+    .admin-overview .overview-chart-card h2 {
+      font-size: 19px;
+      margin: 5px 0 15px;
+      color: #f2f5e9 !important
+    }
+
+    .admin-overview .overview-chart-card .eyebrow {
+      color: #e0e6d6;
+      text-shadow: 0 1px 8px rgba(5, 16, 9, .72)
+    }
+
+    .admin-overview .overview-canvas-wrap {
+      height: 220px;
+      position: relative
+    }
+
+    .admin-overview .overview-summary-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(250px, .7fr);
+      gap: 14px;
+      margin: 14px 0
+    }
+
+    .admin-overview .overview-best-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      counter-reset: best
+    }
+
+    .admin-overview .overview-best-list li {
+      counter-increment: best;
+      display: grid;
+      grid-template-columns: 28px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 0;
+      border-bottom: 1px solid #ffffff15
+    }
+
+    .admin-overview .overview-best-list li:last-child {
+      border: 0
+    }
+
+    .admin-overview .overview-best-list li:before {
+      content: counter(best, decimal-leading-zero);
+      color: #c5e879;
+      font-size: 10px
+    }
+
+    .admin-overview .overview-item-name {
+      min-width: 0
+    }
+
+    .admin-overview .overview-item-name strong {
+      display: block;
+      font-size: 12px;
+      color: #e8efdf;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .admin-overview .overview-item-name small {
+      display: block;
+      margin-top: 3px;
+      color: #9eaf9b;
+      font-size: 9px
+    }
+
+    .admin-overview .overview-quantity {
+      font-size: 11px;
+      color: #d5e8bd;
+      white-space: nowrap
+    }
+
+    .admin-overview .overview-empty {
+      padding: 26px 0;
+      color: #a9b9a4;
+      font-size: 12px
+    }
+
+    .admin-overview .overview-show-all {
+      padding: 0;
+      border: 0;
+      background: none;
+      color: #d4f27b;
+      font: inherit;
+      font-size: 11px;
+      cursor: pointer
+    }
+
+    .admin-overview .overview-category-feature {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: radial-gradient(circle at 90% 5%, #c7e7781c, transparent 40%), linear-gradient(140deg, #263e2c, #1d3023);
+      border: 1px solid #82997466;
+      border-radius: 19px;
+      padding: 22px
+    }
+
+    .admin-overview .overview-category-feature small {
+      color: #bfd49f;
+      font-size: 9px;
+      letter-spacing: .16em;
+      text-transform: uppercase
+    }
+
+    .admin-overview .overview-category-feature h3 {
+      font-size: 23px;
+      color: #f0f5e8;
+      margin: 18px 0 8px
+    }
+
+    .admin-overview .overview-category-feature strong {
+      font: 500 32px 'Manrope', sans-serif;
+      color: #d4f27b;
+      letter-spacing: -.04em
+    }
+
+    .admin-overview .overview-category-feature p {
+      font-size: 11px;
+      color: #b5c5af
+    }
+
+    .admin-overview .overview-modal {
+      width: min(580px, calc(100% - 28px));
+      max-height: min(78vh, 680px);
+      padding: 0;
+      border: 1px solid #82997499;
+      border-radius: 20px;
+      background: #1c3024;
+      color: #e8efdf;
+      box-shadow: 0 24px 80px #0009
+    }
+
+    .admin-overview .overview-modal::backdrop {
+      background: #08100bd1;
+      backdrop-filter: blur(5px)
+    }
+
+    .admin-overview .overview-modal-inner {
+      padding: 22px
+    }
+
+    .admin-overview .overview-modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px
+    }
+
+    .admin-overview .overview-modal-head h2 {
+      font-size: 21px
+    }
+
+    .admin-overview .overview-modal-close {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #ffffff2a;
+      border-radius: 50%;
+      background: transparent;
+      color: inherit;
+      font-size: 20px
+    }
+
+    .admin-overview .overview-modal-list {
+      max-height: 55vh;
+      overflow: auto;
+      padding-right: 6px
+    }
+
+    .admin-overview .overview-chart-note {
+      margin-top: 10px;
+      color: #9eaf9b;
+      font-size: 10px
+    }
+
+    .admin-overview .desk-kpis {
+      gap: 10px;
+      margin: 10px 0 16px
+    }
+
+    .admin-overview .kpi-card {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 92px;
+      padding: 12px 15px;
+      border: 1px solid rgba(197, 231, 140, .3);
+      border-radius: 14px;
+      background: transparent !important;
+      color: #f2f5e9;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, .2)
+    }
+
+    .admin-overview .kpi-card:before {
+      content: '';
+      position: absolute;
+      z-index: 0;
+      inset: 0;
+      background-image: var(--kpi-image);
+      background-position: center;
+      background-size: cover;
+      transition: transform .65s cubic-bezier(.2, .7, .2, 1), filter .65s;
+      filter: saturate(.78) brightness(.9)
+    }
+
+    .admin-overview .kpi-card:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      background: linear-gradient(115deg, rgba(8, 22, 13, .68), rgba(17, 39, 24, .54))
+    }
+
+    .admin-overview .kpi-card:hover:before {
+      transform: scale(1.08);
+      filter: saturate(1.02) brightness(.98)
+    }
+
+    .admin-overview .kpi-card>* {
+      position: relative;
+      z-index: 2
+    }
+
+    .admin-overview .kpi-sales {
+      --kpi-image: url('../img/kpi-sales-today.png')
+    }
+
+    .admin-overview .kpi-orders {
+      --kpi-image: url('../img/kpi-orders-in-motion.png')
+    }
+
+    .admin-overview .kpi-units {
+      --kpi-image: url('../img/kpi-units-sold.png')
+    }
+
+    .admin-overview .kpi-families {
+      --kpi-image: url('../img/kpi-product-families.png')
+    }
+
+    .admin-overview .kpi-card small {
+      color: #d4e0c3;
+      font-size: 9px
+    }
+
+    .admin-overview .kpi-card strong {
+      font-size: 21px;
+      margin: 5px 0 0;
+      color: #fff
+    }
+
+    @media(max-width:900px) {
+      .admin-overview .overview-summary-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    @media(max-width:680px) {
+      .admin-overview .overview-chart-grid {
+        grid-template-columns: 1fr
+      }
+
+      .admin-overview .overview-chart-card {
+        min-height: 270px
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+
+      .admin-overview .overview-chart-card:before,
+      .admin-overview .kpi-card:before {
+        transition: none
+      }
+
+      .admin-overview .overview-chart-card:hover:before,
+      .admin-overview .kpi-card:hover:before {
+        transform: none
+      }
+    }
+
+    @media(max-width:700px) {
+      .admin-overview .desk-intro {
+        align-items: flex-start
+      }
+
+      .admin-overview .overview-intro-actions {
+        width: 100%;
+        justify-content: space-between
+      }
+    }
+
+    @media(max-width:600px) {
+      .admin-overview .overview-ai-button {
+        width: auto
+      }
+
+      .admin-overview .overview-alert {
+        align-items: flex-start;
+        flex-direction: column
+      }
+
+      .admin-overview .overview-section-heading {
+        align-items: flex-start
+      }
+    }

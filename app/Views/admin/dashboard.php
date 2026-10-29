@@ -8,12 +8,9 @@
   <meta name="description" content="NABTA Botanical admin workspace.">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#c5d4b4">
-  <link rel="icon" href="public/assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="public/assets/css/shared.css">
+  <link rel="icon" href="../../../public/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../../public/assets/css/shared.css">
-  <link rel="stylesheet" href="public/assets/css/style.css">
   <link rel="stylesheet" href="../../../public/assets/css/style.css">
-  <link rel="stylesheet" href="public/assets/css/canopy.css">
   <link rel="stylesheet" href="../../../public/assets/css/canopy.css">
 </head>
 

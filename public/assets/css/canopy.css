@@ -320,3 +320,91 @@ body:has(.admin-shell){background:radial-gradient(ellipse at 85% 5%,#4567464d,tr
   color: #e5eddb !important;
   border: 1px solid #8eaa7c !important;
 }
+
+/* ===== PROFILE PAGE: FIX POPOVER TEXT VISIBILITY ===== */
+
+body.profile-page .popover,
+body.profile-page .popover:popover-open {
+  background: linear-gradient(145deg, #263b2b, #17271d) !important;
+  color: #edf3e7 !important;
+  border: 1px solid #91a979 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 28px 80px #0009 !important;
+}
+
+body.profile-page .popover .popover-top {
+  border-bottom: 1px solid #526a50 !important;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+body.profile-page .popover h2,
+body.profile-page .popover label,
+body.profile-page .popover .field label {
+  color: #f0f5e8 !important;
+  opacity: 1 !important;
+  font-weight: 600 !important;
+}
+
+body.profile-page .popover .field {
+  margin-bottom: 16px;
+}
+
+body.profile-page .popover input,
+body.profile-page .popover .field input {
+  background: #14231a !important;
+  color: #ffffff !important;
+  border: 1px solid #829974 !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  min-height: 44px;
+  padding: 10px 12px;
+  opacity: 1 !important;
+}
+
+body.profile-page .popover input::placeholder {
+  color: #bdcbb8 !important;
+  opacity: 1 !important;
+}
+
+body.profile-page .popover input:focus {
+  outline: none !important;
+  border-color: #d4f27b !important;
+  box-shadow: 0 0 0 3px #d4f27b35 !important;
+}
+
+body.profile-page .popover .btn:not(.secondary) {
+  background: linear-gradient(110deg, #d4f27b, #a8e8a4) !important;
+  color: #17251a !important;
+  border: none !important;
+  font-weight: 700 !important;
+}
+
+body.profile-page .popover .icon-btn {
+  color: #ffffff !important;
+  background: #263b2b !important;
+  border: 1px solid #829974 !important;
+  font-size: 24px !important;
+}
+
+body.profile-page .popover::backdrop {
+  background: #08140dcc !important;
+  backdrop-filter: blur(7px);
+}
+
+body.profile-page .popover form {
+  color: #edf3e7 !important;
+}
+
+@media (max-width: 600px) {
+  body.profile-page .popover {
+    width: calc(100% - 32px);
+    max-width: 440px;
+    box-sizing: border-box;
+  }
+
+  body.profile-page .popover .field input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

@@ -77,9 +77,12 @@
 
                     <section class="panel report-form-background">
                         <h3>Report details</h3>
+                        <?php if (!empty($message)): ?>
+                            <p><?= htmlspecialchars($message, ENT_QUOTES, "UTF-8") ?></p>
+                        <?php endif; ?>
                         <p class="small">Select the dates and describe what you want the report to focus on.</p>
 
-                        <form action="#" method="post">
+                        <form method="POST" action="/php/e-commerce%20platform/public/admin/ai_reports.php">
                             <div class="form-grid">
                                 <div class="field">
                                     <label for="date-from">Start date</label>
@@ -105,6 +108,7 @@
                                 <span aria-hidden="true">↗</span>
                             </button>
                         </form>
+                        
                     </section>
                 </section>
 

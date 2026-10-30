@@ -197,6 +197,8 @@ function connectBestSellersDialog() {
 
 createOverviewCharts();
 connectBestSellersDialog();
+
+
 (() => {
   const normalizePath = path =>
     decodeURIComponent(path).replace(/\/+$/, "");

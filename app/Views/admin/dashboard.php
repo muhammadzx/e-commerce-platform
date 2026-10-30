@@ -58,7 +58,7 @@
               </p>
             </div>
 
-            <a href="../admin/products.php">Review products ↗</a>
+            <a href="/php/e-commerce%20platform/public/admin/products.php">Review products ↗</a>
           </aside>
         <?php endif; ?>
         <section class="desk-kpis" aria-label="Store statistics">

@@ -1,3 +1,17 @@
+<?php
+require_once __DIR__ . '/../../../config/paths.php';
+// Opened directly (not through the controller): send the visitor to the real page
+if (!isset($customers)) {
+    header('Location: ' . nabta_public_url('admin/customers.php'));
+    exit;
+}
+
+// Provided by AdminCustomerController: $customers, $search, $flash, $csrfToken
+$e = static fn($value) => AdminSupport::e($value);
+$roleLabels = ['customer' => 'Regular user', 'admin' => 'Admin'];
+$statusLabels = ['active' => 'Active', 'suspended' => 'Suspended'];
+$total = count($customers);
+?>
 <!doctype html>
 <html lang="en">
 
@@ -8,10 +22,16 @@
     <meta name="description" content="NABTA Botanical admin workspace.">
     <meta name="robots" content="noindex,nofollow">
     <meta name="theme-color" content="#c5d4b4">
-    <link rel="icon" href="../../../public/assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="../../../public/assets/css/shared.css">
-    <link rel="stylesheet" href="../../../public/assets/css/style.css">
-    <link rel="stylesheet" href="../../../public/assets/css/canopy.css">
+    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <style>
+        .flash { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
+        .flash.success { background: rgba(130, 152, 117, .25); border: 1px solid rgba(130, 152, 117, .6); }
+        .flash.error { background: rgba(176, 80, 64, .2); border: 1px solid rgba(176, 80, 64, .6); }
+        .toolbar form { display: contents; }
+    </style>
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-customers">
@@ -20,7 +40,7 @@
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
             <div class="admin-content">
                 <div class="admin-top"><span>Workspace / Customers</span>
-                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Preview</span></div>
+                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Customers</span></div>
                 </div>
                 <div class="admin-photo-strip" role="img" aria-label="Soft-focus botanical greenhouse photograph">
                     <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span>
@@ -29,16 +49,27 @@
                     <div>
                         <h1>Customers</h1>
                         <p>Meet the people growing with Nabta.</p>
-                    </div><button class="btn" popovertarget="add">+ Add new</button>
+                    </div><button class="btn" type="button" popovertarget="add">+ Add new</button>
                 </div>
+
+                <?php if ($flash): ?>
+                    <div class="flash <?= $e($flash['type']) ?>" role="status"><?= $e($flash['message']) ?></div>
+                <?php endif; ?>
+
                 <section class="panel">
-                    <div class="toolbar"><label class="sr-only" for="search-records">Search customers</label><input
-                            class="control" id="search-records" type="search" placeholder="Search customers"><button
-                            class="btn secondary" popovertarget="preview">Search <svg class="icon" viewBox="0 0 24 24"
-                                aria-hidden="true">
-                                <circle cx="10" cy="10" r="6"></circle>
-                                <path d="m15 15 5 5"></path>
-                            </svg></button><span class="label">3 records</span></div>
+                    <div class="toolbar">
+                        <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
+                            <label class="sr-only" for="search-records">Search customers</label>
+                            <input class="control" id="search-records" name="q" type="search"
+                                placeholder="Search by name, email or phone" value="<?= $e($search) ?>">
+                            <button class="btn secondary" type="submit">Search <svg class="icon" viewBox="0 0 24 24"
+                                    aria-hidden="true">
+                                    <circle cx="10" cy="10" r="6"></circle>
+                                    <path d="m15 15 5 5"></path>
+                                </svg></button>
+                        </form>
+                        <span class="label"><?= $total ?> record<?= $total === 1 ? '' : 's' ?></span>
+                    </div>
                     <div class="table-scroll">
                         <table>
                             <thead>
@@ -51,212 +82,151 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td data-label="Customer">Alex Morgan</td>
-                                    <td data-label="Email">alex@example.com</td>
-                                    <td data-label="Role">Regular user</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-0">View</button><button class="table-button"
-                                                popovertarget="edit-0">Edit</button><button class="table-button"
-                                                popovertarget="delete-0">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Customer">Sam Taylor</td>
-                                    <td data-label="Email">sam@example.com</td>
-                                    <td data-label="Role">Regular user</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-1">View</button><button class="table-button"
-                                                popovertarget="edit-1">Edit</button><button class="table-button"
-                                                popovertarget="delete-1">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Customer">Jordan Lee</td>
-                                    <td data-label="Email">jordan@example.com</td>
-                                    <td data-label="Role">Admin</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-2">View</button><button class="table-button"
-                                                popovertarget="edit-2">Edit</button><button class="table-button"
-                                                popovertarget="delete-2">Delete</button></div>
-                                    </td>
-                                </tr>
+                                <?php if ($total === 0): ?>
+                                    <tr>
+                                        <td colspan="5" style="text-align:center; padding:32px 16px;">
+                                            <strong>No customers found</strong>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                                <?php foreach ($customers as $c): $id = (int) $c['user_id']; ?>
+                                    <tr>
+                                        <td data-label="Customer"><?= $e($c['full_name']) ?></td>
+                                        <td data-label="Email"><?= $e($c['email']) ?></td>
+                                        <td data-label="Role"><?= $e($roleLabels[$c['role']] ?? $c['role']) ?></td>
+                                        <td data-label="Status"><span class="pill"><?= $e($statusLabels[$c['status']] ?? $c['status']) ?></span></td>
+                                        <td data-label="Actions">
+                                            <div class="table-actions"><button class="table-button" type="button"
+                                                    popovertarget="view-<?= $id ?>">View</button><button
+                                                    class="table-button" type="button"
+                                                    popovertarget="edit-<?= $id ?>">Edit</button><button
+                                                    class="table-button" type="button"
+                                                    popovertarget="delete-<?= $id ?>">Delete</button></div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
                 </section>
             </div>
 
-            <!-- Record 1: Alex Morgan -->
-            <section id="view-0" class="popover" popover aria-labelledby="view-0-title">
-                <div class="popover-top">
-                    <h2 id="view-0-title">Customers / Record 1</h2><button class="icon-btn" popovertarget="view-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Customer</span><span>Alex Morgan</span></div>
-                <div class="summary-row"><span>Email</span><span>alex@example.com</span></div>
-                <div class="summary-row"><span>Role</span><span>Regular user</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-0" class="popover" popover aria-labelledby="edit-0-title">
-                <div class="popover-top">
-                    <h2 id="edit-0-title">Edit record</h2><button class="icon-btn" popovertarget="edit-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-0-name">Full name</label><input id="edit-0-name" name="edit-0-name"
-                        type="text" value="Alex Morgan"></div>
-                <div class="field"><label for="edit-0-email">Email</label><input id="edit-0-email" name="edit-0-email"
-                        type="email" value="alex@example.com"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-0-role">Role</label><select id="edit-0-role" name="edit-0-role">
-                            <option>Regular user</option>
-                            <option>Admin</option>
-                        </select></div>
-                    <div class="field"><label for="edit-0-status">Status</label><select id="edit-0-status"
-                            name="edit-0-status">
-                            <option>Active</option>
-                            <option>Suspended</option>
-                        </select></div>
-                </div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-0" class="popover" popover aria-labelledby="delete-0-title">
-                <div class="popover-top">
-                    <h2 id="delete-0-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-0" popovertargetaction="hide">Keep record</button></div>
-            </section>
+            <?php foreach ($customers as $c): $id = (int) $c['user_id']; ?>
+                <!-- Customer #<?= $id ?> -->
+                <section id="view-<?= $id ?>" class="popover" popover aria-labelledby="view-<?= $id ?>-title">
+                    <div class="popover-top">
+                        <h2 id="view-<?= $id ?>-title">Customer #<?= $id ?></h2><button class="icon-btn" type="button"
+                            popovertarget="view-<?= $id ?>" popovertargetaction="hide"
+                            aria-label="Close window">×</button>
+                    </div>
+                    <div class="summary-row"><span>Customer</span><span><?= $e($c['full_name']) ?></span></div>
+                    <div class="summary-row"><span>Email</span><span><?= $e($c['email']) ?></span></div>
+                    <div class="summary-row"><span>Phone</span><span><?= $e($c['phone'] ?: '—') ?></span></div>
+                    <div class="summary-row"><span>Address</span><span><?= $e($c['address'] ?: '—') ?></span></div>
+                    <div class="summary-row"><span>Role</span><span><?= $e($roleLabels[$c['role']] ?? $c['role']) ?></span></div>
+                    <div class="summary-row"><span>Status</span><span><span class="pill"><?= $e($statusLabels[$c['status']] ?? $c['status']) ?></span></span></div>
+                </section>
 
-            <!-- Record 2: Sam Taylor -->
-            <section id="view-1" class="popover" popover aria-labelledby="view-1-title">
-                <div class="popover-top">
-                    <h2 id="view-1-title">Customers / Record 2</h2><button class="icon-btn" popovertarget="view-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Customer</span><span>Sam Taylor</span></div>
-                <div class="summary-row"><span>Email</span><span>sam@example.com</span></div>
-                <div class="summary-row"><span>Role</span><span>Regular user</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-1" class="popover" popover aria-labelledby="edit-1-title">
-                <div class="popover-top">
-                    <h2 id="edit-1-title">Edit record</h2><button class="icon-btn" popovertarget="edit-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-1-name">Full name</label><input id="edit-1-name" name="edit-1-name"
-                        type="text" value="Sam Taylor"></div>
-                <div class="field"><label for="edit-1-email">Email</label><input id="edit-1-email" name="edit-1-email"
-                        type="email" value="sam@example.com"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-1-role">Role</label><select id="edit-1-role" name="edit-1-role">
-                            <option>Regular user</option>
-                            <option>Admin</option>
-                        </select></div>
-                    <div class="field"><label for="edit-1-status">Status</label><select id="edit-1-status"
-                            name="edit-1-status">
-                            <option>Active</option>
-                            <option>Suspended</option>
-                        </select></div>
-                </div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-1" class="popover" popover aria-labelledby="delete-1-title">
-                <div class="popover-top">
-                    <h2 id="delete-1-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-1" popovertargetaction="hide">Keep record</button></div>
-            </section>
+                <section id="edit-<?= $id ?>" class="popover" popover aria-labelledby="edit-<?= $id ?>-title">
+                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
+                        <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="user_id" value="<?= $id ?>">
+                        <div class="popover-top">
+                            <h2 id="edit-<?= $id ?>-title">Edit customer</h2><button class="icon-btn" type="button"
+                                popovertarget="edit-<?= $id ?>" popovertargetaction="hide"
+                                aria-label="Close window">×</button>
+                        </div>
+                        <div class="field"><label for="edit-<?= $id ?>-name">Full name</label><input
+                                id="edit-<?= $id ?>-name" name="full_name" type="text" maxlength="100" required
+                                value="<?= $e($c['full_name']) ?>"></div>
+                        <div class="field"><label for="edit-<?= $id ?>-email">Email</label><input
+                                id="edit-<?= $id ?>-email" name="email" type="email" maxlength="150" required
+                                value="<?= $e($c['email']) ?>"></div>
+                        <div class="form-grid">
+                            <div class="field"><label for="edit-<?= $id ?>-phone">Phone</label><input
+                                    id="edit-<?= $id ?>-phone" name="phone" type="text" maxlength="30"
+                                    value="<?= $e($c['phone']) ?>"></div>
+                            <div class="field"><label for="edit-<?= $id ?>-password">New password</label><input
+                                    id="edit-<?= $id ?>-password" name="password" type="password" minlength="8"
+                                    autocomplete="new-password" placeholder="Leave empty to keep"></div>
+                        </div>
+                        <div class="field"><label for="edit-<?= $id ?>-address">Address</label><input
+                                id="edit-<?= $id ?>-address" name="address" type="text" maxlength="255"
+                                value="<?= $e($c['address']) ?>"></div>
+                        <div class="form-grid">
+                            <div class="field"><label for="edit-<?= $id ?>-role">Role</label><select
+                                    id="edit-<?= $id ?>-role" name="role">
+                                    <?php foreach ($roleLabels as $value => $label): ?>
+                                        <option value="<?= $e($value) ?>" <?= $c['role'] === $value ? 'selected' : '' ?>><?= $e($label) ?></option>
+                                    <?php endforeach; ?>
+                                </select></div>
+                            <div class="field"><label for="edit-<?= $id ?>-status">Status</label><select
+                                    id="edit-<?= $id ?>-status" name="status">
+                                    <?php foreach ($statusLabels as $value => $label): ?>
+                                        <option value="<?= $e($value) ?>" <?= $c['status'] === $value ? 'selected' : '' ?>><?= $e($label) ?></option>
+                                    <?php endforeach; ?>
+                                </select></div>
+                        </div>
+                        <button class="btn" type="submit">Save changes</button>
+                    </form>
+                </section>
 
-            <!-- Record 3: Jordan Lee -->
-            <section id="view-2" class="popover" popover aria-labelledby="view-2-title">
-                <div class="popover-top">
-                    <h2 id="view-2-title">Customers / Record 3</h2><button class="icon-btn" popovertarget="view-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Customer</span><span>Jordan Lee</span></div>
-                <div class="summary-row"><span>Email</span><span>jordan@example.com</span></div>
-                <div class="summary-row"><span>Role</span><span>Admin</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-2" class="popover" popover aria-labelledby="edit-2-title">
-                <div class="popover-top">
-                    <h2 id="edit-2-title">Edit record</h2><button class="icon-btn" popovertarget="edit-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-2-name">Full name</label><input id="edit-2-name" name="edit-2-name"
-                        type="text" value="Jordan Lee"></div>
-                <div class="field"><label for="edit-2-email">Email</label><input id="edit-2-email" name="edit-2-email"
-                        type="email" value="jordan@example.com"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-2-role">Role</label><select id="edit-2-role" name="edit-2-role">
-                            <option>Regular user</option>
-                            <option selected>Admin</option>
-                        </select></div>
-                    <div class="field"><label for="edit-2-status">Status</label><select id="edit-2-status"
-                            name="edit-2-status">
-                            <option>Active</option>
-                            <option>Suspended</option>
-                        </select></div>
-                </div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-2" class="popover" popover aria-labelledby="delete-2-title">
-                <div class="popover-top">
-                    <h2 id="delete-2-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-2" popovertargetaction="hide">Keep record</button></div>
-            </section>
+                <section id="delete-<?= $id ?>" class="popover" popover aria-labelledby="delete-<?= $id ?>-title">
+                    <div class="popover-top">
+                        <h2 id="delete-<?= $id ?>-title">Delete this customer?</h2><button class="icon-btn"
+                            type="button" popovertarget="delete-<?= $id ?>" popovertargetaction="hide"
+                            aria-label="Close window">×</button>
+                    </div>
+                    <p>You are about to remove <strong><?= $e($c['full_name']) ?></strong>. Customers with orders or
+                        reviews cannot be deleted; suspend them instead.</p>
+                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>" class="flex" style="margin-top:18px">
+                        <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="user_id" value="<?= $id ?>">
+                        <button class="btn" type="submit">Delete customer</button>
+                        <button class="btn secondary" type="button" popovertarget="delete-<?= $id ?>"
+                            popovertargetaction="hide">Keep customer</button>
+                    </form>
+                </section>
+            <?php endforeach; ?>
 
             <!-- Add new -->
             <section id="add" class="popover" popover aria-labelledby="add-title">
-                <div class="popover-top">
-                    <h2 id="add-title">Create a record</h2><button class="icon-btn" popovertarget="add"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="new-name">Full name</label><input id="new-name" name="new-name"
-                        type="text" value=""></div>
-                <div class="field"><label for="new-email">Email</label><input id="new-email" name="new-email"
-                        type="email" value=""></div>
-                <div class="form-grid">
-                    <div class="field"><label for="new-role">Role</label><select id="new-role" name="new-role">
-                            <option>Regular user</option>
-                            <option>Admin</option>
-                        </select></div>
-                    <div class="field"><label for="new-status">Status</label><select id="new-status" name="new-status">
-                            <option>Active</option>
-                            <option>Suspended</option>
-                        </select></div>
-                </div>
-                <button class="btn" type="button" popovertarget="preview">Create record</button>
-            </section>
-
-            <!-- Preview notice -->
-            <section id="preview" class="popover" popover aria-labelledby="preview-title">
-                <div class="popover-top">
-                    <h2 id="preview-title">Ready for the next step.</h2><button class="icon-btn" popovertarget="preview"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>This action is part of the HTML &amp; CSS preview. Saving, accounts, and transactions will be
-                    connected to PHP later. No information has been submitted.</p><button class="btn"
-                    popovertarget="preview" popovertargetaction="hide">Got it</button>
+                <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                    <input type="hidden" name="action" value="create">
+                    <div class="popover-top">
+                        <h2 id="add-title">Create a customer</h2><button class="icon-btn" type="button"
+                            popovertarget="add" popovertargetaction="hide" aria-label="Close window">×</button>
+                    </div>
+                    <div class="field"><label for="new-name">Full name</label><input id="new-name" name="full_name"
+                            type="text" maxlength="100" required></div>
+                    <div class="field"><label for="new-email">Email</label><input id="new-email" name="email"
+                            type="email" maxlength="150" required></div>
+                    <div class="form-grid">
+                        <div class="field"><label for="new-phone">Phone</label><input id="new-phone" name="phone"
+                                type="text" maxlength="30"></div>
+                        <div class="field"><label for="new-password">Password</label><input id="new-password"
+                                name="password" type="password" minlength="8" required autocomplete="new-password">
+                        </div>
+                    </div>
+                    <div class="field"><label for="new-address">Address</label><input id="new-address" name="address"
+                            type="text" maxlength="255"></div>
+                    <div class="form-grid">
+                        <div class="field"><label for="new-role">Role</label><select id="new-role" name="role">
+                                <?php foreach ($roleLabels as $value => $label): ?>
+                                    <option value="<?= $e($value) ?>"><?= $e($label) ?></option>
+                                <?php endforeach; ?>
+                            </select></div>
+                        <div class="field"><label for="new-status">Status</label><select id="new-status" name="status">
+                                <?php foreach ($statusLabels as $value => $label): ?>
+                                    <option value="<?= $e($value) ?>"><?= $e($label) ?></option>
+                                <?php endforeach; ?>
+                            </select></div>
+                    </div>
+                    <button class="btn" type="submit">Create customer</button>
+                </form>
             </section>
         </div>
     </main>

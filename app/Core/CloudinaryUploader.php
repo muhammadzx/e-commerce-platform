@@ -7,7 +7,7 @@ class CloudinaryUploader
 
     public function __construct()
     {
-        $this->config = require __DIR__ . "/../config/cloudinary.php";
+        $this->config = require __DIR__ . "/../../config/cloudinary.php";
     }
 
     public function uploadImage($file)

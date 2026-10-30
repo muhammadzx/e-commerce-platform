@@ -1,3 +1,15 @@
+<?php
+require_once __DIR__ . '/../../../config/paths.php';
+// Opened directly (not through the controller): send the visitor to the real page
+if (!isset($categories)) {
+    header('Location: ' . nabta_public_url('admin/categories.php'));
+    exit;
+}
+
+// Provided by AdminCategoryController: $categories, $search, $flash, $csrfToken
+$e = static fn($value) => AdminSupport::e($value);
+$total = count($categories);
+?>
 <!doctype html>
 <html lang="en">
 
@@ -8,10 +20,16 @@
     <meta name="description" content="NABTA Botanical admin workspace.">
     <meta name="robots" content="noindex,nofollow">
     <meta name="theme-color" content="#c5d4b4">
-    <link rel="icon" href="../../../public/assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="../../../public/assets/css/shared.css">
-    <link rel="stylesheet" href="../../../public/assets/css/style.css">
-    <link rel="stylesheet" href="../../../public/assets/css/canopy.css">
+    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <style>
+        .flash { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
+        .flash.success { background: rgba(130, 152, 117, .25); border: 1px solid rgba(130, 152, 117, .6); }
+        .flash.error { background: rgba(176, 80, 64, .2); border: 1px solid rgba(176, 80, 64, .6); }
+        .toolbar form { display: contents; }
+    </style>
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-categories">
@@ -20,7 +38,7 @@
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
             <div class="admin-content">
                 <div class="admin-top"><span>Workspace / Categories</span>
-                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Preview</span></div>
+                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Categories</span></div>
                 </div>
                 <div class="admin-photo-strip" role="img" aria-label="Soft-focus botanical greenhouse photograph">
                     <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span>
@@ -29,16 +47,27 @@
                     <div>
                         <h1>Categories</h1>
                         <p>A clear place for every growing essential.</p>
-                    </div><button class="btn" popovertarget="add">+ Add new</button>
+                    </div><button class="btn" type="button" popovertarget="add">+ Add new</button>
                 </div>
+
+                <?php if ($flash): ?>
+                    <div class="flash <?= $e($flash['type']) ?>" role="status"><?= $e($flash['message']) ?></div>
+                <?php endif; ?>
+
                 <section class="panel">
-                    <div class="toolbar"><label class="sr-only" for="search-records">Search categories</label><input
-                            class="control" id="search-records" type="search" placeholder="Search categories"><button
-                            class="btn secondary" popovertarget="preview">Search <svg class="icon" viewBox="0 0 24 24"
-                                aria-hidden="true">
-                                <circle cx="10" cy="10" r="6"></circle>
-                                <path d="m15 15 5 5"></path>
-                            </svg></button><span class="label">6 records</span></div>
+                    <div class="toolbar">
+                        <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/categories.php'), ENT_QUOTES, 'UTF-8') ?>">
+                            <label class="sr-only" for="search-records">Search categories</label>
+                            <input class="control" id="search-records" name="q" type="search"
+                                placeholder="Search categories" value="<?= $e($search) ?>">
+                            <button class="btn secondary" type="submit">Search <svg class="icon" viewBox="0 0 24 24"
+                                    aria-hidden="true">
+                                    <circle cx="10" cy="10" r="6"></circle>
+                                    <path d="m15 15 5 5"></path>
+                                </svg></button>
+                        </form>
+                        <span class="label"><?= $total ?> record<?= $total === 1 ? '' : 's' ?></span>
+                    </div>
                     <div class="table-scroll">
                         <table>
                             <thead>
@@ -46,343 +75,111 @@
                                     <th>Category</th>
                                     <th>Description</th>
                                     <th>Products</th>
-                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td data-label="Category">Plants</td>
-                                    <td data-label="Description">Indoor &amp; outdoor plants</td>
-                                    <td data-label="Products">1</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-0">View</button><button class="table-button"
-                                                popovertarget="edit-0">Edit</button><button class="table-button"
-                                                popovertarget="delete-0">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Category">Pots</td>
-                                    <td data-label="Description">Pots, planters &amp; saucers</td>
-                                    <td data-label="Products">1</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-1">View</button><button class="table-button"
-                                                popovertarget="edit-1">Edit</button><button class="table-button"
-                                                popovertarget="delete-1">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Category">Soil &amp; nutrition</td>
-                                    <td data-label="Description">Potting mixes &amp; nutrients</td>
-                                    <td data-label="Products">1</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-2">View</button><button class="table-button"
-                                                popovertarget="edit-2">Edit</button><button class="table-button"
-                                                popovertarget="delete-2">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Category">Tools</td>
-                                    <td data-label="Description">Practical gardening tools</td>
-                                    <td data-label="Products">1</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-3">View</button><button class="table-button"
-                                                popovertarget="edit-3">Edit</button><button class="table-button"
-                                                popovertarget="delete-3">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Category">Decor</td>
-                                    <td data-label="Description">Botanical gifts &amp; objects</td>
-                                    <td data-label="Products">1</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-4">View</button><button class="table-button"
-                                                popovertarget="edit-4">Edit</button><button class="table-button"
-                                                popovertarget="delete-4">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Category">Care &amp; treatments</td>
-                                    <td data-label="Description">Plant health &amp; care products</td>
-                                    <td data-label="Products">1</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-5">View</button><button class="table-button"
-                                                popovertarget="edit-5">Edit</button><button class="table-button"
-                                                popovertarget="delete-5">Delete</button></div>
-                                    </td>
-                                </tr>
+                                <?php if ($total === 0): ?>
+                                    <tr>
+                                        <td colspan="4" style="text-align:center; padding:32px 16px;">
+                                            <strong>No categories found</strong>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                                <?php foreach ($categories as $c): $id = (int) $c['cat_id']; ?>
+                                    <tr>
+                                        <td data-label="Category"><?= $e($c['name']) ?></td>
+                                        <td data-label="Description"><?= $e($c['description'] ?: '—') ?></td>
+                                        <td data-label="Products"><?= (int) $c['products_count'] ?></td>
+                                        <td data-label="Actions">
+                                            <div class="table-actions"><button class="table-button" type="button"
+                                                    popovertarget="view-<?= $id ?>">View</button><button
+                                                    class="table-button" type="button"
+                                                    popovertarget="edit-<?= $id ?>">Edit</button><button
+                                                    class="table-button" type="button"
+                                                    popovertarget="delete-<?= $id ?>">Delete</button></div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
                 </section>
             </div>
 
-            <!-- Record 1: Plants -->
-            <section id="view-0" class="popover" popover aria-labelledby="view-0-title">
-                <div class="popover-top">
-                    <h2 id="view-0-title">Categories / Record 1</h2><button class="icon-btn" popovertarget="view-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Category</span><span>Plants</span></div>
-                <div class="summary-row"><span>Description</span><span>Indoor &amp; outdoor plants</span></div>
-                <div class="summary-row"><span>Products</span><span>1</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-0" class="popover" popover aria-labelledby="edit-0-title">
-                <div class="popover-top">
-                    <h2 id="edit-0-title">Edit record</h2><button class="icon-btn" popovertarget="edit-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-0-name">Category name</label><input id="edit-0-name"
-                        name="edit-0-name" type="text" value="Plants"></div>
-                <div class="field"><label for="edit-0-description">Description</label><textarea id="edit-0-description"
-                        name="edit-0-description" rows="2"></textarea></div>
-                <div class="field"><label for="edit-0-status">Status</label><select id="edit-0-status"
-                        name="edit-0-status">
-                        <option>Active</option>
-                        <option>Hidden</option>
-                    </select></div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-0" class="popover" popover aria-labelledby="delete-0-title">
-                <div class="popover-top">
-                    <h2 id="delete-0-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-0" popovertargetaction="hide">Keep record</button></div>
-            </section>
+            <?php foreach ($categories as $c): $id = (int) $c['cat_id']; ?>
+                <!-- Category #<?= $id ?> -->
+                <section id="view-<?= $id ?>" class="popover" popover aria-labelledby="view-<?= $id ?>-title">
+                    <div class="popover-top">
+                        <h2 id="view-<?= $id ?>-title">Category #<?= $id ?></h2><button class="icon-btn" type="button"
+                            popovertarget="view-<?= $id ?>" popovertargetaction="hide"
+                            aria-label="Close window">×</button>
+                    </div>
+                    <div class="summary-row"><span>Category</span><span><?= $e($c['name']) ?></span></div>
+                    <div class="summary-row"><span>Description</span><span><?= $e($c['description'] ?: '—') ?></span></div>
+                    <div class="summary-row"><span>Products</span><span><?= (int) $c['products_count'] ?></span></div>
+                </section>
 
-            <!-- Record 2: Pots -->
-            <section id="view-1" class="popover" popover aria-labelledby="view-1-title">
-                <div class="popover-top">
-                    <h2 id="view-1-title">Categories / Record 2</h2><button class="icon-btn" popovertarget="view-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Category</span><span>Pots</span></div>
-                <div class="summary-row"><span>Description</span><span>Pots, planters &amp; saucers</span></div>
-                <div class="summary-row"><span>Products</span><span>1</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-1" class="popover" popover aria-labelledby="edit-1-title">
-                <div class="popover-top">
-                    <h2 id="edit-1-title">Edit record</h2><button class="icon-btn" popovertarget="edit-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-1-name">Category name</label><input id="edit-1-name"
-                        name="edit-1-name" type="text" value="Pots"></div>
-                <div class="field"><label for="edit-1-description">Description</label><textarea id="edit-1-description"
-                        name="edit-1-description" rows="2"></textarea></div>
-                <div class="field"><label for="edit-1-status">Status</label><select id="edit-1-status"
-                        name="edit-1-status">
-                        <option>Active</option>
-                        <option>Hidden</option>
-                    </select></div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-1" class="popover" popover aria-labelledby="delete-1-title">
-                <div class="popover-top">
-                    <h2 id="delete-1-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-1" popovertargetaction="hide">Keep record</button></div>
-            </section>
+                <section id="edit-<?= $id ?>" class="popover" popover aria-labelledby="edit-<?= $id ?>-title">
+                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/categories.php'), ENT_QUOTES, 'UTF-8') ?>">
+                        <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="cat_id" value="<?= $id ?>">
+                        <div class="popover-top">
+                            <h2 id="edit-<?= $id ?>-title">Edit category</h2><button class="icon-btn" type="button"
+                                popovertarget="edit-<?= $id ?>" popovertargetaction="hide"
+                                aria-label="Close window">×</button>
+                        </div>
+                        <div class="field"><label for="edit-<?= $id ?>-name">Name</label><input
+                                id="edit-<?= $id ?>-name" name="name" type="text" maxlength="100" required
+                                value="<?= $e($c['name']) ?>"></div>
+                        <div class="field"><label for="edit-<?= $id ?>-description">Description</label><textarea
+                                id="edit-<?= $id ?>-description" name="description" rows="3"
+                                maxlength="1000"><?= $e($c['description']) ?></textarea></div>
+                        <button class="btn" type="submit">Save changes</button>
+                    </form>
+                </section>
 
-            <!-- Record 3: Soil & nutrition -->
-            <section id="view-2" class="popover" popover aria-labelledby="view-2-title">
-                <div class="popover-top">
-                    <h2 id="view-2-title">Categories / Record 3</h2><button class="icon-btn" popovertarget="view-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Category</span><span>Soil &amp; nutrition</span></div>
-                <div class="summary-row"><span>Description</span><span>Potting mixes &amp; nutrients</span></div>
-                <div class="summary-row"><span>Products</span><span>1</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-2" class="popover" popover aria-labelledby="edit-2-title">
-                <div class="popover-top">
-                    <h2 id="edit-2-title">Edit record</h2><button class="icon-btn" popovertarget="edit-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-2-name">Category name</label><input id="edit-2-name"
-                        name="edit-2-name" type="text" value="Soil &amp; nutrition"></div>
-                <div class="field"><label for="edit-2-description">Description</label><textarea id="edit-2-description"
-                        name="edit-2-description" rows="2"></textarea></div>
-                <div class="field"><label for="edit-2-status">Status</label><select id="edit-2-status"
-                        name="edit-2-status">
-                        <option>Active</option>
-                        <option>Hidden</option>
-                    </select></div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-2" class="popover" popover aria-labelledby="delete-2-title">
-                <div class="popover-top">
-                    <h2 id="delete-2-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-2" popovertargetaction="hide">Keep record</button></div>
-            </section>
-
-            <!-- Record 4: Tools -->
-            <section id="view-3" class="popover" popover aria-labelledby="view-3-title">
-                <div class="popover-top">
-                    <h2 id="view-3-title">Categories / Record 4</h2><button class="icon-btn" popovertarget="view-3"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Category</span><span>Tools</span></div>
-                <div class="summary-row"><span>Description</span><span>Practical gardening tools</span></div>
-                <div class="summary-row"><span>Products</span><span>1</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-3" class="popover" popover aria-labelledby="edit-3-title">
-                <div class="popover-top">
-                    <h2 id="edit-3-title">Edit record</h2><button class="icon-btn" popovertarget="edit-3"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-3-name">Category name</label><input id="edit-3-name"
-                        name="edit-3-name" type="text" value="Tools"></div>
-                <div class="field"><label for="edit-3-description">Description</label><textarea id="edit-3-description"
-                        name="edit-3-description" rows="2"></textarea></div>
-                <div class="field"><label for="edit-3-status">Status</label><select id="edit-3-status"
-                        name="edit-3-status">
-                        <option>Active</option>
-                        <option>Hidden</option>
-                    </select></div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-3" class="popover" popover aria-labelledby="delete-3-title">
-                <div class="popover-top">
-                    <h2 id="delete-3-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-3"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-3" popovertargetaction="hide">Keep record</button></div>
-            </section>
-
-            <!-- Record 5: Decor -->
-            <section id="view-4" class="popover" popover aria-labelledby="view-4-title">
-                <div class="popover-top">
-                    <h2 id="view-4-title">Categories / Record 5</h2><button class="icon-btn" popovertarget="view-4"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Category</span><span>Decor</span></div>
-                <div class="summary-row"><span>Description</span><span>Botanical gifts &amp; objects</span></div>
-                <div class="summary-row"><span>Products</span><span>1</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-4" class="popover" popover aria-labelledby="edit-4-title">
-                <div class="popover-top">
-                    <h2 id="edit-4-title">Edit record</h2><button class="icon-btn" popovertarget="edit-4"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-4-name">Category name</label><input id="edit-4-name"
-                        name="edit-4-name" type="text" value="Decor"></div>
-                <div class="field"><label for="edit-4-description">Description</label><textarea id="edit-4-description"
-                        name="edit-4-description" rows="2"></textarea></div>
-                <div class="field"><label for="edit-4-status">Status</label><select id="edit-4-status"
-                        name="edit-4-status">
-                        <option>Active</option>
-                        <option>Hidden</option>
-                    </select></div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-4" class="popover" popover aria-labelledby="delete-4-title">
-                <div class="popover-top">
-                    <h2 id="delete-4-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-4"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-4" popovertargetaction="hide">Keep record</button></div>
-            </section>
-
-            <!-- Record 6: Care & treatments -->
-            <section id="view-5" class="popover" popover aria-labelledby="view-5-title">
-                <div class="popover-top">
-                    <h2 id="view-5-title">Categories / Record 6</h2><button class="icon-btn" popovertarget="view-5"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Category</span><span>Care &amp; treatments</span></div>
-                <div class="summary-row"><span>Description</span><span>Plant health &amp; care products</span></div>
-                <div class="summary-row"><span>Products</span><span>1</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-5" class="popover" popover aria-labelledby="edit-5-title">
-                <div class="popover-top">
-                    <h2 id="edit-5-title">Edit record</h2><button class="icon-btn" popovertarget="edit-5"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-5-name">Category name</label><input id="edit-5-name"
-                        name="edit-5-name" type="text" value="Care &amp; treatments"></div>
-                <div class="field"><label for="edit-5-description">Description</label><textarea id="edit-5-description"
-                        name="edit-5-description" rows="2"></textarea></div>
-                <div class="field"><label for="edit-5-status">Status</label><select id="edit-5-status"
-                        name="edit-5-status">
-                        <option>Active</option>
-                        <option>Hidden</option>
-                    </select></div>
-                <button class="btn" type="button" popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-5" class="popover" popover aria-labelledby="delete-5-title">
-                <div class="popover-top">
-                    <h2 id="delete-5-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-5"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-5" popovertargetaction="hide">Keep record</button></div>
-            </section>
+                <section id="delete-<?= $id ?>" class="popover" popover aria-labelledby="delete-<?= $id ?>-title">
+                    <div class="popover-top">
+                        <h2 id="delete-<?= $id ?>-title">Delete this category?</h2><button class="icon-btn"
+                            type="button" popovertarget="delete-<?= $id ?>" popovertargetaction="hide"
+                            aria-label="Close window">×</button>
+                    </div>
+                    <p>You are about to remove <strong><?= $e($c['name']) ?></strong>.
+                        <?php if ((int) $c['products_count'] > 0): ?>
+                            This category still has <?= (int) $c['products_count'] ?> product(s), so it cannot be deleted
+                            until they are moved or removed.
+                        <?php else: ?>
+                            This cannot be undone.
+                        <?php endif; ?>
+                    </p>
+                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/categories.php'), ENT_QUOTES, 'UTF-8') ?>" class="flex" style="margin-top:18px">
+                        <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="cat_id" value="<?= $id ?>">
+                        <button class="btn" type="submit">Delete category</button>
+                        <button class="btn secondary" type="button" popovertarget="delete-<?= $id ?>"
+                            popovertargetaction="hide">Keep category</button>
+                    </form>
+                </section>
+            <?php endforeach; ?>
 
             <!-- Add new -->
             <section id="add" class="popover" popover aria-labelledby="add-title">
-                <div class="popover-top">
-                    <h2 id="add-title">Create a record</h2><button class="icon-btn" popovertarget="add"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="new-name">Category name</label><input id="new-name" name="new-name"
-                        type="text" value=""></div>
-                <div class="field"><label for="new-description">Description</label><textarea id="new-description"
-                        name="new-description" rows="2"></textarea></div>
-                <div class="field"><label for="new-status">Status</label><select id="new-status" name="new-status">
-                        <option>Active</option>
-                        <option>Hidden</option>
-                    </select></div>
-                <button class="btn" type="button" popovertarget="preview">Create record</button>
-            </section>
-
-            <!-- Preview notice -->
-            <section id="preview" class="popover" popover aria-labelledby="preview-title">
-                <div class="popover-top">
-                    <h2 id="preview-title">Ready for the next step.</h2><button class="icon-btn" popovertarget="preview"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>This action is part of the HTML &amp; CSS preview. Saving, accounts, and transactions will be
-                    connected to PHP later. No information has been submitted.</p><button class="btn"
-                    popovertarget="preview" popovertargetaction="hide">Got it</button>
+                <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/categories.php'), ENT_QUOTES, 'UTF-8') ?>">
+                    <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                    <input type="hidden" name="action" value="create">
+                    <div class="popover-top">
+                        <h2 id="add-title">Create a category</h2><button class="icon-btn" type="button"
+                            popovertarget="add" popovertargetaction="hide" aria-label="Close window">×</button>
+                    </div>
+                    <div class="field"><label for="new-name">Name</label><input id="new-name" name="name" type="text"
+                            maxlength="100" required></div>
+                    <div class="field"><label for="new-description">Description</label><textarea id="new-description"
+                            name="description" rows="3" maxlength="1000"></textarea></div>
+                    <button class="btn" type="submit">Create category</button>
+                </form>
             </section>
         </div>
     </main>

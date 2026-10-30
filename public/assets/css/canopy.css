@@ -2250,15 +2250,62 @@ body:has(.admin-shell) {
     linear-gradient(155deg, #2b442f, #203528) !important;
 }
 
-.admin-overview .admin-sidebar .overview-link,
-.admin-products .admin-sidebar .products-link {
-  background: #d4ddbf !important;
-  color: #294332 !important;
-  box-shadow: 0 8px 25px #111e1733;
+/* Sidebar page state */
+.admin-overview:not(.admin-reports) .admin-sidebar .overview-link,
+.admin-products .admin-sidebar .products-link,
+.admin-reports .admin-sidebar .ai-reports-link,
+.admin-categories .admin-sidebar .categories-link,
+.admin-customers .admin-sidebar .customers-link,
+.admin-orders .admin-sidebar .orders-link,
+.admin-reviews .admin-sidebar .reviews-link,
+.admin-sidebar nav a[aria-current="page"] {
+  background: linear-gradient(110deg, #d4f27b, #b9e998) !important;
+  color: #17251a !important;
+  box-shadow: 0 0 30px #bbed6930 !important;
 }
-.admin-sidebar nav a[aria-disabled="true"] {
-  opacity: 0.62;
-  cursor: default;
+
+.admin-sidebar nav .store-link {
+  margin-top: 12px;
+  padding-top: 16px !important;
+  border-top: 1px solid #d4f27b28;
+}
+
+.admin-sidebar .profile-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: #e8efdf !important;
+}
+
+.admin-sidebar .profile-link .account-avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 50%;
+  background: #d4ddbf !important;
+  color: #264332 !important;
+  font-size: 12px;
+}
+
+.admin-sidebar .profile-link strong,
+.admin-sidebar .profile-link small {
+  display: block;
+}
+
+.admin-sidebar .profile-link strong {
+  font-size: 11px;
+}
+
+.admin-sidebar .profile-link small {
+  color: #b9c9aa;
+  font-size: 10px;
+}
+
+.admin-sidebar .profile-arrow {
+  margin-left: auto;
+  color: #b9c9aa;
 }
 
 /* Overview page styles */
@@ -2716,4 +2763,9 @@ body:has(.admin-shell) {
   .admin-overview .overview-section-heading {
     align-items: flex-start;
   }
+}
+.admin-sidebar nav a.active {
+  background: linear-gradient(110deg, #d4f27b, #b9e998) !important;
+  color: #17251a !important;
+  box-shadow: 0 0 30px #bbed6930 !important;
 }

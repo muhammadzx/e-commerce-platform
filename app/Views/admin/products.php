@@ -15,7 +15,7 @@
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-products">
-    <main id="main">
+        <main id="main">
         <div class="admin-shell">
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
             <div class="admin-content">

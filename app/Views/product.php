@@ -39,7 +39,7 @@ $mainImage = $imageCount > 0
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/shared.css">
     <link rel="stylesheet" href="assets/css/nabta-theme.css">
-    <link rel="stylesheet" href="assets/css/product-details.css?v=11">
+    <link rel="stylesheet" href="assets/css/product-details.css?v=13">
 </head>
 <body class="nabta-product-body">
 <main class="nabta-detail">
@@ -139,22 +139,259 @@ $mainImage = $imageCount > 0
         </div>
     </section>
 
-    <section class="nd-reviews" id="reviews">
-        <div class="nd-section-head"><div><p class="nd-kicker">WORDS FROM OUR COMMUNITY</p><h2>Customer reviews<span class="nd-count"><?= $total ?></span></h2></div>
-        <?php if ($total > 0): ?><p class="nd-review-summary"><span class="nd-stars"><?= str_repeat('★', $rounded) . str_repeat('☆', 5 - $rounded) ?></span> <?= number_format($average, 1) ?> / 5</p><?php endif; ?></div>
-        <?php if (empty($reviews)): ?>
-            <p class="nd-empty">No reviews yet. Be the first to share your experience.</p>
-        <?php else: ?>
-            <div class="nd-review-list">
-            <?php foreach ($reviews as $review): $stars = max(0, min(5, (int) ($review['rating'] ?? 0))); ?>
+
+<section class="nd-reviews" id="reviews">
+
+    <div class="nd-section-head">
+        <div>
+            <p class="nd-kicker">WORDS FROM OUR COMMUNITY</p>
+            <h2>
+                Customer reviews
+                <span class="nd-count"><?= $total ?></span>
+            </h2>
+        </div>
+
+        <?php if ($total > 0): ?>
+            <p class="nd-review-summary">
+                <span class="nd-stars">
+                    <?= str_repeat('★', $rounded) . str_repeat('☆', 5 - $rounded) ?>
+                </span>
+                <?= number_format($average, 1) ?> / 5
+            </p>
+        <?php endif; ?>
+    </div>
+
+    <!-- Existing customer reviews -->
+    <?php if (empty($reviews)): ?>
+
+        <p class="nd-empty">
+            No reviews yet. Be the first to share your experience.
+        </p>
+
+    <?php else: ?>
+
+        <div class="nd-review-list">
+
+          <?php foreach ($topReviews as $review): ?>
+
+                <?php
+                $stars = max(
+                    0,
+                    min(5, (int) ($review['rating'] ?? 0))
+                );
+                ?>
+
                 <article class="nd-review">
-                    <div class="nd-review-person"><strong><?= $esc($review['reviewer_name'] ?? 'Customer') ?></strong><span><?= !empty($review['created_at']) ? date('M j, Y', strtotime($review['created_at'])) : '' ?></span></div>
-                    <div class="nd-review-body"><span class="nd-stars" aria-label="<?= $stars ?> out of 5 stars"><?= str_repeat('★', $stars) . str_repeat('☆', 5 - $stars) ?></span><?php if (!empty($review['comment'])): ?><p><?= nl2br($esc($review['comment'])) ?></p><?php endif; ?></div>
+
+                    <div class="nd-review-person">
+                        <strong>
+                            <?= $esc($review['reviewer_name'] ?? 'Customer') ?>
+                        </strong>
+
+                        <span>
+                            <?= !empty($review['created_at'])
+                                ? date('M j, Y', strtotime($review['created_at']))
+                                : '' ?>
+                        </span>
+                    </div>
+
+                    <div class="nd-review-body">
+
+                        <span class="nd-stars">
+                            <?= str_repeat('★', $stars) . str_repeat('☆', 5 - $stars) ?>
+                        </span>
+
+                        <?php if (!empty($review['comment'])): ?>
+                            <p><?= nl2br($esc($review['comment'])) ?></p>
+
+                            
+                        <?php endif; ?>
+
+                    </div>
+
+</article>
+
+<?php endforeach; ?>
+
+</div>
+
+<?php if ($total > 3): ?>
+    <button
+        type="button"
+        class="nd-view-reviews"
+        id="open-reviews-modal"
+    >
+        View all <?= $total ?> reviews ↗
+    </button>
+<?php endif; ?>
+
+    <?php endif; ?>
+
+<?php if ($total > 3): ?>
+<div
+    class="nd-reviews-modal"
+    id="reviews-modal"
+    hidden
+>
+    <div class="nd-modal-backdrop" data-close-reviews></div>
+
+    <div
+        class="nd-modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="reviews-modal-title"
+        tabindex="-1"
+    >
+        <div class="nd-modal-header">
+            <div>
+                <p class="nd-kicker">THE NABTA COMMUNITY</p>
+                <h2 id="reviews-modal-title">All customer reviews</h2>
+                <p>
+                    <?= number_format($average, 1) ?> / 5
+                    · <?= $total ?> reviews
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="nd-modal-close"
+                id="close-reviews-modal"
+                aria-label="Close reviews"
+            >
+                &times;
+            </button>
+        </div>
+
+        <div class="nd-modal-review-list" id="modal-review-list">
+            <?php foreach ($reviews as $review): ?>
+                <?php
+                $stars = max(0, min(5, (int) $review['rating']));
+                ?>
+
+                <article class="nd-review">
+                    <div class="nd-review-person">
+                        <strong>
+                            <?= $esc($review['reviewer_name'] ?? 'Customer') ?>
+                        </strong>
+                        <span>
+                            <?= !empty($review['created_at'])
+                                ? date('M j, Y', strtotime($review['created_at']))
+                                : '' ?>
+                        </span>
+                    </div>
+
+                    <div class="nd-review-body">
+                        <span class="nd-stars">
+                            <?= str_repeat('★', $stars) . str_repeat('☆', 5 - $stars) ?>
+                        </span>
+
+                        <?php if (!empty($review['comment'])): ?>
+                            <p><?= nl2br($esc($review['comment'])) ?></p>
+                        <?php endif; ?>
+                    </div>
                 </article>
             <?php endforeach; ?>
-            </div>
+        </div>
+
+        <div class="nd-modal-footer">
+            <button
+                type="button"
+                class="nd-modal-load-more"
+                id="load-more-reviews"
+                hidden
+            >
+                Show more reviews ↓
+            </button>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+    
+    <!-- Write a review -->
+    <div class="nd-review-form-container">
+
+        <p class="nd-kicker">YOUR EXPERIENCE MATTERS</p>
+        <h3>Share your experience.</h3>
+
+        <?php if (empty($_SESSION["user_id"])): ?>
+
+            <p class="nd-empty">
+                Please log in to leave a review.
+            </p>
+
+        <?php elseif (!$reviewModel->hasPurchased(
+            (int) $_SESSION["user_id"],
+            (int) $product["pro_id"]
+        )): ?>
+
+            <p class="nd-empty">
+                Only customers who purchased this product can leave a review.
+            </p>
+
+        <?php elseif ($reviewModel->hasReviewed(
+            (int) $_SESSION["user_id"],
+            (int) $product["pro_id"]
+        )): ?>
+
+            <p class="nd-empty">
+                You have already reviewed this product.
+            </p>
+
+        <?php else: ?>
+
+           <form
+    id="review-form"
+    method="POST"
+    action="index.php?api=submit-review"
+>
+                <input
+                    type="hidden"
+                    name="pro_id"
+                    value="<?= (int) $product["pro_id"] ?>"
+                >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= $esc($_SESSION["csrf_token"]) ?>"
+                >
+
+                <label for="review-rating">Your rating</label>
+
+                <select id="review-rating" name="rating" required>
+                    <option value="">Select your rating</option>
+                    <option value="5">★★★★★ — Excellent</option>
+                    <option value="4">★★★★☆ — Very good</option>
+                    <option value="3">★★★☆☆ — Good</option>
+                    <option value="2">★★☆☆☆ — Fair</option>
+                    <option value="1">★☆☆☆☆ — Poor</option>
+                </select>
+
+                <label for="review-comment">Your review</label>
+
+                <textarea
+                    id="review-comment"
+                    name="comment"
+                    rows="4"
+                    maxlength="1000"
+                    placeholder="Tell us about your experience..."
+                    required
+                ></textarea>
+
+                <button type="submit" class="nd-review-submit">
+                    Submit review ↗
+                </button>
+
+                <p id="review-message" role="status" aria-live="polite"></p>
+
+            </form>
+
         <?php endif; ?>
-    </section>
+
+    </div>
+
+</section>
+
 
     <section class="nd-related">
         <div class="nd-section-head"><div><p class="nd-kicker">DISCOVER SOMETHING NEW</p><h2>You may also like<span class="nd-period">.</span></h2></div><a class="nd-view-all" href="index.php?page=products">Explore all products ↗</a></div>
@@ -176,6 +413,6 @@ $mainImage = $imageCount > 0
     </section>
 </main>
 
-<script src="assets/js/products.js?v=gallery2" defer></script>
+<script src="assets/js/products.js?v=reviews4" defer></script>
 </body>
 </html>

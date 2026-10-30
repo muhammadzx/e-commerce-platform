@@ -282,4 +282,6 @@ public function getProductImages(int $productId)
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+
 }

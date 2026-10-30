@@ -13,6 +13,7 @@ $navRoot = preg_replace('~/(public|app)/.*$~', '', $_SERVER['SCRIPT_NAME'] ?? ''
 
   <div>
     <div class="eyebrow" style="padding:0 12px 15px">WORKSPACE</div>
+
     <nav aria-label="Administration">
       <a class="overview-link" href="<?= $navRoot ?>/public/admin/dashboard.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -36,14 +37,14 @@ $navRoot = preg_replace('~/(public|app)/.*$~', '', $_SERVER['SCRIPT_NAME'] ?? ''
         AI Reports
       </a>
 
-      <a href="<?= $navRoot ?>/public/admin/categories.php">
+      <a class="categories-link" href="<?= $navRoot ?>/app/Views/admin/categories.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>
         </svg>
         Categories
       </a>
 
-      <a href="<?= $navRoot ?>/public/admin/customers.php">
+      <a class="customers-link" href="<?= $navRoot ?>/app/Views/admin/customers.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="8" r="3"/>
           <path d="M5 21v-3a7 7 0 0 1 14 0v3"/>
@@ -51,7 +52,7 @@ $navRoot = preg_replace('~/(public|app)/.*$~', '', $_SERVER['SCRIPT_NAME'] ?? ''
         Customers
       </a>
 
-      <a href="<?= $navRoot ?>/app/Views/admin/orders.php">
+      <a class="orders-link" href="<?= $navRoot ?>/app/Views/admin/orders.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M5 7h14l1 14H4L5 7Z"/>
           <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
@@ -59,22 +60,32 @@ $navRoot = preg_replace('~/(public|app)/.*$~', '', $_SERVER['SCRIPT_NAME'] ?? ''
         Orders
       </a>
 
-      <a href="<?= $navRoot ?>/app/Views/admin/reviews.php" aria-disabled="true" title="Page not included in this section">
+      <a class="reviews-link" href="<?= $navRoot ?>/app/Views/admin/reviews.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="m12 3 3 6 6 1-4 5 1 6-6-3-6 3 1-6-4-5 6-1Z"/>
         </svg>
         Reviews
       </a>
+
+      <a class="store-link" href="<?= $navRoot ?>/public/index.php">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 10 5 4h14l2 6"/>
+          <path d="M4 10v10h16V10M9 20v-6h6v6"/>
+          <path d="M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/>
+        </svg>
+        View storefront
+      </a>
     </nav>
   </div>
 
   <div class="admin-bottom">
-    <div class="flex">
-      <div class="account-avatar" style="width:36px;height:36px;font-size:12px">AS</div>
-      <div>
-        Alex / Store admin<br>
-        <a href="<?= $navRoot ?>/public/index.php">View storefront ↗</a>
-      </div>
-    </div>
+    <a class="profile-link" href="<?= $navRoot ?>/app/Views/admin/profile.php">
+      <span class="account-avatar">AS</span>
+      <span>
+        <strong>Alex</strong>
+        <small>Store admin · Profile</small>
+      </span>
+      <span class="profile-arrow" aria-hidden="true">↗</span>
+    </a>
   </div>
 </aside>

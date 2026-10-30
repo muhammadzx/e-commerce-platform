@@ -33,7 +33,7 @@
     </style>
 </head>
 
-<body class="admin-body botanical-edition workspace-page admin-overview">
+<body class="admin-body botanical-edition workspace-page admin-overview admin-reports">
     <main id="main">
         <div class="admin-shell">
 

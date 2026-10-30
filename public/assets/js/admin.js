@@ -197,3 +197,22 @@ function connectBestSellersDialog() {
 
 createOverviewCharts();
 connectBestSellersDialog();
+(() => {
+  const normalizePath = path =>
+    decodeURIComponent(path).replace(/\/+$/, "");
+
+  const currentPath = normalizePath(window.location.pathname);
+  const links = document.querySelectorAll(".admin-sidebar nav a[href]");
+
+  links.forEach(link => {
+    const linkPath = normalizePath(new URL(link.href).pathname);
+
+    link.classList.remove("active");
+    link.removeAttribute("aria-current");
+
+    if (linkPath === currentPath) {
+      link.classList.add("active");
+      link.setAttribute("aria-current", "page");
+    }
+  });
+})();

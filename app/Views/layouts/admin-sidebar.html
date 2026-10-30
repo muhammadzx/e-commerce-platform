@@ -9,6 +9,7 @@
 
   <div>
     <div class="eyebrow" style="padding:0 12px 15px">WORKSPACE</div>
+
     <nav aria-label="Administration">
       <a class="overview-link" href="/php/e-commerce%20platform/public/admin/dashboard.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -17,7 +18,7 @@
         Overview
       </a>
 
-      <a class="products-link" href="/php/e-commerce%20platform/app/Views/admin/products.php"">
+      <a class="products-link" href="/php/e-commerce%20platform/app/Views/admin/products.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm-9 5 9 5 9-5M12 13v9"/>
         </svg>
@@ -32,14 +33,14 @@
         AI Reports
       </a>
 
-      <a href="/php/e-commerce%20platform/app/Views/admin/categories.php">
+      <a class="categories-link" href="/php/e-commerce%20platform/app/Views/admin/categories.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>
         </svg>
         Categories
       </a>
 
-      <a href="/php/e-commerce%20platform/app/Views/admin/customers.php">
+      <a class="customers-link" href="/php/e-commerce%20platform/app/Views/admin/customers.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="12" cy="8" r="3"/>
           <path d="M5 21v-3a7 7 0 0 1 14 0v3"/>
@@ -47,7 +48,7 @@
         Customers
       </a>
 
-      <a href="/php/e-commerce%20platform/app/Views/admin/orders.php">
+      <a class="orders-link" href="/php/e-commerce%20platform/app/Views/admin/orders.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="M5 7h14l1 14H4L5 7Z"/>
           <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
@@ -55,22 +56,32 @@
         Orders
       </a>
 
-      <a href="/php/e-commerce%20platform/app/Views/admin/reviews.php" aria-disabled="true" title="Page not included in this section">
+      <a class="reviews-link" href="/php/e-commerce%20platform/app/Views/admin/reviews.php">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path d="m12 3 3 6 6 1-4 5 1 6-6-3-6 3 1-6-4-5 6-1Z"/>
         </svg>
         Reviews
       </a>
+
+      <a class="store-link" href="/php/e-commerce%20platform/public/index.php">
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 10 5 4h14l2 6"/>
+          <path d="M4 10v10h16V10M9 20v-6h6v6"/>
+          <path d="M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/>
+        </svg>
+        View storefront
+      </a>
     </nav>
   </div>
 
   <div class="admin-bottom">
-    <div class="flex">
-      <div class="account-avatar" style="width:36px;height:36px;font-size:12px">AS</div>
-      <div>
-        Alex / Store admin<br>
-        <a href="/php/e-commerce%20platform/public/index.php">View storefront ↗</a>
-      </div>
-    </div>
+    <a class="profile-link" href="/php/e-commerce%20platform/app/Views/admin/profile.php">
+      <span class="account-avatar">AS</span>
+      <span>
+        <strong>Alex</strong>
+        <small>Store admin · Profile</small>
+      </span>
+      <span class="profile-arrow" aria-hidden="true">↗</span>
+    </a>
   </div>
 </aside>

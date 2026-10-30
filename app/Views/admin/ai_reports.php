@@ -13,30 +13,12 @@
     <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/shared.css">
     <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/style.css">
     <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/canopy.css">
-
-    <style>
-        .admin-content .report-form-background {
-            background:
-                linear-gradient(115deg, rgba(12, 28, 18, .91), rgba(16, 38, 24, .78) 55%, rgba(12, 27, 18, .88)),
-                url("/php/e-commerce%20platform/public/assets/img/editorial.jpg") center 48% / cover no-repeat !important;
-            color: #edf3e7;
-        }
-
-        .admin-content .report-form-background h3 {
-            color: #edf3e7 !important;
-        }
-
-        .admin-content .report-form-background p,
-        .admin-content .report-form-background .small {
-            color: #c2d0bc !important;
-        }
-    </style>
+    <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/ai-reports.css">
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-overview admin-reports">
     <main id="main">
         <div class="admin-shell">
-
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
 
             <div class="admin-content">
@@ -48,26 +30,16 @@
                     </div>
                 </div>
 
-                <div class="admin-photo-strip" role="img" aria-label="Botanical greenhouse">
-                    <span>
-                        STORE INTELLIGENCE / REPORT STUDIO
-                        <small>GROWTH · SALES · CUSTOMER DEMAND</small>
-                    </span>
-                </div>
-
-                <section class="desk-intro" aria-labelledby="reports-title">
-                    <div>
-                        <div class="season-mark">STORE INTELLIGENCE · REPORT STUDIO</div>
+                <section class="admin-photo-strip reports-hero" aria-labelledby="reports-title">
+                    <div class="reports-hero-copy">
+                        <div class="reports-hero-kicker">STORE INTELLIGENCE · REPORT STUDIO</div>
                         <h1 id="reports-title">AI Reports</h1>
                         <p>Choose a period and request an analysis of your store data.</p>
                     </div>
-
-                    <div class="overview-intro-actions">
-                        <span class="desk-date">PRIVATE ADMIN WORKSPACE</span>
-                    </div>
+                    <span class="desk-date reports-workspace-tag">PRIVATE ADMIN WORKSPACE</span>
                 </section>
 
-                <section class="overview-section" aria-labelledby="create-report-title">
+                <section class="overview-section reports-create" aria-labelledby="create-report-title">
                     <div class="overview-section-heading">
                         <div>
                             <div class="eyebrow">NEW ANALYSIS</div>
@@ -77,12 +49,33 @@
 
                     <section class="panel report-form-background">
                         <h3>Report details</h3>
+
                         <?php if (!empty($message)): ?>
-                            <p><?= htmlspecialchars($message, ENT_QUOTES, "UTF-8") ?></p>
+                            <?php
+                            $messageTone = 'info';
+                            if (preg_match('/error|invalid|failed|fail|cannot|must be|please fill|please enter/i', (string) $message)) {
+                                $messageTone = 'error';
+                            } elseif (preg_match('/success|saved|generated|is valid/i', (string) $message)) {
+                                $messageTone = 'success';
+                            }
+                            ?>
+                            <div class="report-message report-message--<?= $messageTone ?>"
+                                role="<?= $messageTone === 'error' ? 'alert' : 'status' ?>">
+                                <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+                            </div>
                         <?php endif; ?>
+
                         <p class="small">Select the dates and describe what you want the report to focus on.</p>
 
-                        <form method="POST" action="/php/e-commerce%20platform/public/admin/ai_reports.php">
+                        <form class="report-generation-form" method="POST"
+                            action="/php/e-commerce%20platform/public/admin/ai_reports.php">
+                            <div class="field">
+                                <label for="report-title">Report name</label>
+                                <input class="control" id="report-title" name="report_title" type="text" maxlength="150"
+                                    value="<?= htmlspecialchars($reportTitle ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                                    placeholder="For example: October sales analysis" required>
+                            </div>
+
                             <div class="form-grid">
                                 <div class="field">
                                     <label for="date-from">Start date</label>
@@ -103,22 +96,65 @@
                                 <small class="small">Describe the questions you want the report to answer.</small>
                             </div>
 
-                            <button class="btn" type="submit">
-                                Generate report
-                                <span aria-hidden="true">↗</span>
-                            </button>
+                            <div class="report-form-actions">
+                                <button class="btn" type="submit">
+                                    Generate report
+                                    <span aria-hidden="true">↗</span>
+                                </button>
+
+                                <?php if (!empty($reportContent) && !empty($reportId)): ?>
+                                    <a class="btn report-download-button"
+                                        href="download-report.php?id=<?= (int) $reportId ?>">
+                                        Download PDF
+                                        <span aria-hidden="true">↓</span>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </form>
-                        
+
+                        <?php if (!empty($reportContent)): ?>
+                            <?php $isLongReport = strlen(strip_tags($reportHtml)) > 2200; ?>
+
+                            <section class="report-result" aria-labelledby="generated-report-title">
+                                <div class="report-result-title">
+                                    <div class="eyebrow">GENERATED REPORT</div>
+                                    <h2 id="generated-report-title">
+                                        <?= htmlspecialchars($reportTitle ?? 'Store report', ENT_QUOTES, 'UTF-8') ?>
+                                    </h2>
+                                </div>
+
+                                <section class="panel ai-report-panel" aria-label="Generated report content">
+                                    <?php if ($isLongReport): ?>
+                                        <div class="ai-report-collapse">
+                                            <input class="ai-report-toggle" type="checkbox" id="ai-report-toggle">
+
+                                            <div class="ai-report-content">
+                                                <?= $reportHtml ?>
+                                            </div>
+
+                                            <label class="ai-report-toggle-label" for="ai-report-toggle">
+                                                <span class="show-more">Show full report ↓</span>
+                                                <span class="show-less">Show less ↑</span>
+                                            </label>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="ai-report-content">
+                                            <?= $reportHtml ?>
+                                        </div>
+                                    <?php endif; ?>
+                                </section>
+                            </section>
+                        <?php endif; ?>
                     </section>
                 </section>
 
-                <section class="overview-section" aria-labelledby="history-title">
+                <section class="overview-section reports-history" aria-labelledby="history-title">
                     <div class="overview-section-heading">
                         <div>
                             <div class="eyebrow">SAVED ANALYSES</div>
                             <h2 id="history-title">Report history</h2>
                         </div>
-                        <span class="pill">0 reports</span>
+                        <span class="pill"><?= count($reportHistory) ?> reports</span>
                     </div>
 
                     <section class="panel">
@@ -135,14 +171,33 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr>
-                                        <td colspan="5" style="text-align:center; padding:32px 16px;">
-                                            <strong>No reports yet</strong>
-                                            <p class="small" style="margin-top:6px;">
-                                                Reports you generate will appear here.
-                                            </p>
-                                        </td>
-                                    </tr>
+                                    <?php if (!empty($reportHistory)): ?>
+                                        <?php foreach ($reportHistory as $report): ?>
+                                            <tr>
+                                                <td><?= htmlspecialchars($report['title'], ENT_QUOTES, 'UTF-8') ?></td>
+                                                <td><?= htmlspecialchars($report['generated_at'], ENT_QUOTES, 'UTF-8') ?></td>
+                                                <td>
+                                                    <?= htmlspecialchars($report['date_from'], ENT_QUOTES, 'UTF-8') ?>
+                                                    to
+                                                    <?= htmlspecialchars($report['date_to'], ENT_QUOTES, 'UTF-8') ?>
+                                                </td>
+                                                <td>Store admin</td>
+                                                <td>
+                                                    <a class="table-button"
+                                                        href="download-report.php?id=<?= (int) $report['report_id'] ?>">
+                                                        Download PDF
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="5" class="report-empty-state">
+                                                <strong>No reports yet</strong>
+                                                <p class="small">Reports you generate will appear here.</p>
+                                            </td>
+                                        </tr>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>

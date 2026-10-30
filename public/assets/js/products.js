@@ -436,3 +436,160 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
 });
+
+
+
+// ==========================================
+// CUSTOMER REVIEW SUBMISSION
+// ==========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const reviewForm = document.getElementById("review-form");
+
+    // Only run on pages with a review form
+    if (!reviewForm) return;
+
+    const message = document.getElementById("review-message");
+    const submitButton = reviewForm.querySelector('button[type="submit"]');
+
+    reviewForm.addEventListener("submit", async (event) => {
+
+        event.preventDefault();
+
+        submitButton.disabled = true;
+        message.textContent = "Submitting your review...";
+
+        try {
+            const response = await fetch(
+                "index.php?api=submit-review",
+                {
+                    method: "POST",
+                    body: new FormData(reviewForm),
+                    credentials: "same-origin"
+                }
+            );
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+
+                message.textContent = "Review submitted successfully!";
+
+                const productId = reviewForm.elements["pro_id"].value;
+
+                window.location.href =
+                    "index.php?page=product&id=" +
+                    encodeURIComponent(productId) +
+                    "#reviews";
+
+                window.location.reload();
+
+            } else {
+
+                message.textContent =
+                    data.message || "Unable to submit review.";
+
+            }
+
+        } catch (error) {
+
+            console.error("Review submission error:", error);
+
+            message.textContent =
+                "Something went wrong. Please try again.";
+
+        } finally {
+
+            submitButton.disabled = false;
+
+        }
+    });
+});
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const modal = document.getElementById("reviews-modal");
+    const openButton = document.getElementById("open-reviews-modal");
+    const closeButton = document.getElementById("close-reviews-modal");
+    const loadMoreButton = document.getElementById("load-more-reviews");
+
+    if (!modal || !openButton || !closeButton) return;
+
+    const panel = modal.querySelector(".nd-modal-panel");
+    const reviews = Array.from(
+        modal.querySelectorAll(".nd-modal-review-list .nd-review")
+    );
+
+    let visibleCount = 5;
+    let previousFocus = null;
+
+    function updateReviews() {
+        reviews.forEach((review, index) => {
+            review.hidden = index >= visibleCount;
+        });
+
+        loadMoreButton.hidden = visibleCount >= reviews.length;
+    }
+
+    function openModal() {
+        previousFocus = document.activeElement;
+        visibleCount = 5;
+        updateReviews();
+
+        modal.hidden = false;
+        document.body.style.overflow = "hidden";
+        panel.focus();
+    }
+
+    function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = "";
+
+        if (previousFocus) {
+            previousFocus.focus();
+        }
+    }
+
+    openButton.addEventListener("click", openModal);
+    closeButton.addEventListener("click", closeModal);
+
+    modal.querySelector("[data-close-reviews]")
+        .addEventListener("click", closeModal);
+
+    loadMoreButton.addEventListener("click", function () {
+        visibleCount += 5;
+        updateReviews();
+    });
+
+    document.addEventListener("keydown", function (event) {
+        if (modal.hidden) return;
+
+        if (event.key === "Escape") {
+            closeModal();
+        }
+
+        if (event.key === "Tab") {
+            const focusable = Array.from(
+                modal.querySelectorAll(
+                    'button:not([hidden]):not([disabled]), a[href], input:not([disabled]), select:not([disabled])'
+                )
+            ).filter(el => el.getClientRects().length > 0);
+
+            if (!focusable.length) return;
+
+            const first = focusable[0];
+            const last = focusable[focusable.length - 1];
+
+            if (event.shiftKey && document.activeElement === first) {
+                event.preventDefault();
+                last.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+                event.preventDefault();
+                first.focus();
+            }
+        }
+    });
+});

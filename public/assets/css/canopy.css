@@ -2194,6 +2194,203 @@ body:has(.admin-shell) {
 /* ===== Canopy page refinements ===== */
 
 /* Micro lift only: retain the Canopy mood and all established compositions. */
+body:not(:has(.admin-shell)){background:radial-gradient(ellipse at 82% 8%,#45674655,transparent 36%),radial-gradient(ellipse at 8% 75%,#344d3566,transparent 40%),linear-gradient(135deg,#192920,#1d3024 52%,#18281e)!important}
+body:not(:has(.admin-shell)) .page-main{background:radial-gradient(ellipse at 80% 6%,#5577402b,transparent 38%),linear-gradient(180deg,#1b2c20c4,#192920e8),url(../img/garden-sky.jpg) center top/100% auto fixed!important}
+body:not(:has(.admin-shell)) .panel,body:not(:has(.admin-shell)) .shop-filter,body:not(:has(.admin-shell)) .product-layout,body:not(:has(.admin-shell)) .stat{background:linear-gradient(145deg,#263a2bf2,#1c2e22f5)!important;border-color:#82997488!important}
+body:not(:has(.admin-shell)) .product-card{background:linear-gradient(155deg,#2b422f,#1e3224)!important;border-color:#82997499!important}
+.garden-home .collection{background:linear-gradient(115deg,#203628eF,#2b432de8 55%,#3a5034d9),url(../img/editorial.jpg) center/cover fixed!important}
+.garden-home #edit{background:linear-gradient(110deg,#1f3528ed,#2b432de3 55%,#3a5034d4),url(../img/garden-sky.jpg) center/cover fixed!important}
+.garden-home .editorial-content{background:linear-gradient(145deg,#2b412ff2,#203427ee)!important}
+body:has(.admin-shell){background:radial-gradient(ellipse at 85% 5%,#4567464d,transparent 36%),linear-gradient(135deg,#192920,#1e3024 60%,#1b2b21)!important}
+.admin-content .panel,.admin-content .stat,.canopy-stat{background:linear-gradient(145deg,#263a2bf2,#1c2e22f5)!important;border-color:#82997499!important}
+.admin-content .canopy-river{background:linear-gradient(135deg,#264a32,#3a6241 72%,#566f45)!important}
+.admin-content .season-card{background:radial-gradient(circle at 75% 38%,#d4f27b2c,transparent 39%),linear-gradient(155deg,#2b442f,#203528)!important}
+
+.admin-overview .admin-sidebar .overview-link, .admin-products .admin-sidebar .products-link { background:#d4ddbf!important; color:#294332!important; box-shadow:0 8px 25px #111e1733; }
+.admin-sidebar nav a[aria-disabled="true"] { opacity:.62; cursor:default; }
+/* ===== FIX: Actions + Popovers (Orders page) ===== */
+
+/* 1) أزرار Actions في الجدول: View / Edit / Delete */
+.admin-content .table-actions .table-button {
+  color: #d4f27b !important;
+  font-weight: 500;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  opacity: 1 !important;
+}
+.admin-content .table-actions .table-button:hover,
+.admin-content .table-actions .table-button:focus-visible {
+  color: #ffffff !important;
+}
+.admin-content .table-actions .table-button[popovertarget^="delete"] {
+  color: #ffb4a2 !important;
+}
+.admin-content .table-actions .table-button[popovertarget^="delete"]:hover {
+  color: #ffd9cf !important;
+}
+
+/* 2) خلفية الـ popover: داكنة (نفس ثيم Canopy) عشان النص الفاتح يبين */
+.admin-body .popover,
+.admin-body .popover:popover-open {
+  background: linear-gradient(145deg, #263b2b, #17271d) !important;
+  color: #edf3e7 !important;
+  border: 1px solid #91a979 !important;
+}
+.admin-body .popover::backdrop {
+  background: #08140dbb;
+  backdrop-filter: blur(6px);
+}
+
+/* 3) نصوص جوا الـ popover (View) */
+.admin-body .popover h2,
+.admin-body .popover p,
+.admin-body .popover .summary-row,
+.admin-body .popover .summary-row span {
+  color: #edf3e7 !important;
+}
+.admin-body .popover .summary-row {
+  border-bottom: 1px solid #435b46 !important;
+}
+.admin-body .popover .summary-row span:first-child {
+  color: #b5c5ae !important;   /* اسم الحقل */
+}
+.admin-body .popover .summary-row span:last-child {
+  font-weight: 600;
+}
+.admin-body .popover .popover-top {
+  border-bottom: 1px solid #435b46 !important;
+}
+.admin-body .popover .icon-btn {
+  color: #edf3e7 !important;
+}
+
+/* 4) فورم Edit / Add */
+.admin-body .popover .field label {
+  color: #d1dfc4 !important;
+}
+.admin-body .popover .field input,
+.admin-body .popover .field select,
+.admin-body .popover .field textarea {
+  background: #14231a !important;
+  color: #edf3e7 !important;
+  border: 1px solid #657d5d !important;
+}
+.admin-body .popover .field input::placeholder,
+.admin-body .popover .field textarea::placeholder {
+  color: #9eae98 !important;
+}
+.admin-body .popover .field input:focus,
+.admin-body .popover .field select:focus,
+.admin-body .popover .field textarea:focus {
+  border-color: #d4f27b !important;
+  box-shadow: 0 0 0 3px #d4f27b2c !important;
+  outline: none;
+}
+.admin-body .popover .field select option {
+  background: #14231a;
+  color: #edf3e7;
+}
+
+/* 5) أزرار الـ popover (Delete record / Keep record / Save) */
+.admin-body .popover .btn:not(.secondary) {
+  background: linear-gradient(110deg, #d4f27b, #a8e8a4) !important;
+  color: #17251a !important;
+  border: 0 !important;
+}
+.admin-body .popover .btn.secondary {
+  background: #24392a !important;
+  color: #e5eddb !important;
+  border: 1px solid #8eaa7c !important;
+}
+
+/* ===== PROFILE PAGE: FIX POPOVER TEXT VISIBILITY ===== */
+
+body.profile-page .popover,
+body.profile-page .popover:popover-open {
+  background: linear-gradient(145deg, #263b2b, #17271d) !important;
+  color: #edf3e7 !important;
+  border: 1px solid #91a979 !important;
+  border-radius: 20px !important;
+  box-shadow: 0 28px 80px #0009 !important;
+}
+
+body.profile-page .popover .popover-top {
+  border-bottom: 1px solid #526a50 !important;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+body.profile-page .popover h2,
+body.profile-page .popover label,
+body.profile-page .popover .field label {
+  color: #f0f5e8 !important;
+  opacity: 1 !important;
+  font-weight: 600 !important;
+}
+
+body.profile-page .popover .field {
+  margin-bottom: 16px;
+}
+
+body.profile-page .popover input,
+body.profile-page .popover .field input {
+  background: #14231a !important;
+  color: #ffffff !important;
+  border: 1px solid #829974 !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  min-height: 44px;
+  padding: 10px 12px;
+  opacity: 1 !important;
+}
+
+body.profile-page .popover input::placeholder {
+  color: #bdcbb8 !important;
+  opacity: 1 !important;
+}
+
+body.profile-page .popover input:focus {
+  outline: none !important;
+  border-color: #d4f27b !important;
+  box-shadow: 0 0 0 3px #d4f27b35 !important;
+}
+
+body.profile-page .popover .btn:not(.secondary) {
+  background: linear-gradient(110deg, #d4f27b, #a8e8a4) !important;
+  color: #17251a !important;
+  border: none !important;
+  font-weight: 700 !important;
+}
+
+body.profile-page .popover .icon-btn {
+  color: #ffffff !important;
+  background: #263b2b !important;
+  border: 1px solid #829974 !important;
+  font-size: 24px !important;
+}
+
+body.profile-page .popover::backdrop {
+  background: #08140dcc !important;
+  backdrop-filter: blur(7px);
+}
+
+body.profile-page .popover form {
+  color: #edf3e7 !important;
+}
+
+@media (max-width: 600px) {
+  body.profile-page .popover {
+    width: calc(100% - 32px);
+    max-width: 440px;
+    box-sizing: border-box;
+  }
+
+  body.profile-page .popover .field input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
 body:not(:has(.admin-shell)) {
   background:
     radial-gradient(ellipse at 82% 8%, #45674655, transparent 36%),

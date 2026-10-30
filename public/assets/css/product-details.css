@@ -636,3 +636,440 @@ body.nabta-product-body {
         height: 80px;
     }
 }
+
+
+
+
+/* Customer review form */
+
+.nd-review-form-container {
+    margin-top: 48px;
+    padding: 32px;
+    background: rgba(25, 57, 45, 0.55);
+    border: 1px solid rgba(205, 230, 210, 0.2);
+    border-radius: 20px;
+}
+
+.nd-review-form-container h3 {
+    color: #f4f0df;
+    font-size: 28px;
+    margin: 10px 0 20px;
+}
+
+.nd-review-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.nd-review-form-container label {
+    color: #e2eadb;
+    font-weight: 500;
+}
+
+.nd-review-form-container select,
+.nd-review-form-container textarea {
+    width: 100%;
+    padding: 14px 16px;
+    background: rgba(10, 35, 26, 0.65);
+    color: #f4f0df;
+    border: 1px solid rgba(205, 230, 210, 0.3);
+    border-radius: 10px;
+    font: inherit;
+}
+
+.nd-review-form-container textarea {
+    resize: vertical;
+}
+
+.nd-review-submit {
+    align-self: flex-start;
+    padding: 14px 28px;
+    background: #dce9d3;
+    color: #173a2a;
+    border: none;
+    border-radius: 10px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.nd-review-submit:hover {
+    background: #f0f5e9;
+}
+
+.nd-review-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+#review-message {
+    color: #e2eadb;
+}
+
+@media (max-width: 600px) {
+    .nd-review-form-container {
+        padding: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   NABTA BOTANICAL — REVIEWS POPUP
+========================================= */
+
+/* View all reviews button */
+
+.nd-view-reviews {
+    display: block;
+    margin: 32px auto 0;
+    padding: 13px 28px;
+    border: 1px solid #304b36;
+    border-radius: 50px;
+    background: transparent;
+    color: #304b36;
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nd-view-reviews:hover {
+    background: #304b36;
+    color: #ffffff;
+}
+
+.nd-view-reviews:focus-visible {
+    outline: 2px solid #304b36;
+    outline-offset: 4px;
+}
+
+
+/* =========================================
+   MODAL CONTAINER AND BACKDROP
+========================================= */
+
+.nd-reviews-modal[hidden],
+.nd-modal-load-more[hidden] {
+    display: none !important;
+}
+
+.nd-reviews-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+}
+
+.nd-modal-backdrop {
+    position: absolute;
+    inset: 0;
+
+    background: rgba(8, 24, 17, 0.75);
+    backdrop-filter: blur(8px);
+}
+
+
+/* =========================================
+   MODAL PANEL
+========================================= */
+
+.nd-modal-panel {
+    position: relative;
+
+    width: 100%;
+    max-width: 900px;
+    max-height: calc(100dvh - 48px);
+
+    padding: 32px 40px;
+
+    background: #17382b;
+    color: #f7f4e9;
+
+    border: 1px solid #456652;
+    border-radius: 2rem;
+
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+
+    /* Allow scrolling */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    /* Hide scrollbar in Firefox */
+    scrollbar-width: none;
+
+    /* Hide scrollbar in older Edge */
+    -ms-overflow-style: none;
+}
+
+/* Hide scrollbar in Chrome, Edge, Safari */
+
+.nd-modal-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.nd-modal-panel:focus {
+    outline: none;
+}
+
+
+/* =========================================
+   MODAL HEADER
+========================================= */
+
+.nd-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding-bottom: 20px;
+    margin-bottom: 8px;
+
+    border-bottom: 1px solid rgba(247, 244, 233, 0.2);
+}
+
+.nd-modal-header .nd-kicker {
+    color: #b7cba9;
+}
+
+.nd-modal-header h2 {
+    margin: 8px 0;
+
+    color: #f7f4e9;
+
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.2;
+}
+
+.nd-modal-header p {
+    color: #d3dec9;
+}
+
+
+/* Close button */
+
+.nd-modal-close {
+    flex-shrink: 0;
+
+    border: none;
+    background: transparent;
+
+    color: #f7f4e9;
+    font-size: 32px;
+    line-height: 1;
+
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.nd-modal-close:hover {
+    color: #e6c27a;
+}
+
+.nd-modal-close:focus-visible {
+    outline: 2px solid #f7f4e9;
+    outline-offset: 4px;
+}
+
+
+/* =========================================
+   CUSTOMER REVIEWS
+========================================= */
+
+.nd-modal-review-list {
+    padding-top: 8px;
+}
+
+.nd-modal-review-list .nd-review {
+    display: grid;
+    grid-template-columns: 170px minmax(0, 1fr);
+    gap: 24px;
+
+    padding: 20px 0;
+
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(247, 244, 233, 0.15);
+}
+
+.nd-modal-review-list .nd-review:last-child {
+    border-bottom: none;
+}
+
+/* Respect hidden reviews when JS uses pagination */
+
+.nd-modal-review-list .nd-review[hidden] {
+    display: none !important;
+}
+
+
+/* Reviewer name and date */
+
+.nd-modal-review-list .nd-review-person strong {
+    display: block;
+    color: #f7f4e9;
+    font-weight: 600;
+}
+
+.nd-modal-review-list .nd-review-person span {
+    display: block;
+    margin-top: 8px;
+    color: #b7cba9;
+    font-size: 14px;
+}
+
+
+/* Rating stars */
+
+.nd-modal-review-list .nd-stars {
+    color: #e6c27a;
+    letter-spacing: 2px;
+}
+
+
+/* Review comment */
+
+.nd-modal-review-list .nd-review-body p {
+    margin: 12px 0 0;
+
+    color: #e1e9dc;
+
+    font-size: 15px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   MODAL FOOTER
+========================================= */
+
+.nd-modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    padding-top: 24px;
+}
+
+
+/* Load More button */
+
+.nd-modal-load-more,
+.nd-modal-page-button {
+    padding: 12px 24px;
+
+    border: 1px solid #9fb69a;
+    border-radius: 50px;
+
+    background: transparent;
+    color: #f7f4e9;
+
+    font: inherit;
+    cursor: pointer;
+
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nd-modal-load-more:hover,
+.nd-modal-page-button:hover:not(:disabled) {
+    background: #f7f4e9;
+    color: #17382b;
+}
+
+.nd-modal-load-more:focus-visible,
+.nd-modal-page-button:focus-visible {
+    outline: 2px solid #f7f4e9;
+    outline-offset: 4px;
+}
+
+
+/* Pagination */
+
+.nd-modal-page-button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.nd-modal-page-info {
+    color: #d3dec9;
+    font-size: 14px;
+}
+
+
+/* =========================================
+   RESPONSIVE — TABLET
+========================================= */
+
+@media (max-width: 768px) {
+    .nd-modal-panel {
+        padding: 28px;
+    }
+
+    .nd-modal-review-list .nd-review {
+        grid-template-columns: 140px minmax(0, 1fr);
+        gap: 18px;
+    }
+}
+
+
+/* =========================================
+   RESPONSIVE — MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+    .nd-reviews-modal {
+        padding: 12px;
+    }
+
+    .nd-modal-panel {
+        padding: 22px;
+        max-height: calc(100dvh - 24px);
+        border-radius: 2rem;
+    }
+
+    .nd-modal-header {
+        gap: 12px;
+    }
+
+    .nd-modal-header h2 {
+        font-size: 25px;
+    }
+
+    .nd-modal-review-list .nd-review {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 18px 0;
+    }
+
+    .nd-modal-footer {
+        gap: 10px;
+    }
+
+    .nd-modal-load-more,
+    .nd-modal-page-button {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .nd-modal-page-info {
+        font-size: 12px;
+    }
+}

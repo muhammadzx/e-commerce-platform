@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../config/paths.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../Models/AIReport.php';
 
@@ -164,7 +165,7 @@ class AIReportController
                 $dateTo,
                 $reportContent
             );
-            header('Location: ' . $_SERVER['PHP_SELF'] . '?report_id=' . $reportId);
+            header('Location: ' . nabta_public_url('admin/ai_reports.php') . '?report_id=' . $reportId);
             exit;
 
         }

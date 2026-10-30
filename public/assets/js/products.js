@@ -1,3 +1,5 @@
+const publicBasePath = window.NABTA_PUBLIC_URL || "";
+
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -222,7 +224,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             try {
                 const response = await fetch(
-                    `index.php?${params.toString()}`,
+                    `${publicBasePath}/index.php?${params.toString()}`,
                     { signal: controller.signal }
                 );
 
@@ -347,7 +349,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             try {
                 const response = await fetch(
-                    "index.php?api=product-categories"
+                    `${publicBasePath}/index.php?api=product-categories`
                 );
 
                 if (!response.ok) {
@@ -462,7 +464,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             const response = await fetch(
-                "index.php?api=submit-review",
+                `${publicBasePath}/index.php?api=submit-review`,
                 {
                     method: "POST",
                     body: new FormData(reviewForm),
@@ -479,7 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const productId = reviewForm.elements["pro_id"].value;
 
                 window.location.href =
-                    "index.php?page=product&id=" +
+                    `${publicBasePath}/index.php?page=product&id=` +
                     encodeURIComponent(productId) +
                     "#reviews";
 

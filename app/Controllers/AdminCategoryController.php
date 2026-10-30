@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../config/paths.php';
 
 require_once __DIR__ . '/../Core/AdminSupport.php';
 require_once __DIR__ . '/../Models/Category.php';
@@ -38,7 +39,7 @@ class AdminCategoryController
     {
         if (!AdminSupport::verifyCsrf()) {
             AdminSupport::flash('error', 'Your session expired. Please try again.');
-            AdminSupport::redirect('categories.php');
+            AdminSupport::redirect(nabta_public_url('admin/categories.php'));
         }
 
         $action = $_POST['action'] ?? '';
@@ -60,7 +61,7 @@ class AdminCategoryController
                 AdminSupport::flash('error', 'Unknown action.');
         }
 
-        AdminSupport::redirect('categories.php');
+        AdminSupport::redirect(nabta_public_url('admin/categories.php'));
     }
 
     // Returns [name, description, error]

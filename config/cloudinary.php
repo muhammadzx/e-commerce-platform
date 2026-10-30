@@ -1,6 +1,6 @@
 <?php
 
-$envPath = __DIR__ . "/../../.env";
+$envPath = __DIR__ . "/../.env";
 
 if (!is_readable($envPath)) {
     throw new RuntimeException("Environment file not found.");

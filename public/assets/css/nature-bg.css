@@ -37,7 +37,6 @@
     bottom: 0;
     width: min(60vw, 620px);
     height: 100vh;
-    background: url("../img/tree.png") left bottom / contain no-repeat;
     transform-origin: 50% 100%;
     animation: tree-sway 11s ease-in-out infinite alternate;
     will-change: transform;

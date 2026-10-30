@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../../../config/paths.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -8,10 +11,10 @@
     <meta name="description" content="NABTA Botanical admin workspace.">
     <meta name="robots" content="noindex,nofollow">
     <meta name="theme-color" content="#c5d4b4">
-    <link rel="icon" href="../../../public/assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="../../../public/assets/css/shared.css">
-    <link rel="stylesheet" href="../../../public/assets/css/style.css">
-    <link rel="stylesheet" href="../../../public/assets/css/canopy.css">
+    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-products">
@@ -53,7 +56,7 @@
                             <tbody>
                                 <tr>
                                     <td data-label="Product">
-                                        <div class="table-product"><img src="../../../public/assets/img/plant.jpg"
+                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/plant.jpg'), ENT_QUOTES, 'UTF-8') ?>"
                                                 alt=""><span>The Rubber Plant</span></div>
                                     </td>
                                     <td data-label="Category">Plants</td>
@@ -69,7 +72,7 @@
                                 </tr>
                                 <tr>
                                     <td data-label="Product">
-                                        <div class="table-product"><img src="../../../public/assets/img/pot.jpg" alt=""><span>The
+                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/pot.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The
                                                 Stone Planter</span></div>
                                     </td>
                                     <td data-label="Category">Pots</td>
@@ -85,7 +88,7 @@
                                 </tr>
                                 <tr>
                                     <td data-label="Product">
-                                        <div class="table-product"><img src="../../../public/assets/img/soil.jpg"
+                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/soil.jpg'), ENT_QUOTES, 'UTF-8') ?>"
                                                 alt=""><span>Everyday Potting Mix</span></div>
                                     </td>
                                     <td data-label="Category">Soil &amp; nutrition</td>
@@ -101,7 +104,7 @@
                                 </tr>
                                 <tr>
                                     <td data-label="Product">
-                                        <div class="table-product"><img src="../../../public/assets/img/tools.jpg"
+                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/tools.jpg'), ENT_QUOTES, 'UTF-8') ?>"
                                                 alt=""><span>The Garden Duo</span></div>
                                     </td>
                                     <td data-label="Category">Tools</td>
@@ -117,7 +120,7 @@
                                 </tr>
                                 <tr>
                                     <td data-label="Product">
-                                        <div class="table-product"><img src="../../../public/assets/img/decor.jpg"
+                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/decor.jpg'), ENT_QUOTES, 'UTF-8') ?>"
                                                 alt=""><span>The Desk Garden</span></div>
                                     </td>
                                     <td data-label="Category">Decor</td>
@@ -133,7 +136,7 @@
                                 </tr>
                                 <tr>
                                     <td data-label="Product">
-                                        <div class="table-product"><img src="../../../public/assets/img/care.jpg"
+                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/care.jpg'), ENT_QUOTES, 'UTF-8') ?>"
                                                 alt=""><span>Leaf-care Treatment</span></div>
                                     </td>
                                     <td data-label="Category">Care &amp; treatments</td>
@@ -158,7 +161,7 @@
                         popovertargetaction="hide" aria-label="Close window">×</button>
                 </div>
                 <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="../../../public/assets/img/plant.jpg" alt=""><span>The Rubber
+                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/plant.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Rubber
                                 Plant</span></div>
                     </span></div>
                 <div class="summary-row"><span>Category</span><span>Plants</span></div>
@@ -217,7 +220,7 @@
                         popovertargetaction="hide" aria-label="Close window">×</button>
                 </div>
                 <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="../../../public/assets/img/pot.jpg" alt=""><span>The Stone
+                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/pot.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Stone
                                 Planter</span></div>
                     </span></div>
                 <div class="summary-row"><span>Category</span><span>Pots</span></div>
@@ -276,7 +279,7 @@
                         popovertargetaction="hide" aria-label="Close window">×</button>
                 </div>
                 <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="../../../public/assets/img/soil.jpg" alt=""><span>Everyday Potting
+                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/soil.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>Everyday Potting
                                 Mix</span></div>
                     </span></div>
                 <div class="summary-row"><span>Category</span><span>Soil &amp; nutrition</span></div>
@@ -335,7 +338,7 @@
                         popovertargetaction="hide" aria-label="Close window">×</button>
                 </div>
                 <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="../../../public/assets/img/tools.jpg" alt=""><span>The Garden
+                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/tools.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Garden
                                 Duo</span></div>
                     </span></div>
                 <div class="summary-row"><span>Category</span><span>Tools</span></div>
@@ -394,7 +397,7 @@
                         popovertargetaction="hide" aria-label="Close window">×</button>
                 </div>
                 <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="../../../public/assets/img/decor.jpg" alt=""><span>The Desk
+                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/decor.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Desk
                                 Garden</span></div>
                     </span></div>
                 <div class="summary-row"><span>Category</span><span>Decor</span></div>
@@ -453,7 +456,7 @@
                         popovertargetaction="hide" aria-label="Close window">×</button>
                 </div>
                 <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="../../../public/assets/img/care.jpg" alt=""><span>Leaf-care
+                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/care.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>Leaf-care
                                 Treatment</span></div>
                     </span></div>
                 <div class="summary-row"><span>Category</span><span>Care &amp; treatments</span></div>

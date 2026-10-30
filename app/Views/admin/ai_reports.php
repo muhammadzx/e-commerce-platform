@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../../../config/paths.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -9,11 +12,11 @@
     <meta name="robots" content="noindex,nofollow">
     <meta name="theme-color" content="#c5d4b4">
 
-    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/shared.css">
-    <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/style.css">
-    <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/canopy.css">
-    <link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/ai-reports.css">
+    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/ai-reports.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-overview admin-reports">
@@ -68,7 +71,7 @@
                         <p class="small">Select the dates and describe what you want the report to focus on.</p>
 
                         <form class="report-generation-form" method="POST"
-                            action="/php/e-commerce%20platform/public/admin/ai_reports.php">
+                            action="<?= htmlspecialchars(nabta_public_url('admin/ai_reports.php'), ENT_QUOTES, 'UTF-8') ?>">
                             <div class="field">
                                 <label for="report-title">Report name</label>
                                 <input class="control" id="report-title" name="report_title" type="text" maxlength="150"
@@ -104,7 +107,7 @@
 
                                 <?php if (!empty($reportContent) && !empty($reportId)): ?>
                                     <a class="btn report-download-button"
-                                        href="download-report.php?id=<?= (int) $reportId ?>">
+                                        href="<?= htmlspecialchars(nabta_public_url('admin/download-report.php') . '?id=' . (int) $reportId, ENT_QUOTES, 'UTF-8') ?>">
                                         Download PDF
                                         <span aria-hidden="true">↓</span>
                                     </a>
@@ -184,7 +187,7 @@
                                                 <td>Store admin</td>
                                                 <td>
                                                     <a class="table-button"
-                                                        href="download-report.php?id=<?= (int) $report['report_id'] ?>">
+                                                        href="<?= htmlspecialchars(nabta_public_url('admin/download-report.php') . '?id=' . (int) $report['report_id'], ENT_QUOTES, 'UTF-8') ?>">
                                                         Download PDF
                                                     </a>
                                                 </td>

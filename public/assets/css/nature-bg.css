@@ -1,0 +1,197 @@
+/* =========================================
+   NABTA - Living background
+   A few falling leaves
+   + soft sun rays and light patches
+========================================= */
+
+/* ---------- Layer behind the page ---------- */
+
+.nature-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+
+    background:
+        radial-gradient(80% 60% at 8% 0%, #235347 0%, rgba(35, 83, 71, 0) 65%),
+        linear-gradient(180deg, #0b2b26 0%, #051f20 100%);
+}
+
+/* Page content sits above the background */
+.page-container,
+.site-header,
+.bottom-banner,
+.site-footer {
+    position: relative;
+    z-index: 1;
+}
+
+/* ---------- Optional real tree photo ----------
+   Drop a transparent PNG at public/assets/img/tree.png and it appears
+   on the left. Without the file, nothing is shown. */
+
+.tree {
+    position: absolute;
+    left: -60px;
+    bottom: 0;
+    width: min(60vw, 620px);
+    height: 100vh;
+    background: url("../img/tree.png") left bottom / contain no-repeat;
+    transform-origin: 50% 100%;
+    animation: tree-sway 11s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes tree-sway {
+    from { transform: rotate(-0.4deg); }
+    to   { transform: rotate(0.6deg); }
+}
+
+/* ---------- Falling leaves (a few, slow) ---------- */
+
+.leaves {
+    position: absolute;
+    inset: 0;
+}
+
+.leaf {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: calc(var(--s) * 1.4);
+    opacity: 0;
+    animation: leaf-fall var(--fall) linear var(--delay) infinite;
+    will-change: transform, opacity;
+}
+
+.leaf i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: var(--img) center / contain no-repeat;
+    animation: leaf-sway var(--sway) ease-in-out var(--delay) infinite alternate;
+    will-change: transform;
+}
+
+@keyframes leaf-fall {
+    0%   { transform: translate3d(0, 0, 0); opacity: 0; }
+    8%   { opacity: 0.9; }
+    85%  { opacity: 0.9; }
+    100% { transform: translate3d(var(--dx), calc(100vh - var(--y) + 80px), 0); opacity: 0; }
+}
+
+@keyframes leaf-sway {
+    from { transform: translateX(-22px) rotate(-35deg) rotateY(0deg); }
+    to   { transform: translateX(22px)  rotate(40deg)  rotateY(150deg); }
+}
+
+/* ---------- Sunlight (drawn over the page, very soft) ---------- */
+
+.sunlight {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/* Beams fanning out from behind the tree (top-left corner) */
+.rays {
+    position: absolute;
+    inset: 0;
+    transform-origin: 4% -6%;
+    filter: blur(6px);
+    will-change: transform, opacity;
+
+    -webkit-mask-image: radial-gradient(150% 120% at 4% -6%, #000 10%, rgba(0, 0, 0, 0) 75%);
+            mask-image: radial-gradient(150% 120% at 4% -6%, #000 10%, rgba(0, 0, 0, 0) 75%);
+
+    background: conic-gradient(
+        from 92deg at 4% -6%,
+        rgba(218, 241, 222, 0)    0deg,
+        rgba(218, 241, 222, 0.16) 4deg,
+        rgba(218, 241, 222, 0)    9deg,
+        rgba(218, 241, 222, 0)    14deg,
+        rgba(218, 241, 222, 0.22) 18deg,
+        rgba(218, 241, 222, 0)    24deg,
+        rgba(218, 241, 222, 0)    30deg,
+        rgba(218, 241, 222, 0.14) 34deg,
+        rgba(218, 241, 222, 0)    40deg,
+        rgba(218, 241, 222, 0)    47deg,
+        rgba(218, 241, 222, 0.20) 52deg,
+        rgba(218, 241, 222, 0)    58deg,
+        rgba(218, 241, 222, 0)    64deg,
+        rgba(218, 241, 222, 0.12) 69deg,
+        rgba(218, 241, 222, 0)    75deg,
+        rgba(218, 241, 222, 0)    90deg
+    );
+
+    animation: rays-breathe 10s ease-in-out infinite alternate;
+}
+
+/* Second set of beams, slower, so they never look mechanical */
+.rays::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: conic-gradient(
+        from 98deg at 4% -6%,
+        rgba(218, 241, 222, 0)    0deg,
+        rgba(218, 241, 222, 0.10) 7deg,
+        rgba(218, 241, 222, 0)    13deg,
+        rgba(218, 241, 222, 0)    22deg,
+        rgba(218, 241, 222, 0.14) 27deg,
+        rgba(218, 241, 222, 0)    33deg,
+        rgba(218, 241, 222, 0)    40deg,
+        rgba(218, 241, 222, 0.09) 44deg,
+        rgba(218, 241, 222, 0)    50deg,
+        rgba(218, 241, 222, 0)    57deg,
+        rgba(218, 241, 222, 0.13) 61deg,
+        rgba(218, 241, 222, 0)    67deg,
+        rgba(218, 241, 222, 0)    76deg,
+        rgba(218, 241, 222, 0.08) 80deg,
+        rgba(218, 241, 222, 0)    86deg,
+        rgba(218, 241, 222, 0)    90deg
+    );
+
+    animation: rays-breathe 15s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes rays-breathe {
+    from { opacity: 0.5; transform: rotate(-1.5deg); }
+    to   { opacity: 1;   transform: rotate(1.8deg); }
+}
+
+/* Light patches landing on different parts of the page */
+.glints {
+    position: absolute;
+    inset: 0;
+    will-change: transform, opacity;
+
+    background:
+        radial-gradient(280px 150px at 46% 30%, rgba(218, 241, 222, 0.15), rgba(218, 241, 222, 0) 70%),
+        radial-gradient(230px 130px at 72% 58%, rgba(218, 241, 222, 0.12), rgba(218, 241, 222, 0) 70%),
+        radial-gradient(320px 170px at 30% 78%, rgba(218, 241, 222, 0.10), rgba(218, 241, 222, 0) 70%),
+        radial-gradient(190px 110px at 88% 22%, rgba(218, 241, 222, 0.10), rgba(218, 241, 222, 0) 70%);
+
+    animation: glints-drift 12s ease-in-out infinite alternate;
+}
+
+@keyframes glints-drift {
+    from { opacity: 0.4; transform: translate3d(-14px, 6px, 0); }
+    to   { opacity: 1;   transform: translate3d(16px, -8px, 0); }
+}
+
+/* ---------- Small screens / reduced motion ---------- */
+
+@media (max-width: 700px) {
+    .tree { left: -140px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tree, .rays, .rays::after, .glints { animation: none; }
+    .leaves { display: none; }
+}

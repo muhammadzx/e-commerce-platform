@@ -1,0 +1,190 @@
+/* =========================================
+   NABTA THEME - one palette for the whole site
+   Load this file LAST (after product.css)
+========================================= */
+
+:root {
+    --nabta-1: #051f20;
+    --nabta-2: #0b2b26;
+    --nabta-3: #163832;
+    --nabta-4: #235347;
+    --nabta-5: #8eb69b;
+    --nabta-6: #daf1de;
+
+    /* Old variable names from product.css, mapped to the new palette */
+    --green:      var(--nabta-4);
+    --green-dark: var(--nabta-6);   /* was used for text */
+    --cream:      var(--nabta-6);
+    --sage:       var(--nabta-5);
+    --card:       var(--nabta-3);
+    --border:     var(--nabta-4);
+}
+
+body {
+    background: var(--nabta-1);
+    color: var(--nabta-6);
+}
+
+/* ---------- Header ---------- */
+
+.site-header {
+    background: rgba(11, 43, 38, 0.78);
+    border-bottom: 1px solid rgba(142, 182, 155, 0.18);
+    color: var(--nabta-6);
+}
+
+.site-header .logo      { color: var(--nabta-6); }
+.logo-leaf              { color: var(--nabta-5); }
+
+.main-nav a,
+.header-actions a       { color: var(--nabta-5); }
+
+.main-nav a:hover,
+.main-nav a.active      { color: var(--nabta-6); }
+
+.register-link          { border-color: var(--nabta-5); }
+
+/* ---------- Breadcrumbs / banner ---------- */
+
+.breadcrumbs,
+.breadcrumbs a          { color: var(--nabta-5); }
+.breadcrumbs a:hover    { color: var(--nabta-6); }
+
+.shop-banner {
+    background-color: var(--nabta-3);
+    background-image:
+        linear-gradient(90deg,
+            rgba(5, 31, 32, 0.95),
+            rgba(5, 31, 32, 0.65) 50%,
+            rgba(5, 31, 32, 0.10)),
+        url("../img/garden-sky.jpg");
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(142, 182, 155, 0.18);
+}
+
+.banner-overlay                   { color: var(--nabta-6); }
+.banner-overlay .eyebrow          { color: var(--nabta-5); }
+.banner-overlay > p:last-child    { color: var(--nabta-6); }
+
+/* ---------- Headings ---------- */
+
+.section-heading .eyebrow,
+#product-count                    { color: var(--nabta-5); }
+
+.section-heading h2               { color: var(--nabta-6); }
+.section-heading h2 span          { color: var(--nabta-5); }
+
+/* ---------- Filters ---------- */
+
+.simple-filters {
+    background: rgba(22, 56, 50, 0.70);
+    border: 1px solid rgba(142, 182, 155, 0.22);
+    color-scheme: dark;
+}
+
+.filter-group label { color: var(--nabta-5); }
+
+.filter-group input,
+.filter-group select {
+    background: rgba(11, 43, 38, 0.85);
+    border: 1px solid rgba(142, 182, 155, 0.30);
+    color: var(--nabta-6);
+}
+
+.filter-group input::placeholder { color: var(--nabta-5); opacity: 0.7; }
+
+.filter-group input:focus,
+.filter-group select:focus       { border-color: var(--nabta-5); }
+
+/* ---------- Product cards ---------- */
+
+.products-grid .product-card {
+    background: rgba(22, 56, 50, 0.68);
+    border: 1px solid rgba(142, 182, 155, 0.18);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.products-grid .product-card:hover {
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+}
+
+.products-grid .product-image          { background: var(--nabta-2); }
+
+.products-grid .product-image::after {
+    background: var(--nabta-6);
+    color: var(--nabta-1);
+}
+
+.stock-badge {
+    background: var(--nabta-6);
+    color: var(--nabta-1);
+}
+
+.products-grid .product-info h3        { color: var(--nabta-6); }
+.products-grid .product-price          { color: var(--nabta-5); }
+.products-grid .product-category        { color: var(--nabta-5); }
+
+/* ---------- Bottom banner / footer ---------- */
+
+.bottom-banner {
+    background: var(--nabta-2);
+    color: var(--nabta-6);
+    border-top: 1px solid rgba(142, 182, 155, 0.18);
+}
+
+.bottom-banner em { color: var(--nabta-5); }
+
+.bottom-banner a {
+    color: var(--nabta-6);
+    border-bottom-color: var(--nabta-5);
+}
+
+.site-footer { background: rgba(11, 43, 38, 0.9); }
+
+/* ---------- Product details page (same theme) ---------- */
+
+.product-details .product-image               { background: var(--nabta-3); }
+.product-details .product-info > p:first-child { color: var(--nabta-5); }
+.product-details .product-info p               { color: var(--nabta-5); }
+.product-details .product-info h1,
+.product-details .product-info h2              { color: var(--nabta-6); }
+
+.product-details .product-info button {
+    background: var(--nabta-5);
+    color: var(--nabta-1);
+}
+
+.product-details .product-info button:hover { background: var(--nabta-6); }
+
+.related-products > h2,
+.reviews > h2                                  { color: var(--nabta-6); }
+
+.related-products .related-product,
+.review-item {
+    background: rgba(22, 56, 50, 0.72);
+    border: 1px solid rgba(142, 182, 155, 0.18);
+}
+
+.related-products .related-product a           { color: var(--nabta-6); }
+.related-products .related-product p,
+.reviews .rating-summary,
+.review-item p,
+.review-date                                   { color: var(--nabta-5); }
+
+.stars { color: var(--nabta-6); }
+
+.review-form { color-scheme: dark; }
+
+.review-form input,
+.review-form select,
+.review-form textarea {
+    background: rgba(11, 43, 38, 0.85);
+    border-color: rgba(142, 182, 155, 0.30);
+    color: var(--nabta-6);
+}
+
+.review-form button {
+    background: var(--nabta-5);
+    color: var(--nabta-1);
+}

@@ -73,6 +73,16 @@ public function show()
         return;
     }
 
+// Start session
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Generate CSRF token
+if (empty($_SESSION["csrf_token"])) {
+    $_SESSION["csrf_token"] = bin2hex(random_bytes(32));
+}
+
     // Get product details
     $product = $this->product->getProductById($id);
 
@@ -92,11 +102,16 @@ public function show()
     );
 
     // Get product reviews
-    $reviewModel = new Review();
+  $reviewModel = new Review();
 
-    $reviews = $reviewModel->getByProduct($id);
+// All reviews (for the popup)
+$reviews = $reviewModel->getByProduct($id);
 
-    $reviewSummary = $reviewModel->getSummary($id);
+// Only the 3 highest-rated reviews
+$topReviews = $reviewModel->getTopReviews($id);
+
+// Average rating and total count
+$reviewSummary = $reviewModel->getSummary($id);
 
     // Display product details page
     require __DIR__ . "/../Views/product.php";

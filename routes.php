@@ -2,6 +2,7 @@
 <?php
 
 require_once __DIR__ . "/app/Controllers/ProductController.php";
+require_once __DIR__ . "/app/Controllers/ReviewController.php";
 
 function handleApiRequest()
 {
@@ -17,6 +18,7 @@ function handleApiRequest()
             if ($_SERVER["REQUEST_METHOD"] !== "GET") {
                 header("Allow: GET");
                 http_response_code(405);
+
                 echo json_encode([
                     "error" => "Method not allowed"
                 ]);
@@ -33,6 +35,7 @@ function handleApiRequest()
             if ($_SERVER["REQUEST_METHOD"] !== "GET") {
                 header("Allow: GET");
                 http_response_code(405);
+
                 echo json_encode([
                     "error" => "Method not allowed"
                 ]);
@@ -43,8 +46,27 @@ function handleApiRequest()
             $controller->categories();
             break;
 
+        // Submit product review
+        case "submit-review":
+
+            if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+                header("Allow: POST");
+                http_response_code(405);
+
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Method not allowed"
+                ]);
+                return;
+            }
+
+            $controller = new ReviewController();
+            $controller->store();
+            break;
+
         default:
             http_response_code(404);
+
             echo json_encode([
                 "error" => "API not found"
             ]);

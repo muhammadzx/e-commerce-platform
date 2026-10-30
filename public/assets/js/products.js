@@ -1,137 +1,438 @@
+
 document.addEventListener("DOMContentLoaded", async () => {
+
+    // ==========================================
+    // SHOP ALL PAGE
+    // ==========================================
+
     const container = document.getElementById("products-container");
     const countEl = document.getElementById("product-count");
     const searchInput = document.getElementById("product-search");
     const categorySelect = document.getElementById("category-filter");
     const sortSelect = document.getElementById("sort-filter");
 
-    let allProducts = [];
+    // Only run Shop All functionality on the Shop All page
+    if (
+        container &&
+        searchInput &&
+        categorySelect &&
+        sortSelect
+    ) {
 
-    // Adjust if your API names the field differently (e.g. category_name)
-    const getCategory = p => p.category || p.category_name || "";
+        let pagination = document.getElementById("pagination");
 
-    function showMessage(text) {
-        container.innerHTML = "";
-        const msg = document.createElement("p");
-        msg.textContent = text;
-        msg.style.gridColumn = "1 / -1";
-        msg.style.textAlign = "center";
-        container.appendChild(msg);
-    }
-
-    function buildCard(product) {
-        const card = document.createElement("article");
-        card.className = "product-card";
-
-        const imageWrap = document.createElement("a");
-        imageWrap.className = "product-image";
-        imageWrap.href = `index.php?page=product&id=${encodeURIComponent(product.pro_id)}`;
-
-        const image = document.createElement("img");
-        if (product.image_url) {
-            image.src = product.image_url.startsWith("http")
-                ? product.image_url
-                : "assets/img/" + product.image_url; // adjust to your real folder
+        if (!pagination) {
+            pagination = document.createElement("nav");
+            pagination.id = "pagination";
+            pagination.className = "pagination";
+            pagination.setAttribute("aria-label", "Pagination");
+            container.after(pagination);
         }
-        image.alt = product.name;
-        image.loading = "lazy";
-        imageWrap.appendChild(image);
 
-      if (product.quantity !== undefined) {
-    const badge = document.createElement("span");
-    badge.className = "stock-badge";
+        let currentPage = 1;
+        let totalPages = 0;
+        let requestController = null;
+        let searchTimer = null;
 
-    badge.textContent = Number(product.quantity) > 0
-        ? "In stock"
-        : "Out of stock";
+        // ==========================================
+        // SHOW MESSAGE
+        // ==========================================
 
-    imageWrap.appendChild(badge);
-}
+        function showMessage(text) {
+            container.innerHTML = "";
 
-        const info = document.createElement("div");
-        info.className = "product-info";
+            const msg = document.createElement("p");
+            msg.textContent = text;
+            msg.style.gridColumn = "1 / -1";
+            msg.style.textAlign = "center";
 
-       const name = document.createElement("h3");
+            container.appendChild(msg);
+        }
 
-const nameLink = document.createElement("a");
-nameLink.href = `index.php?page=product&id=${encodeURIComponent(product.pro_id)}`;
-nameLink.textContent = product.name;
+        // ==========================================
+        // PRODUCT CARD
+        // ==========================================
 
-name.appendChild(nameLink);
+        function buildCard(product) {
+            const card = document.createElement("article");
+            card.className = "product-card";
 
-        const price = document.createElement("p");
-        price.className = "product-price";
-        price.textContent = `${Number(product.price).toFixed(2)} JOD`;
+            const imageWrap = document.createElement("a");
+            imageWrap.className = "product-image";
+            imageWrap.href =
+                `index.php?page=product&id=${encodeURIComponent(product.pro_id)}`;
 
-        const description = document.createElement("p");
-        description.className = "product-category";
-        description.textContent = product.description || "";
+            const image = document.createElement("img");
 
-        info.append(name, price, description);
-        card.append(imageWrap, info);
-        return card;
-    }
+            if (product.image_url) {
+                image.src = product.image_url.startsWith("http")
+                    ? product.image_url
+                    : "assets/img/" + product.image_url;
+            }
 
-    function render() {
-        const query = searchInput.value.trim().toLowerCase();
-        const category = categorySelect.value;
-        const sort = sortSelect.value;
+            image.alt = product.name;
+            image.loading = "lazy";
 
-        let list = allProducts.filter(p => {
-            const matchesSearch =
-                !query ||
-                (p.name || "").toLowerCase().includes(query) ||
-                (p.description || "").toLowerCase().includes(query);
-            const matchesCategory =
-                category === "all" || getCategory(p) === category;
-            return matchesSearch && matchesCategory;
+            imageWrap.appendChild(image);
+
+            // Stock badge
+            if (product.quantity !== undefined) {
+                const badge = document.createElement("span");
+                badge.className = "stock-badge";
+
+                badge.textContent = Number(product.quantity) > 0
+                    ? "In stock"
+                    : "Out of stock";
+
+                imageWrap.appendChild(badge);
+            }
+
+            const info = document.createElement("div");
+            info.className = "product-info";
+
+            const name = document.createElement("h3");
+            const nameLink = document.createElement("a");
+
+            nameLink.href =
+                `index.php?page=product&id=${encodeURIComponent(product.pro_id)}`;
+
+            nameLink.textContent = product.name;
+            name.appendChild(nameLink);
+
+            const price = document.createElement("p");
+            price.className = "product-price";
+            price.textContent =
+                `${Number(product.price).toFixed(2)} JOD`;
+
+            const description = document.createElement("p");
+            description.className = "product-category";
+            description.textContent = product.description || "";
+
+            info.append(name, price, description);
+            card.append(imageWrap, info);
+
+            return card;
+        }
+
+        // ==========================================
+        // PAGINATION BUTTON
+        // ==========================================
+
+        function pageButton(
+            label,
+            page,
+            { active = false, disabled = false, aria = "" } = {}
+        ) {
+            const btn = document.createElement("button");
+
+            btn.type = "button";
+            btn.className = "page-btn" + (active ? " active" : "");
+            btn.textContent = label;
+            btn.disabled = disabled;
+
+            if (active) {
+                btn.setAttribute("aria-current", "page");
+            }
+
+            if (aria) {
+                btn.setAttribute("aria-label", aria);
+            }
+
+            btn.addEventListener("click", () => goToPage(page));
+
+            return btn;
+        }
+
+        // ==========================================
+        // RENDER PAGINATION
+        // ==========================================
+
+        function renderPagination() {
+            pagination.innerHTML = "";
+
+            if (totalPages <= 1) return;
+
+            pagination.appendChild(
+                pageButton("‹ Prev", currentPage - 1, {
+                    disabled: currentPage === 1,
+                    aria: "Previous page"
+                })
+            );
+
+            const pages = new Set([
+                1,
+                totalPages,
+                currentPage - 1,
+                currentPage,
+                currentPage + 1
+            ]);
+
+            let last = 0;
+
+            [...pages]
+                .filter(n => n >= 1 && n <= totalPages)
+                .sort((a, b) => a - b)
+                .forEach(n => {
+
+                    if (n - last > 1) {
+                        const dots = document.createElement("span");
+                        dots.className = "page-dots";
+                        dots.textContent = "…";
+                        pagination.appendChild(dots);
+                    }
+
+                    pagination.appendChild(
+                        pageButton(String(n), n, {
+                            active: n === currentPage
+                        })
+                    );
+
+                    last = n;
+                });
+
+            pagination.appendChild(
+                pageButton("Next ›", currentPage + 1, {
+                    disabled: currentPage === totalPages,
+                    aria: "Next page"
+                })
+            );
+        }
+
+        // ==========================================
+        // FETCH PRODUCTS FROM API
+        // ==========================================
+
+        async function loadProducts(page = 1) {
+
+            // Cancel previous request
+            if (requestController) {
+                requestController.abort();
+            }
+
+            const controller = new AbortController();
+            requestController = controller;
+
+            const params = new URLSearchParams({
+                api: "products",
+                page: String(page),
+                search: searchInput.value.trim(),
+                category: categorySelect.value,
+                sort: sortSelect.value
+            });
+
+            try {
+                const response = await fetch(
+                    `index.php?${params.toString()}`,
+                    { signal: controller.signal }
+                );
+
+                if (!response.ok) {
+                    throw new Error("Failed to load products");
+                }
+
+                const data = await response.json();
+
+                if (controller.signal.aborted) return;
+
+                if (!Array.isArray(data.products)) {
+                    throw new Error("Invalid products API response");
+                }
+
+                currentPage = Number(data.currentPage);
+                totalPages = Number(data.totalPages);
+
+                if (countEl) {
+                    countEl.textContent =
+                        `${data.totalProducts} ${
+                            Number(data.totalProducts) === 1
+                                ? "product"
+                                : "products"
+                        }`;
+                }
+
+                container.innerHTML = "";
+
+                if (data.products.length === 0) {
+                    showMessage("No products match your search.");
+                    pagination.innerHTML = "";
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+
+                data.products.forEach(product => {
+                    fragment.appendChild(buildCard(product));
+                });
+
+                container.appendChild(fragment);
+
+                renderPagination();
+
+            } catch (error) {
+
+                if (error.name === "AbortError") return;
+
+                console.error(error);
+                showMessage("Unable to load products.");
+                pagination.innerHTML = "";
+
+                if (countEl) {
+                    countEl.textContent = "";
+                }
+
+            } finally {
+
+                if (requestController === controller) {
+                    requestController = null;
+                }
+            }
+        }
+
+        // ==========================================
+        // PAGE NAVIGATION
+        // ==========================================
+
+        async function goToPage(page) {
+
+            if (
+                page < 1 ||
+                page > totalPages ||
+                page === currentPage
+            ) {
+                return;
+            }
+
+            await loadProducts(page);
+
+            const top = document.getElementById("shop-area");
+
+            if (top) {
+                top.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            }
+        }
+
+        // ==========================================
+        // FILTERS
+        // ==========================================
+
+        function applyFilters() {
+            currentPage = 1;
+            loadProducts(1);
+        }
+
+        // Search
+        searchInput.addEventListener("input", () => {
+
+            clearTimeout(searchTimer);
+
+            searchTimer = setTimeout(() => {
+                applyFilters();
+            }, 300);
         });
 
-        if (sort === "price-low") {
-            list.sort((a, b) => Number(a.price) - Number(b.price));
-        } else if (sort === "price-high") {
-            list.sort((a, b) => Number(b.price) - Number(a.price));
-        } else if (sort === "name") {
-            list.sort((a, b) => (a.name || "").localeCompare(b.name || ""));
+        // Category
+        categorySelect.addEventListener("change", applyFilters);
+
+        // Sorting
+        sortSelect.addEventListener("change", applyFilters);
+
+        // ==========================================
+        // LOAD CATEGORIES
+        // ==========================================
+
+        async function populateCategories() {
+
+            try {
+                const response = await fetch(
+                    "index.php?api=product-categories"
+                );
+
+                if (!response.ok) {
+                    throw new Error("Failed to load categories");
+                }
+
+                const categories = await response.json();
+
+                if (!Array.isArray(categories)) {
+                    throw new Error("Invalid categories response");
+                }
+
+                categorySelect.innerHTML = "";
+
+                const allOption = document.createElement("option");
+                allOption.value = "all";
+                allOption.textContent = "All Categories";
+
+                categorySelect.appendChild(allOption);
+
+                categories.forEach(category => {
+
+                    const option = document.createElement("option");
+
+                    option.value = category.name;
+                    option.textContent = category.name;
+
+                    categorySelect.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error("Categories error:", error);
+            }
         }
-        // "default" keeps the order returned by the API
 
-        countEl.textContent = `${list.length} ${list.length === 1 ? "product" : "products"}`;
+        // ==========================================
+        // INITIALIZE SHOP
+        // ==========================================
 
-        if (list.length === 0) {
-            showMessage("No products match your search.");
-            return;
-        }
-
-        container.innerHTML = "";
-        list.forEach(p => container.appendChild(buildCard(p)));
+        await populateCategories();
+        await loadProducts(1);
     }
 
-    function populateCategories() {
-        const categories = [...new Set(allProducts.map(getCategory).filter(Boolean))].sort();
-        categories.forEach(cat => {
-            const option = document.createElement("option");
-            option.value = cat;
-            option.textContent = cat;
-            categorySelect.appendChild(option);
+    // ==========================================
+    // PRODUCT DETAILS IMAGE GALLERY
+    // ==========================================
+
+    const mainImage = document.getElementById("main-product-image");
+    const thumbnails = document.querySelectorAll(".nd-thumbnail");
+    const counter = document.getElementById("image-counter");
+
+    // Only run gallery functionality on Product Details
+    if (mainImage && thumbnails.length > 0) {
+
+        thumbnails.forEach((thumbnail) => {
+
+            thumbnail.addEventListener("click", () => {
+
+                // Change the large product image
+                mainImage.src = thumbnail.dataset.image;
+
+                // Update active thumbnail
+                thumbnails.forEach((item) => {
+                    item.classList.remove("active");
+                    item.setAttribute("aria-pressed", "false");
+                });
+
+                thumbnail.classList.add("active");
+                thumbnail.setAttribute("aria-pressed", "true");
+
+                // Update the image counter
+                if (counter) {
+
+                    const current = String(
+                        thumbnail.dataset.index
+                    ).padStart(2, "0");
+
+                    const total = String(
+                        thumbnails.length
+                    ).padStart(2, "0");
+
+                    counter.textContent = `${current} / ${total}`;
+                }
+            });
         });
     }
 
-    try {
-        const response = await fetch("index.php?api=products");
-        if (!response.ok) throw new Error("Failed to load products");
-
-        allProducts = await response.json();
-
-        populateCategories();
-        render();
-
-        searchInput.addEventListener("input", render);
-        categorySelect.addEventListener("change", render);
-        sortSelect.addEventListener("change", render);
-    } catch (error) {
-        console.error(error);
-        countEl.textContent = "";
-        showMessage("Unable to load products.");
-    }
 });

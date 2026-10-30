@@ -11,6 +11,7 @@ function handleApiRequest()
 
     switch ($api) {
 
+        // Get paginated products
         case "products":
 
             if ($_SERVER["REQUEST_METHOD"] !== "GET") {
@@ -24,6 +25,22 @@ function handleApiRequest()
 
             $controller = new ProductController();
             $controller->index();
+            break;
+
+        // Get all categories
+        case "product-categories":
+
+            if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+                header("Allow: GET");
+                http_response_code(405);
+                echo json_encode([
+                    "error" => "Method not allowed"
+                ]);
+                return;
+            }
+
+            $controller = new ProductController();
+            $controller->categories();
             break;
 
         default:

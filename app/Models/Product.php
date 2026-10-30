@@ -1,7 +1,6 @@
-
 <?php
 
-require_once __DIR__ . "/../core/Database.php";
+require_once __DIR__ . "/../Core/Database.php";
 
 class Product
 {
@@ -13,12 +12,13 @@ class Product
         $this->conn = $database->connect();
     }
 
-    // Get all active products
+    // Get all active products (with their category name)
     public function getAllProducts()
     {
         $sql = "SELECT
                     p.pro_id,
                     p.cat_id,
+                    c.name AS category,
                     p.name,
                     p.description,
                     p.price,
@@ -34,6 +34,7 @@ class Product
                         LIMIT 1
                     ) AS image_url
                 FROM product p
+                LEFT JOIN categories c ON c.cat_id = p.cat_id
                 WHERE p.status = 'active'
                 ORDER BY p.pro_id DESC";
 
@@ -43,12 +44,13 @@ class Product
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Get one product by its ID
+    // Get one product by its ID (with its category name)
     public function getProductById($id)
     {
         $sql = "SELECT
                     p.pro_id,
                     p.cat_id,
+                    c.name AS category,
                     p.name,
                     p.description,
                     p.price,
@@ -64,6 +66,7 @@ class Product
                         LIMIT 1
                     ) AS image_url
                 FROM product p
+                LEFT JOIN categories c ON c.cat_id = p.cat_id
                 WHERE p.pro_id = :id
                   AND p.status = 'active'
                 LIMIT 1";
@@ -112,4 +115,171 @@ class Product
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // Get paginated products with search, category and sorting
+public function getPaginatedProducts(
+    int $limit,
+    int $offset,
+    string $search = "",
+    string $category = "all",
+    string $sort = "default"
+) {
+    $sql = "SELECT
+                p.pro_id,
+                p.cat_id,
+                c.name AS category,
+                p.name,
+                p.description,
+                p.price,
+                p.quantity,
+                p.count_selling,
+                p.status,
+                (
+                    SELECT pi.image_url
+                    FROM product_images pi
+                    WHERE pi.pro_id = p.pro_id
+                      AND pi.is_primary = 1
+                    ORDER BY pi.image_id ASC
+                    LIMIT 1
+                ) AS image_url
+            FROM product p
+            LEFT JOIN categories c ON c.cat_id = p.cat_id
+            WHERE p.status = 'active'";
+
+    $params = [];
+
+    if ($search !== "") {
+        $sql .= " AND (
+            p.name LIKE :search_name
+            OR p.description LIKE :search_description
+        )";
+
+        $params[":search_name"] = "%$search%";
+        $params[":search_description"] = "%$search%";
+    }
+
+    if ($category !== "all") {
+        $sql .= " AND c.name = :category";
+        $params[":category"] = $category;
+    }
+
+    switch ($sort) {
+        case "price-low":
+            $sql .= " ORDER BY p.price ASC, p.pro_id DESC";
+            break;
+
+        case "price-high":
+            $sql .= " ORDER BY p.price DESC, p.pro_id DESC";
+            break;
+
+        case "name":
+            $sql .= " ORDER BY p.name ASC, p.pro_id DESC";
+            break;
+
+        default:
+            $sql .= " ORDER BY p.pro_id DESC";
+    }
+
+    $sql .= " LIMIT :limit OFFSET :offset";
+
+    $stmt = $this->conn->prepare($sql);
+
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value, PDO::PARAM_STR);
+    }
+
+    $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+    $stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+// Count active products matching filters
+public function countProducts(
+    string $search = "",
+    string $category = "all"
+) {
+    $sql = "SELECT COUNT(*)
+            FROM product p
+            LEFT JOIN categories c ON c.cat_id = p.cat_id
+            WHERE p.status = 'active'";
+
+    $params = [];
+
+    if ($search !== "") {
+        $sql .= " AND (
+            p.name LIKE :search_name
+            OR p.description LIKE :search_description
+        )";
+
+        $params[":search_name"] = "%$search%";
+        $params[":search_description"] = "%$search%";
+    }
+
+    if ($category !== "all") {
+        $sql .= " AND c.name = :category";
+        $params[":category"] = $category;
+    }
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute($params);
+
+    return (int) $stmt->fetchColumn();
+}
+
+
+
+
+
+
+// Get categories that contain active products
+public function getAllCategories()
+{
+    $sql = "SELECT DISTINCT c.name
+            FROM categories c
+            INNER JOIN product p ON p.cat_id = c.cat_id
+            WHERE p.status = 'active'
+            ORDER BY c.name ASC";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+
+public function getProductImages(int $productId)
+{
+    $sql = "SELECT image_id, image_url, is_primary
+            FROM product_images
+            WHERE pro_id = :product_id
+            ORDER BY is_primary DESC, image_id ASC";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->execute([
+        ":product_id" => $productId
+    ]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

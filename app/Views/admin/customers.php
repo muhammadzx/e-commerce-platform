@@ -1,7 +1,8 @@
 <?php
+require_once __DIR__ . '/../../../config/paths.php';
 // Opened directly (not through the controller): send the visitor to the real page
 if (!isset($customers)) {
-    header('Location: ../../../public/admin/customers.php');
+    header('Location: ' . nabta_public_url('admin/customers.php'));
     exit;
 }
 
@@ -21,10 +22,10 @@ $total = count($customers);
     <meta name="description" content="NABTA Botanical admin workspace.">
     <meta name="robots" content="noindex,nofollow">
     <meta name="theme-color" content="#c5d4b4">
-    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="../assets/css/shared.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/canopy.css">
+    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
     <style>
         .flash { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
         .flash.success { background: rgba(130, 152, 117, .25); border: 1px solid rgba(130, 152, 117, .6); }
@@ -57,7 +58,7 @@ $total = count($customers);
 
                 <section class="panel">
                     <div class="toolbar">
-                        <form method="get" action="customers.php">
+                        <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
                             <label class="sr-only" for="search-records">Search customers</label>
                             <input class="control" id="search-records" name="q" type="search"
                                 placeholder="Search by name, email or phone" value="<?= $e($search) ?>">
@@ -127,7 +128,7 @@ $total = count($customers);
                 </section>
 
                 <section id="edit-<?= $id ?>" class="popover" popover aria-labelledby="edit-<?= $id ?>-title">
-                    <form method="post" action="customers.php">
+                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
                         <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
                         <input type="hidden" name="action" value="update">
                         <input type="hidden" name="user_id" value="<?= $id ?>">
@@ -179,7 +180,7 @@ $total = count($customers);
                     </div>
                     <p>You are about to remove <strong><?= $e($c['full_name']) ?></strong>. Customers with orders or
                         reviews cannot be deleted; suspend them instead.</p>
-                    <form method="post" action="customers.php" class="flex" style="margin-top:18px">
+                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>" class="flex" style="margin-top:18px">
                         <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
                         <input type="hidden" name="action" value="delete">
                         <input type="hidden" name="user_id" value="<?= $id ?>">
@@ -192,7 +193,7 @@ $total = count($customers);
 
             <!-- Add new -->
             <section id="add" class="popover" popover aria-labelledby="add-title">
-                <form method="post" action="customers.php">
+                <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
                     <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
                     <input type="hidden" name="action" value="create">
                     <div class="popover-top">

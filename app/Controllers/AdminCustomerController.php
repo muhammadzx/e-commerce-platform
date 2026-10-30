@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../config/paths.php';
 
 require_once __DIR__ . '/../Core/AdminSupport.php';
 require_once __DIR__ . '/../Models/User.php';
@@ -38,7 +39,7 @@ class AdminCustomerController
     {
         if (!AdminSupport::verifyCsrf()) {
             AdminSupport::flash('error', 'Your session expired. Please try again.');
-            AdminSupport::redirect('customers.php');
+            AdminSupport::redirect(nabta_public_url('admin/customers.php'));
         }
 
         $action = $_POST['action'] ?? '';
@@ -60,7 +61,7 @@ class AdminCustomerController
                 AdminSupport::flash('error', 'Unknown action.');
         }
 
-        AdminSupport::redirect('customers.php');
+        AdminSupport::redirect(nabta_public_url('admin/customers.php'));
     }
 
     // Read and validate the form fields. Returns [data, error].

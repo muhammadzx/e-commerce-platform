@@ -1,2 +1,5 @@
 <?php
-return '';
+
+$env = parse_ini_file(__DIR__ . '/../.env');
+
+return $env['GEMINI_API_KEY'] ?? '';

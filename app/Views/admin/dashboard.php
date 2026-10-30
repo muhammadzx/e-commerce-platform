@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/../../../config/paths.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -8,10 +11,10 @@
   <meta name="description" content="NABTA Botanical admin workspace overview.">
   <meta name="robots" content="noindex,nofollow">
   <meta name="theme-color" content="#c5d4b4">
-<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/shared.css">
-<link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/style.css">
-<link rel="stylesheet" href="/php/e-commerce%20platform/public/assets/css/canopy.css">
+<link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-overview">
@@ -34,7 +37,7 @@
             <p>A clear view of sales, orders, products, and customer demand.</p>
           </div>
           <div class="overview-intro-actions">
-            <a class="btn overview-ai-button" href="/php/e-commerce%20platform/app/Views/admin/ai_reports.php">Request an AI report <span
+            <a class="btn overview-ai-button" href="<?= htmlspecialchars(nabta_public_url('admin/ai_reports.php'), ENT_QUOTES, 'UTF-8') ?>">Request an AI report <span
                 aria-hidden="true">↗</span></a>
             <span class="desk-date"><?= htmlspecialchars($seasonName, ENT_QUOTES, 'UTF-8') ?>
               / WEEK
@@ -58,7 +61,7 @@
               </p>
             </div>
 
-            <a href="/php/e-commerce%20platform/public/admin/products.php">Review products ↗</a>
+            <a href="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">Review products ↗</a>
           </aside>
         <?php endif; ?>
         <section class="desk-kpis" aria-label="Store statistics">
@@ -215,7 +218,7 @@
   ) ?>
 </script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-  <script src="../assets/js/admin.js" defer></script>
+  <script src="<?= htmlspecialchars(nabta_public_url('assets/js/admin.js'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </body>
 
 </html>

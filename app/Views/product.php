@@ -1,8 +1,9 @@
 <?php
+require_once __DIR__ . '/../../config/paths.php';
 // ProductController provides $product, $relatedProducts, $reviews, $reviewSummary.
 $img = static function (?string $url): string {
     if (!$url) return '';
-    return preg_match('~^https?://~i', $url) ? $url : 'assets/img/' . ltrim($url, '/');
+    return preg_match('~^https?://~i', $url) ? $url : nabta_public_url('assets/img/' . ltrim($url, '/'));
 };
 $esc = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 $average = (float) ($reviewSummary['average'] ?? 0);
@@ -36,15 +37,15 @@ $mainImage = $imageCount > 0
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $esc($product['name']) ?> | NABTA Botanical</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/shared.css">
-    <link rel="stylesheet" href="assets/css/nabta-theme.css">
-    <link rel="stylesheet" href="assets/css/product-details.css?v=13">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product-details.css?v=13'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="nabta-product-body">
 <main class="nabta-detail">
     <nav class="nd-crumbs" aria-label="Breadcrumb">
-        <a href="index.php?page=products">Shop All</a><span aria-hidden="true">/</span>
+        <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Shop All</a><span aria-hidden="true">/</span>
         <span><?= $esc($product['name']) ?></span>
     </nav>
 
@@ -342,7 +343,7 @@ $mainImage = $imageCount > 0
            <form
     id="review-form"
     method="POST"
-    action="index.php?api=submit-review"
+    action="<?= htmlspecialchars(nabta_public_url('index.php?api=submit-review'), ENT_QUOTES, 'UTF-8') ?>"
 >
                 <input
                     type="hidden"
@@ -394,13 +395,13 @@ $mainImage = $imageCount > 0
 
 
     <section class="nd-related">
-        <div class="nd-section-head"><div><p class="nd-kicker">DISCOVER SOMETHING NEW</p><h2>You may also like<span class="nd-period">.</span></h2></div><a class="nd-view-all" href="index.php?page=products">Explore all products ↗</a></div>
+        <div class="nd-section-head"><div><p class="nd-kicker">DISCOVER SOMETHING NEW</p><h2>You may also like<span class="nd-period">.</span></h2></div><a class="nd-view-all" href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Explore all products ↗</a></div>
         <?php if (empty($relatedProducts)): ?>
             <p class="nd-empty">No related products available.</p>
         <?php else: ?>
             <div class="nd-related-grid">
             <?php foreach ($relatedProducts as $related): ?>
-                <article class="nd-product-card"><a href="index.php?page=product&id=<?= (int) $related['pro_id'] ?>">
+                <article class="nd-product-card"><a href="<?= htmlspecialchars(nabta_public_url('index.php?page=product&id=' . (int) $related['pro_id']), ENT_QUOTES, 'UTF-8') ?>">
                     <div class="nd-card-image">
                         <?php if (!empty($related['image_url'])): ?><img src="<?= $esc($img($related['image_url'])) ?>" alt="<?= $esc($related['name']) ?>" loading="lazy"><?php else: ?><div class="nd-image-empty">NABTA</div><?php endif; ?>
                         <span class="nd-card-arrow" aria-hidden="true">↗</span>
@@ -413,6 +414,7 @@ $mainImage = $imageCount > 0
     </section>
 </main>
 
-<script src="assets/js/products.js?v=reviews4" defer></script>
+<script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=reviews4'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </body>
 </html>

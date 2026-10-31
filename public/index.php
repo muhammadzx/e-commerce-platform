@@ -1,6 +1,7 @@
-
 <?php
 
+// Secure session first, so the cart and login work on every page
+require_once __DIR__ . "/../app/Views/bootstrap.php";
 require_once __DIR__ . "/../routes.php";
 
 // API requests
@@ -25,6 +26,16 @@ switch ($page) {
     case "product":
         $controller = new ProductController();
         $controller->show();
+        break;
+
+    case "cart":
+        $controller = new CartController();
+        $controller->show();
+        break;
+
+    case "checkout":
+        $controller = new OrderController();
+        $controller->checkout();
         break;
 
     default:

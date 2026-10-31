@@ -1,0 +1,624 @@
+/* Cart, checkout and bag icon. Loaded after nabta-theme.css. */
+
+:root {
+    --cx-card: rgba(22, 56, 50, 0.74);
+    --cx-card-line: rgba(142, 182, 155, 0.28);
+    --cx-field: #12241b;
+    --cx-text: #daf1de;
+    --cx-muted: #8eb69b;
+    --cx-lime: #d4f27b;
+    --cx-mint: #a5e8a6;
+    --cx-ink: #15231a;
+}
+
+.cx-body {
+    min-height: 100vh;
+    background: var(--nabta-1, #051f20);
+    color: var(--cx-text);
+    font-family: "Manrope", "DM Sans", system-ui, sans-serif;
+}
+
+.cx-page {
+    position: relative;
+    z-index: 2;
+    width: min(1180px, 100% - 48px);
+    margin: 0 auto;
+    padding: 28px 0 80px;
+}
+
+/* ---------- Top bar ---------- */
+
+.cx-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 36px;
+}
+
+.cx-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--cx-text);
+    text-decoration: none;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.cx-brand svg {
+    width: 30px;
+    height: 30px;
+    fill: none;
+    stroke: var(--cx-lime);
+    stroke-width: 2;
+}
+
+.cx-brand small {
+    color: var(--cx-muted);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    font-size: 11px;
+}
+
+.cx-top-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.cx-top-links a {
+    color: var(--cx-muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.cx-top-links a:hover {
+    color: var(--cx-text);
+}
+
+/* ---------- Layout ---------- */
+
+.cx-title {
+    margin: 0 0 24px;
+    font-size: clamp(34px, 4vw, 52px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+}
+
+.cx-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 32px;
+    align-items: start;
+}
+
+.cx-stack {
+    display: grid;
+    gap: 28px;
+}
+
+.cx-card {
+    background: var(--cx-card);
+    border: 1px solid var(--cx-card-line);
+    border-radius: 28px;
+    padding: 32px;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+}
+
+.cx-card h2 {
+    margin: 0 0 24px;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+}
+
+/* ---------- Cart lines ---------- */
+
+.cx-line {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr) auto;
+    gap: 22px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--cx-card-line);
+}
+
+.cx-line:first-child {
+    padding-top: 0;
+}
+
+.cx-line-img {
+    width: 120px;
+    height: 150px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #eef3ee;
+}
+
+.cx-line-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.cx-line-img span {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    color: #4d6b57;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+}
+
+.cx-line-name {
+    margin: 4px 0 6px;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+}
+
+.cx-line-name a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cx-line-meta {
+    margin: 0 0 14px;
+    color: var(--cx-muted);
+    font-size: 15px;
+}
+
+.cx-qty {
+    width: 88px;
+    height: 46px;
+    padding: 0 14px;
+    border-radius: 14px;
+    border: 1px solid var(--cx-card-line);
+    background: var(--cx-field);
+    color: var(--cx-text);
+    font: 600 17px "Manrope", "DM Sans", sans-serif;
+}
+
+.cx-line-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 6px;
+}
+
+.cx-line-price {
+    font-size: 22px;
+    letter-spacing: -0.02em;
+}
+
+.cx-remove {
+    border: 0;
+    background: none;
+    padding: 4px 0;
+    color: var(--cx-muted);
+    font: 500 14px "Manrope", "DM Sans", sans-serif;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cx-remove:hover {
+    color: var(--cx-text);
+}
+
+.cx-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.cx-back {
+    color: var(--cx-lime);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid var(--cx-lime);
+    padding-bottom: 4px;
+}
+
+/* ---------- Buttons ---------- */
+
+.cx-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 62px;
+    padding: 0 34px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--cx-lime), var(--cx-mint));
+    color: var(--cx-ink);
+    font: 700 16px "Manrope", "DM Sans", sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 14px 34px rgba(165, 232, 166, 0.22);
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.cx-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(1.05);
+}
+
+.cx-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.cx-btn-block {
+    width: 100%;
+}
+
+.cx-btn-small {
+    min-height: 56px;
+    padding: 0 28px;
+}
+
+.cx-btn-ghost {
+    background: transparent;
+    color: var(--cx-text);
+    border: 1px solid var(--cx-card-line);
+    box-shadow: none;
+}
+
+/* ---------- Summary ---------- */
+
+.cx-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--cx-card-line);
+    font-size: 17px;
+}
+
+.cx-row:last-of-type {
+    border-bottom: 0;
+}
+
+.cx-row-total {
+    padding-top: 22px;
+    font-size: 26px;
+}
+
+.cx-row-total strong {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+}
+
+.cx-note {
+    margin: 18px 0 0;
+    color: var(--cx-muted);
+    font-size: 14px;
+}
+
+.cx-summary-btn {
+    margin-top: 22px;
+}
+
+/* ---------- Checkout form ---------- */
+
+.cx-steps {
+    display: flex;
+    gap: 28px;
+    margin-bottom: 26px;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    color: var(--cx-muted);
+}
+
+.cx-steps .is-current {
+    color: var(--cx-lime);
+    font-weight: 700;
+}
+
+.cx-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 22px;
+}
+
+.cx-field {
+    display: grid;
+    gap: 10px;
+}
+
+.cx-field-wide {
+    grid-column: 1 / -1;
+}
+
+.cx-field label {
+    color: var(--cx-muted);
+    font-size: 15px;
+}
+
+.cx-field input,
+.cx-field select {
+    width: 100%;
+    height: 62px;
+    padding: 0 22px;
+    border-radius: 18px;
+    border: 1px solid var(--cx-card-line);
+    background: var(--cx-field);
+    color: var(--cx-text);
+    font: 500 17px "Manrope", "DM Sans", sans-serif;
+}
+
+.cx-field input:focus,
+.cx-field select:focus,
+.cx-qty:focus {
+    outline: 2px solid var(--cx-lime);
+    outline-offset: 1px;
+}
+
+.cx-form-error {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: #ffb4a8;
+    min-height: 1em;
+}
+
+.cx-pick {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.cx-pick img,
+.cx-pick .cx-pick-empty {
+    width: 70px;
+    height: 88px;
+    border-radius: 12px;
+    object-fit: cover;
+    background: #eef3ee;
+}
+
+.cx-pick strong {
+    display: block;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+}
+
+.cx-pick span {
+    color: var(--cx-muted);
+    font-size: 15px;
+}
+
+/* ---------- Empty basket ---------- */
+
+.cx-empty {
+    text-align: center;
+    padding: 70px 24px;
+}
+
+.cx-empty p {
+    color: var(--cx-muted);
+    margin: 0 0 28px;
+}
+
+/* ---------- "One last look" modal ---------- */
+
+.cx-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    place-items: center;
+    padding: 20px;
+    background: rgba(2, 12, 10, 0.72);
+    backdrop-filter: blur(6px);
+}
+
+.cx-modal.is-open {
+    display: grid;
+}
+
+.cx-dialog {
+    width: min(560px, 100%);
+    max-height: 90vh;
+    overflow: auto;
+    background: #0e2a24;
+    border: 1px solid var(--cx-card-line);
+    border-radius: 28px;
+    padding: 34px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.cx-dialog h3 {
+    margin: 0 0 6px;
+    font-size: 34px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+}
+
+.cx-dialog > p {
+    margin: 0 0 22px;
+    color: var(--cx-muted);
+}
+
+.cx-review {
+    margin: 0 0 20px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: var(--cx-field);
+    border: 1px solid var(--cx-card-line);
+    display: grid;
+    gap: 10px;
+}
+
+.cx-review div {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    font-size: 15px;
+}
+
+.cx-review dt {
+    color: var(--cx-muted);
+}
+
+.cx-review dd {
+    margin: 0;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.cx-dialog-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.cx-success {
+    text-align: center;
+}
+
+.cx-success .cx-check {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, var(--cx-lime), var(--cx-mint));
+    color: var(--cx-ink);
+    font-size: 34px;
+}
+
+/* ---------- Bag icon + toast (shop pages) ---------- */
+
+.cx-bag {
+    position: fixed;
+    top: 18px;
+    right: 22px;
+    z-index: 40;
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(11, 43, 38, 0.88);
+    border: 1px solid var(--cx-card-line);
+    color: var(--cx-text);
+    backdrop-filter: blur(8px);
+}
+
+.cx-bag svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.cx-bag [data-cart-count] {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 11px;
+    background: var(--cx-lime);
+    color: var(--cx-ink);
+    font: 800 12px/22px "Manrope", sans-serif;
+    text-align: center;
+}
+
+.cx-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    z-index: 60;
+    transform: translate(-50%, 30px);
+    opacity: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: #0e2a24;
+    border: 1px solid var(--cx-card-line);
+    color: var(--cx-text);
+    font: 600 15px "Manrope", "DM Sans", sans-serif;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+    transition: opacity 0.25s, transform 0.25s;
+}
+
+.cx-toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+}
+
+.cx-toast a {
+    color: var(--cx-lime);
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 900px) {
+    .cx-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .cx-card {
+        padding: 22px;
+        border-radius: 22px;
+    }
+
+    .cx-line {
+        grid-template-columns: 90px minmax(0, 1fr);
+    }
+
+    .cx-line-img {
+        width: 90px;
+        height: 112px;
+    }
+
+    .cx-line-side {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .cx-form {
+        grid-template-columns: 1fr;
+    }
+
+    .cx-steps {
+        gap: 14px;
+        font-size: 12px;
+    }
+
+    .cx-dialog-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .cx-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+}

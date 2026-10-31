@@ -15,9 +15,11 @@ require_once __DIR__ . '/../../config/paths.php';
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nature-bg.css'), ENT_QUOTES, 'UTF-8') ?>">
     <!-- Theme must stay LAST so it overrides the colours above -->
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body>
+<?php require __DIR__ . '/layouts/cart-link.php'; ?>
 
 <!-- Living background: falling leaves (behind the page) -->
 <div class="nature-bg" aria-hidden="true">

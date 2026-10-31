@@ -1,9 +1,10 @@
-
 <?php
 require_once __DIR__ . '/config/paths.php';
 
 require_once __DIR__ . "/app/Controllers/ProductController.php";
 require_once __DIR__ . "/app/Controllers/ReviewController.php";
+require_once __DIR__ . "/app/Controllers/CartController.php";
+require_once __DIR__ . "/app/Controllers/OrderController.php";
 
 function handleApiRequest()
 {
@@ -63,6 +64,59 @@ function handleApiRequest()
 
             $controller = new ReviewController();
             $controller->store();
+            break;
+
+        // Add a product to the basket
+        case "cart-add":
+
+            if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+                header("Allow: POST");
+                http_response_code(405);
+
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Method not allowed"
+                ]);
+                return;
+            }
+
+            $controller = new CartController();
+            $controller->add();
+            break;
+
+        // Number of items in the basket (bag icon)
+        case "cart-count":
+
+            if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+                header("Allow: GET");
+                http_response_code(405);
+
+                echo json_encode([
+                    "error" => "Method not allowed"
+                ]);
+                return;
+            }
+
+            $controller = new CartController();
+            $controller->count();
+            break;
+
+        // Confirm the order
+        case "place-order":
+
+            if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+                header("Allow: POST");
+                http_response_code(405);
+
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Method not allowed"
+                ]);
+                return;
+            }
+
+            $controller = new OrderController();
+            $controller->place();
             break;
 
         default:

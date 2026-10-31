@@ -41,8 +41,11 @@ $mainImage = $imageCount > 0
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product-details.css?v=15'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="cart-csrf" content="<?= $esc(csrf_token()) ?>">
 </head>
 <body class="nabta-product-body">
+<?php require __DIR__ . '/layouts/cart-link.php'; ?>
 <main class="nabta-detail">
     <nav class="nd-crumbs" aria-label="Breadcrumb">
         <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Shop All</a><span aria-hidden="true">/</span>
@@ -484,5 +487,6 @@ $mainImage = $imageCount > 0
 
 <script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=reviews4'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/cart.js?v=1'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </body>
 </html>

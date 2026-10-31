@@ -27,6 +27,10 @@ switch ($page) {
         $controller->show();
         break;
 
+            case "about":
+        require __DIR__ . "/../app/Views/about.php";
+        break;
+
     default:
         http_response_code(404);
         echo "404 - Page Not Found";

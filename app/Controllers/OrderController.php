@@ -77,8 +77,8 @@ class OrderController
 
         if (
             app_length($name) > 100 ||
-            app_length($phone) > 30 ||
-            ($phone !== "" && preg_match('/^[0-9+()\-\s.]{6,30}$/', $phone) !== 1) ||
+            app_length($phone) > 20 ||
+            ($phone !== "" && preg_match('/^[0-9+()\-\s.]{6,20}$/', $phone) !== 1) ||
             app_length($street) > 150 ||
             app_length($city) > 50 ||
             app_length($postal) > 20

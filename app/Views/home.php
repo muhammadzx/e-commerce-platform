@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="assets/css/bundlesLandingPage.css?v=11" />
   <link rel="stylesheet" href="assets/css/alive.css?v=12" />
   <link rel="stylesheet" href="assets/css/nabta-theme.css?v=18" />
-
+  <link rel="stylesheet" href="assets/css/nabta-theme-copy.css?v=18">
 </head>
 
 <body class="garden-home botanical-edition index-page">

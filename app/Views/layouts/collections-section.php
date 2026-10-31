@@ -16,6 +16,14 @@ try {
     error_log('Nabta collections section: ' . $exception->getMessage());
 }
 
+// The landing page shows only a few sets: the ones in stock first, then the newest
+$cxLimit = 4;
+
+usort($cxCollections, static fn(array $a, array $b): int =>
+    ((int) $b['available_sets'] > 0) <=> ((int) $a['available_sets'] > 0)
+    ?: (int) $b['collection_id'] <=> (int) $a['collection_id']);
+$cxCollections = array_slice($cxCollections, 0, $cxLimit);
+
 $cxMoney = static fn(float $amount): string => 'JD ' . number_format($amount, 2);
 $cxImage = static function (?string $path): string {
     if (!$path) {

@@ -25,67 +25,7 @@ require_once __DIR__ . '/bootstrap.php';
 </head>
 
 <body class="garden-home botanical-edition index-page">
-  <a class="skip" href="#main">Skip to content</a>
-  <header class="header">
-    <div class="container header-row">
-      <a class="logo" href="index.php" aria-label="Nabta home"><svg class="leaf-logo" viewBox="0 0 36 36"
-          aria-hidden="true">
-          <path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z" />
-          <path d="M8 31 23 12" />
-        </svg>NABTA<span class="logo-sub">BOTANICAL</span></a>
-      <!-- <nav class="main-nav" aria-label="Main navigation">
-        <a href="products.html">Shop</a>
-        <a href="assistant.html">Find your plant</a>
-        <a href="about.php">About us</a>
-        <a
-          href="products.html#collections">Collections</a>
-      </nav> -->
-
-      <nav class="main-nav" aria-label="Main navigation">
-
-    <a href="<?= htmlspecialchars(nabta_public_url('index.php'), ENT_QUOTES, 'UTF-8') ?>">
-        Home
-    </a>
-
-    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">
-        Shop
-    </a>
-
-    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=about'), ENT_QUOTES, 'UTF-8') ?>">
-        About Us
-    </a>
-
-    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products#shop-area'), ENT_QUOTES, 'UTF-8') ?>">
-        Collections
-    </a>
-
-</nav>
-      <div class="header-actions">
-        <a href="products.html" aria-label="Search products"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="10" cy="10" r="6" />
-            <path d="m15 15 5 5" />
-          </svg></a><?php if (is_authenticated()): ?><a class="account-link" href="profile.html"
-            aria-label="Signed in account">Hi, <?= e(explode(' ', (string) ($_SESSION['full_name'] ?? 'there'))[0]) ?></a>
-          <form class="logout-form" action="logout.php" method="post"><?= csrf_field() ?><button class="account-link"
-              type="submit">Sign out</button></form><?php else: ?><a class="account-link login-cta"
-            href="login.php">Login</a><?php endif; ?><a class="bag-link" href="cart.html"
-          aria-label="Shopping basket"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M5 7h14l1 14H4L5 7Z" />
-            <path d="M9 8V6a3 3 0 0 1 6 0v2" />
-          </svg><span class="bag-count">2</span></a>
-        <details class="mobile-nav">
-          <summary aria-label="Open navigation">☰</summary>
-          <nav>
-            <a href="products.html">Shop</a><a href="assistant.html">Find your plant</a><a href="about.php">About
-              us</a><a href="products.html#collections">Collections</a><?php if (is_authenticated()): ?><a
-                href="profile.html">My account</a>
-              <form class="logout-form" action="logout.php" method="post"><?= csrf_field() ?><button type="submit">Sign
-                  out</button></form><?php else: ?><a href="login.php">Login</a><?php endif; ?>
-          </nav>
-        </details>
-      </div>
-    </div>
-  </header>
+  <?php require __DIR__ . "/layouts/header.php"; ?>
   <main id="main">
     <div class="container">
       <section class="promo-slider screen" aria-label="Seasonal promotions">
@@ -920,49 +860,7 @@ require_once __DIR__ . '/bootstrap.php';
       </section>
     </div>
   </main>
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <a class="logo" href="index.php" aria-label="Nabta home"><svg class="leaf-logo" viewBox="0 0 36 36"
-              aria-hidden="true">
-              <path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z" />
-              <path d="M8 31 23 12" />
-            </svg>NABTA<span class="logo-sub">BOTANICAL</span></a>
-          <p>
-            A little nature, closer to home.<br />Plants, thoughtful objects,
-            and everyday growing essentials.
-          </p>
-        </div>
-        <div>
-          <div class="footer-title">GROW YOUR SPACE</div>
-          <nav class="footer-links">
-            <a href="products.html">Shop the collection</a><a href="index.php#edit">Seasonal offers</a><a
-              href="assistant.html">Plant assistant</a><a href="about.php">About Nabta</a>
-          </nav>
-        </div>
-        <div>
-          <div class="footer-title">YOUR NABTA</div>
-          <nav class="footer-links">
-            <a href="profile.html">My account</a><a href="orders.html">My orders</a><a href="my-listings.html">My
-              listings</a><a href="sell.html">Sell with Nabta</a>
-          </nav>
-        </div>
-        <div>
-          <div class="footer-title">ROOTED IN THE EVERYDAY</div>
-          <p>
-            For windowsills, balconies, and the small corners that make a
-            home.
-          </p>
-          <a class="link" href="index.php#faq" style="margin-top: 16px">A few helpful answers ↗</a>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <span>© 2026 Nabta Botanical · Storefront concept</span><a href="admin.html">Store management ↗</a><span>Jordan
-          / JOD</span>
-      </div>
-    </div>
-  </footer>
+  <?php require __DIR__ . "/layouts/footer.php"; ?>
   <script src="assets/js/nabta-theme.js" defer></script>
 </body>
 

@@ -38,6 +38,12 @@ switch ($page) {
         $controller->checkout();
         break;
 
+    case "profile":
+        require_once __DIR__ . "/../app/Controllers/AccountController.php";
+        $controller = new AccountController();
+        $controller->show();
+        break;
+
     case "about":
         require __DIR__ . "/../app/Views/about.php";
         break;

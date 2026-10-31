@@ -43,6 +43,7 @@ $mainImage = $imageCount > 0
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product-details.css?v=15'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">
     <meta name="cart-csrf" content="<?= $esc(csrf_token()) ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="nabta-product-body">
 <?php require __DIR__ . '/layouts/cart-link.php'; ?>

@@ -21,6 +21,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
     <link rel="stylesheet" href="<?= $u('assets/css/nabta-theme.css') ?>">
     <!-- Cart styles stay LAST so they win over the older sheets -->
     <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=1') ?>">
+    <link rel="stylesheet" href="<?= $u('assets/css/popups.css') ?>">
 </head>
 <body class="cx-body">
 

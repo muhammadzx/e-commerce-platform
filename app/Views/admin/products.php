@@ -1,5 +1,11 @@
 <?php
 require_once __DIR__ . '/../../../config/paths.php';
+require_once __DIR__ . '/../../Core/AdminAccess.php';
+$adminUser = require_admin_access();
+if (!isset($products)) {
+    header('Location: ' . nabta_public_url('admin/products.php'));
+    exit;
+}
 $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT);
 ?>
 <!doctype html>
@@ -15,6 +21,8 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="admin-body botanical-edition workspace-page admin-products">
 <main id="main">
@@ -46,7 +54,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
 
             <section class="panel">
                 <div class="toolbar">
-                    <form method="get" action="products.php" class="table-actions">
+                    <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" class="product-search">
                         <label class="sr-only" for="search-records">Search products</label>
                         <input class="control" id="search-records" name="search" type="search"
                                value="<?= htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8') ?>"
@@ -90,7 +98,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                                         <div class="table-actions">
                                             <button class="table-button" type="button" popovertarget="view-product-<?= $productId ?>">View</button>
                                             <button class="table-button" type="button" popovertarget="edit-product-<?= $productId ?>">Edit</button>
-                                            <form method="post" action="products.php">
+                                            <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">
                                                 <input type="hidden" name="action" value="hide">
                                                 <input type="hidden" name="product_id" value="<?= $productId ?>">
                                                 <button class="table-button" type="submit">Delete</button>
@@ -156,7 +164,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                     </p>
                 <?php endif; ?>
 
-                <form class="product-form" method="post" action="products.php" enctype="multipart/form-data">
+                <form class="product-form" method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="product_id" value="<?= $productId ?>">
                     <div class="field">
@@ -220,7 +228,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                                     <?php if ((int) $image['is_primary'] === 1): ?>
                                         <span class="pill">Primary image</span>
                                     <?php else: ?>
-                                        <form method="post" action="products.php">
+                                        <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">
                                             <input type="hidden" name="action" value="set_primary_image">
                                             <input type="hidden" name="product_id" value="<?= $productId ?>">
                                             <input type="hidden" name="image_id" value="<?= $imageId ?>">
@@ -228,7 +236,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                                         </form>
                                     <?php endif; ?>
 
-                                    <form method="post" action="products.php" enctype="multipart/form-data">
+                                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" enctype="multipart/form-data">
                                         <input type="hidden" name="action" value="replace_image">
                                         <input type="hidden" name="product_id" value="<?= $productId ?>">
                                         <input type="hidden" name="image_id" value="<?= $imageId ?>">
@@ -238,7 +246,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                                         <button class="table-button" type="submit">Replace</button>
                                     </form>
 
-                                    <form method="post" action="products.php">
+                                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">
                                         <input type="hidden" name="action" value="delete_image">
                                         <input type="hidden" name="product_id" value="<?= $productId ?>">
                                         <input type="hidden" name="image_id" value="<?= $imageId ?>">
@@ -258,7 +266,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                 <button class="icon-btn" type="button" popovertarget="add-product"
                         popovertargetaction="hide" aria-label="Close">×</button>
             </div>
-            <form class="product-form" method="post" action="products.php" enctype="multipart/form-data">
+            <form class="product-form" method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
                 <div class="field">
                     <label for="add-category">Category</label>

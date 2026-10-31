@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../../Core/AdminAccess.php';
+$adminUser = require_admin_access();
+require_once __DIR__ . '/../../../config/paths.php';
+?>
 
 <!doctype html>
 <html lang="en">
@@ -10,10 +15,11 @@
   <meta name="robots" content="noindex,nofollow" />
   <meta name="theme-color" content="#c5d4b4" />
 
-  <link rel="icon" href="../../../public/assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../../public/assets/css/shared.css">
-  <link rel="stylesheet" href="../../../public/assets/css/style.css">
-  <link rel="stylesheet" href="../../../public/assets/css/canopy.css">
+  <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
 
   <style>
     .review-hidden {
@@ -39,107 +45,15 @@
       color: #8a6500;
     }
   </style>
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
-<body class="admin-body botanical-edition workspace-page">
+<body class="admin-body botanical-edition workspace-page admin-reviews">
 
 <main id="main">
   <div class="admin-shell">
 
-    <!-- ADMIN SIDEBAR -->
-    <aside class="admin-sidebar">
-
-      <a class="logo" href="/php/e-commerce%20platform/public/index.php" aria-label="Nabta home">
-        <svg class="leaf-logo" viewBox="0 0 36 36" aria-hidden="true">
-          <path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z"/>
-          <path d="M8 31 23 12"/>
-        </svg>
-        NABTA<span class="logo-sub">BOTANICAL</span>
-      </a>
-
-      <div>
-        <div class="eyebrow" style="padding:0 12px 15px">
-          WORKSPACE
-        </div>
-
-        <nav aria-label="Administration">
-
-          <a class="overview-link" href="/php/e-commerce%20platform/public/admin/dashboard.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>
-            </svg>
-            Overview
-          </a>
-
-          <a class="products-link" href="/php/e-commerce%20platform/app/Views/admin/products.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m12 3 9 5v9l-9 5-9-5V8l9-5Zm-9 5 9 5 9-5M12 13v9"/>
-            </svg>
-            Products
-          </a>
-
-          <a class="ai-reports-link" href="/php/e-commerce%20platform/app/Views/admin/ai_reports.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 3v3M12 18v3M3 12h3m12 0h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12m0-12.72-2.12 2.12m-8.48 8.48-2.12 2.12"/>
-              <circle cx="12" cy="12" r="5"/>
-            </svg>
-            AI Reports
-          </a>
-
-          <a class="categories-link" href="/php/e-commerce%20platform/app/Views/admin/categories.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/>
-            </svg>
-            Categories
-          </a>
-
-          <a class="customers-link" href="/php/e-commerce%20platform/app/Views/admin/customers.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <circle cx="12" cy="8" r="3"/>
-              <path d="M5 21v-3a7 7 0 0 1 14 0v3"/>
-            </svg>
-            Customers
-          </a>
-
-          <a class="orders-link" href="/php/e-commerce%20platform/app/Views/admin/orders.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 7h14l1 14H4L5 7Z"/>
-              <path d="M9 8V6a3 3 0 0 1 6 0v2"/>
-            </svg>
-            Orders
-          </a>
-
-          <a class="reviews-link" href="/php/e-commerce%20platform/app/Views/admin/reviews.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="m12 3 3 6 6 1-4 5 1 6-6-3-6 3 1-6-4-5 6-1Z"/>
-            </svg>
-            Reviews
-          </a>
-
-          <a class="store-link" href="/php/e-commerce%20platform/public/index.php">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 10 5 4h14l2 6"/>
-              <path d="M4 10v10h16V10M9 20v-6h6v6"/>
-              <path d="M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/>
-            </svg>
-            View storefront
-          </a>
-
-        </nav>
-      </div>
-
-      <div class="admin-bottom">
-        <a class="profile-link" href="/php/e-commerce%20platform/app/Views/admin/profile.php">
-          <span class="account-avatar">AS</span>
-          <span>
-            <strong>Alex</strong>
-            <small>Store admin · Profile</small>
-          </span>
-          <span class="profile-arrow" aria-hidden="true">↗</span>
-        </a>
-      </div>
-
-    </aside>
+    <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
 
     <!-- MAIN CONTENT -->
     <div class="admin-content">

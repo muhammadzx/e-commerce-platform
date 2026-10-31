@@ -436,3 +436,96 @@
     }
 }
 
+@media (max-width: 640px) {
+    .admin-reports .reports-history > .panel {
+        padding: 10px !important;
+    }
+
+    .admin-reports .reports-history .table-scroll {
+        overflow: visible !important;
+        padding: 0;
+    }
+
+    .admin-reports .reports-history table {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        table-layout: fixed;
+    }
+
+    .admin-reports .reports-history thead {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        white-space: nowrap !important;
+        border: 0 !important;
+    }
+
+    .admin-reports .reports-history tbody {
+        display: grid !important;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .admin-reports .reports-history tbody tr {
+        display: grid !important;
+        gap: 0;
+        width: 100%;
+        padding: 5px 12px;
+        border: 1px solid #82997466;
+        border-radius: 13px;
+        background: #102017;
+    }
+
+    .admin-reports .reports-history tbody td {
+        display: grid !important;
+        grid-template-columns: minmax(92px, 0.72fr) minmax(0, 1.28fr);
+        align-items: start;
+        gap: 10px;
+        min-width: 0;
+        padding: 10px 0 !important;
+        border: 0 !important;
+        border-bottom: 1px solid #ffffff12 !important;
+        background: transparent !important;
+        color: #e8efdf;
+        font-size: 14px !important;
+        line-height: 1.45;
+        overflow-wrap: anywhere;
+    }
+
+    .admin-reports .reports-history tbody td:last-child {
+        border-bottom: 0 !important;
+    }
+
+    .admin-reports .reports-history tbody td:not([colspan]):before {
+        color: #b8c8ad;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.4;
+    }
+
+    .admin-reports .reports-history tbody td:nth-child(1):before { content: 'Report title'; }
+    .admin-reports .reports-history tbody td:nth-child(2):before { content: 'Generated'; }
+    .admin-reports .reports-history tbody td:nth-child(3):before { content: 'Period'; }
+    .admin-reports .reports-history tbody td:nth-child(4):before { content: 'Requested by'; }
+    .admin-reports .reports-history tbody td:nth-child(5):before { content: 'Download'; }
+
+    .admin-reports .reports-history tbody td:last-child .table-button {
+        justify-self: start;
+        min-height: 42px;
+        white-space: normal;
+        text-align: center;
+    }
+
+    .admin-reports .reports-history tbody td[colspan] {
+        display: block !important;
+        padding: 16px 8px !important;
+        border: 0 !important;
+        text-align: center;
+    }
+}
+

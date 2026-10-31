@@ -44,6 +44,10 @@ class AdminProductController
             }
 
             if ($action === 'add' || $action === 'update') {
+                error_log(
+    "NABTA UPLOAD DEBUG: " .
+    print_r($_FILES, true)
+);
                 $productId = $this->readId($_POST['product_id'] ?? '');
                 $catId = $this->readId($_POST['cat_id'] ?? '');
                 $name = trim($_POST['name'] ?? '');

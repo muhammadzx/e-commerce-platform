@@ -34,16 +34,8 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
     <div class="glints"></div>
 </div>
 
+<?php require __DIR__ . "/layouts/header.php"; ?>
 <main class="cx-page">
-    <header class="cx-top">
-        <a class="cx-brand" href="<?= $u('index.php') ?>" aria-label="Nabta home">
-            <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z" /><path d="M8 31 23 12" /></svg>
-            NABTA <small>BOTANICAL</small>
-        </a>
-        <nav class="cx-top-links" aria-label="Main navigation">
-            <a href="<?= $u('index.php?page=cart') ?>">← Back to basket</a>
-        </nav>
-    </header>
 
     <div class="cx-grid" id="checkout-root">
 
@@ -134,6 +126,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 
     </div>
 </main>
+<?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <!-- Step 2: "One last look" -->
 <div class="cx-modal" id="review-modal" role="dialog" aria-modal="true" aria-labelledby="review-title">

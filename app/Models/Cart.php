@@ -312,6 +312,33 @@ class Cart
         $stmt->execute([":id" => $cartItemId, ":cart_id" => $cartId]);
     }
 
+    // Orders of a customer (every cart that is not the open basket), newest first
+    public function getOrders(int $userId): array
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT
+                c.cart_id,
+                c.created_at,
+                c.total_price,
+                c.status,
+                COALESCE(SUM(ci.quantity), 0) AS units,
+                GROUP_CONCAT(
+                    CONCAT(COALESCE(p.name, col.name), IF(ci.quantity > 1, CONCAT(' × ', ci.quantity), ''))
+                    ORDER BY ci.cart_item_id SEPARATOR ', '
+                ) AS summary
+             FROM cart c
+             LEFT JOIN cart_items ci ON ci.cart_id = c.cart_id
+             LEFT JOIN product p ON p.pro_id = ci.pro_id
+             LEFT JOIN collections col ON col.collection_id = ci.collection_id
+             WHERE c.user_id = :user_id AND c.status <> 'cart'
+             GROUP BY c.cart_id, c.created_at, c.total_price, c.status
+             ORDER BY c.created_at DESC, c.cart_id DESC"
+        );
+        $stmt->execute([":user_id" => $userId]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Saved details of the customer, used to pre-fill the checkout form
     public function getCustomer(int $userId): array
     {
@@ -410,7 +437,7 @@ class Cart
                     foreach ($parts["products"] as $product) {
                         $id = (int) $product["pro_id"];
                         $need[$id] = ($need[$id] ?? 0) + $quantity * (int) $product["quantity"];
-                        $status[$id] = $product["status"];
+                        // Products inside a collection are checked by stock only
                         $stock[$id] = (int) $product["stock"];
                         $names[$id] = $product["name"];
                     }
@@ -440,7 +467,7 @@ class Cart
             }
 
             foreach ($need as $id => $units) {
-                if ($status[$id] !== "active" || $stock[$id] < $units) {
+                if (($status[$id] ?? "active") !== "active" || $stock[$id] < $units) {
                     $this->conn->rollBack();
                     return [false, $names[$id] . " is no longer available in that quantity. Please update your basket.", null];
                 }

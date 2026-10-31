@@ -33,6 +33,7 @@ require_once __DIR__ . '/../../config/paths.php';
     <div class="glints"></div>
 </div>
 
+<?php require __DIR__ . "/layouts/header.php"; ?>
 <main>
     <div class="page-container">
 
@@ -138,6 +139,7 @@ require_once __DIR__ . '/../../config/paths.php';
         Explore the collection ↗
     </a>
 </section>
+<?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/nature-bg.js'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 <script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>

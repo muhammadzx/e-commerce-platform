@@ -1,17 +1,14 @@
 <?php
 
-require_once __DIR__ . "/../Core/Database.php";
-
 // A collection is a set of products (collections_details) sold together
 // with a percentage discount. Price = sum of its products - discount.
 class Collection
 {
     private PDO $conn;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $database = new Database();
-        $this->conn = $database->connect();
+        $this->conn = $db;
     }
 
     // Active collections with their products, prices and how many sets are in stock

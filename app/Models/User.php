@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../Core/Database.php";
-
 class User
 {
     private PDO $conn;
@@ -9,9 +7,9 @@ class User
     public const ROLES = ['customer', 'admin'];
     public const STATUSES = ['active', 'suspended'];
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->conn = (new Database())->connect();
+        $this->conn = $db;
     }
 
     // All users, optionally filtered by name / email / phone

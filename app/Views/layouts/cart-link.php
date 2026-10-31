@@ -7,7 +7,12 @@ $cartLinkCount = 0;
 
 if (function_exists('is_authenticated') && is_authenticated()) {
     try {
-        $cartLinkCount = (new Cart())->countItems((int) $_SESSION['user_id']);
+        // Closure keeps connection.php's variables out of the page scope
+        $cartLinkCount = (static function (): int {
+            require __DIR__ . '/../../../config/connection.php';
+
+            return (new Cart($db))->countItems((int) $_SESSION['user_id']);
+        })();
     } catch (Throwable $exception) {
         $cartLinkCount = 0;
     }

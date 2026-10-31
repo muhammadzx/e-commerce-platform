@@ -34,21 +34,8 @@ foreach (array_slice(preg_split('/\s+/', trim((string) $account['full_name'])) ?
     <div class="glints"></div>
 </div>
 
+<?php require __DIR__ . "/layouts/header.php"; ?>
 <main class="cx-page">
-    <header class="cx-top">
-        <a class="cx-brand" href="<?= $u('index.php') ?>" aria-label="Nabta home">
-            <svg viewBox="0 0 36 36" aria-hidden="true"><path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z" /><path d="M8 31 23 12" /></svg>
-            NABTA <small>BOTANICAL</small>
-        </a>
-        <nav class="cx-top-links" aria-label="Main navigation">
-            <a href="<?= $u('index.php?page=products') ?>">Shop</a>
-            <a href="<?= $u('index.php') ?>">Home</a>
-            <a href="<?= $u('index.php?page=cart') ?>">My basket</a>
-            <?php if ($account['role'] === 'admin'): ?>
-                <a href="<?= $u('admin/dashboard.php') ?>">Admin</a>
-            <?php endif; ?>
-        </nav>
-    </header>
 
     <h1 class="cx-title">My account</h1>
 
@@ -81,7 +68,7 @@ foreach (array_slice(preg_split('/\s+/', trim((string) $account['full_name'])) ?
         </dl>
     </section>
 
-    <section class="cx-card ac-orders" aria-label="My orders">
+    <section class="cx-card ac-orders" id="orders" aria-label="My orders">
         <h2>My orders</h2>
 
         <?php if (!$orders): ?>
@@ -171,6 +158,7 @@ foreach (array_slice(preg_split('/\s+/', trim((string) $account['full_name'])) ?
         <?php endif; ?>
     </section>
 </main>
+<?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <!-- EDIT PROFILE POPOVER -->
 <section id="edit-profile" class="ac-popover" popover aria-labelledby="edit-profile-title">

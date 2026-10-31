@@ -10,9 +10,13 @@ if (isset($_GET["api"])) {
 }
 
 // Frontend pages
-$page = $_GET["page"] ?? "products";
+$page = $_GET["page"] ?? "home";
 
 switch ($page) {
+
+    case "home":
+        require __DIR__ . "/../app/Views/home.php";
+        break;
 
     case "products":
         require __DIR__ . "/../app/Views/products.php";

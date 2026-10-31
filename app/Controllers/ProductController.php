@@ -95,6 +95,17 @@ if (empty($_SESSION["csrf_token"])) {
     // Get all product images (primary + additional)
     $productImages = $this->product->getProductImages($id);
 
+
+
+
+
+    $frequentlyBoughtTogether = $this->product
+    ->getFrequentlyBoughtTogether($id);
+
+
+
+    
+
     // Get related products
     $relatedProducts = $this->product->getRelatedProducts(
         $product["cat_id"],

@@ -1,5 +1,12 @@
 <?php
 
-$env = parse_ini_file(__DIR__ . '/../.env');
+$envPath = dirname(__DIR__) . '/.env';
+$env = parse_ini_file($envPath, false, INI_SCANNER_RAW);
 
-return $env['GEMINI_API_KEY'] ?? '';
+$key = trim($env['GEMINI_API_KEY'] ?? '');
+
+if ($key === '') {
+    throw new RuntimeException('Gemini API key is missing.');
+}
+
+return $key;

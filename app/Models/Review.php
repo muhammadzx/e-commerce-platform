@@ -7,7 +7,8 @@ class Review
 
     public function __construct()
     {
-        $this->conn = (new Database())->connect();
+        require __DIR__ . '/../../config/connection.php';
+        $this->conn = $db;
     }
 
     public function getByProduct(int $proId): array

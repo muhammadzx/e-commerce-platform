@@ -4,7 +4,7 @@ require_once __DIR__ . '/config/paths.php';
 
 require_once __DIR__ . "/app/Controllers/ProductController.php";
 require_once __DIR__ . "/app/Controllers/ReviewController.php";
-
+require_once __DIR__ . "/app/Controllers/WishlistController.php";
 function handleApiRequest()
 {
     $api = $_GET["api"] ?? "";
@@ -72,5 +72,76 @@ function handleApiRequest()
                 "error" => "API not found"
             ]);
             break;
+
+            case "wishlist":
+
+    if ($_SERVER["REQUEST_METHOD"] !== "GET") {
+        header("Allow: GET");
+        http_response_code(405);
+
+        echo json_encode([
+            "success" => false,
+            "message" => "Method not allowed"
+        ]);
+
+        return;
+    }
+
+    $controller = new WishlistController();
+    $controller->index();
+
+    break;
+    case "wishlist-add":
+
+    if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+        header("Allow: POST");
+        http_response_code(405);
+
+        echo json_encode([
+            "success" => false,
+            "message" => "Method not allowed"
+        ]);
+
+        return;
+    }
+
+    $controller = new WishlistController();
+    $controller->store();
+
+    break;
+    case "wishlist-delete":
+
+    if ($_SERVER["REQUEST_METHOD"] !== "DELETE") {
+        header("Allow: DELETE");
+        http_response_code(405);
+
+        echo json_encode([
+            "success" => false,
+            "message" => "Method not allowed"
+        ]);
+
+        return;
+    }
+
+    $controller = new WishlistController();
+    $controller->destroy();
+
+    break;
+    case "wishlist":
+    $controller = new WishlistController();
+    $controller->index();
+    break;
+
+case "wishlist-add":
+    $controller = new WishlistController();
+    $controller->store();
+    break;
+
+case "wishlist-delete":
+    $controller = new WishlistController();
+    $controller->destroy();
+    break;
+
+          
     }
 }

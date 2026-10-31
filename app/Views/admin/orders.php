@@ -1,636 +1,224 @@
+<?php
+require_once __DIR__ . '/../../../config/paths.php';
+// Opened directly (not through the controller): send the visitor to the real page
+if (!isset($orders)) {
+    header('Location: ' . nabta_public_url('admin/orders.php'));
+    exit;
+}
+
+// Provided by AdminOrderController: $orders, $itemsByOrder, $search, $flash, $csrfToken
+$e = static fn($value) => AdminSupport::e($value);
+$statusLabels = [
+    'pending' => 'Pending',
+    'processing' => 'Processing',
+    'shipped' => 'Shipped',
+    'completed' => 'Delivered',
+    'cancelled' => 'Cancelled'
+];
+$money = static fn($value) => number_format((float) $value, 2) . ' JOD';
+$formAction = nabta_public_url('admin/orders.php');
+$total = count($orders);
+?>
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Manage orders | Nabta Botanical</title>
-    <meta
-      name="description"
-      content="Manage orders — plants and growing essentials at Nabta."
-    />
-    <meta name="robots" content="noindex,nofollow" />
-    <meta name="theme-color" content="#c5d4b4" />
-    <link rel="icon" href="../../../public/assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../../public/assets/css/shared.css">
-  <link rel="stylesheet" href="../../../public/assets/css/style.css">
-  <link rel="stylesheet" href="../../../public/assets/css/canopy.css">
-  </head>
-  <body class="admin-body botanical-edition workspace-page">
+    <meta name="description" content="Manage orders — plants and growing essentials at Nabta.">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#c5d4b4">
+    <link rel="icon" href="<?= $e(nabta_public_url('assets/img/favicon.svg')) ?>" type="image/svg+xml">
+    <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/shared.css')) ?>">
+    <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/style.css')) ?>">
+    <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/canopy.css')) ?>">
+    <style>
+        .flash { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
+        .flash.success { background: rgba(130, 152, 117, .25); border: 1px solid rgba(130, 152, 117, .6); }
+        .flash.error { background: rgba(176, 80, 64, .2); border: 1px solid rgba(176, 80, 64, .6); }
+        .toolbar form { display: contents; }
+    </style>
+</head>
+
+<body class="admin-body botanical-edition workspace-page admin-orders">
     <main id="main">
-      <div class="admin-shell">
-      <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
-        <div class="admin-content">
-          <div class="admin-top">
-            <span>Workspace / Orders</span>
-            <div class="flex">
-              <span>Nabta Botanical</span><span class="pill">Preview</span>
+        <div class="admin-shell">
+            <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
+            <div class="admin-content">
+                <div class="admin-top"><span>Workspace / Orders</span>
+                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Orders</span></div>
+                </div>
+                <div class="admin-photo-strip" role="img" aria-label="Soft-focus botanical greenhouse photograph">
+                    <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span>
+                </div>
+                <div class="admin-title">
+                    <div>
+                        <h1>Orders</h1>
+                        <p>Track every order from basket to delivery.</p>
+                    </div>
+                </div>
+
+                <?php if ($flash): ?>
+                    <div class="flash <?= $e($flash['type']) ?>" role="status"><?= $e($flash['message']) ?></div>
+                <?php endif; ?>
+
+                <section class="panel">
+                    <div class="toolbar">
+                        <form method="get" action="<?= $e($formAction) ?>">
+                            <label class="sr-only" for="search-records">Search orders</label>
+                            <input class="control" id="search-records" name="q" type="search"
+                                placeholder="Search by order #, customer or status" value="<?= $e($search) ?>">
+                            <button class="btn secondary" type="submit">Search <svg class="icon" viewBox="0 0 24 24"
+                                    aria-hidden="true">
+                                    <circle cx="10" cy="10" r="6"></circle>
+                                    <path d="m15 15 5 5"></path>
+                                </svg></button>
+                        </form>
+                        <span class="label"><?= $total ?> record<?= $total === 1 ? '' : 's' ?></span>
+                    </div>
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($total === 0): ?>
+                                    <tr>
+                                        <td colspan="6" style="text-align:center; padding:32px 16px;">
+                                            <strong>No orders found</strong>
+                                        </td>
+                                    </tr>
+                                <?php endif; ?>
+                                <?php foreach ($orders as $o): $id = (int) $o['cart_id']; ?>
+                                    <tr>
+                                        <td data-label="Order">#<?= $id ?></td>
+                                        <td data-label="Customer"><?= $e($o['full_name'] ?? 'Deleted customer') ?></td>
+                                        <td data-label="Date"><?= $e(date('d M Y', strtotime($o['created_at']))) ?></td>
+                                        <td data-label="Total"><?= $e($money($o['total_price'])) ?></td>
+                                        <td data-label="Status">
+                                            <span class="pill <?= in_array($o['status'], ['pending', 'processing'], true) ? 'pending' : '' ?>"><?= $e($statusLabels[$o['status']] ?? $o['status']) ?></span>
+                                        </td>
+                                        <td data-label="Actions">
+                                            <div class="table-actions"><button class="table-button" type="button"
+                                                    popovertarget="view-<?= $id ?>">View</button><button
+                                                    class="table-button" type="button"
+                                                    popovertarget="edit-<?= $id ?>">Edit</button><button
+                                                    class="table-button" type="button"
+                                                    popovertarget="delete-<?= $id ?>">Delete</button></div>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
             </div>
-          </div>
-          <div
-            class="admin-photo-strip"
-            role="img"
-            aria-label="Soft-focus botanical greenhouse photograph"
-          >
-            <span
-              >CANOPY / BOTANICAL OPERATIONS<small
-                >GROWTH · STOCK · CUSTOMER CARE</small
-              ></span
-            >
-          </div>
-          <div class="admin-title">
-            <div>
-              <h1>Orders</h1>
-              <p>Track every order from basket to delivery.</p>
-            </div>
-            <button class="btn" popovertarget="add">+ Add new</button>
-          </div>
-          <section class="panel">
-            <div class="toolbar">
-              <label class="sr-only" for="search-records">Search orders</label
-              ><input
-                class="control"
-                id="search-records"
-                type="search"
-                placeholder="Search orders"
-              /><button class="btn secondary" popovertarget="preview">
-                Search
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <circle cx="10" cy="10" r="6" />
-                  <path d="m15 15 5 5" />
-                </svg></button
-              ><span class="label">3 records</span>
-            </div>
-            <div class="table-scroll">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Order</th>
-                    <th>Customer</th>
-                    <th>Date</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td data-label="Order">#1042</td>
-                    <td data-label="Customer">Alex Morgan</td>
-                    <td data-label="Date">27 Oct 2026</td>
-                    <td data-label="Total">42.00 JOD</td>
-                    <td data-label="Status">
-                      <span class="pill pending">Processing</span>
-                    </td>
-                    <td data-label="Actions">
-                      <div class="table-actions">
-                        <button class="table-button" popovertarget="view-0">
-                          View</button
-                        ><button class="table-button" popovertarget="edit-0">
-                          Edit</button
-                        ><button class="table-button" popovertarget="delete-0">
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td data-label="Order">#1041</td>
-                    <td data-label="Customer">Sam Taylor</td>
-                    <td data-label="Date">26 Oct 2026</td>
-                    <td data-label="Total">16.00 JOD</td>
-                    <td data-label="Status">
-                      <span class="pill">Shipped</span>
-                    </td>
-                    <td data-label="Actions">
-                      <div class="table-actions">
-                        <button class="table-button" popovertarget="view-1">
-                          View</button
-                        ><button class="table-button" popovertarget="edit-1">
-                          Edit</button
-                        ><button class="table-button" popovertarget="delete-1">
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td data-label="Order">#1031</td>
-                    <td data-label="Customer">Alex Morgan</td>
-                    <td data-label="Date">18 Oct 2026</td>
-                    <td data-label="Total">14.00 JOD</td>
-                    <td data-label="Status">
-                      <span class="pill">Delivered</span>
-                    </td>
-                    <td data-label="Actions">
-                      <div class="table-actions">
-                        <button class="table-button" popovertarget="view-2">
-                          View</button
-                        ><button class="table-button" popovertarget="edit-2">
-                          Edit</button
-                        ><button class="table-button" popovertarget="delete-2">
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
+
+            <?php foreach ($orders as $o):
+                $id = (int) $o['cart_id'];
+                $items = $itemsByOrder[$id] ?? [];
+                $subtotal = 0;
+                foreach ($items as $item) {
+                    $subtotal += (float) $item['unit_price_at_purchase'] * (int) $item['quantity'];
+                }
+            ?>
+                <!-- Order #<?= $id ?> -->
+                <section id="view-<?= $id ?>" class="popover" popover aria-labelledby="view-<?= $id ?>-title">
+                    <div class="popover-top">
+                        <h2 id="view-<?= $id ?>-title">Order #<?= $id ?></h2><button class="icon-btn" type="button"
+                            popovertarget="view-<?= $id ?>" popovertargetaction="hide"
+                            aria-label="Close window">×</button>
+                    </div>
+                    <div class="summary-row"><span>Customer</span><span><?= $e($o['full_name'] ?? 'Deleted customer') ?></span></div>
+                    <div class="summary-row"><span>Email</span><span><?= $e($o['email'] ?: '—') ?></span></div>
+                    <div class="summary-row"><span>Phone</span><span><?= $e($o['phone'] ?: '—') ?></span></div>
+                    <div class="summary-row"><span>Date</span><span><?= $e(date('d M Y, H:i', strtotime($o['created_at']))) ?></span></div>
+                    <div class="summary-row"><span>Delivery address</span><span><?= $e($o['delivery_address_at_order']) ?></span></div>
+                    <div class="summary-row"><span>Payment method</span><span><?= $e($o['payment_method'] ?: '—') ?></span></div>
+                    <div class="summary-row"><span>Status</span><span><span class="pill <?= in_array($o['status'], ['pending', 'processing'], true) ? 'pending' : '' ?>"><?= $e($statusLabels[$o['status']] ?? $o['status']) ?></span></span></div>
+
+                    <h3 style="margin:18px 0 6px">Items</h3>
+                    <?php if (!$items): ?>
+                        <div class="summary-row"><span>No items recorded for this order.</span><span></span></div>
+                    <?php endif; ?>
+                    <?php foreach ($items as $item): ?>
+                        <div class="summary-row">
+                            <span><?= $e($item['item_name']) ?> <small>(<?= $e($item['item_type']) ?>) × <?= (int) $item['quantity'] ?></small></span>
+                            <span><?= $e($money((float) $item['unit_price_at_purchase'] * (int) $item['quantity'])) ?></span>
+                        </div>
+                    <?php endforeach; ?>
+
+                    <div class="summary-row"><span>Subtotal</span><span><?= $e($money($subtotal)) ?></span></div>
+                    <div class="summary-row"><span>Delivery fee</span><span><?= $e($money($o['delivery_fee'])) ?></span></div>
+                    <?php if ($o['discount_code']): ?>
+                        <div class="summary-row"><span>Discount code</span><span><?= $e($o['discount_code']) ?> (<?= $e(rtrim(rtrim(number_format((float) $o['discount_percentage'], 2), '0'), '.')) ?>%)</span></div>
+                    <?php endif; ?>
+                    <div class="summary-row"><span><strong>Total</strong></span><span><strong><?= $e($money($o['total_price'])) ?></strong></span></div>
+                </section>
+
+                <section id="edit-<?= $id ?>" class="popover" popover aria-labelledby="edit-<?= $id ?>-title">
+                    <form method="post" action="<?= $e($formAction) ?>">
+                        <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                        <input type="hidden" name="action" value="update">
+                        <input type="hidden" name="order_id" value="<?= $id ?>">
+                        <div class="popover-top">
+                            <h2 id="edit-<?= $id ?>-title">Edit order #<?= $id ?></h2><button class="icon-btn"
+                                type="button" popovertarget="edit-<?= $id ?>" popovertargetaction="hide"
+                                aria-label="Close window">×</button>
+                        </div>
+                        <div class="field"><label>Customer</label>
+                            <input type="text" value="<?= $e($o['full_name'] ?? 'Deleted customer') ?>" disabled>
+                        </div>
+                        <div class="form-grid">
+                            <div class="field"><label>Payment method</label>
+                                <input type="text" value="<?= $e($o['payment_method'] ?: '—') ?>" disabled>
+                            </div>
+                            <div class="field"><label for="edit-<?= $id ?>-status">Order status</label>
+                                <select id="edit-<?= $id ?>-status" name="status">
+                                    <?php foreach ($statusLabels as $value => $label): ?>
+                                        <option value="<?= $e($value) ?>" <?= $o['status'] === $value ? 'selected' : '' ?>><?= $e($label) ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field"><label>Delivery address</label>
+                            <input type="text" value="<?= $e($o['delivery_address_at_order']) ?>" disabled>
+                        </div>
+                        <div class="field"><label>Total price</label>
+                            <input type="text" value="<?= $e($money($o['total_price'])) ?>" disabled>
+                        </div>
+                        <button class="btn" type="submit">Save changes</button>
+                    </form>
+                </section>
+
+                <section id="delete-<?= $id ?>" class="popover" popover aria-labelledby="delete-<?= $id ?>-title">
+                    <div class="popover-top">
+                        <h2 id="delete-<?= $id ?>-title">Delete this order?</h2><button class="icon-btn"
+                            type="button" popovertarget="delete-<?= $id ?>" popovertargetaction="hide"
+                            aria-label="Close window">×</button>
+                    </div>
+                    <p>You are about to permanently remove <strong>order #<?= $id ?></strong>, all of its items,
+                        and the customer's reviews on those items. This cannot be undone.</p>
+                    <form method="post" action="<?= $e($formAction) ?>" class="flex" style="margin-top:18px">
+                        <input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>">
+                        <input type="hidden" name="action" value="delete">
+                        <input type="hidden" name="order_id" value="<?= $id ?>">
+                        <button class="btn" type="submit">Delete order</button>
+                        <button class="btn secondary" type="button" popovertarget="delete-<?= $id ?>"
+                            popovertargetaction="hide">Keep order</button>
+                    </form>
+                </section>
+            <?php endforeach; ?>
         </div>
-      </div>
-      <section
-        id="view-0"
-        class="popover"
-        popover
-        aria-labelledby="view-0-title"
-      >
-        <div class="popover-top">
-          <h2 id="view-0-title">Orders / Record 1</h2>
-          <button
-            class="icon-btn"
-            popovertarget="view-0"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <div class="summary-row"><span>Order</span><span>#1042</span></div>
-        <div class="summary-row">
-          <span>Customer</span><span>Alex Morgan</span>
-        </div>
-        <div class="summary-row"><span>Date</span><span>27 Oct 2026</span></div>
-        <div class="summary-row"><span>Total</span><span>42.00 JOD</span></div>
-        <div class="summary-row">
-          <span>Status</span
-          ><span><span class="pill pending">Processing</span></span>
-        </div>
-      </section>
-      <section
-        id="edit-0"
-        class="popover"
-        popover
-        aria-labelledby="edit-0-title"
-      >
-        <div class="popover-top">
-          <h2 id="edit-0-title">Edit record</h2>
-          <button
-            class="icon-btn"
-            popovertarget="edit-0"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <div class="field">
-          <label for="edit-0-customer">Customer</label
-          ><input
-            id="edit-0-customer"
-            name="edit-0-customer"
-            type="text"
-            value="Alex Morgan"
-          />
-        </div>
-        <div class="field">
-          <label for="edit-0-product">Product</label
-          ><select id="edit-0-product" name="edit-0-product">
-            <option>The Rubber Plant</option>
-            <option>The Stone Planter</option>
-            <option>Everyday Potting Mix</option>
-            <option>The Garden Duo</option>
-            <option>The Desk Garden</option>
-            <option>Leaf-care Treatment</option>
-          </select>
-        </div>
-        <div class="form-grid">
-          <div class="field">
-            <label for="edit-0-qty">Quantity</label
-            ><input
-              id="edit-0-qty"
-              name="edit-0-qty"
-              type="number"
-              min="1"
-              value="1"
-            />
-          </div>
-          <div class="field">
-            <label for="edit-0-status">Order status</label
-            ><select id="edit-0-status" name="edit-0-status">
-              <option>Processing</option>
-              <option>Shipped</option>
-              <option>Delivered</option>
-              <option>Cancelled</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="edit-0-address">Delivery address</label
-          ><input
-            id="edit-0-address"
-            name="edit-0-address"
-            type="text"
-            value=""
-          />
-        </div>
-        <div class="field">
-          <label for="edit-0-note">Order note</label
-          ><textarea id="edit-0-note" rows="2"></textarea>
-        </div>
-        <button class="btn" type="button" popovertarget="preview">
-          Save changes
-        </button>
-      </section>
-      <section
-        id="delete-0"
-        class="popover"
-        popover
-        aria-labelledby="delete-0-title"
-      >
-        <div class="popover-top">
-          <h2 id="delete-0-title">Delete this record?</h2>
-          <button
-            class="icon-btn"
-            popovertarget="delete-0"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <p>
-          Confirm removal of the selected record. No data is deleted in this
-          static preview.
-        </p>
-        <div class="flex" style="margin-top: 18px">
-          <button class="btn" type="button" popovertarget="preview">
-            Delete record</button
-          ><button
-            class="btn secondary"
-            popovertarget="delete-0"
-            popovertargetaction="hide"
-          >
-            Keep record
-          </button>
-        </div>
-      </section>
-      <section
-        id="view-1"
-        class="popover"
-        popover
-        aria-labelledby="view-1-title"
-      >
-        <div class="popover-top">
-          <h2 id="view-1-title">Orders / Record 2</h2>
-          <button
-            class="icon-btn"
-            popovertarget="view-1"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <div class="summary-row"><span>Order</span><span>#1041</span></div>
-        <div class="summary-row">
-          <span>Customer</span><span>Sam Taylor</span>
-        </div>
-        <div class="summary-row"><span>Date</span><span>26 Oct 2026</span></div>
-        <div class="summary-row"><span>Total</span><span>16.00 JOD</span></div>
-        <div class="summary-row">
-          <span>Status</span><span><span class="pill">Shipped</span></span>
-        </div>
-      </section>
-      <section
-        id="edit-1"
-        class="popover"
-        popover
-        aria-labelledby="edit-1-title"
-      >
-        <div class="popover-top">
-          <h2 id="edit-1-title">Edit record</h2>
-          <button
-            class="icon-btn"
-            popovertarget="edit-1"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <div class="field">
-          <label for="edit-1-customer">Customer</label
-          ><input
-            id="edit-1-customer"
-            name="edit-1-customer"
-            type="text"
-            value="Sam Taylor"
-          />
-        </div>
-        <div class="field">
-          <label for="edit-1-product">Product</label
-          ><select id="edit-1-product" name="edit-1-product">
-            <option>The Rubber Plant</option>
-            <option>The Stone Planter</option>
-            <option>Everyday Potting Mix</option>
-            <option>The Garden Duo</option>
-            <option>The Desk Garden</option>
-            <option>Leaf-care Treatment</option>
-          </select>
-        </div>
-        <div class="form-grid">
-          <div class="field">
-            <label for="edit-1-qty">Quantity</label
-            ><input
-              id="edit-1-qty"
-              name="edit-1-qty"
-              type="number"
-              min="1"
-              value="1"
-            />
-          </div>
-          <div class="field">
-            <label for="edit-1-status">Order status</label
-            ><select id="edit-1-status" name="edit-1-status">
-              <option>Processing</option>
-              <option>Shipped</option>
-              <option>Delivered</option>
-              <option>Cancelled</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="edit-1-address">Delivery address</label
-          ><input
-            id="edit-1-address"
-            name="edit-1-address"
-            type="text"
-            value=""
-          />
-        </div>
-        <div class="field">
-          <label for="edit-1-note">Order note</label
-          ><textarea id="edit-1-note" rows="2"></textarea>
-        </div>
-        <button class="btn" type="button" popovertarget="preview">
-          Save changes
-        </button>
-      </section>
-      <section
-        id="delete-1"
-        class="popover"
-        popover
-        aria-labelledby="delete-1-title"
-      >
-        <div class="popover-top">
-          <h2 id="delete-1-title">Delete this record?</h2>
-          <button
-            class="icon-btn"
-            popovertarget="delete-1"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <p>
-          Confirm removal of the selected record. No data is deleted in this
-          static preview.
-        </p>
-        <div class="flex" style="margin-top: 18px">
-          <button class="btn" type="button" popovertarget="preview">
-            Delete record</button
-          ><button
-            class="btn secondary"
-            popovertarget="delete-1"
-            popovertargetaction="hide"
-          >
-            Keep record
-          </button>
-        </div>
-      </section>
-      <section
-        id="view-2"
-        class="popover"
-        popover
-        aria-labelledby="view-2-title"
-      >
-        <div class="popover-top">
-          <h2 id="view-2-title">Orders / Record 3</h2>
-          <button
-            class="icon-btn"
-            popovertarget="view-2"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <div class="summary-row"><span>Order</span><span>#1031</span></div>
-        <div class="summary-row">
-          <span>Customer</span><span>Alex Morgan</span>
-        </div>
-        <div class="summary-row"><span>Date</span><span>18 Oct 2026</span></div>
-        <div class="summary-row"><span>Total</span><span>14.00 JOD</span></div>
-        <div class="summary-row">
-          <span>Status</span><span><span class="pill">Delivered</span></span>
-        </div>
-      </section>
-      <section
-        id="edit-2"
-        class="popover"
-        popover
-        aria-labelledby="edit-2-title"
-      >
-        <div class="popover-top">
-          <h2 id="edit-2-title">Edit record</h2>
-          <button
-            class="icon-btn"
-            popovertarget="edit-2"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <div class="field">
-          <label for="edit-2-customer">Customer</label
-          ><input
-            id="edit-2-customer"
-            name="edit-2-customer"
-            type="text"
-            value="Alex Morgan"
-          />
-        </div>
-        <div class="field">
-          <label for="edit-2-product">Product</label
-          ><select id="edit-2-product" name="edit-2-product">
-            <option>The Rubber Plant</option>
-            <option>The Stone Planter</option>
-            <option>Everyday Potting Mix</option>
-            <option>The Garden Duo</option>
-            <option>The Desk Garden</option>
-            <option>Leaf-care Treatment</option>
-          </select>
-        </div>
-        <div class="form-grid">
-          <div class="field">
-            <label for="edit-2-qty">Quantity</label
-            ><input
-              id="edit-2-qty"
-              name="edit-2-qty"
-              type="number"
-              min="1"
-              value="1"
-            />
-          </div>
-          <div class="field">
-            <label for="edit-2-status">Order status</label
-            ><select id="edit-2-status" name="edit-2-status">
-              <option>Processing</option>
-              <option>Shipped</option>
-              <option>Delivered</option>
-              <option>Cancelled</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="edit-2-address">Delivery address</label
-          ><input
-            id="edit-2-address"
-            name="edit-2-address"
-            type="text"
-            value=""
-          />
-        </div>
-        <div class="field">
-          <label for="edit-2-note">Order note</label
-          ><textarea id="edit-2-note" rows="2"></textarea>
-        </div>
-        <button class="btn" type="button" popovertarget="preview">
-          Save changes
-        </button>
-      </section>
-      <section
-        id="delete-2"
-        class="popover"
-        popover
-        aria-labelledby="delete-2-title"
-      >
-        <div class="popover-top">
-          <h2 id="delete-2-title">Delete this record?</h2>
-          <button
-            class="icon-btn"
-            popovertarget="delete-2"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <p>
-          Confirm removal of the selected record. No data is deleted in this
-          static preview.
-        </p>
-        <div class="flex" style="margin-top: 18px">
-          <button class="btn" type="button" popovertarget="preview">
-            Delete record</button
-          ><button
-            class="btn secondary"
-            popovertarget="delete-2"
-            popovertargetaction="hide"
-          >
-            Keep record
-          </button>
-        </div>
-      </section>
-      <section id="add" class="popover" popover aria-labelledby="add-title">
-        <div class="popover-top">
-          <h2 id="add-title">Create a record</h2>
-          <button
-            class="icon-btn"
-            popovertarget="add"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <div class="field">
-          <label for="new-customer">Customer</label
-          ><input id="new-customer" name="new-customer" type="text" value="" />
-        </div>
-        <div class="field">
-          <label for="new-product">Product</label
-          ><select id="new-product" name="new-product">
-            <option>The Rubber Plant</option>
-            <option>The Stone Planter</option>
-            <option>Everyday Potting Mix</option>
-            <option>The Garden Duo</option>
-            <option>The Desk Garden</option>
-            <option>Leaf-care Treatment</option>
-          </select>
-        </div>
-        <div class="form-grid">
-          <div class="field">
-            <label for="new-qty">Quantity</label
-            ><input
-              id="new-qty"
-              name="new-qty"
-              type="number"
-              min="1"
-              value="1"
-            />
-          </div>
-          <div class="field">
-            <label for="new-status">Order status</label
-            ><select id="new-status" name="new-status">
-              <option>Processing</option>
-              <option>Shipped</option>
-              <option>Delivered</option>
-              <option>Cancelled</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="new-address">Delivery address</label
-          ><input id="new-address" name="new-address" type="text" value="" />
-        </div>
-        <div class="field">
-          <label for="new-note">Order note</label
-          ><textarea id="new-note" rows="2"></textarea>
-        </div>
-        <button class="btn" type="button" popovertarget="preview">
-          Create record
-        </button>
-      </section>
-      <section
-        id="preview"
-        class="popover"
-        popover
-        aria-labelledby="preview-title"
-      >
-        <div class="popover-top">
-          <h2 id="preview-title">Ready for the next step.</h2>
-          <button
-            class="icon-btn"
-            popovertarget="preview"
-            popovertargetaction="hide"
-            aria-label="Close window"
-          >
-            ×
-          </button>
-        </div>
-        <p>
-          This action is part of the HTML &amp; CSS preview. Saving, accounts,
-          and transactions will be connected to PHP later. No information has
-          been submitted.
-        </p>
-        <button class="btn" popovertarget="preview" popovertargetaction="hide">
-          Got it
-        </button>
-      </section>
     </main>
-  </body>
+</body>
+
 </html>

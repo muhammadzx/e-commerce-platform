@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="assets/css/style.css?v=10">
   <link rel="stylesheet" href="assets/css/botanical.css?v=10">
   <link rel="stylesheet" href="assets/css/nabta-theme.css?v=18">
+  <link rel="stylesheet" href="assets/css/nabta-theme-copy.css?v=18">
 </head>
 
 <body class="auth-page botanical-edition<?= !empty($isRegister) ? ' is-register' : '' ?>">

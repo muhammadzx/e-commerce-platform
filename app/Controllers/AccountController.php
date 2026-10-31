@@ -40,6 +40,7 @@ class AccountController
         }
 
         $orders = $this->cart->getOrders($userId);
+        $wishlist = $this->user->getWishlist($userId);
 
         $flash = $_SESSION["account_flash"] ?? null;
         unset($_SESSION["account_flash"]);
@@ -65,6 +66,9 @@ class AccountController
             $this->updateProfile($userId);
         } elseif ($action === "password") {
             $this->changePassword($userId);
+        } elseif ($action === "wishlist_remove") {
+            $this->user->removeFromWishlist($userId, (int) ($_POST["wishlist_id"] ?? 0));
+            $this->flash("success", "Removed from your wishlist.");
         }
     }
 

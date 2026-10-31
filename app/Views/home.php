@@ -64,15 +64,15 @@ require_once __DIR__ . '/bootstrap.php';
         <a href="products.html" aria-label="Search products"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="10" cy="10" r="6" />
             <path d="m15 15 5 5" />
-          </svg></a><?php if (is_authenticated()): ?><a class="account-link" href="profile.html"
+          </svg></a><?php if (is_authenticated()): ?><a class="account-link" href="<?= htmlspecialchars(nabta_public_url('index.php?page=profile'), ENT_QUOTES, 'UTF-8') ?>"
             aria-label="Signed in account">Hi, <?= e(explode(' ', (string) ($_SESSION['full_name'] ?? 'there'))[0]) ?></a>
           <form class="logout-form" action="logout.php" method="post"><?= csrf_field() ?><button class="account-link"
               type="submit">Sign out</button></form><?php else: ?><a class="account-link login-cta"
-            href="login.php">Login</a><?php endif; ?><a class="bag-link" href="cart.html"
+            href="login.php">Login</a><?php endif; ?><?php require __DIR__ . '/layouts/cart-count.php'; ?><a class="bag-link" href="<?= htmlspecialchars(nabta_public_url('index.php?page=cart'), ENT_QUOTES, 'UTF-8') ?>"
           aria-label="Shopping basket"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M5 7h14l1 14H4L5 7Z" />
             <path d="M9 8V6a3 3 0 0 1 6 0v2" />
-          </svg><span class="bag-count">2</span></a>
+          </svg><span class="bag-count" data-cart-count<?= $navCartCount > 0 ? '' : ' style="display:none"' ?>><?= (int) $navCartCount ?></span></a>
         <details class="mobile-nav">
           <summary aria-label="Open navigation">☰</summary>
           <nav>

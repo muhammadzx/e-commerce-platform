@@ -67,9 +67,8 @@ class Collection
 
             $original += (float) $product["price"] * $qty;
 
-            $sets = $product["status"] === "active"
-                ? intdiv((int) $product["stock"], $qty)
-                : 0;
+            // Only the stock matters: a set with 0 available cannot be bought
+            $sets = intdiv((int) $product["stock"], $qty);
 
             $available = min($available, $sets);
         }

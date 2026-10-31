@@ -46,6 +46,7 @@ $mainImage = $imageCount > 0
 </head>
 <body class="nabta-product-body">
 <?php require __DIR__ . '/layouts/cart-link.php'; ?>
+<?php require __DIR__ . "/layouts/header.php"; ?>
 <main class="nabta-detail">
     <nav class="nd-crumbs" aria-label="Breadcrumb">
         <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Shop All</a><span aria-hidden="true">/</span>
@@ -484,6 +485,7 @@ $mainImage = $imageCount > 0
         <?php endif; ?>
     </section>
 </main>
+<?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=reviews4'), ENT_QUOTES, 'UTF-8') ?>" defer></script>

@@ -560,7 +560,7 @@
             </div>
           </div>
           <div class="hero-media">
-            <img src="assets/img/decor.jpg" alt="The Desk Garden — Nabta botanical collection" width="1536"
+            <img src="assets/img/services.jpg" alt="The Desk Garden — Nabta botanical collection" width="1536"
               height="1024" loading="lazy" /><span class="hero-tag">NABTA / BOTANICAL LIVING</span>
             <div class="hero-caption">
               <div>

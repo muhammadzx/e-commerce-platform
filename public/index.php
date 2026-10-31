@@ -1,4 +1,3 @@
-
 <?php
 
 require_once __DIR__ . "/../routes.php";
@@ -21,6 +20,11 @@ switch ($page) {
     case "product":
         $controller = new ProductController();
         $controller->show();
+        break;
+
+    case "wishlist":
+        $controller = new WishlistController();
+        $controller->handle();
         break;
 
     default:

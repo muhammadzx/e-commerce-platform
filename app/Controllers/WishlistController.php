@@ -1,6 +1,8 @@
 <?php
+require_once __DIR__ . '/../../config/paths.php';
 
-require_once __DIR__ . "/../Models/Wishlist.php";
+require_once __DIR__ . '/../Core/AdminSupport.php';
+require_once __DIR__ . '/../Models/Wishlist.php';
 
 class WishlistController
 {
@@ -11,192 +13,126 @@ class WishlistController
         $this->wishlist = new Wishlist();
     }
 
-    // Get current user's wishlist
-    public function index(): void
+    // 0 when nobody is logged in
+    private function currentUserId(): int
     {
-        $userId = $this->getUserId();
+        AdminSupport::start();
 
-        if (!$userId) {
-            $this->unauthorized();
-            return;
-        }
-
-        $items = $this->wishlist->getByUserId($userId);
-
-        echo json_encode([
-            "success" => true,
-            "items" => $items
-        ]);
+        return (int) ($_SESSION['user_id'] ?? 0);
     }
 
-    // Add product or collection to wishlist
-    public function store(): void
+    // The wishlist page: GET shows it, POST handles remove / add to basket
+    public function handle()
     {
-        $userId = $this->getUserId();
+        AdminSupport::start();
 
-        if (!$userId) {
-            $this->unauthorized();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $this->handlePost();
             return;
         }
 
-        $data = json_decode(
-            file_get_contents("php://input"),
-            true
-        );
-
-        $productId = isset($data["pro_id"])
-            ? (int) $data["pro_id"]
-            : 0;
-
-        $collectionId = isset($data["collection_id"])
-            ? (int) $data["collection_id"]
-            : 0;
-
-        // Must provide exactly one item type
-        if (
-            ($productId > 0 && $collectionId > 0) ||
-            ($productId <= 0 && $collectionId <= 0)
-        ) {
-            http_response_code(400);
-
-            echo json_encode([
-                "success" => false,
-                "message" => "Provide either pro_id or collection_id."
-            ]);
-
-            return;
-        }
-
-        if ($productId > 0) {
-
-            if ($this->wishlist->hasProduct($userId, $productId)) {
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Product is already in your wishlist."
-                ]);
-
-                return;
-            }
-
-            $added = $this->wishlist->addProduct(
-                $userId,
-                $productId
-            );
-
-        } else {
-
-            if ($this->wishlist->hasCollection($userId, $collectionId)) {
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Collection is already in your wishlist."
-                ]);
-
-                return;
-            }
-
-            $added = $this->wishlist->addCollection(
-                $userId,
-                $collectionId
-            );
-        }
-
-        if (!$added) {
-            http_response_code(500);
-
-            echo json_encode([
-                "success" => false,
-                "message" => "Could not add item to wishlist."
-            ]);
-
-            return;
-        }
-
-        echo json_encode([
-            "success" => true,
-            "message" => "Item added to wishlist."
-        ]);
+        $this->index();
     }
 
-    // Delete item from wishlist
-    public function destroy(): void
+    private function index()
     {
-        $userId = $this->getUserId();
+        $userId = $this->currentUserId();
+        $isLoggedIn = $userId > 0;
 
-        if (!$userId) {
-            $this->unauthorized();
-            return;
-        }
+        $items = $isLoggedIn ? $this->wishlist->getByUser($userId) : [];
+        $basketCount = $isLoggedIn ? $this->wishlist->basketCount($userId) : 0;
+        $flash = AdminSupport::pullFlash();
+        $csrfToken = AdminSupport::csrfToken();
 
-        $wishlistId = filter_input(
-            INPUT_POST,
-            "wishlist_id",
-            FILTER_VALIDATE_INT
-        );
-
-        // Also allow JSON body
-        if (!$wishlistId) {
-
-            $data = json_decode(
-                file_get_contents("php://input"),
-                true
-            );
-
-            $wishlistId = isset($data["wishlist_id"])
-                ? (int) $data["wishlist_id"]
-                : 0;
-        }
-
-        if (!$wishlistId || $wishlistId <= 0) {
-            http_response_code(400);
-
-            echo json_encode([
-                "success" => false,
-                "message" => "Invalid wishlist ID."
-            ]);
-
-            return;
-        }
-
-        $deleted = $this->wishlist->delete(
-            $userId,
-            $wishlistId
-        );
-
-        if (!$deleted) {
-            http_response_code(404);
-
-            echo json_encode([
-                "success" => false,
-                "message" => "Wishlist item not found."
-            ]);
-
-            return;
-        }
-
-        echo json_encode([
-            "success" => true,
-            "message" => "Item removed from wishlist."
-        ]);
+        require __DIR__ . '/../Views/wishlist.php';
     }
 
-    private function getUserId(): int
+    private function handlePost()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
+        $pageUrl = nabta_public_url('index.php?page=wishlist');
+        $userId = $this->currentUserId();
+
+        if ($userId <= 0) {
+            AdminSupport::flash('error', 'Please sign in first.');
+            AdminSupport::redirect($pageUrl);
         }
 
-        return isset($_SESSION["user_id"])
-            ? (int) $_SESSION["user_id"]
-            : 0;
+        if (!AdminSupport::verifyCsrf()) {
+            AdminSupport::flash('error', 'Your session expired. Please try again.');
+            AdminSupport::redirect($pageUrl);
+        }
+
+        $action = $_POST['action'] ?? '';
+        $wishlistId = (int) ($_POST['wishlist_id'] ?? 0);
+
+        // The item must exist and belong to the logged-in user
+        $item = $wishlistId > 0 ? $this->wishlist->findForUser($wishlistId, $userId) : false;
+
+        if (!$item) {
+            AdminSupport::flash('error', 'This item is not in your wishlist.');
+            AdminSupport::redirect($pageUrl);
+        }
+
+        switch ($action) {
+            case 'remove':
+                $this->wishlist->remove($wishlistId, $userId);
+                AdminSupport::flash('success', '"' . $item['name'] . '" was removed from your wishlist.');
+                break;
+
+            case 'add_to_basket':
+                [$ok, $message] = $this->wishlist->addToBasket($userId, $item);
+                AdminSupport::flash($ok ? 'success' : 'error', $message);
+                break;
+
+            default:
+                AdminSupport::flash('error', 'Unknown action.');
+        }
+
+        AdminSupport::redirect($pageUrl);
     }
 
-    private function unauthorized(): void
+    // JSON API used by the heart button on the product page
+    public function toggle()
     {
-        http_response_code(401);
+        header('Content-Type: application/json; charset=utf-8');
+
+        $userId = $this->currentUserId();
+
+        if ($userId <= 0) {
+            http_response_code(401);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Please log in to use your wishlist.'
+            ]);
+            return;
+        }
+
+        if (!AdminSupport::verifyCsrf()) {
+            http_response_code(403);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Invalid form token. Please refresh the page.'
+            ]);
+            return;
+        }
+
+        $productId = filter_input(INPUT_POST, 'pro_id', FILTER_VALIDATE_INT);
+
+        if (!$productId || $productId <= 0 || !$this->wishlist->productExists($productId)) {
+            http_response_code(422);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Product not found.'
+            ]);
+            return;
+        }
+
+        $inWishlist = $this->wishlist->toggleProduct($userId, $productId);
 
         echo json_encode([
-            "success" => false,
-            "message" => "You must be logged in."
+            'success' => true,
+            'in_wishlist' => $inWishlist,
+            'message' => $inWishlist ? 'Saved to your wishlist.' : 'Removed from your wishlist.'
         ]);
     }
 }

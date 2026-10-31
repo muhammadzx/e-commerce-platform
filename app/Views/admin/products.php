@@ -1,558 +1,482 @@
 <?php
-require_once __DIR__ . '/../../../config/paths.php';
+require_once __DIR__ . '/../../config/paths.php';
+// ProductController provides $product, $relatedProducts, $reviews, $reviewSummary.
+$img = static function (?string $url): string {
+    if (!$url) return '';
+    return preg_match('~^https?://~i', $url) ? $url : nabta_public_url('assets/img/' . ltrim($url, '/'));
+};
+$esc = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+$average = (float) ($reviewSummary['average'] ?? 0);
+$total = (int) ($reviewSummary['total'] ?? 0);
+$rounded = max(0, min(5, (int) round($average)));
+$inStock = (int) ($product['quantity'] ?? 0) > 0;
+
+// All images belonging to this product
+$productImages = $productImages ?? [];
+
+// Use the existing main image as a fallback
+if (empty($productImages) && !empty($product['image_url'])) {
+    $productImages = [
+        [
+            'image_url' => $product['image_url'],
+            'is_primary' => 1
+        ]
+    ];
+}
+
+$imageCount = count($productImages);
+$mainImage = $imageCount > 0
+    ? $img($productImages[0]['image_url'])
+    : '';
+
+
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Manage products | NABTA Botanical</title>
-    <meta name="description" content="NABTA Botanical admin workspace.">
-    <meta name="robots" content="noindex,nofollow">
-    <meta name="theme-color" content="#c5d4b4">
-    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?= $esc($product['name']) ?> | NABTA Botanical</title>
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product-details.css?v=13'), ENT_QUOTES, 'UTF-8') ?>">
+    <style>
+        .nabta-detail .nd-main-image { position: relative; }
+        .nabta-detail .nd-wish { position: absolute; top: 16px; right: 16px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; color: #fff; background: rgba(10, 28, 20, .55); border: 1px solid rgba(255, 255, 255, .35); border-radius: 50%; cursor: pointer; backdrop-filter: blur(6px); transition: transform .2s, color .2s, background .2s; }
+        .nabta-detail .nd-wish svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+        .nabta-detail .nd-wish:hover:not(:disabled) { transform: scale(1.08); }
+        .nabta-detail .nd-wish.is-active { color: #ff6b6b; }
+        .nabta-detail .nd-wish.is-active svg { fill: currentColor; }
+        .nabta-detail .nd-wish:disabled { opacity: .6; cursor: wait; }
+        .nabta-detail .nd-wish-msg { position: absolute; top: 72px; right: 16px; z-index: 2; max-width: 70%; padding: 8px 14px; font-size: .85rem; color: #fff; background: rgba(10, 28, 20, .85); border-radius: 12px; }
+    </style>
 </head>
+<body class="nabta-product-body">
+<main class="nabta-detail">
+    <nav class="nd-crumbs" aria-label="Breadcrumb">
+        <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Shop All</a><span aria-hidden="true">/</span>
+        <span><?= $esc($product['name']) ?></span>
+    </nav>
 
-<body class="admin-body botanical-edition workspace-page admin-products">
-        <main id="main">
-        <div class="admin-shell">
-            <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
-            <div class="admin-content">
-                <div class="admin-top"><span>Workspace / Products</span>
-                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Preview</span></div>
-                </div>
-                <div class="admin-photo-strip" role="img" aria-label="Soft-focus botanical greenhouse photograph">
-                    <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span></div>
-                <div class="admin-title">
-                    <div>
-                        <h1>Products</h1>
-                        <p>Manage plants, growing essentials, and seller listings.</p>
-                    </div><button class="btn" popovertarget="add">+ Add new</button>
-                </div>
-                <section class="panel">
-                    <div class="toolbar"><label class="sr-only" for="search-records">Search products</label><input
-                            class="control" id="search-records" type="search" placeholder="Search products"><button
-                            class="btn secondary" popovertarget="preview">Search <svg class="icon" viewBox="0 0 24 24"
-                                aria-hidden="true">
-                                <circle cx="10" cy="10" r="6"></circle>
-                                <path d="m15 15 5 5"></path>
-                            </svg></button><span class="label">6 records</span></div>
-                    <div class="table-scroll">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Stock</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td data-label="Product">
-                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/plant.jpg'), ENT_QUOTES, 'UTF-8') ?>"
-                                                alt=""><span>The Rubber Plant</span></div>
-                                    </td>
-                                    <td data-label="Category">Plants</td>
-                                    <td data-label="Price">24.00 JOD</td>
-                                    <td data-label="Stock">24</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-0">View</button><button class="table-button"
-                                                popovertarget="edit-0">Edit</button><button class="table-button"
-                                                popovertarget="delete-0">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Product">
-                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/pot.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The
-                                                Stone Planter</span></div>
-                                    </td>
-                                    <td data-label="Category">Pots</td>
-                                    <td data-label="Price">18.00 JOD</td>
-                                    <td data-label="Stock">21</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-1">View</button><button class="table-button"
-                                                popovertarget="edit-1">Edit</button><button class="table-button"
-                                                popovertarget="delete-1">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Product">
-                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/soil.jpg'), ENT_QUOTES, 'UTF-8') ?>"
-                                                alt=""><span>Everyday Potting Mix</span></div>
-                                    </td>
-                                    <td data-label="Category">Soil &amp; nutrition</td>
-                                    <td data-label="Price">8.00 JOD</td>
-                                    <td data-label="Stock">18</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-2">View</button><button class="table-button"
-                                                popovertarget="edit-2">Edit</button><button class="table-button"
-                                                popovertarget="delete-2">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Product">
-                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/tools.jpg'), ENT_QUOTES, 'UTF-8') ?>"
-                                                alt=""><span>The Garden Duo</span></div>
-                                    </td>
-                                    <td data-label="Category">Tools</td>
-                                    <td data-label="Price">16.00 JOD</td>
-                                    <td data-label="Stock">15</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-3">View</button><button class="table-button"
-                                                popovertarget="edit-3">Edit</button><button class="table-button"
-                                                popovertarget="delete-3">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Product">
-                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/decor.jpg'), ENT_QUOTES, 'UTF-8') ?>"
-                                                alt=""><span>The Desk Garden</span></div>
-                                    </td>
-                                    <td data-label="Category">Decor</td>
-                                    <td data-label="Price">14.00 JOD</td>
-                                    <td data-label="Stock">12</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-4">View</button><button class="table-button"
-                                                popovertarget="edit-4">Edit</button><button class="table-button"
-                                                popovertarget="delete-4">Delete</button></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td data-label="Product">
-                                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/care.jpg'), ENT_QUOTES, 'UTF-8') ?>"
-                                                alt=""><span>Leaf-care Treatment</span></div>
-                                    </td>
-                                    <td data-label="Category">Care &amp; treatments</td>
-                                    <td data-label="Price">12.00 JOD</td>
-                                    <td data-label="Stock">9</td>
-                                    <td data-label="Status"><span class="pill">Active</span></td>
-                                    <td data-label="Actions">
-                                        <div class="table-actions"><button class="table-button"
-                                                popovertarget="view-5">View</button><button class="table-button"
-                                                popovertarget="edit-5">Edit</button><button class="table-button"
-                                                popovertarget="delete-5">Delete</button></div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+    <section class="nd-hero" aria-label="Product details">
+      
+<div class="nd-gallery">
+
+    <!-- Main product image -->
+    <div class="nd-main-image">
+
+        <button class="nd-wish<?= !empty($inWishlist) ? ' is-active' : '' ?>" type="button"
+            data-wish-product-id="<?= (int) $product['pro_id'] ?>"
+            data-csrf="<?= $esc($_SESSION['csrf_token'] ?? '') ?>"
+            data-api="<?= $esc(nabta_public_url('index.php?api=wishlist-toggle')) ?>"
+            aria-pressed="<?= !empty($inWishlist) ? 'true' : 'false' ?>"
+            aria-label="<?= !empty($inWishlist) ? 'Remove from wishlist' : 'Add to wishlist' ?>"
+            title="<?= !empty($inWishlist) ? 'Remove from wishlist' : 'Add to wishlist' ?>">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>
+        </button>
+        <span class="nd-wish-msg" role="status" hidden></span>
+
+        <?php if ($mainImage): ?>
+
+            <img
+                id="main-product-image"
+                src="<?= $esc($mainImage) ?>"
+                alt="<?= $esc($product['name']) ?>"
+            >
+
+        <?php else: ?>
+
+            <div class="nd-image-empty">
+                NABTA BOTANICAL
             </div>
-            <section id="view-0" class="popover" popover aria-labelledby="view-0-title">
-                <div class="popover-top">
-                    <h2 id="view-0-title">Products / Record 1</h2><button class="icon-btn" popovertarget="view-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/plant.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Rubber
-                                Plant</span></div>
-                    </span></div>
-                <div class="summary-row"><span>Category</span><span>Plants</span></div>
-                <div class="summary-row"><span>Price</span><span>24.00 JOD</span></div>
-                <div class="summary-row"><span>Stock</span><span>24</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-0" class="popover" popover aria-labelledby="edit-0-title">
-                <div class="popover-top">
-                    <h2 id="edit-0-title">Edit record</h2><button class="icon-btn" popovertarget="edit-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-0-name">Product name</label><input id="edit-0-name"
-                        name="edit-0-name" type="text" value="The Rubber Plant"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-0-cat">Category</label><select id="edit-0-cat"
-                            name="edit-0-cat">
-                            <option>Plants</option>
-                            <option>Pots</option>
-                            <option>Soil &amp; nutrition</option>
-                            <option>Tools</option>
-                            <option>Decor</option>
-                            <option>Care &amp; treatments</option>
-                        </select></div>
-                    <div class="field"><label for="edit-0-price">Price (JOD)</label><input id="edit-0-price"
-                            name="edit-0-price" type="number" value="24"></div>
-                    <div class="field"><label for="edit-0-stock">Stock</label><input id="edit-0-stock"
-                            name="edit-0-stock" type="number" value="24"></div>
-                    <div class="field"><label for="edit-0-status">Status</label><select id="edit-0-status"
-                            name="edit-0-status">
-                            <option>Active</option>
-                            <option>Draft</option>
-                            <option>Under review</option>
-                            <option>Rejected</option>
-                        </select></div>
-                </div>
-                <div class="field"><label for="edit-0-image">Product image</label><input id="edit-0-image"
-                        name="edit-0-image" type="file" value=""></div>
-                <div class="field"><label for="edit-0-description">Description / verified label details</label><textarea
-                        id="edit-0-description" rows="2"></textarea></div><button class="btn" type="button"
-                    popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-0" class="popover" popover aria-labelledby="delete-0-title">
-                <div class="popover-top">
-                    <h2 id="delete-0-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-0"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-0" popovertargetaction="hide">Keep record</button></div>
-            </section>
-            <section id="view-1" class="popover" popover aria-labelledby="view-1-title">
-                <div class="popover-top">
-                    <h2 id="view-1-title">Products / Record 2</h2><button class="icon-btn" popovertarget="view-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/pot.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Stone
-                                Planter</span></div>
-                    </span></div>
-                <div class="summary-row"><span>Category</span><span>Pots</span></div>
-                <div class="summary-row"><span>Price</span><span>18.00 JOD</span></div>
-                <div class="summary-row"><span>Stock</span><span>21</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-1" class="popover" popover aria-labelledby="edit-1-title">
-                <div class="popover-top">
-                    <h2 id="edit-1-title">Edit record</h2><button class="icon-btn" popovertarget="edit-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-1-name">Product name</label><input id="edit-1-name"
-                        name="edit-1-name" type="text" value="The Stone Planter"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-1-cat">Category</label><select id="edit-1-cat"
-                            name="edit-1-cat">
-                            <option>Plants</option>
-                            <option>Pots</option>
-                            <option>Soil &amp; nutrition</option>
-                            <option>Tools</option>
-                            <option>Decor</option>
-                            <option>Care &amp; treatments</option>
-                        </select></div>
-                    <div class="field"><label for="edit-1-price">Price (JOD)</label><input id="edit-1-price"
-                            name="edit-1-price" type="number" value="18"></div>
-                    <div class="field"><label for="edit-1-stock">Stock</label><input id="edit-1-stock"
-                            name="edit-1-stock" type="number" value="21"></div>
-                    <div class="field"><label for="edit-1-status">Status</label><select id="edit-1-status"
-                            name="edit-1-status">
-                            <option>Active</option>
-                            <option>Draft</option>
-                            <option>Under review</option>
-                            <option>Rejected</option>
-                        </select></div>
-                </div>
-                <div class="field"><label for="edit-1-image">Product image</label><input id="edit-1-image"
-                        name="edit-1-image" type="file" value=""></div>
-                <div class="field"><label for="edit-1-description">Description / verified label details</label><textarea
-                        id="edit-1-description" rows="2"></textarea></div><button class="btn" type="button"
-                    popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-1" class="popover" popover aria-labelledby="delete-1-title">
-                <div class="popover-top">
-                    <h2 id="delete-1-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-1"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-1" popovertargetaction="hide">Keep record</button></div>
-            </section>
-            <section id="view-2" class="popover" popover aria-labelledby="view-2-title">
-                <div class="popover-top">
-                    <h2 id="view-2-title">Products / Record 3</h2><button class="icon-btn" popovertarget="view-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/soil.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>Everyday Potting
-                                Mix</span></div>
-                    </span></div>
-                <div class="summary-row"><span>Category</span><span>Soil &amp; nutrition</span></div>
-                <div class="summary-row"><span>Price</span><span>8.00 JOD</span></div>
-                <div class="summary-row"><span>Stock</span><span>18</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-2" class="popover" popover aria-labelledby="edit-2-title">
-                <div class="popover-top">
-                    <h2 id="edit-2-title">Edit record</h2><button class="icon-btn" popovertarget="edit-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-2-name">Product name</label><input id="edit-2-name"
-                        name="edit-2-name" type="text" value="Everyday Potting Mix"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-2-cat">Category</label><select id="edit-2-cat"
-                            name="edit-2-cat">
-                            <option>Plants</option>
-                            <option>Pots</option>
-                            <option>Soil &amp; nutrition</option>
-                            <option>Tools</option>
-                            <option>Decor</option>
-                            <option>Care &amp; treatments</option>
-                        </select></div>
-                    <div class="field"><label for="edit-2-price">Price (JOD)</label><input id="edit-2-price"
-                            name="edit-2-price" type="number" value="8"></div>
-                    <div class="field"><label for="edit-2-stock">Stock</label><input id="edit-2-stock"
-                            name="edit-2-stock" type="number" value="18"></div>
-                    <div class="field"><label for="edit-2-status">Status</label><select id="edit-2-status"
-                            name="edit-2-status">
-                            <option>Active</option>
-                            <option>Draft</option>
-                            <option>Under review</option>
-                            <option>Rejected</option>
-                        </select></div>
-                </div>
-                <div class="field"><label for="edit-2-image">Product image</label><input id="edit-2-image"
-                        name="edit-2-image" type="file" value=""></div>
-                <div class="field"><label for="edit-2-description">Description / verified label details</label><textarea
-                        id="edit-2-description" rows="2"></textarea></div><button class="btn" type="button"
-                    popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-2" class="popover" popover aria-labelledby="delete-2-title">
-                <div class="popover-top">
-                    <h2 id="delete-2-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-2"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-2" popovertargetaction="hide">Keep record</button></div>
-            </section>
-            <section id="view-3" class="popover" popover aria-labelledby="view-3-title">
-                <div class="popover-top">
-                    <h2 id="view-3-title">Products / Record 4</h2><button class="icon-btn" popovertarget="view-3"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/tools.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Garden
-                                Duo</span></div>
-                    </span></div>
-                <div class="summary-row"><span>Category</span><span>Tools</span></div>
-                <div class="summary-row"><span>Price</span><span>16.00 JOD</span></div>
-                <div class="summary-row"><span>Stock</span><span>15</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-3" class="popover" popover aria-labelledby="edit-3-title">
-                <div class="popover-top">
-                    <h2 id="edit-3-title">Edit record</h2><button class="icon-btn" popovertarget="edit-3"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-3-name">Product name</label><input id="edit-3-name"
-                        name="edit-3-name" type="text" value="The Garden Duo"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-3-cat">Category</label><select id="edit-3-cat"
-                            name="edit-3-cat">
-                            <option>Plants</option>
-                            <option>Pots</option>
-                            <option>Soil &amp; nutrition</option>
-                            <option>Tools</option>
-                            <option>Decor</option>
-                            <option>Care &amp; treatments</option>
-                        </select></div>
-                    <div class="field"><label for="edit-3-price">Price (JOD)</label><input id="edit-3-price"
-                            name="edit-3-price" type="number" value="16"></div>
-                    <div class="field"><label for="edit-3-stock">Stock</label><input id="edit-3-stock"
-                            name="edit-3-stock" type="number" value="15"></div>
-                    <div class="field"><label for="edit-3-status">Status</label><select id="edit-3-status"
-                            name="edit-3-status">
-                            <option>Active</option>
-                            <option>Draft</option>
-                            <option>Under review</option>
-                            <option>Rejected</option>
-                        </select></div>
-                </div>
-                <div class="field"><label for="edit-3-image">Product image</label><input id="edit-3-image"
-                        name="edit-3-image" type="file" value=""></div>
-                <div class="field"><label for="edit-3-description">Description / verified label details</label><textarea
-                        id="edit-3-description" rows="2"></textarea></div><button class="btn" type="button"
-                    popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-3" class="popover" popover aria-labelledby="delete-3-title">
-                <div class="popover-top">
-                    <h2 id="delete-3-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-3"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-3" popovertargetaction="hide">Keep record</button></div>
-            </section>
-            <section id="view-4" class="popover" popover aria-labelledby="view-4-title">
-                <div class="popover-top">
-                    <h2 id="view-4-title">Products / Record 5</h2><button class="icon-btn" popovertarget="view-4"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/decor.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>The Desk
-                                Garden</span></div>
-                    </span></div>
-                <div class="summary-row"><span>Category</span><span>Decor</span></div>
-                <div class="summary-row"><span>Price</span><span>14.00 JOD</span></div>
-                <div class="summary-row"><span>Stock</span><span>12</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-4" class="popover" popover aria-labelledby="edit-4-title">
-                <div class="popover-top">
-                    <h2 id="edit-4-title">Edit record</h2><button class="icon-btn" popovertarget="edit-4"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-4-name">Product name</label><input id="edit-4-name"
-                        name="edit-4-name" type="text" value="The Desk Garden"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-4-cat">Category</label><select id="edit-4-cat"
-                            name="edit-4-cat">
-                            <option>Plants</option>
-                            <option>Pots</option>
-                            <option>Soil &amp; nutrition</option>
-                            <option>Tools</option>
-                            <option>Decor</option>
-                            <option>Care &amp; treatments</option>
-                        </select></div>
-                    <div class="field"><label for="edit-4-price">Price (JOD)</label><input id="edit-4-price"
-                            name="edit-4-price" type="number" value="14"></div>
-                    <div class="field"><label for="edit-4-stock">Stock</label><input id="edit-4-stock"
-                            name="edit-4-stock" type="number" value="12"></div>
-                    <div class="field"><label for="edit-4-status">Status</label><select id="edit-4-status"
-                            name="edit-4-status">
-                            <option>Active</option>
-                            <option>Draft</option>
-                            <option>Under review</option>
-                            <option>Rejected</option>
-                        </select></div>
-                </div>
-                <div class="field"><label for="edit-4-image">Product image</label><input id="edit-4-image"
-                        name="edit-4-image" type="file" value=""></div>
-                <div class="field"><label for="edit-4-description">Description / verified label details</label><textarea
-                        id="edit-4-description" rows="2"></textarea></div><button class="btn" type="button"
-                    popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-4" class="popover" popover aria-labelledby="delete-4-title">
-                <div class="popover-top">
-                    <h2 id="delete-4-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-4"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-4" popovertargetaction="hide">Keep record</button></div>
-            </section>
-            <section id="view-5" class="popover" popover aria-labelledby="view-5-title">
-                <div class="popover-top">
-                    <h2 id="view-5-title">Products / Record 6</h2><button class="icon-btn" popovertarget="view-5"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="summary-row"><span>Product</span><span>
-                        <div class="table-product"><img src="<?= htmlspecialchars(nabta_public_url('assets/img/care.jpg'), ENT_QUOTES, 'UTF-8') ?>" alt=""><span>Leaf-care
-                                Treatment</span></div>
-                    </span></div>
-                <div class="summary-row"><span>Category</span><span>Care &amp; treatments</span></div>
-                <div class="summary-row"><span>Price</span><span>12.00 JOD</span></div>
-                <div class="summary-row"><span>Stock</span><span>9</span></div>
-                <div class="summary-row"><span>Status</span><span><span class="pill">Active</span></span></div>
-            </section>
-            <section id="edit-5" class="popover" popover aria-labelledby="edit-5-title">
-                <div class="popover-top">
-                    <h2 id="edit-5-title">Edit record</h2><button class="icon-btn" popovertarget="edit-5"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="edit-5-name">Product name</label><input id="edit-5-name"
-                        name="edit-5-name" type="text" value="Leaf-care Treatment"></div>
-                <div class="form-grid">
-                    <div class="field"><label for="edit-5-cat">Category</label><select id="edit-5-cat"
-                            name="edit-5-cat">
-                            <option>Plants</option>
-                            <option>Pots</option>
-                            <option>Soil &amp; nutrition</option>
-                            <option>Tools</option>
-                            <option>Decor</option>
-                            <option>Care &amp; treatments</option>
-                        </select></div>
-                    <div class="field"><label for="edit-5-price">Price (JOD)</label><input id="edit-5-price"
-                            name="edit-5-price" type="number" value="12"></div>
-                    <div class="field"><label for="edit-5-stock">Stock</label><input id="edit-5-stock"
-                            name="edit-5-stock" type="number" value="9"></div>
-                    <div class="field"><label for="edit-5-status">Status</label><select id="edit-5-status"
-                            name="edit-5-status">
-                            <option>Active</option>
-                            <option>Draft</option>
-                            <option>Under review</option>
-                            <option>Rejected</option>
-                        </select></div>
-                </div>
-                <div class="field"><label for="edit-5-image">Product image</label><input id="edit-5-image"
-                        name="edit-5-image" type="file" value=""></div>
-                <div class="field"><label for="edit-5-description">Description / verified label details</label><textarea
-                        id="edit-5-description" rows="2"></textarea></div><button class="btn" type="button"
-                    popovertarget="preview">Save changes</button>
-            </section>
-            <section id="delete-5" class="popover" popover aria-labelledby="delete-5-title">
-                <div class="popover-top">
-                    <h2 id="delete-5-title">Delete this record?</h2><button class="icon-btn" popovertarget="delete-5"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>Confirm removal of the selected record. No data is deleted in this static preview.</p>
-                <div class="flex" style="margin-top:18px"><button class="btn" type="button"
-                        popovertarget="preview">Delete record</button><button class="btn secondary"
-                        popovertarget="delete-5" popovertargetaction="hide">Keep record</button></div>
-            </section>
-            <section id="add" class="popover" popover aria-labelledby="add-title">
-                <div class="popover-top">
-                    <h2 id="add-title">Create a record</h2><button class="icon-btn" popovertarget="add"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <div class="field"><label for="new-name">Product name</label><input id="new-name" name="new-name"
-                        type="text" value=""></div>
-                <div class="form-grid">
-                    <div class="field"><label for="new-cat">Category</label><select id="new-cat" name="new-cat">
-                            <option>Plants</option>
-                            <option>Pots</option>
-                            <option>Soil &amp; nutrition</option>
-                            <option>Tools</option>
-                            <option>Decor</option>
-                            <option>Care &amp; treatments</option>
-                        </select></div>
-                    <div class="field"><label for="new-price">Price (JOD)</label><input id="new-price" name="new-price"
-                            type="number" value=""></div>
-                    <div class="field"><label for="new-stock">Stock</label><input id="new-stock" name="new-stock"
-                            type="number" value=""></div>
-                    <div class="field"><label for="new-status">Status</label><select id="new-status" name="new-status">
-                            <option>Active</option>
-                            <option>Draft</option>
-                            <option>Under review</option>
-                            <option>Rejected</option>
-                        </select></div>
-                </div>
-                <div class="field"><label for="new-image">Product image</label><input id="new-image" name="new-image"
-                        type="file" value=""></div>
-                <div class="field"><label for="new-description">Description / verified label details</label><textarea
-                        id="new-description" rows="2"></textarea></div><button class="btn" type="button"
-                    popovertarget="preview">Create record</button>
-            </section>
-            <section id="preview" class="popover" popover aria-labelledby="preview-title">
-                <div class="popover-top">
-                    <h2 id="preview-title">Ready for the next step.</h2><button class="icon-btn" popovertarget="preview"
-                        popovertargetaction="hide" aria-label="Close window">×</button>
-                </div>
-                <p>This action is part of the HTML &amp; CSS preview. Saving, accounts, and transactions will be
-                    connected to PHP later. No information has been submitted.</p><button class="btn"
-                    popovertarget="preview" popovertargetaction="hide">Got it</button>
-            </section>
-        </div>
-    </main>
-</body>
 
+        <?php endif; ?>
+
+    </div>
+
+    <!-- Image thumbnails -->
+    <?php if ($imageCount > 1): ?>
+
+        <div class="nd-thumbnails">
+
+            <?php foreach ($productImages as $index => $image): ?>
+
+                <button
+                    type="button"
+                    class="nd-thumbnail <?= $index === 0 ? 'active' : '' ?>"
+                    data-image="<?= $esc($img($image['image_url'])) ?>"
+                    data-index="<?= $index + 1 ?>"
+                    aria-label="View product image <?= $index + 1 ?>"
+                    aria-pressed="<?= $index === 0 ? 'true' : 'false' ?>"
+                >
+
+                    <img
+                        src="<?= $esc($img($image['image_url'])) ?>"
+                        alt="<?= $esc($product['name']) ?> - Image <?= $index + 1 ?>"
+                        loading="lazy"
+                    >
+
+                </button>
+
+            <?php endforeach; ?>
+
+        </div>
+
+    <?php endif; ?>
+
+    <!-- Image counter -->
+    <div class="nd-gallery-caption">
+
+        <span>THE NABTA COLLECTION</span>
+
+        <span id="image-counter">
+            01 / <?= str_pad((string) $imageCount, 2, '0', STR_PAD_LEFT) ?>
+        </span>
+
+    </div>
+
+</div>
+
+
+        <div class="nd-information">
+            <p class="nd-kicker">BOTANICAL ESSENTIALS <span>— <?= $esc($product['category'] ?? 'NABTA') ?></span></p>
+            <h1><?= $esc($product['name']) ?></h1>
+            <div class="nd-price-row">
+                <p class="nd-price"><?= number_format((float) $product['price'], 2) ?> <small>JOD</small></p>
+                <span class="nd-availability <?= $inStock ? '' : 'is-out' ?>"><span class="nd-dot"></span><?= $inStock ? 'In stock' : 'Out of stock' ?></span>
+            </div>
+            <?php if ($total > 0): ?>
+                <a class="nd-rating" href="#reviews"><span class="nd-stars"><?= str_repeat('★', $rounded) . str_repeat('☆', 5 - $rounded) ?></span><span><?= number_format($average, 1) ?> · <?= $total ?> review<?= $total === 1 ? '' : 's' ?></span></a>
+            <?php else: ?>
+                <p class="nd-rating nd-rating-empty">No reviews yet</p>
+            <?php endif; ?>
+            <div class="nd-rule"></div>
+            <p class="nd-description"><?= nl2br($esc($product['description'] ?? '')) ?></p>
+            <button class="nd-cart" type="button" data-product-id="<?= (int) $product['pro_id'] ?>" <?= $inStock ? '' : 'disabled' ?>>
+                <span><?= $inStock ? 'Add to cart' : 'Currently unavailable' ?></span><span aria-hidden="true">↗</span>
+            </button>
+            <p class="nd-small-note">A little more nature, every day.</p>
+            <div class="nd-detail-footer"><span>NABTA / BOTANICAL GOODS</span><span>MADE FOR GREENER SPACES</span></div>
+        </div>
+    </section>
+
+
+<section class="nd-reviews" id="reviews">
+
+    <div class="nd-section-head">
+        <div>
+            <p class="nd-kicker">WORDS FROM OUR COMMUNITY</p>
+            <h2>
+                Customer reviews
+                <span class="nd-count"><?= $total ?></span>
+            </h2>
+        </div>
+
+        <?php if ($total > 0): ?>
+            <p class="nd-review-summary">
+                <span class="nd-stars">
+                    <?= str_repeat('★', $rounded) . str_repeat('☆', 5 - $rounded) ?>
+                </span>
+                <?= number_format($average, 1) ?> / 5
+            </p>
+        <?php endif; ?>
+    </div>
+
+    <!-- Existing customer reviews -->
+    <?php if (empty($reviews)): ?>
+
+        <p class="nd-empty">
+            No reviews yet. Be the first to share your experience.
+        </p>
+
+    <?php else: ?>
+
+        <div class="nd-review-list">
+
+          <?php foreach ($topReviews as $review): ?>
+
+                <?php
+                $stars = max(
+                    0,
+                    min(5, (int) ($review['rating'] ?? 0))
+                );
+                ?>
+
+                <article class="nd-review">
+
+                    <div class="nd-review-person">
+                        <strong>
+                            <?= $esc($review['reviewer_name'] ?? 'Customer') ?>
+                        </strong>
+
+                        <span>
+                            <?= !empty($review['created_at'])
+                                ? date('M j, Y', strtotime($review['created_at']))
+                                : '' ?>
+                        </span>
+                    </div>
+
+                    <div class="nd-review-body">
+
+                        <span class="nd-stars">
+                            <?= str_repeat('★', $stars) . str_repeat('☆', 5 - $stars) ?>
+                        </span>
+
+                        <?php if (!empty($review['comment'])): ?>
+                            <p><?= nl2br($esc($review['comment'])) ?></p>
+
+                            
+                        <?php endif; ?>
+
+                    </div>
+
+</article>
+
+<?php endforeach; ?>
+
+</div>
+
+<?php if ($total > 3): ?>
+    <button
+        type="button"
+        class="nd-view-reviews"
+        id="open-reviews-modal"
+    >
+        View all <?= $total ?> reviews ↗
+    </button>
+<?php endif; ?>
+
+    <?php endif; ?>
+
+<?php if ($total > 3): ?>
+<div
+    class="nd-reviews-modal"
+    id="reviews-modal"
+    hidden
+>
+    <div class="nd-modal-backdrop" data-close-reviews></div>
+
+    <div
+        class="nd-modal-panel"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="reviews-modal-title"
+        tabindex="-1"
+    >
+        <div class="nd-modal-header">
+            <div>
+                <p class="nd-kicker">THE NABTA COMMUNITY</p>
+                <h2 id="reviews-modal-title">All customer reviews</h2>
+                <p>
+                    <?= number_format($average, 1) ?> / 5
+                    · <?= $total ?> reviews
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="nd-modal-close"
+                id="close-reviews-modal"
+                aria-label="Close reviews"
+            >
+                &times;
+            </button>
+        </div>
+
+        <div class="nd-modal-review-list" id="modal-review-list">
+            <?php foreach ($reviews as $review): ?>
+                <?php
+                $stars = max(0, min(5, (int) $review['rating']));
+                ?>
+
+                <article class="nd-review">
+                    <div class="nd-review-person">
+                        <strong>
+                            <?= $esc($review['reviewer_name'] ?? 'Customer') ?>
+                        </strong>
+                        <span>
+                            <?= !empty($review['created_at'])
+                                ? date('M j, Y', strtotime($review['created_at']))
+                                : '' ?>
+                        </span>
+                    </div>
+
+                    <div class="nd-review-body">
+                        <span class="nd-stars">
+                            <?= str_repeat('★', $stars) . str_repeat('☆', 5 - $stars) ?>
+                        </span>
+
+                        <?php if (!empty($review['comment'])): ?>
+                            <p><?= nl2br($esc($review['comment'])) ?></p>
+                        <?php endif; ?>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        </div>
+
+        <div class="nd-modal-footer">
+            <button
+                type="button"
+                class="nd-modal-load-more"
+                id="load-more-reviews"
+                hidden
+            >
+                Show more reviews ↓
+            </button>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+    
+    <!-- Write a review -->
+    <div class="nd-review-form-container">
+
+        <p class="nd-kicker">YOUR EXPERIENCE MATTERS</p>
+        <h3>Share your experience.</h3>
+
+        <?php if (empty($_SESSION["user_id"])): ?>
+
+            <p class="nd-empty">
+                Please log in to leave a review.
+            </p>
+
+        <?php elseif (!$reviewModel->hasPurchased(
+            (int) $_SESSION["user_id"],
+            (int) $product["pro_id"]
+        )): ?>
+
+            <p class="nd-empty">
+                Only customers who purchased this product can leave a review.
+            </p>
+
+        <?php elseif ($reviewModel->hasReviewed(
+            (int) $_SESSION["user_id"],
+            (int) $product["pro_id"]
+        )): ?>
+
+            <p class="nd-empty">
+                You have already reviewed this product.
+            </p>
+
+        <?php else: ?>
+
+           <form
+    id="review-form"
+    method="POST"
+    action="<?= htmlspecialchars(nabta_public_url('index.php?api=submit-review'), ENT_QUOTES, 'UTF-8') ?>"
+>
+                <input
+                    type="hidden"
+                    name="pro_id"
+                    value="<?= (int) $product["pro_id"] ?>"
+                >
+
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= $esc($_SESSION["csrf_token"]) ?>"
+                >
+
+                <label for="review-rating">Your rating</label>
+
+                <select id="review-rating" name="rating" required>
+                    <option value="">Select your rating</option>
+                    <option value="5">★★★★★ — Excellent</option>
+                    <option value="4">★★★★☆ — Very good</option>
+                    <option value="3">★★★☆☆ — Good</option>
+                    <option value="2">★★☆☆☆ — Fair</option>
+                    <option value="1">★☆☆☆☆ — Poor</option>
+                </select>
+
+                <label for="review-comment">Your review</label>
+
+                <textarea
+                    id="review-comment"
+                    name="comment"
+                    rows="4"
+                    maxlength="1000"
+                    placeholder="Tell us about your experience..."
+                    required
+                ></textarea>
+
+                <button type="submit" class="nd-review-submit">
+                    Submit review ↗
+                </button>
+
+                <p id="review-message" role="status" aria-live="polite"></p>
+
+            </form>
+
+        <?php endif; ?>
+
+    </div>
+
+</section>
+
+
+    <section class="nd-related">
+        <div class="nd-section-head"><div><p class="nd-kicker">DISCOVER SOMETHING NEW</p><h2>You may also like<span class="nd-period">.</span></h2></div><a class="nd-view-all" href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Explore all products ↗</a></div>
+        <?php if (empty($relatedProducts)): ?>
+            <p class="nd-empty">No related products available.</p>
+        <?php else: ?>
+            <div class="nd-related-grid">
+            <?php foreach ($relatedProducts as $related): ?>
+                <article class="nd-product-card"><a href="<?= htmlspecialchars(nabta_public_url('index.php?page=product&id=' . (int) $related['pro_id']), ENT_QUOTES, 'UTF-8') ?>">
+                    <div class="nd-card-image">
+                        <?php if (!empty($related['image_url'])): ?><img src="<?= $esc($img($related['image_url'])) ?>" alt="<?= $esc($related['name']) ?>" loading="lazy"><?php else: ?><div class="nd-image-empty">NABTA</div><?php endif; ?>
+                        <span class="nd-card-arrow" aria-hidden="true">↗</span>
+                    </div>
+                    <div class="nd-card-copy"><h3><?= $esc($related['name']) ?></h3><span><?= number_format((float) $related['price'], 2) ?> JOD</span></div>
+                </a></article>
+            <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </section>
+</main>
+
+<script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=reviews4'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
+<script>
+(function () {
+    var btn = document.querySelector('[data-wish-product-id]');
+    var msg = document.querySelector('.nd-wish-msg');
+    var timer = null;
+
+    if (!btn) return;
+
+    function show(text) {
+        if (!msg || !text) return;
+        msg.textContent = text;
+        msg.hidden = false;
+        clearTimeout(timer);
+        timer = setTimeout(function () { msg.hidden = true; }, 2500);
+    }
+
+    btn.addEventListener('click', function () {
+        var body = new URLSearchParams();
+        body.append('pro_id', btn.dataset.wishProductId);
+        body.append('csrf_token', btn.dataset.csrf);
+
+        btn.disabled = true;
+
+        fetch(btn.dataset.api, { method: 'POST', body: body, credentials: 'same-origin' })
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                if (data.success) {
+                    var saved = !!data.in_wishlist;
+                    var label = saved ? 'Remove from wishlist' : 'Add to wishlist';
+                    btn.classList.toggle('is-active', saved);
+                    btn.setAttribute('aria-pressed', saved ? 'true' : 'false');
+                    btn.setAttribute('aria-label', label);
+                    btn.setAttribute('title', label);
+                }
+                show(data.message);
+            })
+            .catch(function () { show('Something went wrong. Please try again.'); })
+            .finally(function () { btn.disabled = false; });
+    });
+})();
+</script>
+</body>
 </html>

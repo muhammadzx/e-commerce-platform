@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../Core/Database.php";
 require_once __DIR__ . "/Collection.php";
 
 // The `cart` table holds both baskets and orders:
@@ -11,10 +10,9 @@ class Cart
 {
     private PDO $conn;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $database = new Database();
-        $this->conn = $database->connect();
+        $this->conn = $db;
     }
 
     // Find the open basket of a user (optionally create it)

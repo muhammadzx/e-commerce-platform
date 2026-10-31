@@ -10,7 +10,9 @@ class AdminCategoryController
 
     public function __construct()
     {
-        $this->category = new Category();
+        require __DIR__ . '/../../config/connection.php';
+
+        $this->category = new Category($db);
     }
 
     public function handle()

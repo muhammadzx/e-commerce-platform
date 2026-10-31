@@ -9,7 +9,9 @@ class OrderController
 
     public function __construct()
     {
-        $this->cart = new Cart();
+        require __DIR__ . '/../../config/connection.php';
+
+        $this->cart = new Cart($db);
     }
 
     // Checkout page: delivery details form + order summary

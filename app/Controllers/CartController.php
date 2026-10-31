@@ -9,7 +9,9 @@ class CartController
 
     public function __construct()
     {
-        $this->cart = new Cart();
+        require __DIR__ . '/../../config/connection.php';
+
+        $this->cart = new Cart($db);
     }
 
     // Cart page: shows the basket, handles "Update quantities" and "Remove"

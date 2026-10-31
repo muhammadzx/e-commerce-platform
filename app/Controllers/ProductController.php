@@ -2,6 +2,7 @@
 
 require_once __DIR__ . "/../Models/Product.php";
 require_once __DIR__ . "/../Models/Review.php";
+require_once __DIR__ . "/../Models/Wishlist.php";
 
 class ProductController
 {
@@ -123,6 +124,10 @@ $topReviews = $reviewModel->getTopReviews($id);
 
 // Average rating and total count
 $reviewSummary = $reviewModel->getSummary($id);
+
+    // Is this product already in the logged-in user's wishlist?
+    $inWishlist = !empty($_SESSION["user_id"])
+        && (new Wishlist())->has((int) $_SESSION["user_id"], $id);
 
     // Display product details page
     require __DIR__ . "/../Views/product.php";

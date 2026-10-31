@@ -8,7 +8,7 @@ if (!isset($products)) {
 }
 $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT);
 ?>
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">

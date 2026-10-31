@@ -72,7 +72,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 
                 <div class="cx-field">
                     <label for="phone">Phone number</label>
-                    <input id="phone" name="phone" type="tel" maxlength="30" autocomplete="tel"
+                    <input id="phone" name="phone" type="tel" maxlength="20" autocomplete="tel"
                            value="<?= e($customer['phone'] ?? '') ?>">
                 </div>
 
@@ -174,6 +174,6 @@ window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;
 window.NABTA_CSRF = <?= json_encode(csrf_token()) ?>;
 </script>
 <script src="<?= $u('assets/js/nature-bg.js') ?>" defer></script>
-<script src="<?= $u('assets/js/cart.js?v=1') ?>" defer></script>
+<script src="<?= $u('assets/js/cart.js?v=2') ?>" defer></script>
 </body>
 </html>

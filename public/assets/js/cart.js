@@ -152,7 +152,7 @@
 
         var phone = value("phone");
 
-        if (phone !== "" && !/^[0-9+()\-\s.]{6,30}$/.test(phone)) {
+        if (phone !== "" && !/^[0-9+()\-\s.]{6,20}$/.test(phone)) {
             formError.textContent = "Enter a valid phone number, or leave the field empty.";
             return;
         }

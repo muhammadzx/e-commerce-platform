@@ -2,7 +2,7 @@
 
 return [
     "host" => "localhost",
-    "dbname" => "nabta_store_new",
+    "dbname" => "nabta_store",
     "username" => "root",
     "password" => ""
 ];

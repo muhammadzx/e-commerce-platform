@@ -60,6 +60,33 @@ class User
         return $user !== false ? $user : null;
     }
 
+    // Password hash of one user (to check the current password)
+    public function getPasswordHash(int $id): ?string
+    {
+        $stmt = $this->conn->prepare("SELECT password FROM users WHERE user_id = :id LIMIT 1");
+        $stmt->execute([":id" => $id]);
+        $hash = $stmt->fetchColumn();
+
+        return $hash === false ? null : (string) $hash;
+    }
+
+    // The customer edits only their own contact details (never role or status)
+    public function updateProfile(int $id, array $data): void
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users
+             SET full_name = :name, email = :email, phone = :phone, address = :address
+             WHERE user_id = :id"
+        );
+        $stmt->execute([
+            ":name" => $data["full_name"],
+            ":email" => $data["email"],
+            ":phone" => $data["phone"],
+            ":address" => $data["address"],
+            ":id" => $id
+        ]);
+    }
+
     public function emailExists(string $email, int $exceptId = 0): bool
     {
         $stmt = $this->conn->prepare(

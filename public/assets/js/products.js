@@ -89,6 +89,48 @@ document.addEventListener("DOMContentLoaded", async () => {
                 imageWrap.appendChild(badge);
             }
 
+
+
+
+            
+ // ==========================================
+ // WISHLIST HEART BUTTON
+ // ==========================================
+
+const wishlistButton = document.createElement("button");
+
+wishlistButton.type = "button";
+wishlistButton.className = "wishlist-heart";
+wishlistButton.dataset.productId = product.pro_id;
+
+wishlistButton.setAttribute(
+    "aria-label",
+    `Add ${product.name} to wishlist`
+);
+
+wishlistButton.setAttribute("aria-pressed", "false");
+
+wishlistButton.innerHTML = `
+    <svg viewBox="0 0 24 24"
+         width="22"
+         height="22"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="1.8"
+         stroke-linecap="round"
+         stroke-linejoin="round"
+         aria-hidden="true">
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+`;
+
+card.appendChild(wishlistButton);
+
+
+
+
+
+
             const info = document.createElement("div");
             info.className = "product-info";
 
@@ -594,4 +636,112 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+});
+
+
+
+
+
+
+
+
+
+
+ // ==========================================
+ // ADD TO CART BUTTON
+ // ==========================================
+
+document.addEventListener("click", (event) => {
+
+    const button = event.target.closest(".nd-cart[data-product-id]");
+
+    if (!button || button.disabled) return;
+
+    const productId = Number(button.dataset.productId);
+
+    if (!Number.isSafeInteger(productId) || productId <= 0) return;
+
+    document.dispatchEvent(
+        new CustomEvent("nabta:add-to-cart", {
+            detail: {
+                productId,
+                quantity: 1
+            }
+        })
+    );
+
+    // Temporary visual feedback
+    const originalText = button.innerHTML;
+
+    button.innerHTML = `
+        <span>✓ Added to cart </span>
+        <span aria-hidden="true">↗</span>
+    `;
+
+    button.classList.add("cart-feedback");
+
+    button.disabled = true;
+
+    setTimeout(() => {
+        button.innerHTML = originalText;
+        button.classList.remove("cart-feedback");
+        button.disabled = false;
+    }, 2000);
+
+    console.log("Add to cart requested:", productId);
+
+});
+
+
+
+
+
+
+
+
+
+
+ // ==========================================
+ // WISHLIST HEART - INTEGRATION EVENT
+ // ==========================================
+
+document.addEventListener("click", (event) => {
+
+    const button = event.target.closest(".wishlist-heart");
+
+    if (!button) return;
+
+    const productId = Number(button.dataset.productId);
+
+    if (!Number.isSafeInteger(productId) || productId <= 0) {
+        console.error("Invalid wishlist product ID");
+        return;
+    }
+
+    const isActive = button.classList.toggle("active");
+
+    button.setAttribute(
+        "aria-pressed",
+        String(isActive)
+    );
+
+    button.setAttribute(
+        "aria-label",
+        isActive ? "Remove from wishlist" : "Add to wishlist"
+    );
+
+    document.dispatchEvent(
+        new CustomEvent("nabta:wishlist-toggle", {
+            detail: {
+                productId,
+                action: isActive ? "add" : "remove"
+            }
+        })
+    );
+
+    console.log("Wishlist request:", {
+        productId,
+        action: isActive ? "add" : "remove"
+    });
+
 });

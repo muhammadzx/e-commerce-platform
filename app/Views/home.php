@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../../config/paths.php';
+require_once __DIR__ . '/bootstrap.php';
+?>
 <!doctype html>
 <html lang="en">
 
@@ -9,14 +13,15 @@
     content="Buy and sell plants, ceramic pots, soil, tools, botanical decor and plant-care essentials at Nabta. A little nature, closer to home." />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#051f20" />
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="assets/css/style.css?v=10" />
-  <link rel="stylesheet" href="assets/css/botanical.css?v=10" />
-  <link rel="stylesheet" href="assets/css/layout-review.css?v=10" />
-  <link rel="stylesheet" href="assets/css/bundlesLandingPage.css?v=11" />
-  <link rel="stylesheet" href="assets/css/alive.css?v=12" />
-  <link rel="stylesheet" href="assets/css/nabta-theme.css?v=18" />
-  <link rel="stylesheet" href="assets/css/nabta-theme-copy.css?v=18">
+  <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml" />
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/home.css?v=18'), ENT_QUOTES, 'UTF-8') ?>">
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/botanical.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/layout-review.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/bundlesLandingPage.css?v=11'), ENT_QUOTES, 'UTF-8') ?>" />
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/alive.css?v=12'), ENT_QUOTES, 'UTF-8') ?>" />
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css?v=18'), ENT_QUOTES, 'UTF-8') ?>" />
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme-copy.css?v=18'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="garden-home botanical-edition index-page">

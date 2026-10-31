@@ -36,7 +36,9 @@ switch ($page) {
     case "checkout":
         $controller = new OrderController();
         $controller->checkout();
-            case "about":
+        break;
+
+    case "about":
         require __DIR__ . "/../app/Views/about.php";
         break;
 

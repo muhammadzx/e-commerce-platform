@@ -294,7 +294,6 @@ public function getProductImages(int $productId)
 
 
 
-
 public function getFrequentlyBoughtTogether(
     int $productId,
     int $limit = 3
@@ -303,6 +302,15 @@ public function getFrequentlyBoughtTogether(
     $sql = "
         SELECT
             p.*,
+
+            (
+                SELECT pi.image_url
+                FROM product_images pi
+                WHERE pi.pro_id = p.pro_id
+                ORDER BY pi.is_primary DESC
+                LIMIT 1
+            ) AS image_url,
+
             COUNT(DISTINCT ci2.cart_id) AS times_bought_together
 
         FROM cart_items ci1
@@ -355,6 +363,5 @@ public function getFrequentlyBoughtTogether(
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
 
 }

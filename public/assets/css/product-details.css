@@ -1157,3 +1157,20 @@ body.nabta-product-body {
         padding: 45px 0;
     }
 }
+
+
+
+
+/* Add to Cart feedback */
+
+.nd-cart.cart-feedback {
+    background: #b8d9bc;
+    color: #173b2b;
+    border-color: #b8d9bc;
+    transition: background 0.3s ease;
+}
+
+.nd-cart.cart-feedback:disabled {
+    opacity: 1;
+    cursor: default;
+}

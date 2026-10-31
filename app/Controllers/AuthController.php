@@ -40,7 +40,6 @@ final class AuthController
                 }
                 $_SESSION['_login_window_start'] = $windowStart;
 
-                // A simple per-session throttle is supplemental protection; production should also rate-limit at the server/proxy.
                 if ($attempts >= 8) {
                     $error = 'We couldn’t sign you in with those details. Check your email and password, then try again later.';
                 } else {
@@ -62,7 +61,6 @@ final class AuthController
                     }
 
                     $_SESSION['_login_attempts'] = $attempts + 1;
-                    // Deliberately identical for unknown emails, wrong passwords, and inactive accounts.
                     $error = 'We couldn’t sign you in with those details. Check your email and password.';
                 }
             }
@@ -109,8 +107,17 @@ final class AuthController
                         if ($this->users->findByEmail($rawEmail)) {
                             $error = 'An account could not be created with those details. Try signing in or use another email.';
                         } else {
-                            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-                            $userId = $this->users->create($name, $rawEmail, $phone, $passwordHash);
+                            // Pass an associative array matching the User model's create method
+                            $userId = $this->users->create([
+                                'full_name' => $name,
+                                'email'     => $rawEmail,
+                                'password'  => $password,
+                                'phone'     => $phone !== '' ? $phone : null,
+                                'address'   => null,
+                                'role'      => 'customer',
+                                'status'    => 'active',
+                            ]);
+
                             session_regenerate_id(true);
                             $_SESSION['user_id'] = $userId;
                             $_SESSION['full_name'] = $name;
@@ -122,7 +129,6 @@ final class AuthController
                             exit;
                         }
                     } catch (PDOException $exception) {
-                        // Handle concurrent duplicate submissions without leaking database details.
                         if ($exception->getCode() === '23000') {
                             $error = 'An account could not be created with those details. Try signing in or use another email.';
                         } else {

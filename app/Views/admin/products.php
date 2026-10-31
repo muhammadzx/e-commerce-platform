@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../../../config/paths.php';
+$openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT);
 ?>
 <!doctype html>
 <html lang="en">
@@ -131,7 +132,7 @@ require_once __DIR__ . '/../../../config/paths.php';
                         <?php foreach ($images as $image): ?>
                             <div class="product-image-card">
                                 <img src="<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8') ?>"
-                                     alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>" width="100">
+                                     alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
                                 <?php if ((int) $image['is_primary'] === 1): ?>
                                     <span class="pill">Primary image</span>
                                 <?php endif; ?>
@@ -149,7 +150,13 @@ require_once __DIR__ . '/../../../config/paths.php';
                             popovertargetaction="hide" aria-label="Close">×</button>
                 </div>
 
-                <form method="post" action="products.php" enctype="multipart/form-data">
+                <?php if (!empty($message) && (int) $openEditProductId === $productId): ?>
+                    <p role="status" class="product-message <?= htmlspecialchars($messageType ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                        <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+                    </p>
+                <?php endif; ?>
+
+                <form class="product-form" method="post" action="products.php" enctype="multipart/form-data">
                     <input type="hidden" name="action" value="update">
                     <input type="hidden" name="product_id" value="<?= $productId ?>">
                     <div class="field">
@@ -183,55 +190,65 @@ require_once __DIR__ . '/../../../config/paths.php';
                                    value="<?= (int) $product['quantity'] ?>" required>
                         </div>
                     </div>
-                    <div class="field">
-                        <label for="images-<?= $productId ?>">Add more images</label>
-                        <input id="images-<?= $productId ?>" type="file" name="images[]"
-                               accept="image/jpeg,image/png,image/webp" multiple>
+                    <div class="field product-image-upload" data-image-upload>
+                        <div class="product-image-upload-heading">
+                            <label for="images-<?= $productId ?>">Add more images</label>
+                            <button class="image-add-button" type="button" data-add-image-input
+                                    aria-label="Add another image">+</button>
+                        </div>
+                        <div class="image-input-list" data-image-input-list>
+                            <div class="image-input-row">
+                                <input id="images-<?= $productId ?>" type="file" name="images[]"
+                                       accept="image/jpeg,image/png,image/webp">
+                            </div>
+                        </div>
                     </div>
                     <button class="btn" type="submit">Save changes</button>
                 </form>
 
-                <h3>Manage images</h3>
-                <?php if (empty($images)): ?>
-                    <p>No images have been added.</p>
-                <?php else: ?>
-                    <div class="product-image-gallery">
-                        <?php foreach ($images as $image): ?>
-                            <?php $imageId = (int) $image['image_id']; ?>
-                            <div class="product-image-card">
-                                <img src="<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8') ?>"
-                                     alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>" width="100">
-                                <?php if ((int) $image['is_primary'] === 1): ?>
-                                    <span class="pill">Primary image</span>
-                                <?php else: ?>
-                                    <form method="post" action="products.php">
-                                        <input type="hidden" name="action" value="set_primary_image">
+                <div class="product-image-management">
+                    <h3>Current product images</h3>
+                    <?php if (empty($images)): ?>
+                        <p>No images have been added.</p>
+                    <?php else: ?>
+                        <div class="product-image-gallery">
+                            <?php foreach ($images as $image): ?>
+                                <?php $imageId = (int) $image['image_id']; ?>
+                                <div class="product-image-card">
+                                    <img src="<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8') ?>"
+                                         alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <?php if ((int) $image['is_primary'] === 1): ?>
+                                        <span class="pill">Primary image</span>
+                                    <?php else: ?>
+                                        <form method="post" action="products.php">
+                                            <input type="hidden" name="action" value="set_primary_image">
+                                            <input type="hidden" name="product_id" value="<?= $productId ?>">
+                                            <input type="hidden" name="image_id" value="<?= $imageId ?>">
+                                            <button class="table-button" type="submit">Make primary</button>
+                                        </form>
+                                    <?php endif; ?>
+
+                                    <form method="post" action="products.php" enctype="multipart/form-data">
+                                        <input type="hidden" name="action" value="replace_image">
                                         <input type="hidden" name="product_id" value="<?= $productId ?>">
                                         <input type="hidden" name="image_id" value="<?= $imageId ?>">
-                                        <button class="table-button" type="submit">Make primary</button>
+                                        <label for="replace-image-<?= $imageId ?>">Replace image</label>
+                                        <input id="replace-image-<?= $imageId ?>" type="file" name="replacement_image"
+                                               accept="image/jpeg,image/png,image/webp" required>
+                                        <button class="table-button" type="submit">Replace</button>
                                     </form>
-                                <?php endif; ?>
 
-                                <form method="post" action="products.php" enctype="multipart/form-data">
-                                    <input type="hidden" name="action" value="replace_image">
-                                    <input type="hidden" name="product_id" value="<?= $productId ?>">
-                                    <input type="hidden" name="image_id" value="<?= $imageId ?>">
-                                    <label for="replace-image-<?= $imageId ?>">Replace image</label>
-                                    <input id="replace-image-<?= $imageId ?>" type="file" name="replacement_image"
-                                           accept="image/jpeg,image/png,image/webp" required>
-                                    <button class="table-button" type="submit">Replace</button>
-                                </form>
-
-                                <form method="post" action="products.php">
-                                    <input type="hidden" name="action" value="delete_image">
-                                    <input type="hidden" name="product_id" value="<?= $productId ?>">
-                                    <input type="hidden" name="image_id" value="<?= $imageId ?>">
-                                    <button class="table-button" type="submit">Remove image</button>
-                                </form>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+                                    <form method="post" action="products.php">
+                                        <input type="hidden" name="action" value="delete_image">
+                                        <input type="hidden" name="product_id" value="<?= $productId ?>">
+                                        <input type="hidden" name="image_id" value="<?= $imageId ?>">
+                                        <button class="table-button" type="submit">Remove image</button>
+                                    </form>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
             </section>
         <?php endforeach; ?>
 
@@ -241,7 +258,7 @@ require_once __DIR__ . '/../../../config/paths.php';
                 <button class="icon-btn" type="button" popovertarget="add-product"
                         popovertargetaction="hide" aria-label="Close">×</button>
             </div>
-            <form method="post" action="products.php" enctype="multipart/form-data">
+            <form class="product-form" method="post" action="products.php" enctype="multipart/form-data">
                 <input type="hidden" name="action" value="add">
                 <div class="field">
                     <label for="add-category">Category</label>
@@ -271,15 +288,59 @@ require_once __DIR__ . '/../../../config/paths.php';
                         <input id="add-quantity" name="quantity" type="number" min="0" required>
                     </div>
                 </div>
-                <div class="field">
-                    <label for="add-images">Product images</label>
-                    <input id="add-images" type="file" name="images[]"
-                           accept="image/jpeg,image/png,image/webp" multiple>
+                <div class="field product-image-upload" data-image-upload>
+                    <div class="product-image-upload-heading">
+                        <label for="add-images">Product images</label>
+                        <button class="image-add-button" type="button" data-add-image-input
+                                aria-label="Add another image">+</button>
+                    </div>
+                    <div class="image-input-list" data-image-input-list>
+                        <div class="image-input-row">
+                            <input id="add-images" type="file" name="images[]"
+                                   accept="image/jpeg,image/png,image/webp">
+                        </div>
+                    </div>
                 </div>
                 <button class="btn" type="submit">Add product</button>
             </form>
         </section>
     </div>
 </main>
+<script>
+document.querySelectorAll('[data-image-upload]').forEach((group) => {
+    const addButton = group.querySelector('[data-add-image-input]');
+    const inputList = group.querySelector('[data-image-input-list]');
+
+    addButton.addEventListener('click', () => {
+        const row = document.createElement('div');
+        row.className = 'image-input-row';
+
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.name = 'images[]';
+        input.accept = 'image/jpeg,image/png,image/webp';
+        input.setAttribute('aria-label', 'Additional product image');
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'image-remove-input';
+        removeButton.textContent = '×';
+        removeButton.setAttribute('aria-label', 'Remove this image field');
+        removeButton.addEventListener('click', () => row.remove());
+
+        row.append(input, removeButton);
+        inputList.append(row);
+        input.focus();
+    });
+});
+
+const editProductId = <?= json_encode($openEditProductId ?: 0) ?>;
+if (editProductId > 0) {
+    const editPopover = document.getElementById(`edit-product-${editProductId}`);
+    if (editPopover && typeof editPopover.showPopover === 'function') {
+        editPopover.showPopover();
+    }
+}
+</script>
 </body>
 </html>

@@ -32,7 +32,7 @@ class AdminProductController
                 $imageId = $this->readId($_POST['image_id'] ?? '');
                 $image = ($productId && $imageId) ? $imageModel->getImage($imageId, $productId) : false;
                 $ok = $image && $imageModel->setPrimaryImage($productId, $imageId);
-                $this->redirect($ok ? 'Primary image updated.' : 'Could not change the primary image.', $ok ? 'success' : 'error');
+                $this->redirect($ok ? 'Primary image updated.' : 'Could not change the primary image.', $ok ? 'success' : 'error', $productId);
             }
 
             if ($action === 'delete_image') {
@@ -70,10 +70,18 @@ class AdminProductController
                     if ($saved) {
                         try {
                             $this->saveUploadedImages($imageModel, $imageProductId, $_FILES['images'] ?? []);
-                            $this->redirect($successMessage, 'success');
+                            $this->redirect(
+                                $successMessage,
+                                'success',
+                                $action === 'update' ? $productId : null
+                            );
                         } catch (Throwable $error) {
                             error_log($error->getMessage());
-                            $this->redirect('Product was saved, but an image could not be uploaded.', 'error');
+                            $this->redirect(
+                                'Product was saved, but an image could not be uploaded.',
+                                'error',
+                                $action === 'update' ? $productId : null
+                            );
                         }
                     }
 
@@ -148,18 +156,18 @@ class AdminProductController
         $image = ($productId && $imageId) ? $imageModel->getImage($imageId, $productId) : false;
 
         if (!$image) {
-            $this->redirect('Image not found.', 'error');
+            $this->redirect('Image not found.', 'error', $productId);
         }
 
         if (!empty($image['cloudinary_public_id'])) {
             $uploader = new CloudinaryUploader();
             if (!$uploader->deleteImage($image['cloudinary_public_id'])) {
-                $this->redirect('Could not delete the image from Cloudinary.', 'error');
+                $this->redirect('Could not delete the image from Cloudinary.', 'error', $productId);
             }
         }
 
         if (!$imageModel->deleteImageRecord($imageId, $productId)) {
-            $this->redirect('Could not remove the image record.', 'error');
+            $this->redirect('Could not remove the image record.', 'error', $productId);
         }
 
         if ((int) $image['is_primary'] === 1) {
@@ -169,7 +177,7 @@ class AdminProductController
             }
         }
 
-        $this->redirect('Image removed successfully.', 'success');
+        $this->redirect('Image removed successfully.', 'success', $productId);
     }
 
     private function replaceProductImage(ProductImage $imageModel, array $post, array $file)
@@ -179,7 +187,7 @@ class AdminProductController
         $oldImage = ($productId && $imageId) ? $imageModel->getImage($imageId, $productId) : false;
 
         if (!$oldImage || empty($file) || ($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
-            $this->redirect('Choose a valid replacement image.', 'error');
+            $this->redirect('Choose a valid replacement image.', 'error', $productId);
         }
 
         $uploader = new CloudinaryUploader();
@@ -187,19 +195,20 @@ class AdminProductController
             $newImage = $uploader->uploadImage($file);
         } catch (Throwable $error) {
             error_log($error->getMessage());
-            $this->redirect('Could not upload the replacement image.', 'error');
+            $this->redirect('Could not upload the replacement image.', 'error', $productId);
         }
 
         $updated = $imageModel->updateImage($imageId, $productId, $newImage['image_url'], $newImage['public_id']);
         if (!$updated) {
             $uploader->deleteImage($newImage['public_id']);
-            $this->redirect('Could not replace the image record.', 'error');
+            $this->redirect('Could not replace the image record.', 'error', $productId);
         }
 
         $oldDeleted = empty($oldImage['cloudinary_public_id']) || $uploader->deleteImage($oldImage['cloudinary_public_id']);
         $this->redirect(
             $oldDeleted ? 'Image replaced successfully.' : 'Image replaced, but the old Cloudinary image could not be removed.',
-            $oldDeleted ? 'success' : 'error'
+            $oldDeleted ? 'success' : 'error',
+            $productId
         );
     }
 
@@ -209,11 +218,15 @@ class AdminProductController
         return $id !== false && $id > 0 ? $id : false;
     }
 
-    private function redirect($message, $type)
+    private function redirect($message, $type, $editProductId = null)
     {
         $_SESSION['flash_message'] = $message;
         $_SESSION['flash_type'] = $type;
-        header('Location: products.php');
+        $destination = 'products.php';
+        if (is_int($editProductId) && $editProductId > 0) {
+            $destination .= '?edit_product=' . $editProductId;
+        }
+        header('Location: ' . $destination);
         exit;
     }
 }

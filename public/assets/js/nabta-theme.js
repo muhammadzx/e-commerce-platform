@@ -53,7 +53,7 @@
     startTimer();
   }
 
-  // Password strength cloud: only appears once the user starts typing.
+  // Password strength cloud: appears when typing, hides when empty OR when all conditions are met.
   const password = document.querySelector('[data-password-strength]');
   const rulesPanel = document.querySelector('[data-password-rules]');
   const meter = document.querySelector('[data-password-meter]');
@@ -70,13 +70,15 @@
   const updatePassword = () => {
     if (!password || !rulesPanel) return;
     const value = password.value;
-    rulesPanel.hidden = value.length === 0;
+    
     if (!value.length) {
+      rulesPanel.hidden = true;
       if (meter) meter.style.width = '0%';
       password.setCustomValidity('');
       ruleElements.forEach((item) => item.classList.remove('is-met'));
       return;
     }
+
     const checks = evaluatePassword(value);
     let passed = 0;
     ruleElements.forEach((item) => {
@@ -85,13 +87,29 @@
       item.setAttribute('aria-checked', valid ? 'true' : 'false');
       if (valid) passed += 1;
     });
+
     if (meter) {
       meter.style.width = `${passed * 25}%`;
       const progress = meter.parentElement;
       if (progress) progress.setAttribute('aria-valuenow', String(passed));
     }
+
+    // إخفاء صندوق القواعد تلقائياً عندما تكتمل الشروط الأربعة
+    if (passed === 4) {
+      setTimeout(() => {
+        const currentVal = password.value;
+        const currentChecks = evaluatePassword(currentVal);
+        if (currentChecks.length && currentChecks.letter && currentChecks.number && currentChecks.symbol) {
+          rulesPanel.hidden = true;
+        }
+      }, 400);
+    } else {
+      rulesPanel.hidden = false;
+    }
+
     password.setCustomValidity(passed === 4 ? '' : 'Choose a password that meets all four requirements.');
   };
+
   password?.addEventListener('input', updatePassword);
   password?.addEventListener('blur', updatePassword);
 

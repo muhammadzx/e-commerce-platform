@@ -1,7 +1,5 @@
 <?php
 
-require_once __DIR__ . "/../Core/Database.php";
-
 class User
 {
     private PDO $conn;
@@ -9,9 +7,9 @@ class User
     public const ROLES = ['customer', 'admin'];
     public const STATUSES = ['active', 'suspended'];
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->conn = (new Database())->connect();
+        $this->conn = $db;
     }
 
     // All users, optionally filtered by name / email / phone
@@ -23,8 +21,8 @@ class User
 
         if ($search !== "") {
             $sql .= " WHERE full_name LIKE :s1
-                         OR email LIKE :s2
-                         OR phone LIKE :s3";
+                          OR email LIKE :s2
+                          OR phone LIKE :s3";
             $params[":s1"] = "%$search%";
             $params[":s2"] = "%$search%";
             $params[":s3"] = "%$search%";
@@ -49,6 +47,19 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Added: Find user by email for authentication
+    public function findByEmail(string $email): ?array
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT user_id, full_name, email, password, phone, address, role, status
+             FROM users WHERE email = :email LIMIT 1"
+        );
+        $stmt->execute([":email" => $email]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user !== false ? $user : null;
+    }
+
     public function emailExists(string $email, int $exceptId = 0): bool
     {
         $stmt = $this->conn->prepare(
@@ -70,13 +81,25 @@ class User
             ":name" => $data["full_name"],
             ":email" => $data["email"],
             ":password" => password_hash($data["password"], PASSWORD_DEFAULT),
-            ":phone" => $data["phone"],
-            ":address" => $data["address"],
-            ":role" => $data["role"],
-            ":status" => $data["status"]
+            ":phone" => $data["phone"] ?? null,
+            ":address" => $data["address"] ?? null,
+            ":role" => $data["role"] ?? 'customer',
+            ":status" => $data["status"] ?? 'active'
         ]);
 
         return (int) $this->conn->lastInsertId();
+    }
+
+    // Added: Update password hash when rehashing is needed
+    public function updatePasswordHash(int $id, string $passwordHash): void
+    {
+        $stmt = $this->conn->prepare(
+            "UPDATE users SET password = :password WHERE user_id = :id"
+        );
+        $stmt->execute([
+            ":password" => $passwordHash,
+            ":id" => $id
+        ]);
     }
 
     // Password is only changed when a new one is provided
@@ -111,14 +134,12 @@ class User
         $stmt->execute($params);
     }
 
-    // Throws PDOException (code 23000) when the user has orders, reviews, etc.
     public function delete(int $id): void
     {
         $stmt = $this->conn->prepare("DELETE FROM users WHERE user_id = :id");
         $stmt->execute([":id" => $id]);
     }
 
-    // True when no other active admin exists besides this user
     public function isLastActiveAdmin(int $id): bool
     {
         $stmt = $this->conn->prepare(

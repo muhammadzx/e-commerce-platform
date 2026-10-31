@@ -1,5 +1,11 @@
 <?php
 require_once __DIR__ . '/../../../config/paths.php';
+require_once __DIR__ . '/../../Core/AdminAccess.php';
+$adminUser = require_admin_access();
+if (!isset($overviewStats)) {
+    header('Location: ' . nabta_public_url('admin/dashboard.php'));
+    exit;
+}
 ?>
 <!doctype html>
 <html lang="en">
@@ -15,6 +21,8 @@ require_once __DIR__ . '/../../../config/paths.php';
 <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
 <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
 <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-overview">

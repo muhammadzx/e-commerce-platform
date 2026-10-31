@@ -1,5 +1,7 @@
 <?php
 
+// Secure session first, so the cart and login work on every page
+require_once __DIR__ . "/../app/Views/bootstrap.php";
 require_once __DIR__ . "/../routes.php";
 
 // API requests
@@ -9,9 +11,13 @@ if (isset($_GET["api"])) {
 }
 
 // Frontend pages
-$page = $_GET["page"] ?? "products";
+$page = $_GET["page"] ?? "home";
 
 switch ($page) {
+
+    case "home":
+        require __DIR__ . "/../app/Views/home.php";
+        break;
 
     case "products":
         require __DIR__ . "/../app/Views/products.php";
@@ -22,9 +28,24 @@ switch ($page) {
         $controller->show();
         break;
 
-    case "wishlist":
-        $controller = new WishlistController();
-        $controller->handle();
+    case "cart":
+        $controller = new CartController();
+        $controller->show();
+        break;
+
+    case "checkout":
+        $controller = new OrderController();
+        $controller->checkout();
+        break;
+
+    case "profile":
+        require_once __DIR__ . "/../app/Controllers/AccountController.php";
+        $controller = new AccountController();
+        $controller->show();
+        break;
+
+    case "about":
+        require __DIR__ . "/../app/Views/about.php";
         break;
 
     default:

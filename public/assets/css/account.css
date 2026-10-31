@@ -1,0 +1,358 @@
+/* My account page. Uses the cx-* look of cart.css; loaded after it. */
+
+.ac-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.ac-who {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.ac-avatar {
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cx-lime), var(--cx-mint));
+    color: var(--cx-ink);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.ac-who h2 {
+    margin: 0 0 6px;
+}
+
+.ac-who p {
+    margin: 0;
+    color: var(--cx-muted);
+}
+
+.ac-badge {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 4px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--cx-card-line);
+    color: var(--cx-mint);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.ac-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ac-actions form {
+    margin: 0;
+}
+
+.ac-info {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 32px;
+    margin: 28px 0 0;
+    padding-top: 28px;
+    border-top: 1px solid var(--cx-card-line);
+}
+
+.ac-info dt {
+    color: var(--cx-muted);
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.ac-info dd {
+    margin: 6px 0 0;
+    font-size: 19px;
+    word-break: break-word;
+}
+
+/* Edit profile and Change password: one full-width card each, in order */
+.ac-forms {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-top: 32px;
+}
+
+.ac-forms .ac-form-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.ac-forms .cx-btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+}
+
+.ac-flash {
+    margin: 0 0 24px;
+    padding: 16px 22px;
+    border-radius: 18px;
+    border: 1px solid var(--cx-card-line);
+    background: var(--cx-card);
+}
+
+.ac-flash.success {
+    border-color: rgba(165, 232, 166, 0.6);
+    color: var(--cx-mint);
+}
+
+.ac-flash.error {
+    border-color: rgba(255, 180, 168, 0.6);
+    color: #ffb4a8;
+}
+
+@media (max-width: 860px) {
+    .ac-info,
+    .ac-forms .cx-form,
+    .ac-forms .ac-form-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Orders table ---------- */
+
+.ac-orders {
+    margin-top: 32px;
+}
+
+.ac-table-wrap {
+    overflow-x: auto;
+}
+
+.ac-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* Explicit colours: the older sheets give every th a light background */
+.ac-table th {
+    padding: 14px 16px;
+    background: rgba(8, 31, 26, 0.92);
+    color: var(--cx-text);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--cx-card-line);
+}
+
+.ac-table th:first-child {
+    border-top-left-radius: 14px;
+}
+
+.ac-table th:last-child {
+    border-top-right-radius: 14px;
+}
+
+.ac-table td {
+    padding: 18px 16px;
+    vertical-align: top;
+    background: transparent;
+    color: var(--cx-text);
+    border-bottom: 1px solid rgba(142, 182, 155, 0.14);
+}
+
+.ac-table tbody tr:hover td {
+    background: rgba(165, 232, 166, 0.08);
+}
+
+.ac-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.ac-table td small {
+    display: block;
+    margin-top: 4px;
+    color: var(--cx-muted);
+}
+
+.ac-status {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--cx-card-line);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.ac-status-pending {
+    color: var(--cx-lime);
+    border-color: rgba(212, 242, 123, 0.5);
+}
+
+.ac-status-shipped {
+    color: #9fd3ff;
+    border-color: rgba(159, 211, 255, 0.5);
+}
+
+.ac-status-completed {
+    color: var(--cx-mint);
+    border-color: rgba(165, 232, 166, 0.5);
+}
+
+.ac-empty {
+    margin: 0;
+    color: var(--cx-muted);
+}
+
+.ac-empty a {
+    color: var(--cx-lime);
+}
+
+@media (max-width: 640px) {
+    .ac-table thead {
+        display: none;
+    }
+
+    .ac-table,
+    .ac-table tbody,
+    .ac-table tr,
+    .ac-table td {
+        display: block;
+    }
+
+    .ac-table tr {
+        padding: 14px 0;
+        border-bottom: 1px solid var(--cx-card-line);
+    }
+
+    .ac-table td {
+        padding: 6px 0;
+        border: 0;
+    }
+
+    .ac-table td::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--cx-muted);
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+    }
+}
+
+/* ---------- Wishlist rows ---------- */
+
+.ac-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ac-item img {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    object-fit: cover;
+}
+
+.ac-item a {
+    color: var(--cx-text);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.ac-item a:hover {
+    color: var(--cx-lime);
+}
+
+.ac-status-out {
+    color: #ffb4a8;
+    border-color: rgba(255, 180, 168, 0.5);
+}
+
+.ac-link-btn {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--cx-muted);
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.ac-link-btn:hover {
+    color: #ffb4a8;
+}
+
+.ac-table form {
+    margin: 0;
+}
+
+.ac-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+/* ---------- Edit profile / change password pop-ups ---------- */
+
+.ac-popover {
+    width: min(520px, calc(100% - 32px));
+    max-height: calc(100vh - 48px);
+    margin: auto;
+    padding: 32px;
+    overflow-y: auto;
+    border: 1px solid var(--cx-card-line);
+    border-radius: 28px;
+    background: #123a33;
+    color: var(--cx-text);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+}
+
+.ac-popover::backdrop {
+    background: rgba(2, 14, 12, 0.66);
+    backdrop-filter: blur(4px);
+}
+
+.ac-popover-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.ac-popover-top h2 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+}
+
+.ac-close {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--cx-card-line);
+    background: transparent;
+    color: var(--cx-text);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.ac-close:hover {
+    border-color: var(--cx-lime);
+    color: var(--cx-lime);
+}

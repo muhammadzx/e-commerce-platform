@@ -1,14 +1,12 @@
 <?php
 
-require_once __DIR__ . "/../Core/Database.php";
-
 class Category
 {
     private PDO $conn;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->conn = (new Database())->connect();
+        $this->conn = $db;
     }
 
     // All categories with the number of products inside each one

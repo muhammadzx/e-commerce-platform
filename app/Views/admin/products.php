@@ -1,482 +1,354 @@
 <?php
-require_once __DIR__ . '/../../config/paths.php';
-// ProductController provides $product, $relatedProducts, $reviews, $reviewSummary.
-$img = static function (?string $url): string {
-    if (!$url) return '';
-    return preg_match('~^https?://~i', $url) ? $url : nabta_public_url('assets/img/' . ltrim($url, '/'));
-};
-$esc = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
-$average = (float) ($reviewSummary['average'] ?? 0);
-$total = (int) ($reviewSummary['total'] ?? 0);
-$rounded = max(0, min(5, (int) round($average)));
-$inStock = (int) ($product['quantity'] ?? 0) > 0;
-
-// All images belonging to this product
-$productImages = $productImages ?? [];
-
-// Use the existing main image as a fallback
-if (empty($productImages) && !empty($product['image_url'])) {
-    $productImages = [
-        [
-            'image_url' => $product['image_url'],
-            'is_primary' => 1
-        ]
-    ];
+require_once __DIR__ . '/../../../config/paths.php';
+require_once __DIR__ . '/../../Core/AdminAccess.php';
+$adminUser = require_admin_access();
+if (!isset($products)) {
+    header('Location: ' . nabta_public_url('admin/products.php'));
+    exit;
 }
-
-$imageCount = count($productImages);
-$mainImage = $imageCount > 0
-    ? $img($productImages[0]['image_url'])
-    : '';
-
-
+$openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><?= $esc($product['name']) ?> | NABTA Botanical</title>
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <title>Manage products | NABTA Botanical</title>
+    <meta name="description" content="Manage NABTA Botanical products and product images.">
+    <meta name="robots" content="noindex,nofollow">
+    <meta name="theme-color" content="#c5d4b4">
+    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product-details.css?v=13'), ENT_QUOTES, 'UTF-8') ?>">
-    <style>
-        .nabta-detail .nd-main-image { position: relative; }
-        .nabta-detail .nd-wish { position: absolute; top: 16px; right: 16px; z-index: 2; display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; padding: 0; color: #fff; background: rgba(10, 28, 20, .55); border: 1px solid rgba(255, 255, 255, .35); border-radius: 50%; cursor: pointer; backdrop-filter: blur(6px); transition: transform .2s, color .2s, background .2s; }
-        .nabta-detail .nd-wish svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-        .nabta-detail .nd-wish:hover:not(:disabled) { transform: scale(1.08); }
-        .nabta-detail .nd-wish.is-active { color: #ff6b6b; }
-        .nabta-detail .nd-wish.is-active svg { fill: currentColor; }
-        .nabta-detail .nd-wish:disabled { opacity: .6; cursor: wait; }
-        .nabta-detail .nd-wish-msg { position: absolute; top: 72px; right: 16px; z-index: 2; max-width: 70%; padding: 8px 14px; font-size: .85rem; color: #fff; background: rgba(10, 28, 20, .85); border-radius: 12px; }
-    </style>
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
-<body class="nabta-product-body">
-<main class="nabta-detail">
-    <nav class="nd-crumbs" aria-label="Breadcrumb">
-        <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Shop All</a><span aria-hidden="true">/</span>
-        <span><?= $esc($product['name']) ?></span>
-    </nav>
-
-    <section class="nd-hero" aria-label="Product details">
-      
-<div class="nd-gallery">
-
-    <!-- Main product image -->
-    <div class="nd-main-image">
-
-        <button class="nd-wish<?= !empty($inWishlist) ? ' is-active' : '' ?>" type="button"
-            data-wish-product-id="<?= (int) $product['pro_id'] ?>"
-            data-csrf="<?= $esc($_SESSION['csrf_token'] ?? '') ?>"
-            data-api="<?= $esc(nabta_public_url('index.php?api=wishlist-toggle')) ?>"
-            aria-pressed="<?= !empty($inWishlist) ? 'true' : 'false' ?>"
-            aria-label="<?= !empty($inWishlist) ? 'Remove from wishlist' : 'Add to wishlist' ?>"
-            title="<?= !empty($inWishlist) ? 'Remove from wishlist' : 'Add to wishlist' ?>">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>
-        </button>
-        <span class="nd-wish-msg" role="status" hidden></span>
-
-        <?php if ($mainImage): ?>
-
-            <img
-                id="main-product-image"
-                src="<?= $esc($mainImage) ?>"
-                alt="<?= $esc($product['name']) ?>"
-            >
-
-        <?php else: ?>
-
-            <div class="nd-image-empty">
-                NABTA BOTANICAL
+<body class="admin-body botanical-edition workspace-page admin-products">
+<main id="main">
+    <div class="admin-shell">
+        <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
+        <div class="admin-content">
+            <div class="admin-top">
+                <span>Workspace / Products</span>
+                <div class="flex"><span>Nabta Botanical</span><span class="pill">Products</span></div>
             </div>
 
-        <?php endif; ?>
-
-    </div>
-
-    <!-- Image thumbnails -->
-    <?php if ($imageCount > 1): ?>
-
-        <div class="nd-thumbnails">
-
-            <?php foreach ($productImages as $index => $image): ?>
-
-                <button
-                    type="button"
-                    class="nd-thumbnail <?= $index === 0 ? 'active' : '' ?>"
-                    data-image="<?= $esc($img($image['image_url'])) ?>"
-                    data-index="<?= $index + 1 ?>"
-                    aria-label="View product image <?= $index + 1 ?>"
-                    aria-pressed="<?= $index === 0 ? 'true' : 'false' ?>"
-                >
-
-                    <img
-                        src="<?= $esc($img($image['image_url'])) ?>"
-                        alt="<?= $esc($product['name']) ?> - Image <?= $index + 1 ?>"
-                        loading="lazy"
-                    >
-
-                </button>
-
-            <?php endforeach; ?>
-
-        </div>
-
-    <?php endif; ?>
-
-    <!-- Image counter -->
-    <div class="nd-gallery-caption">
-
-        <span>THE NABTA COLLECTION</span>
-
-        <span id="image-counter">
-            01 / <?= str_pad((string) $imageCount, 2, '0', STR_PAD_LEFT) ?>
-        </span>
-
-    </div>
-
-</div>
-
-
-        <div class="nd-information">
-            <p class="nd-kicker">BOTANICAL ESSENTIALS <span>— <?= $esc($product['category'] ?? 'NABTA') ?></span></p>
-            <h1><?= $esc($product['name']) ?></h1>
-            <div class="nd-price-row">
-                <p class="nd-price"><?= number_format((float) $product['price'], 2) ?> <small>JOD</small></p>
-                <span class="nd-availability <?= $inStock ? '' : 'is-out' ?>"><span class="nd-dot"></span><?= $inStock ? 'In stock' : 'Out of stock' ?></span>
+            <div class="admin-photo-strip" role="img" aria-label="Botanical greenhouse">
+                <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span>
             </div>
-            <?php if ($total > 0): ?>
-                <a class="nd-rating" href="#reviews"><span class="nd-stars"><?= str_repeat('★', $rounded) . str_repeat('☆', 5 - $rounded) ?></span><span><?= number_format($average, 1) ?> · <?= $total ?> review<?= $total === 1 ? '' : 's' ?></span></a>
-            <?php else: ?>
-                <p class="nd-rating nd-rating-empty">No reviews yet</p>
-            <?php endif; ?>
-            <div class="nd-rule"></div>
-            <p class="nd-description"><?= nl2br($esc($product['description'] ?? '')) ?></p>
-            <button class="nd-cart" type="button" data-product-id="<?= (int) $product['pro_id'] ?>" <?= $inStock ? '' : 'disabled' ?>>
-                <span><?= $inStock ? 'Add to cart' : 'Currently unavailable' ?></span><span aria-hidden="true">↗</span>
-            </button>
-            <p class="nd-small-note">A little more nature, every day.</p>
-            <div class="nd-detail-footer"><span>NABTA / BOTANICAL GOODS</span><span>MADE FOR GREENER SPACES</span></div>
-        </div>
-    </section>
 
+            <div class="admin-title">
+                <div>
+                    <h1>Products</h1>
+                    <p>Manage products, stock, categories, and product photos.</p>
+                </div>
+                <button class="btn" type="button" popovertarget="add-product">+ Add new</button>
+            </div>
 
-<section class="nd-reviews" id="reviews">
-
-    <div class="nd-section-head">
-        <div>
-            <p class="nd-kicker">WORDS FROM OUR COMMUNITY</p>
-            <h2>
-                Customer reviews
-                <span class="nd-count"><?= $total ?></span>
-            </h2>
-        </div>
-
-        <?php if ($total > 0): ?>
-            <p class="nd-review-summary">
-                <span class="nd-stars">
-                    <?= str_repeat('★', $rounded) . str_repeat('☆', 5 - $rounded) ?>
-                </span>
-                <?= number_format($average, 1) ?> / 5
-            </p>
-        <?php endif; ?>
-    </div>
-
-    <!-- Existing customer reviews -->
-    <?php if (empty($reviews)): ?>
-
-        <p class="nd-empty">
-            No reviews yet. Be the first to share your experience.
-        </p>
-
-    <?php else: ?>
-
-        <div class="nd-review-list">
-
-          <?php foreach ($topReviews as $review): ?>
-
-                <?php
-                $stars = max(
-                    0,
-                    min(5, (int) ($review['rating'] ?? 0))
-                );
-                ?>
-
-                <article class="nd-review">
-
-                    <div class="nd-review-person">
-                        <strong>
-                            <?= $esc($review['reviewer_name'] ?? 'Customer') ?>
-                        </strong>
-
-                        <span>
-                            <?= !empty($review['created_at'])
-                                ? date('M j, Y', strtotime($review['created_at']))
-                                : '' ?>
-                        </span>
-                    </div>
-
-                    <div class="nd-review-body">
-
-                        <span class="nd-stars">
-                            <?= str_repeat('★', $stars) . str_repeat('☆', 5 - $stars) ?>
-                        </span>
-
-                        <?php if (!empty($review['comment'])): ?>
-                            <p><?= nl2br($esc($review['comment'])) ?></p>
-
-                            
-                        <?php endif; ?>
-
-                    </div>
-
-</article>
-
-<?php endforeach; ?>
-
-</div>
-
-<?php if ($total > 3): ?>
-    <button
-        type="button"
-        class="nd-view-reviews"
-        id="open-reviews-modal"
-    >
-        View all <?= $total ?> reviews ↗
-    </button>
-<?php endif; ?>
-
-    <?php endif; ?>
-
-<?php if ($total > 3): ?>
-<div
-    class="nd-reviews-modal"
-    id="reviews-modal"
-    hidden
->
-    <div class="nd-modal-backdrop" data-close-reviews></div>
-
-    <div
-        class="nd-modal-panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="reviews-modal-title"
-        tabindex="-1"
-    >
-        <div class="nd-modal-header">
-            <div>
-                <p class="nd-kicker">THE NABTA COMMUNITY</p>
-                <h2 id="reviews-modal-title">All customer reviews</h2>
-                <p>
-                    <?= number_format($average, 1) ?> / 5
-                    · <?= $total ?> reviews
+            <?php if (!empty($message)): ?>
+                <p role="status" class="product-message <?= htmlspecialchars($messageType ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                    <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
                 </p>
-            </div>
+            <?php endif; ?>
 
-            <button
-                type="button"
-                class="nd-modal-close"
-                id="close-reviews-modal"
-                aria-label="Close reviews"
-            >
-                &times;
-            </button>
-        </div>
+            <section class="panel">
+                <div class="toolbar">
+                    <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" class="product-search">
+                        <label class="sr-only" for="search-records">Search products</label>
+                        <input class="control" id="search-records" name="search" type="search"
+                               value="<?= htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8') ?>"
+                               placeholder="Search products">
+                        <button class="btn secondary" type="submit">Search</button>
+                    </form>
+                    <span class="label"><?= count($products) ?> records</span>
+                </div>
 
-        <div class="nd-modal-review-list" id="modal-review-list">
-            <?php foreach ($reviews as $review): ?>
-                <?php
-                $stars = max(0, min(5, (int) $review['rating']));
-                ?>
-
-                <article class="nd-review">
-                    <div class="nd-review-person">
-                        <strong>
-                            <?= $esc($review['reviewer_name'] ?? 'Customer') ?>
-                        </strong>
-                        <span>
-                            <?= !empty($review['created_at'])
-                                ? date('M j, Y', strtotime($review['created_at']))
-                                : '' ?>
-                        </span>
-                    </div>
-
-                    <div class="nd-review-body">
-                        <span class="nd-stars">
-                            <?= str_repeat('★', $stars) . str_repeat('☆', 5 - $stars) ?>
-                        </span>
-
-                        <?php if (!empty($review['comment'])): ?>
-                            <p><?= nl2br($esc($review['comment'])) ?></p>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Product</th><th>Category</th><th>Price</th>
+                            <th>Stock</th><th>Status</th><th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php if (empty($products)): ?>
+                            <tr><td colspan="6">No products found.</td></tr>
+                        <?php else: ?>
+                            <?php foreach ($products as $product): ?>
+                                <?php $productId = (int) $product['pro_id']; ?>
+                                <tr>
+                                    <td data-label="Product">
+                                        <div class="table-product">
+                                            <?php if (!empty($product['image_url'])): ?>
+                                                <img src="<?= htmlspecialchars($product['image_url'], ENT_QUOTES, 'UTF-8') ?>"
+                                                     alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                            <?php else: ?>
+                                                <span>No image</span>
+                                            <?php endif; ?>
+                                            <span><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?></span>
+                                        </div>
+                                    </td>
+                                    <td data-label="Category"><?= htmlspecialchars($product['category'] ?? 'Uncategorized', ENT_QUOTES, 'UTF-8') ?></td>
+                                    <td data-label="Price"><?= number_format((float) $product['price'], 2) ?> JOD</td>
+                                    <td data-label="Stock"><?= (int) $product['quantity'] ?></td>
+                                    <td data-label="Status"><span class="pill"><?= htmlspecialchars($product['status'], ENT_QUOTES, 'UTF-8') ?></span></td>
+                                    <td data-label="Actions">
+                                        <div class="table-actions">
+                                            <button class="table-button" type="button" popovertarget="view-product-<?= $productId ?>">View</button>
+                                            <button class="table-button" type="button" popovertarget="edit-product-<?= $productId ?>">Edit</button>
+                                            <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">
+                                                <input type="hidden" name="action" value="hide">
+                                                <input type="hidden" name="product_id" value="<?= $productId ?>">
+                                                <button class="table-button" type="submit">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         <?php endif; ?>
-                    </div>
-                </article>
-            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
         </div>
 
-        <div class="nd-modal-footer">
-            <button
-                type="button"
-                class="nd-modal-load-more"
-                id="load-more-reviews"
-                hidden
-            >
-                Show more reviews ↓
-            </button>
-        </div>
-    </div>
-</div>
-<?php endif; ?>
-    
-    <!-- Write a review -->
-    <div class="nd-review-form-container">
+        <?php foreach ($products as $product): ?>
+            <?php
+            $productId = (int) $product['pro_id'];
+            $images = $productImages[$productId] ?? [];
+            ?>
+            <section id="view-product-<?= $productId ?>" class="popover" popover
+                     aria-labelledby="view-title-<?= $productId ?>">
+                <div class="popover-top">
+                    <h2 id="view-title-<?= $productId ?>">Product details</h2>
+                    <button class="icon-btn" type="button" popovertarget="view-product-<?= $productId ?>"
+                            popovertargetaction="hide" aria-label="Close">×</button>
+                </div>
+                <div class="summary-row"><span>Name</span><span><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?></span></div>
+                <div class="summary-row"><span>Category</span><span><?= htmlspecialchars($product['category'] ?? 'Uncategorized', ENT_QUOTES, 'UTF-8') ?></span></div>
+                <div class="summary-row"><span>Price</span><span><?= number_format((float) $product['price'], 2) ?> JOD</span></div>
+                <div class="summary-row"><span>Stock</span><span><?= (int) $product['quantity'] ?></span></div>
+                <div class="summary-row"><span>Sold</span><span><?= (int) $product['count_selling'] ?></span></div>
+                <div class="summary-row"><span>Status</span><span><?= htmlspecialchars($product['status'], ENT_QUOTES, 'UTF-8') ?></span></div>
+                <h3>Product images</h3>
+                <div class="product-image-gallery">
+                    <?php if (empty($images)): ?>
+                        <p>No images have been added.</p>
+                    <?php else: ?>
+                        <?php foreach ($images as $image): ?>
+                            <div class="product-image-card">
+                                <img src="<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8') ?>"
+                                     alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                <?php if ((int) $image['is_primary'] === 1): ?>
+                                    <span class="pill">Primary image</span>
+                                <?php endif; ?>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+            </section>
 
-        <p class="nd-kicker">YOUR EXPERIENCE MATTERS</p>
-        <h3>Share your experience.</h3>
+            <section id="edit-product-<?= $productId ?>" class="popover" popover
+                     aria-labelledby="edit-title-<?= $productId ?>">
+                <div class="popover-top">
+                    <h2 id="edit-title-<?= $productId ?>">Edit product</h2>
+                    <button class="icon-btn" type="button" popovertarget="edit-product-<?= $productId ?>"
+                            popovertargetaction="hide" aria-label="Close">×</button>
+                </div>
 
-        <?php if (empty($_SESSION["user_id"])): ?>
+                <?php if (!empty($message) && (int) $openEditProductId === $productId): ?>
+                    <p role="status" class="product-message <?= htmlspecialchars($messageType ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                        <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
+                    </p>
+                <?php endif; ?>
 
-            <p class="nd-empty">
-                Please log in to leave a review.
-            </p>
-
-        <?php elseif (!$reviewModel->hasPurchased(
-            (int) $_SESSION["user_id"],
-            (int) $product["pro_id"]
-        )): ?>
-
-            <p class="nd-empty">
-                Only customers who purchased this product can leave a review.
-            </p>
-
-        <?php elseif ($reviewModel->hasReviewed(
-            (int) $_SESSION["user_id"],
-            (int) $product["pro_id"]
-        )): ?>
-
-            <p class="nd-empty">
-                You have already reviewed this product.
-            </p>
-
-        <?php else: ?>
-
-           <form
-    id="review-form"
-    method="POST"
-    action="<?= htmlspecialchars(nabta_public_url('index.php?api=submit-review'), ENT_QUOTES, 'UTF-8') ?>"
->
-                <input
-                    type="hidden"
-                    name="pro_id"
-                    value="<?= (int) $product["pro_id"] ?>"
-                >
-
-                <input
-                    type="hidden"
-                    name="csrf_token"
-                    value="<?= $esc($_SESSION["csrf_token"]) ?>"
-                >
-
-                <label for="review-rating">Your rating</label>
-
-                <select id="review-rating" name="rating" required>
-                    <option value="">Select your rating</option>
-                    <option value="5">★★★★★ — Excellent</option>
-                    <option value="4">★★★★☆ — Very good</option>
-                    <option value="3">★★★☆☆ — Good</option>
-                    <option value="2">★★☆☆☆ — Fair</option>
-                    <option value="1">★☆☆☆☆ — Poor</option>
-                </select>
-
-                <label for="review-comment">Your review</label>
-
-                <textarea
-                    id="review-comment"
-                    name="comment"
-                    rows="4"
-                    maxlength="1000"
-                    placeholder="Tell us about your experience..."
-                    required
-                ></textarea>
-
-                <button type="submit" class="nd-review-submit">
-                    Submit review ↗
-                </button>
-
-                <p id="review-message" role="status" aria-live="polite"></p>
-
-            </form>
-
-        <?php endif; ?>
-
-    </div>
-
-</section>
-
-
-    <section class="nd-related">
-        <div class="nd-section-head"><div><p class="nd-kicker">DISCOVER SOMETHING NEW</p><h2>You may also like<span class="nd-period">.</span></h2></div><a class="nd-view-all" href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Explore all products ↗</a></div>
-        <?php if (empty($relatedProducts)): ?>
-            <p class="nd-empty">No related products available.</p>
-        <?php else: ?>
-            <div class="nd-related-grid">
-            <?php foreach ($relatedProducts as $related): ?>
-                <article class="nd-product-card"><a href="<?= htmlspecialchars(nabta_public_url('index.php?page=product&id=' . (int) $related['pro_id']), ENT_QUOTES, 'UTF-8') ?>">
-                    <div class="nd-card-image">
-                        <?php if (!empty($related['image_url'])): ?><img src="<?= $esc($img($related['image_url'])) ?>" alt="<?= $esc($related['name']) ?>" loading="lazy"><?php else: ?><div class="nd-image-empty">NABTA</div><?php endif; ?>
-                        <span class="nd-card-arrow" aria-hidden="true">↗</span>
+                <form class="product-form" method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" enctype="multipart/form-data">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="product_id" value="<?= $productId ?>">
+                    <div class="field">
+                        <label for="category-<?= $productId ?>">Category</label>
+                        <select id="category-<?= $productId ?>" name="cat_id" required>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= (int) $category['cat_id'] ?>" <?= (int) $category['cat_id'] === (int) $product['cat_id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
-                    <div class="nd-card-copy"><h3><?= $esc($related['name']) ?></h3><span><?= number_format((float) $related['price'], 2) ?> JOD</span></div>
-                </a></article>
-            <?php endforeach; ?>
+                    <div class="field">
+                        <label for="name-<?= $productId ?>">Product name</label>
+                        <input id="name-<?= $productId ?>" name="name" type="text"
+                               value="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>" required>
+                    </div>
+                    <div class="field">
+                        <label for="description-<?= $productId ?>">Description</label>
+                        <textarea id="description-<?= $productId ?>" name="description"><?= htmlspecialchars($product['description'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+                    </div>
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="price-<?= $productId ?>">Price (JOD)</label>
+                            <input id="price-<?= $productId ?>" name="price" type="number" min="0.01" step="0.01"
+                                   value="<?= htmlspecialchars((string) $product['price'], ENT_QUOTES, 'UTF-8') ?>" required>
+                        </div>
+                        <div class="field">
+                            <label for="quantity-<?= $productId ?>">Quantity</label>
+                            <input id="quantity-<?= $productId ?>" name="quantity" type="number" min="0"
+                                   value="<?= (int) $product['quantity'] ?>" required>
+                        </div>
+                    </div>
+                    <div class="field product-image-upload" data-image-upload>
+                        <div class="product-image-upload-heading">
+                            <label for="images-<?= $productId ?>">Add more images</label>
+                            <button class="image-add-button" type="button" data-add-image-input
+                                    aria-label="Add another image">+</button>
+                        </div>
+                        <div class="image-input-list" data-image-input-list>
+                            <div class="image-input-row">
+                                <input id="images-<?= $productId ?>" type="file" name="images[]"
+                                       accept="image/jpeg,image/png,image/webp">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn" type="submit">Save changes</button>
+                </form>
+
+                <div class="product-image-management">
+                    <h3>Current product images</h3>
+                    <?php if (empty($images)): ?>
+                        <p>No images have been added.</p>
+                    <?php else: ?>
+                        <div class="product-image-gallery">
+                            <?php foreach ($images as $image): ?>
+                                <?php $imageId = (int) $image['image_id']; ?>
+                                <div class="product-image-card">
+                                    <img src="<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8') ?>"
+                                         alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <?php if ((int) $image['is_primary'] === 1): ?>
+                                        <span class="pill">Primary image</span>
+                                    <?php else: ?>
+                                        <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">
+                                            <input type="hidden" name="action" value="set_primary_image">
+                                            <input type="hidden" name="product_id" value="<?= $productId ?>">
+                                            <input type="hidden" name="image_id" value="<?= $imageId ?>">
+                                            <button class="table-button" type="submit">Make primary</button>
+                                        </form>
+                                    <?php endif; ?>
+
+                                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" enctype="multipart/form-data">
+                                        <input type="hidden" name="action" value="replace_image">
+                                        <input type="hidden" name="product_id" value="<?= $productId ?>">
+                                        <input type="hidden" name="image_id" value="<?= $imageId ?>">
+                                        <label for="replace-image-<?= $imageId ?>">Replace image</label>
+                                        <input id="replace-image-<?= $imageId ?>" type="file" name="replacement_image"
+                                               accept="image/jpeg,image/png,image/webp" required>
+                                        <button class="table-button" type="submit">Replace</button>
+                                    </form>
+
+                                    <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">
+                                        <input type="hidden" name="action" value="delete_image">
+                                        <input type="hidden" name="product_id" value="<?= $productId ?>">
+                                        <input type="hidden" name="image_id" value="<?= $imageId ?>">
+                                        <button class="table-button" type="submit">Remove image</button>
+                                    </form>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </section>
+        <?php endforeach; ?>
+
+        <section id="add-product" class="popover" popover aria-labelledby="add-product-title">
+            <div class="popover-top">
+                <h2 id="add-product-title">Add product</h2>
+                <button class="icon-btn" type="button" popovertarget="add-product"
+                        popovertargetaction="hide" aria-label="Close">×</button>
             </div>
-        <?php endif; ?>
-    </section>
+            <form class="product-form" method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" enctype="multipart/form-data">
+                <input type="hidden" name="action" value="add">
+                <div class="field">
+                    <label for="add-category">Category</label>
+                    <select id="add-category" name="cat_id" required>
+                        <?php foreach ($categories as $category): ?>
+                            <option value="<?= (int) $category['cat_id'] ?>">
+                                <?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="add-name">Product name</label>
+                    <input id="add-name" name="name" type="text" required>
+                </div>
+                <div class="field">
+                    <label for="add-description">Description</label>
+                    <textarea id="add-description" name="description"></textarea>
+                </div>
+                <div class="form-grid">
+                    <div class="field">
+                        <label for="add-price">Price (JOD)</label>
+                        <input id="add-price" name="price" type="number" min="0.01" step="0.01" required>
+                    </div>
+                    <div class="field">
+                        <label for="add-quantity">Quantity</label>
+                        <input id="add-quantity" name="quantity" type="number" min="0" required>
+                    </div>
+                </div>
+                <div class="field product-image-upload" data-image-upload>
+                    <div class="product-image-upload-heading">
+                        <label for="add-images">Product images</label>
+                        <button class="image-add-button" type="button" data-add-image-input
+                                aria-label="Add another image">+</button>
+                    </div>
+                    <div class="image-input-list" data-image-input-list>
+                        <div class="image-input-row">
+                            <input id="add-images" type="file" name="images[]"
+                                   accept="image/jpeg,image/png,image/webp">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn" type="submit">Add product</button>
+            </form>
+        </section>
+    </div>
 </main>
-
-<script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
-<script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=reviews4'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 <script>
-(function () {
-    var btn = document.querySelector('[data-wish-product-id]');
-    var msg = document.querySelector('.nd-wish-msg');
-    var timer = null;
+document.querySelectorAll('[data-image-upload]').forEach((group) => {
+    const addButton = group.querySelector('[data-add-image-input]');
+    const inputList = group.querySelector('[data-image-input-list]');
 
-    if (!btn) return;
+    addButton.addEventListener('click', () => {
+        const row = document.createElement('div');
+        row.className = 'image-input-row';
 
-    function show(text) {
-        if (!msg || !text) return;
-        msg.textContent = text;
-        msg.hidden = false;
-        clearTimeout(timer);
-        timer = setTimeout(function () { msg.hidden = true; }, 2500);
-    }
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.name = 'images[]';
+        input.accept = 'image/jpeg,image/png,image/webp';
+        input.setAttribute('aria-label', 'Additional product image');
 
-    btn.addEventListener('click', function () {
-        var body = new URLSearchParams();
-        body.append('pro_id', btn.dataset.wishProductId);
-        body.append('csrf_token', btn.dataset.csrf);
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.className = 'image-remove-input';
+        removeButton.textContent = '×';
+        removeButton.setAttribute('aria-label', 'Remove this image field');
+        removeButton.addEventListener('click', () => row.remove());
 
-        btn.disabled = true;
-
-        fetch(btn.dataset.api, { method: 'POST', body: body, credentials: 'same-origin' })
-            .then(function (res) { return res.json(); })
-            .then(function (data) {
-                if (data.success) {
-                    var saved = !!data.in_wishlist;
-                    var label = saved ? 'Remove from wishlist' : 'Add to wishlist';
-                    btn.classList.toggle('is-active', saved);
-                    btn.setAttribute('aria-pressed', saved ? 'true' : 'false');
-                    btn.setAttribute('aria-label', label);
-                    btn.setAttribute('title', label);
-                }
-                show(data.message);
-            })
-            .catch(function () { show('Something went wrong. Please try again.'); })
-            .finally(function () { btn.disabled = false; });
+        row.append(input, removeButton);
+        inputList.append(row);
+        input.focus();
     });
-})();
+});
+
+const editProductId = <?= json_encode($openEditProductId ?: 0) ?>;
+if (editProductId > 0) {
+    const editPopover = document.getElementById(`edit-product-${editProductId}`);
+    if (editPopover && typeof editPopover.showPopover === 'function') {
+        editPopover.showPopover();
+    }
+}
 </script>
 </body>
 </html>

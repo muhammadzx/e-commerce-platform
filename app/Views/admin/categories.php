@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../../../config/paths.php';
+require_once __DIR__ . '/../../Core/AdminAccess.php';
+$adminUser = require_admin_access();
 // Opened directly (not through the controller): send the visitor to the real page
 if (!isset($categories)) {
     header('Location: ' . nabta_public_url('admin/categories.php'));
@@ -24,12 +26,14 @@ $total = count($categories);
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
     <style>
         .flash { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
         .flash.success { background: rgba(130, 152, 117, .25); border: 1px solid rgba(130, 152, 117, .6); }
         .flash.error { background: rgba(176, 80, 64, .2); border: 1px solid rgba(176, 80, 64, .6); }
         .toolbar form { display: contents; }
     </style>
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-categories">

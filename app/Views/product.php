@@ -40,9 +40,14 @@ $mainImage = $imageCount > 0
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product-details.css?v=13'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product-details.css?v=15'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">
+    <meta name="cart-csrf" content="<?= $esc(csrf_token()) ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="nabta-product-body">
+<?php require __DIR__ . '/layouts/cart-link.php'; ?>
+<?php require __DIR__ . "/layouts/header.php"; ?>
 <main class="nabta-detail">
     <nav class="nd-crumbs" aria-label="Breadcrumb">
         <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Shop All</a><span aria-hidden="true">/</span>
@@ -138,7 +143,75 @@ $mainImage = $imageCount > 0
             <p class="nd-small-note">A little more nature, every day.</p>
             <div class="nd-detail-footer"><span>NABTA / BOTANICAL GOODS</span><span>MADE FOR GREENER SPACES</span></div>
         </div>
+
+
+
     </section>
+
+
+
+
+
+
+    <?php if (!empty($frequentlyBoughtTogether)): ?>
+
+<section class="nd-frequently-bought">
+
+    <div class="nd-section-head">
+        <div>
+            <p class="nd-kicker">BETTER TOGETHER</p>
+            <h2>Frequently bought together<span class="nd-period">.</span></h2>
+        </div>
+    </div>
+
+    <div class="nd-fbt-grid">
+
+        <?php foreach ($frequentlyBoughtTogether as $item): ?>
+
+            <a
+                class="nd-fbt-card"
+                href="index.php?page=product&id=<?= (int) $item['pro_id'] ?>"
+            >
+                <div class="nd-fbt-image">
+                    <?php if (!empty($item['image_url'])): ?>
+                        <img
+                            src="<?= $esc($img($item['image_url'])) ?>"
+                            alt="<?= $esc($item['name']) ?>"
+                            loading="lazy"
+                        >
+                    <?php else: ?>
+                        <div class="nd-image-empty">NABTA</div>
+                    <?php endif; ?>
+                </div>
+
+                <div class="nd-fbt-info">
+                    <h3><?= $esc($item['name']) ?></h3>
+
+                    <span>
+                        <?= number_format((float) $item['price'], 2) ?> JOD
+                    </span>
+
+                    <p>
+                        Purchased together
+                        <?= (int) $item['times_bought_together'] ?>
+                        times
+                    </p>
+                </div>
+            </a>
+
+        <?php endforeach; ?>
+
+    </div>
+
+</section>
+
+<?php endif; ?>
+
+
+
+
+
+
 
 
 <section class="nd-reviews" id="reviews">
@@ -413,8 +486,10 @@ $mainImage = $imageCount > 0
         <?php endif; ?>
     </section>
 </main>
+<?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=reviews4'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/cart.js?v=1'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </body>
 </html>

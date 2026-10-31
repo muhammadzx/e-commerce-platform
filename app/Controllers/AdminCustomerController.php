@@ -10,7 +10,9 @@ class AdminCustomerController
 
     public function __construct()
     {
-        $this->user = new User();
+        require __DIR__ . '/../../config/connection.php';
+
+        $this->user = new User($db);
     }
 
     public function handle()

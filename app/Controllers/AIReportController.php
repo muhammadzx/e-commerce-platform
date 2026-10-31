@@ -5,8 +5,9 @@ require_once __DIR__ . '/../Models/AIReport.php';
 
 class AIReportController
 {
-    public function index()
+    public function index(?array $adminUser = null)
     {
+        $userId = (int) ($adminUser['user_id'] ?? $_SESSION['user_id'] ?? 0);
         $reportTitle = '';
         $reportId = null;
         require __DIR__ . '/../../config/connection.php';
@@ -21,7 +22,7 @@ class AIReportController
         );
 
         if ($requestedReportId) {
-            $savedReport = $reportModel->getReportById($requestedReportId, 1);
+            $savedReport = $reportModel->getReportById($requestedReportId, $userId);
 
             if ($savedReport) {
                 $reportId = (int) $savedReport['report_id'];
@@ -158,7 +159,7 @@ class AIReportController
 
             $reportHtml = $converter->convert($reportContent)->getContent();
             $reportId = $reportModel->saveReport(
-                1,
+                $userId,
                 $reportTitle,
                 $requestPrompt,
                 $dateFrom,
@@ -170,7 +171,7 @@ class AIReportController
 
         }
 
-        $reportHistory = $reportModel->getReportsByUser(1);
+        $reportHistory = $reportModel->getReportsByUser($userId);
 
         require __DIR__ . "/../Views/admin/ai_reports.php";
     }
@@ -224,12 +225,13 @@ class AIReportController
             ?? 'Gemini returned an empty response.';
     }
 
-    public function download($reportId)
+    public function download($reportId, ?array $adminUser = null)
     {
+        $userId = (int) ($adminUser['user_id'] ?? $_SESSION['user_id'] ?? 0);
         require __DIR__ . '/../../config/connection.php';
 
         $reportModel = new AIReport($db);
-        $report = $reportModel->getReportById($reportId, 1);
+        $report = $reportModel->getReportById($reportId, $userId);
 
         if (!$report) {
             http_response_code(404);

@@ -15,9 +15,11 @@ require_once __DIR__ . '/../../config/paths.php';
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nature-bg.css'), ENT_QUOTES, 'UTF-8') ?>">
     <!-- Theme must stay LAST so it overrides the colours above -->
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body>
+<?php require __DIR__ . '/layouts/cart-link.php'; ?>
 
 <!-- Living background: falling leaves (behind the page) -->
 <div class="nature-bg" aria-hidden="true">
@@ -31,6 +33,7 @@ require_once __DIR__ . '/../../config/paths.php';
     <div class="glints"></div>
 </div>
 
+<?php require __DIR__ . "/layouts/header.php"; ?>
 <main>
     <div class="page-container">
 
@@ -136,6 +139,7 @@ require_once __DIR__ . '/../../config/paths.php';
         Explore the collection ↗
     </a>
 </section>
+<?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/nature-bg.js'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 <script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>

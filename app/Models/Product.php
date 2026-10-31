@@ -284,4 +284,84 @@ public function getProductImages(int $productId)
 
 
 
+
+
+
+
+
+
+
+
+
+
+public function getFrequentlyBoughtTogether(
+    int $productId,
+    int $limit = 3
+): array {
+
+    $sql = "
+        SELECT
+            p.*,
+
+            (
+                SELECT pi.image_url
+                FROM product_images pi
+                WHERE pi.pro_id = p.pro_id
+                ORDER BY pi.is_primary DESC
+                LIMIT 1
+            ) AS image_url,
+
+            COUNT(DISTINCT ci2.cart_id) AS times_bought_together
+
+        FROM cart_items ci1
+
+        JOIN cart c
+            ON c.cart_id = ci1.cart_id
+
+        JOIN cart_items ci2
+            ON ci2.cart_id = ci1.cart_id
+
+        JOIN product p
+            ON p.pro_id = ci2.pro_id
+
+        WHERE ci1.pro_id = :product_id
+            AND ci2.pro_id <> :exclude_id
+            AND c.status = 'completed'
+            AND p.status = 'active'
+            AND p.quantity > 0
+
+        GROUP BY p.pro_id
+
+        ORDER BY
+            times_bought_together DESC,
+            p.pro_id ASC
+
+        LIMIT :limit
+    ";
+
+    $stmt = $this->conn->prepare($sql);
+
+    $stmt->bindValue(
+        ':product_id',
+        $productId,
+        PDO::PARAM_INT
+    );
+
+    $stmt->bindValue(
+        ':exclude_id',
+        $productId,
+        PDO::PARAM_INT
+    );
+
+    $stmt->bindValue(
+        ':limit',
+        $limit,
+        PDO::PARAM_INT
+    );
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 }

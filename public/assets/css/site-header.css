@@ -1,0 +1,78 @@
+/* Shared header on the inner pages (everything except the landing page).
+   The landing page keeps its own transparent header from home.css. */
+
+body:not(.garden-home) .header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgba(5, 31, 32, 0.9);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(142, 182, 155, 0.22);
+    color: #daf1de;
+}
+
+body:not(.garden-home) .header .logo,
+body:not(.garden-home) .header .logo-sub {
+    color: #daf1de;
+}
+
+body:not(.garden-home) .header .logo-sub {
+    color: #8eb69b;
+}
+
+body:not(.garden-home) .header .leaf-logo {
+    fill: none;
+    stroke: #d4f27b;
+}
+
+body:not(.garden-home) .header .main-nav a,
+body:not(.garden-home) .header .header-actions a,
+body:not(.garden-home) .header .account-link,
+body:not(.garden-home) .header .logout-form button,
+body:not(.garden-home) .header .mobile-nav summary {
+    color: #daf1de;
+}
+
+body:not(.garden-home) .header .main-nav a:hover,
+body:not(.garden-home) .header .header-actions a:hover,
+body:not(.garden-home) .header .logout-form button:hover {
+    color: #d4f27b;
+}
+
+body:not(.garden-home) .header .icon {
+    fill: none;
+    stroke: currentColor;
+}
+
+body:not(.garden-home) .header .logout-form {
+    display: inline-flex;
+    margin: 0;
+}
+
+body:not(.garden-home) .header .logout-form button {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+}
+
+body:not(.garden-home) .header .bag-link {
+    position: relative;
+}
+
+body:not(.garden-home) .header .bag-count {
+    background: #d4f27b;
+    color: #15231a;
+}
+
+body:not(.garden-home) .header .mobile-nav nav {
+    background: #0b2a27;
+    border: 1px solid rgba(142, 182, 155, 0.28);
+}
+
+body:not(.garden-home) .header .mobile-nav nav a,
+body:not(.garden-home) .header .mobile-nav nav button {
+    color: #daf1de;
+}

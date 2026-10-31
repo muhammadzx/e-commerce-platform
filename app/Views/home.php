@@ -33,13 +33,33 @@ require_once __DIR__ . '/bootstrap.php';
           <path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z" />
           <path d="M8 31 23 12" />
         </svg>NABTA<span class="logo-sub">BOTANICAL</span></a>
-      <nav class="main-nav" aria-label="Main navigation">
+      <!-- <nav class="main-nav" aria-label="Main navigation">
         <a href="products.html">Shop</a>
         <a href="assistant.html">Find your plant</a>
         <a href="about.php">About us</a>
         <a
           href="products.html#collections">Collections</a>
-      </nav>
+      </nav> -->
+
+      <nav class="main-nav" aria-label="Main navigation">
+
+    <a href="<?= htmlspecialchars(nabta_public_url('index.php'), ENT_QUOTES, 'UTF-8') ?>">
+        Home
+    </a>
+
+    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">
+        Shop
+    </a>
+
+    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=about'), ENT_QUOTES, 'UTF-8') ?>">
+        About Us
+    </a>
+
+    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products#shop-area'), ENT_QUOTES, 'UTF-8') ?>">
+        Collections
+    </a>
+
+</nav>
       <div class="header-actions">
         <a href="products.html" aria-label="Search products"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="10" cy="10" r="6" />

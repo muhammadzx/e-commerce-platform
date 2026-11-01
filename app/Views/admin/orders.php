@@ -35,7 +35,7 @@ $total = count($orders);
     <title>Manage orders | Nabta Botanical</title>
     <meta name="description" content="Manage orders — plants and growing essentials at Nabta.">
     <meta name="robots" content="noindex,nofollow">
-    <meta name="theme-color" content="#c5d4b4">
+    <meta name="theme-color" content="#FFF9EF">
     <link rel="icon" href="<?= $e(nabta_public_url('assets/img/favicon.svg')) ?>" type="image/svg+xml">
     <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/shared.css')) ?>">
     <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/style.css')) ?>">
@@ -47,6 +47,7 @@ $total = count($orders);
         .flash.success { background: rgba(130, 152, 117, .25); border: 1px solid rgba(130, 152, 117, .6); }
         .flash.error { background: rgba(176, 80, 64, .2); border: 1px solid rgba(176, 80, 64, .6); }
     </style>
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css')), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="admin-body botanical-edition workspace-page admin-orders">
     <main id="main">

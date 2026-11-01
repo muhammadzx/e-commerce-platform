@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="assets/css/about.css">
         <link rel="stylesheet" href="assets/css/nabta-theme.css">
     <link rel="stylesheet" href="assets/css/store-responsive.css?v=20261101">
+    <link rel="stylesheet" href="assets/css/palette-overrides.css?v=20261101-colors">
 </head>
 
 <body class="about-page">

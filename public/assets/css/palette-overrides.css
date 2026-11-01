@@ -1,0 +1,592 @@
+/* NABTA Botanical warm palette. Loaded after page-specific styles. */
+:root {
+  --color-primary: #34452F;
+  --color-primary-hover: #43583D;
+  --color-green: #287344;
+  --color-green-hover: #276C43;
+  --color-green-light: #EAF4E9;
+  --color-link: #3B7950;
+  --color-link-hover: #294B32;
+  --color-page: #FFF9EF;
+  --color-surface: #FFFEFA;
+  --color-cream: #FFF3DE;
+  --color-peach: #F8D9AE;
+  --color-text: #34452F;
+  --color-text-secondary: #4F5945;
+  --color-text-muted: #685E49;
+  --color-border: #E8D5B8;
+  --color-alert: #B64532;
+  --color-success-bg: #EAF4E9;
+  --color-success-text: #276C43;
+  --color-warning-bg: #FFF3DE;
+  --color-warning-text: #8A682E;
+  --color-error-bg: #FCEAE5;
+  --color-error-text: #A63F2D;
+  --color-info-bg: #EDF3EE;
+  --color-info-text: #42674B;
+  --color-disabled-bg: #F4F0E8;
+  --color-disabled-text: #706652;
+  --color-hero-gradient: linear-gradient(135deg, #FFF0D3, #FFF9EF 58%, #F8D9AE);
+  --shadow-card: 0 10px 28px rgba(70, 58, 36, .08);
+  --shadow-card-hover: 0 16px 34px rgba(70, 58, 36, .13);
+  --shadow-button: 0 5px 12px rgba(52, 69, 47, .16);
+  --focus-ring: 0 0 0 3px rgba(59, 155, 99, .18);
+  --cx-card: rgba(255, 254, 250, .94);
+  --cx-card-line: rgba(232, 213, 184, .85);
+  --cx-field: #FFFEFA;
+  --cx-text: #34452F;
+  --cx-muted: #685E49;
+  --cx-lime: #287344;
+  --cx-mint: #287344;
+  --cx-ink: #FFFEFA;
+
+  /* Compatibility with older page styles */
+  --deep: var(--color-page);
+  --forest: var(--color-cream);
+  --wood: var(--color-peach);
+  --leaf: var(--color-green);
+  --sage: var(--color-text-muted);
+  --mint: var(--color-text);
+  --nabta-1: var(--color-page);
+  --nabta-2: var(--color-cream);
+  --nabta-3: var(--color-peach);
+  --nabta-4: var(--color-border);
+  --nabta-5: var(--color-text-muted);
+  --nabta-6: var(--color-text);
+  --bg: var(--color-page);
+  --surface: var(--color-surface);
+  --surface-raised: var(--color-cream);
+  --surface-soft: var(--color-cream);
+  --line: var(--color-border);
+  --text: var(--color-text);
+  --muted: var(--color-text-muted);
+  --accent: var(--color-green);
+  --green: var(--color-green);
+  --green-dark: var(--color-primary);
+  --cream: var(--color-page);
+  --card: var(--color-surface);
+  --border: var(--color-border);
+  --sun: var(--color-green);
+  --coral: var(--color-alert);
+  --on-photo: var(--color-surface);
+}
+
+/* Storefront defaults and common surfaces */
+body:not(.admin-body) { background-color: var(--color-page); color: var(--color-text); }
+body:not(.admin-body) a { color: var(--color-link); }
+body:not(.admin-body) a:hover { color: var(--color-link-hover); }
+body:not(.admin-body) :focus-visible { outline-color: var(--color-green); box-shadow: var(--focus-ring); }
+body:not(.admin-body) :is(.site-header, .header) {
+  background-color: rgba(255, 249, 239, .96);
+  border-color: var(--color-border);
+  color: var(--color-primary);
+}
+body:not(.admin-body) :is(.header .logo, .header .main-nav a, .header .account-link, .site-header a) { color: var(--color-primary); }
+body:not(.admin-body) :is(.header .logo-sub, .header .muted) { color: var(--color-text-muted); }
+body:not(.admin-body) :is(.header .leaf-logo, .header .icon) { stroke: var(--color-green); }
+body.index-page .header:not(.is-scrolled) { background: transparent !important; border-color: transparent !important; }
+body.index-page .header:not(.is-scrolled) :is(.logo, .logo-sub, .main-nav a, .account-link, .mobile-nav > summary) {
+  color: #FFFEFA !important;
+  text-shadow: 0 1px 10px rgba(52, 69, 47, .55);
+}
+body.index-page .header:not(.is-scrolled) :is(.leaf-logo, .icon) { stroke: #FFFEFA !important; }
+body.index-page .header.is-scrolled :is(.logo, .main-nav a, .account-link, .mobile-nav > summary) { color: var(--color-primary) !important; text-shadow: none; }
+body.index-page .header.is-scrolled .logo-sub { color: var(--color-text-muted) !important; }
+body.index-page .header.is-scrolled :is(.leaf-logo, .icon) { stroke: var(--color-green) !important; }
+body:not(.admin-body) :is(.footer, .site-footer) {
+  background-color: var(--color-primary);
+  border-color: var(--color-border);
+  color: var(--color-cream);
+}
+body:not(.admin-body) :is(.footer a, .site-footer a) { color: var(--color-cream); }
+body:not(.admin-body) :is(.footer a:hover, .site-footer a:hover) { color: var(--color-peach); }
+body:not(.admin-body) :is(.product-card, .collection-product-card, .bundle-card, .related-product, .review-item, .auth-card, .panel, .account-card, .cart-card, .checkout-card, .wishlist-card, .order-card, .faq-item, .benefit, .stat) {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+}
+body:not(.admin-body) :is(.product-card h2, .product-card h3, .collection-product-card h2, .collection-product-card h3, .bundle-card h2, .bundle-card h3, .panel h2, .panel h3, .auth-card h2) { color: var(--color-primary); }
+body:not(.admin-body) :is(.product-card p, .collection-product-card p, .bundle-card p, .panel p, .auth-subtitle, .muted, .caption) { color: var(--color-text-secondary); }
+body:not(.admin-body) :is(.product-card:hover, .collection-product-card:hover, .bundle-card:hover, .related-product:hover) {
+  border-color: var(--color-green);
+  box-shadow: var(--shadow-card-hover);
+}
+body:not(.admin-body) :is(.page-heading, .shop-banner, .section-banner, .welcome, .notice, .assistant-preview) {
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+body:not(.admin-body) :is(.page-heading, .welcome, .notice, .assistant-preview) { background-color: var(--color-cream); }
+body:not(.admin-body) :is(.page-heading h1, .section-heading h2, .section-heading h3, .welcome h2, .welcome h3) { color: var(--color-primary); }
+body:not(.admin-body) :is(.breadcrumbs, .category-strip a, .tag, .product-tag, .pill, .badge) {
+  background-color: var(--color-cream);
+  border-color: var(--color-border);
+  color: var(--color-link);
+}
+body:not(.admin-body) :is(.btn-primary, .login-cta, .checkout-btn, .nd-cart, .nd-review-submit, .bundle-add-button, .cta-button, .cx-btn, .cx-summary-btn) {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #FFFEFA;
+  box-shadow: var(--shadow-button);
+}
+body:not(.admin-body) :is(.btn-primary, .login-cta, .checkout-btn, .nd-cart, .nd-review-submit, .bundle-add-button, .cta-button, .cx-btn, .cx-summary-btn):hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #FFFEFA;
+}
+body:not(.admin-body) :is(.btn-secondary, .btn.secondary, .button-secondary) {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-primary);
+}
+body:not(.admin-body) :is(.btn-secondary, .btn.secondary, .button-secondary):hover {
+  background-color: var(--color-green-light);
+  border-color: var(--color-green);
+  color: var(--color-primary);
+}
+body:not(.admin-body) :is(input, select, textarea) {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+body:not(.admin-body) :is(input, select, textarea)::placeholder { color: var(--color-disabled-text); }
+body:not(.admin-body) :is(input, select, textarea):focus {
+  border-color: var(--color-green);
+  box-shadow: var(--focus-ring);
+}
+body:not(.admin-body) :is(input, select, textarea):disabled { background-color: var(--color-disabled-bg); color: var(--color-disabled-text); }
+body:not(.admin-body) :is(th, .table-heading) { background-color: var(--color-cream); color: var(--color-text-secondary); }
+body:not(.admin-body) :is(td, th) { border-color: var(--color-border); }
+body:not(.admin-body) tbody tr:hover td { background-color: var(--color-green-light); }
+body:not(.admin-body) :is(.alert-success, .notice-success, .message-success) { background-color: var(--color-success-bg); color: var(--color-success-text); }
+body:not(.admin-body) :is(.alert-warning, .notice-warning, .message-warning) { background-color: var(--color-warning-bg); color: var(--color-warning-text); }
+body:not(.admin-body) :is(.alert-error, .alert-danger, .notice-error, .message-error) { background-color: var(--color-error-bg); color: var(--color-error-text); }
+body:not(.admin-body) :is(.alert-info, .notice-info, .message-info) { background-color: var(--color-info-bg); color: var(--color-info-text); }
+body:not(.admin-body) :is(.sale-badge, .bag-count, .notification-count) { background-color: var(--color-alert); color: #FFFEFA; }
+body:not(.admin-body) :is(.modal, .popover, dialog) { background-color: var(--color-surface); border-color: var(--color-border); color: var(--color-text); box-shadow: var(--shadow-card-hover); }
+body:not(.admin-body) :is(.modal, .popover, dialog)::backdrop { background: rgba(52, 69, 47, .42); }
+
+/* Cart, checkout and account details */
+body:not(.admin-body).cx-body { background: var(--color-page) !important; color: var(--color-text) !important; }
+body:not(.admin-body) :is(.cx-card, .ac-popover) {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+body:not(.admin-body) :is(.cx-title, .cx-card h2, .cx-line-name, .cx-line-price, .cx-summary-total, .ac-who h2, .ac-info dd, .ac-item a) { color: var(--color-primary) !important; }
+body:not(.admin-body) :is(.cx-line-meta, .cx-remove, .cx-top-links a, .ac-who p, .ac-info dt, .ac-table td, .ac-item small) { color: var(--color-text-secondary) !important; }
+body:not(.admin-body) :is(.cx-btn, .cx-summary-btn, .ac-actions .cx-btn) {
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #FFFEFA !important;
+  box-shadow: var(--shadow-button) !important;
+}
+body:not(.admin-body) :is(.cx-btn, .cx-summary-btn, .ac-actions .cx-btn):hover { background: var(--color-primary-hover) !important; border-color: var(--color-primary-hover) !important; }
+body:not(.admin-body) :is(.cx-btn-ghost, .ac-link-btn) { background: var(--color-surface) !important; border-color: var(--color-border) !important; color: var(--color-primary) !important; }
+body:not(.admin-body) :is(.cx-btn-ghost, .ac-link-btn):hover { background: var(--color-green-light) !important; color: var(--color-primary) !important; }
+body:not(.admin-body) :is(.cx-card, .cx-line, .cx-summary-row, .ac-info, .ac-table td, .ac-table th) { border-color: var(--color-border) !important; }
+body:not(.admin-body) .ac-table th { background: var(--color-cream) !important; color: var(--color-text-secondary) !important; }
+body:not(.admin-body) .ac-table tbody tr:hover td { background: var(--color-green-light) !important; }
+body:not(.admin-body) .ac-status { background: var(--color-green-light) !important; border-color: var(--color-border) !important; color: var(--color-success-text) !important; }
+body:not(.admin-body) .ac-status-pending { background: var(--color-warning-bg) !important; color: var(--color-warning-text) !important; }
+body:not(.admin-body) .ac-status-shipped { background: var(--color-info-bg) !important; color: var(--color-info-text) !important; }
+body:not(.admin-body) .ac-status-out { background: var(--color-error-bg) !important; border-color: var(--color-border) !important; color: var(--color-error-text) !important; }
+body:not(.admin-body) .ac-status-completed { background: var(--color-success-bg) !important; color: var(--color-success-text) !important; }
+body:not(.admin-body) .ac-flash { background: var(--color-surface) !important; border-color: var(--color-border) !important; }
+body:not(.admin-body) .ac-flash.success { background: var(--color-success-bg) !important; color: var(--color-success-text) !important; }
+body:not(.admin-body) .ac-flash.error { background: var(--color-error-bg) !important; color: var(--color-error-text) !important; }
+body:not(.admin-body) .ac-avatar { background: linear-gradient(135deg, var(--color-green), var(--color-primary)); color: #FFFEFA !important; }
+
+/* Standalone story page keeps its photographs and uses the same green accents. */
+.about-page { background: var(--color-page) !important; color: var(--color-text) !important; }
+.about-page .about-navbar { background: rgba(255, 249, 239, .96) !important; border-color: var(--color-border) !important; }
+.about-page .about-navbar :is(a, span) { color: var(--color-primary) !important; }
+.about-page .about-navbar a:hover { color: var(--color-link) !important; }
+.about-page :is(.about-section, .story-card, .about-card) { background-color: var(--color-surface) !important; border-color: var(--color-border) !important; color: var(--color-text) !important; box-shadow: var(--shadow-card) !important; }
+.about-page :is(.about-section h2, .story-card h2, .about-card h2) { color: var(--color-primary) !important; }
+.about-page :is(.about-section p, .story-card p, .about-card p) { color: var(--color-text-secondary) !important; }
+.about-page .cta-button { background: var(--color-primary) !important; border-color: var(--color-primary) !important; color: #FFFEFA !important; }
+.about-page .cta-button:hover { background: var(--color-primary-hover) !important; }
+
+/* Admin workspace: ivory surfaces with botanical green controls */
+.admin-body {
+  --ad-bg: var(--color-page);
+  --ad-paper: var(--color-surface);
+  --ad-ink: var(--color-text);
+  --ad-muted: var(--color-text-secondary);
+  --ad-line: var(--color-border);
+  --ad-moss: var(--color-green);
+  --ad-sun: #D5A34E;
+  --ad-shadow: var(--shadow-card);
+  --ink: var(--color-text);
+  --muted: var(--color-text-secondary);
+  --lime: var(--color-green);
+  --mint: var(--color-green-light);
+  --amber: #D5A34E;
+  --blue: #7195A2;
+  background: var(--color-page) !important;
+  color: var(--color-text) !important;
+  color-scheme: light;
+}
+.admin-body .admin-shell, .admin-body .admin-content { background: transparent !important; color: var(--color-text) !important; }
+.admin-body .admin-sidebar {
+  background: var(--color-cream) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-primary) !important;
+  box-shadow: 0 10px 30px rgba(70, 58, 36, .09) !important;
+}
+.admin-body .admin-sidebar :is(.logo, .logo-sub, .eyebrow, nav a, .profile-link, .profile-copy, .admin-bottom) { color: var(--color-primary) !important; }
+.admin-body .admin-sidebar .logo-sub, .admin-body .admin-sidebar .eyebrow { color: var(--color-text-muted) !important; }
+.admin-body .admin-sidebar .leaf-logo { stroke: var(--color-green) !important; }
+.admin-body .admin-sidebar nav a { background: transparent !important; border-color: transparent !important; }
+.admin-body .admin-sidebar nav a:hover,
+.admin-body .admin-sidebar nav a.active,
+.admin-body .admin-sidebar nav a[aria-current="page"] {
+  background: var(--color-green-light) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-primary) !important;
+}
+.admin-body .admin-sidebar nav a :is(svg, path) { stroke: currentColor !important; }
+.admin-body .admin-sidebar .admin-menu-toggle { background: var(--color-primary) !important; border-color: var(--color-border) !important; color: #FFFEFA !important; }
+.admin-body .admin-sidebar .account-avatar { background: var(--color-green-light) !important; color: var(--color-primary) !important; }
+.admin-body .admin-menu-bars span { background: var(--color-peach) !important; }
+.admin-body .admin-top {
+  background: rgba(255, 254, 250, .9) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-secondary) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+.admin-body .admin-content :is(h1, h2, h3, h4, strong, .title) { color: var(--color-primary) !important; }
+.admin-body .admin-content :is(p, small, .muted, .label, .eyebrow, .overview-chart-note) { color: var(--color-text-secondary) !important; }
+.admin-body .admin-content a { color: var(--color-link) !important; }
+.admin-body .admin-content a:hover { color: var(--color-link-hover) !important; }
+.admin-body .admin-content :is(.panel, .desk-intro, .overview-section, .table-scroll, .admin-card, .form-card, .report-card, .review-card, .customer-card, .order-card, .product-card, .category-card, .profile-card, .summary-card, .product-image-card, .product-form, .image-input-row, .report-result, .report-empty-state) {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+.admin-body .admin-content :is(.kpi-card, .metric-card) {
+  color: #FFFEFA !important;
+  border-color: var(--color-border) !important;
+}
+.admin-body .admin-content :is(input, select, textarea, .control) {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+.admin-body .admin-content :is(input, select, textarea, .control)::placeholder { color: var(--color-disabled-text) !important; }
+.admin-body .admin-content :is(input, select, textarea, .control):focus {
+  border-color: var(--color-green) !important;
+  box-shadow: var(--focus-ring) !important;
+}
+.admin-body .admin-content :is(th, .table-head) { background-color: var(--color-cream) !important; color: var(--color-text-secondary) !important; border-color: var(--color-border) !important; }
+.admin-body .admin-content td { color: var(--color-text) !important; }
+.admin-body .admin-content :is(td, tr, table) { border-color: var(--color-border) !important; }
+.admin-body .admin-content tbody tr:hover td { background-color: var(--color-green-light) !important; }
+.admin-body.admin-products .toolbar .product-search input[type="search"] {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+.admin-body.admin-products .toolbar .product-search input[type="search"]::placeholder { color: var(--color-disabled-text) !important; }
+.admin-body .admin-content .flash.success { background: var(--color-success-bg) !important; border-color: var(--color-green) !important; color: var(--color-success-text) !important; }
+.admin-body .admin-content .flash.error { background: var(--color-error-bg) !important; border-color: var(--color-error-text) !important; color: var(--color-error-text) !important; }
+.admin-body .admin-content .report-message { background: var(--color-info-bg) !important; border-color: var(--color-border) !important; color: var(--color-info-text) !important; }
+.admin-body .admin-content .report-message--error { background: var(--color-error-bg) !important; color: var(--color-error-text) !important; }
+.admin-body .admin-content .report-message--success { background: var(--color-success-bg) !important; color: var(--color-success-text) !important; }
+.admin-body .admin-content .rating { color: #D5A34E !important; }
+.admin-body .admin-photo-strip {
+  border-color: rgba(248, 217, 174, .72) !important;
+  background-image:
+    linear-gradient(90deg, rgba(52, 69, 47, .90) 0%, rgba(52, 69, 47, .64) 43%, rgba(52, 69, 47, .30) 100%),
+    url("../img/garden-sky.jpg");
+  box-shadow: inset 0 1px rgba(255, 254, 250, .18), 0 18px 42px rgba(70, 58, 36, .15) !important;
+}
+.admin-body .admin-photo-strip::before {
+  background: linear-gradient(0deg, rgba(52, 69, 47, .48), transparent 65%), radial-gradient(ellipse at 76% 0, rgba(248, 217, 174, .18), transparent 44%) !important;
+}
+.admin-body .admin-photo-strip span { color: #FFFEFA !important; text-shadow: 0 2px 15px rgba(52, 69, 47, .65) !important; }
+.admin-body .admin-photo-strip small { color: var(--color-peach) !important; }
+.admin-body.admin-overview .desk-intro .season-mark { color: var(--color-link) !important; }
+.admin-body.admin-overview .desk-date { color: var(--color-text-muted) !important; }
+.admin-body.admin-overview .overview-best-list li { border-color: var(--color-border) !important; }
+.admin-body.admin-overview .overview-best-list li::before { color: var(--color-green) !important; }
+.admin-body.admin-overview .overview-item-name strong { color: var(--color-primary) !important; }
+.admin-body.admin-overview .overview-item-name small,
+.admin-body.admin-overview .overview-quantity,
+.admin-body.admin-overview .overview-empty { color: var(--color-text-secondary) !important; }
+.admin-body.admin-overview .overview-category-feature {
+  background: var(--color-hero-gradient) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-primary) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+.admin-body.admin-overview .overview-category-feature :is(small, h3, strong, p) { color: var(--color-primary) !important; }
+.admin-body.admin-overview .overview-category-feature hr { border-color: var(--color-border) !important; }
+.admin-body .admin-content :is(.btn, button, input[type="submit"], input[type="button"]) {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: #FFFEFA !important;
+  box-shadow: var(--shadow-button) !important;
+}
+.admin-body .admin-content :is(.btn, button, input[type="submit"], input[type="button"]):hover {
+  background-color: var(--color-primary-hover) !important;
+  border-color: var(--color-primary-hover) !important;
+}
+.admin-body .admin-content .btn.secondary,
+.admin-body .admin-content .table-button.hide-button,
+.admin-body .admin-content .icon-btn {
+  background: var(--color-green-light) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-primary) !important;
+  box-shadow: none !important;
+}
+.admin-body .admin-content .btn.secondary:hover,
+.admin-body .admin-content .table-button.hide-button:hover,
+.admin-body .admin-content .icon-btn:hover { background: var(--color-cream) !important; border-color: var(--color-green) !important; }
+.admin-body .admin-content :is(.btn-danger, .danger, .delete, .delete-button, [data-action="delete"]) { background-color: var(--color-error-text) !important; border-color: var(--color-error-text) !important; color: #FFFEFA !important; }
+.admin-body .admin-content :is(.btn-danger, .danger, .delete, .delete-button, [data-action="delete"]):hover { background-color: #9F4031 !important; }
+.admin-body .admin-content :is(.pill, .badge, .status) { background-color: var(--color-green-light) !important; border-color: var(--color-border) !important; color: var(--color-green-hover) !important; }
+.admin-body .admin-content :is(.pill.pending, .status.pending, .badge.pending) { background-color: var(--color-warning-bg) !important; color: var(--color-warning-text) !important; }
+.admin-body .admin-content :is(.pill.cancelled, .status.cancelled, .badge.cancelled, .pill.rejected) { background-color: var(--color-error-bg) !important; color: var(--color-error-text) !important; }
+.admin-body .admin-content :is(.pill.completed, .status.completed, .badge.completed, .pill.approved) { background-color: var(--color-success-bg) !important; color: var(--color-success-text) !important; }
+.admin-body .admin-content :is(.pill.processing, .status.processing, .badge.processing) { background-color: var(--color-info-bg) !important; color: var(--color-info-text) !important; }
+.admin-body .admin-content :is(.overview-alert, .alert) { background: var(--color-warning-bg) !important; border-color: var(--color-peach) !important; color: var(--color-warning-text) !important; box-shadow: var(--shadow-card) !important; }
+.admin-body .admin-content :is(.overview-alert p, .overview-alert strong, .overview-alert a) { color: var(--color-warning-text) !important; }
+.admin-body .admin-content :is(.overview-modal, .popover, dialog) { background: var(--color-surface) !important; border-color: var(--color-border) !important; color: var(--color-text) !important; box-shadow: var(--shadow-card-hover) !important; }
+.admin-body .admin-content :is(.overview-modal, .popover, dialog)::backdrop { background: rgba(52, 69, 47, .42) !important; }
+
+/* Overview charts use plain surfaces so the chart data is easy to read. */
+.admin-overview .overview-chart-card {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+.admin-overview .overview-chart-card::before { display: none !important; background-image: none !important; }
+.admin-overview .overview-chart-card::after { display: none !important; background: none !important; }
+.admin-overview .overview-chart-card h2 { color: var(--color-primary) !important; }
+.admin-overview .overview-chart-card .eyebrow,
+.admin-overview .overview-chart-note { color: var(--color-text-muted) !important; text-shadow: none !important; }
+.admin-overview .overview-canvas-wrap { background: transparent !important; }
+.admin-overview .kpi-card { border-color: rgba(248, 217, 174, .62) !important; }
+.admin-overview .kpi-card::after { background: linear-gradient(115deg, rgba(52, 69, 47, .82), rgba(52, 69, 47, .60)) !important; }
+.admin-overview .kpi-card small { color: #FFF3DE !important; }
+.admin-overview .kpi-card strong { color: #FFFEFA !important; }
+
+/* Readable foreground/background pairs for shared controls and overlays. */
+:root {
+  --popup-surface: var(--color-surface);
+  --popup-surface-raised: var(--color-cream);
+  --popup-border: var(--color-border);
+  --popup-text: var(--color-text);
+  --popup-muted: var(--color-text-secondary);
+  --popup-accent: var(--color-link);
+}
+body :is(input, select, textarea) { color-scheme: light; accent-color: var(--color-green); }
+body :is(input, textarea)::placeholder { opacity: 1; }
+body :is(.popover, dialog) { color-scheme: light; }
+body .popover :is(input:not([type='checkbox']):not([type='radio']), select, textarea, .control, .image-input-row) {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+body .popover :is(input, textarea)::placeholder { color: var(--color-text-muted) !important; }
+body .popover :is(p, small, dt, .muted, label) { color: var(--color-text-secondary) !important; }
+body .popover input[type='file'] { color-scheme: light; }
+body .popover input[type='file']::file-selector-button {
+  background: var(--color-green-light);
+  color: var(--color-primary);
+  border-color: var(--color-green);
+}
+body .popover input[type='file']::file-selector-button:hover { background: var(--color-cream); }
+body:not(.admin-body) .header .login-cta,
+body:not(.admin-body) .header.is-scrolled .login-cta,
+body:not(.admin-body) .header .login-cta:hover {
+  background: var(--color-primary) !important;
+  color: var(--color-surface) !important;
+}
+body:not(.admin-body) :is(.btn-primary, .checkout-btn, .nd-cart, .nd-review-submit, .bundle-add-button, .cta-button):is(:hover, :focus-visible) {
+  background: var(--color-primary-hover);
+  color: var(--color-surface);
+}
+body:not(.admin-body) :is(.cx-btn, .cx-summary-btn) { background: var(--color-primary) !important; }
+body:not(.admin-body) :is(.cx-btn-ghost, .cx-btn-ghost:hover) { background: var(--color-surface) !important; color: var(--color-primary) !important; }
+body:not(.admin-body) :is(.footer, .site-footer) :is(p, small, .muted, .caption) { color: var(--color-cream) !important; }
+.nabta-detail { --sage: var(--color-text-muted); --muted: var(--color-text-muted); }
+.nabta-detail :is(.nd-fbt-info span, .nd-stars) { color: var(--color-link); }
+
+/* Admin photograph captions must remain light over the dark image overlay. */
+.admin-body .admin-content .admin-photo-strip :is(h1, h2, h3, p, strong, small, .eyebrow, .reports-hero-kicker) {
+  color: var(--color-surface) !important;
+}
+.admin-body .admin-content .kpi-card :is(small, strong, p, a) { color: var(--color-surface) !important; }
+.admin-body .admin-content .metric-card { background: var(--color-primary) !important; }
+.admin-body .admin-content .metric-card :is(small, strong, p, a) { color: var(--color-surface) !important; }
+.admin-body .admin-content :is(.btn, button) :is(strong, small, span) { color: inherit !important; }
+.admin-body .admin-content tbody tr { background-color: var(--color-surface) !important; }
+.admin-body .admin-content :is(.pill.shipped, .status.shipped, .badge.shipped) { background: var(--color-info-bg) !important; color: var(--color-info-text) !important; }
+.admin-body .admin-content :is(.pill.delivered, .status.delivered, .badge.delivered) { background: var(--color-success-bg) !important; color: var(--color-success-text) !important; }
+.admin-body .admin-content .rating { color: #856017 !important; }
+
+/* Report forms and generated content share the same light admin surfaces. */
+.admin-body.admin-reports .admin-content :is(.report-form-background, .ai-report-panel) {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+.admin-body.admin-reports .admin-content :is(.report-form-background, .ai-report-content) :is(h1, h2, h3, strong, label, p, li, small, .small, .report-form-hint) {
+  color: var(--color-text) !important;
+}
+.admin-body.admin-reports .admin-content .ai-report-content { color: var(--color-text) !important; }
+.admin-body.admin-reports .admin-content .ai-report-content a { color: var(--color-link) !important; }
+.admin-body.admin-reports .admin-content .ai-report-content tr:nth-child(even) td { background: var(--color-cream) !important; }
+.admin-body.admin-reports .admin-content .ai-report-collapse .ai-report-content::after { background: linear-gradient(transparent, var(--color-surface)); }
+.admin-body.admin-reports .admin-content :is(.ai-report-toggle-label, .report-empty-state, .report-history-title) { color: var(--color-link) !important; }
+.admin-body.admin-reports .admin-content .report-form-background :is(input.control, textarea.control) {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-green) !important;
+}
+/* Explicit section pairs prevent legacy --mint/--wood aliases from hiding text. */
+body:not(.admin-body) .bundles-section {
+  background: var(--color-page) !important;
+  color: var(--color-text) !important;
+}
+body:not(.admin-body) .bundles-section :is(.bundle-card, .bundle-card-body) {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+body:not(.admin-body) .bundles-section :is(h2, h2 em, h3, .bundle-price-row strong) { color: var(--color-primary) !important; }
+body:not(.admin-body) .bundles-section :is(.eyebrow, .section-intro-v3 p, .bundle-card-kicker, .bundle-card-kicker > span, .bundle-description, .bundle-items-heading, .bundle-price-label, .bundle-compare-price span, .bundle-compare-price del, .bundle-compare-price small, .bundle-empty-state p) { color: var(--color-text-secondary) !important; }
+body:not(.admin-body) .bundles-section :is(.bundle-items-list > span, .bundle-count-pill, .bundle-kicker-mark, .bundle-empty-state) {
+  background: var(--color-cream) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-border) !important;
+}
+body:not(.admin-body) .bundles-section .bundle-items-list i { color: var(--color-link) !important; }
+body:not(.admin-body) .bundles-section .bundle-set-badge {
+  background: var(--color-surface) !important;
+  color: var(--color-primary) !important;
+}
+body:not(.admin-body) .bundles-section .bundle-saving-badge {
+  background: var(--color-primary) !important;
+  color: var(--color-surface) !important;
+}
+body:not(.admin-body) .bundles-section .bundle-add-button {
+  background: var(--color-primary) !important;
+  color: var(--color-surface) !important;
+  border-color: var(--color-primary) !important;
+}
+body:not(.admin-body) .bundles-section .bundle-add-button :is(span, strong) { color: inherit !important; background: transparent !important; }
+body:not(.admin-body) .bundles-section .bundle-add-button:hover { background: var(--color-primary-hover) !important; }
+body:not(.admin-body) .bundles-section .bundle-add-button:disabled {
+  background: var(--color-disabled-bg) !important;
+  color: var(--color-disabled-text) !important;
+  border-color: var(--color-border) !important;
+  opacity: 1;
+}
+body.garden-home.index-page .header:not(.is-scrolled) :is(.logo, .logo-sub, .main-nav a, .account-link, .mobile-nav > summary) {
+  color: var(--color-primary) !important;
+  text-shadow: none !important;
+}
+body.garden-home.index-page .header:not(.is-scrolled) :is(.leaf-logo, .icon) { stroke: var(--color-primary) !important; }
+body.garden-home.index-page .header .header-actions > a.login-cta { color: var(--color-surface) !important; background: var(--color-primary) !important; }
+body.garden-home .promo-slider { --leaf: #287344; }
+body.garden-home .promo-slider :is(.promo-nav, .slider-nav, .promo-dots) { background-color: var(--color-primary) !important; }
+body.garden-home #contact-form.contact-form-card { background: var(--color-surface) !important; color: var(--color-text) !important; border-color: var(--color-border) !important; }
+body.garden-home #contact-form :is(.eyebrow, .contact-sprout, p, label) { color: var(--color-text-secondary) !important; }
+body.garden-home #faq.faq-refresh { background: var(--color-page) !important; color: var(--color-text) !important; }
+body.garden-home #faq :is(.faq-intro-card, .faq-content-card, .faq-item, .faq-item[open], .faq-list-heading, .faq-answer, .faq-bottom-note) {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+body.garden-home #faq :is(h2, h2 em, .faq-question, summary) { color: var(--color-primary) !important; }
+body.garden-home #faq :is(.eyebrow, .faq-spark, .faq-intro-card > p, .faq-list-heading span, .faq-number, .faq-chevron, .faq-answer p, .faq-bottom-note) { color: var(--color-text-secondary) !important; }
+body.garden-home #faq .faq-assistant-link,
+body.garden-home #faq .faq-assistant-link span { color: var(--color-link) !important; }
+body.garden-home #faq .faq-image-caption { background: var(--color-primary) !important; }
+body.garden-home #faq .faq-image-caption :is(span, strong, small) { color: var(--color-surface) !important; }
+body.garden-home.index-page .header,
+body.garden-home.index-page .header:not(.is-scrolled),
+body.garden-home.index-page .header.is-scrolled { background: var(--color-page) !important; border-color: var(--color-border) !important; }
+body.garden-home #faq.faq-refresh .faq-intro-top .eyebrow { color: var(--color-text-secondary) !important; }
+body.garden-home #faq.faq-refresh .faq-intro-card h2 em { color: var(--color-primary) !important; }
+body.garden-home #faq.faq-refresh .faq-item .faq-chevron { background: var(--color-green-light) !important; color: var(--color-primary) !important; }
+body:not(.admin-body) .header .header-actions > .bag-link .icon { stroke: var(--color-surface) !important; }
+body:not(.admin-body) #welcome p { color: var(--color-text-secondary) !important; }
+body.nabta-product-body .nabta-detail .nd-fbt-card { background: var(--color-surface) !important; }
+body.nabta-product-body .nabta-detail .nd-fbt-info span { color: var(--color-link) !important; }
+body.nabta-product-body .nabta-detail .nd-fbt-info p { color: var(--color-text-secondary) !important; }
+body.about-page :is(.intro-label, .intro-description p, .eyebrow.dark, .value-number, .value-card p, .mission-content p) { color: var(--color-text-secondary) !important; }
+body.about-page :is(.intro-heading em, .values-heading em, .mission-content em, .value-symbol) { color: var(--color-link) !important; }
+body.about-page :is(.about-hero, .about-quote, .about-cta) { background-color: var(--color-primary); color: var(--color-surface); }
+body.about-page :is(.about-hero, .about-quote, .about-cta) :is(h1, h2, em, p, .eyebrow, .hero-scroll, .hero-scroll span, .hero-side-label, .hero-bottom, .hero-bottom span, .quote-author) { color: var(--color-surface) !important; }
+body.about-page .story-photo > span { background: var(--color-primary); color: var(--color-surface); }
+body.about-page .gallery-floating-text { color: var(--color-primary); }
+body.about-page .about-cta .cta-button,
+body.about-page .about-cta .cta-button:hover { background: var(--color-cream) !important; color: var(--color-primary) !important; }
+body.auth-page .auth-visual { background-color: var(--color-primary) !important; }
+body.auth-page .auth-visual :is(.auth-brand, .logo-sub, h1, h1 em, p, .eyebrow, .auth-visual-foot) { color: var(--color-surface) !important; }
+
+/* Keep text and backgrounds paired in account and admin detail surfaces. */
+body.admin-body .admin-content :is(.panel, .stat, .canopy-stat, .admin-title, .season-card, .canopy-river) {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+body.admin-body .admin-content :is(.panel, .stat, .canopy-stat, .admin-title, .season-card, .canopy-river) :is(h1, h2, h3, strong, b, .value, .season-num, .trend, .canopy-overline, .river-labels) { color: var(--color-primary) !important; }
+body.admin-body .admin-content :is(.stats .stat .label, .stats .stat .value, .canopy-stat small, .canopy-stat span, .feed-line b, .feed-line p, .feed-line time, .rhythm-row, .canopy-disclaimer, .overview-quantity, .overview-empty, .admin-title .eyebrow) { color: var(--color-text-secondary) !important; }
+body.admin-body .admin-content :is(.btn, button, input[type='submit'], input[type='button']) { background: var(--color-primary) !important; color: var(--color-surface) !important; }
+body.admin-body .admin-content :is(.btn, button):hover { background: var(--color-primary-hover) !important; }
+body.admin-body .admin-content :is(.btn.secondary, .icon-btn, .table-button.hide-button) { background: var(--color-green-light) !important; color: var(--color-primary) !important; }
+body.admin-body .admin-content :is(.btn-danger, .danger, .delete, .delete-button, [data-action='delete']) { background: var(--color-error-text) !important; color: var(--color-surface) !important; }
+body.admin-body .admin-content :is(.btn, button):disabled { background: var(--color-disabled-bg) !important; color: var(--color-disabled-text) !important; opacity: 1; }
+body.admin-body .admin-content :is(.btn, button) :is(span, strong, small, b) { color: inherit !important; }
+body.admin-body .admin-content :is(input, select, textarea, .control) { background: var(--color-surface) !important; color: var(--color-text) !important; }
+body.admin-body .admin-content .admin-photo-strip :is(h1, h2, h3, p, strong, small, span, .eyebrow) { color: var(--color-surface) !important; }
+body.admin-body .admin-content .kpi-card :is(strong, small, p, span) { color: var(--color-surface) !important; }
+body.admin-body .admin-content :is(.btn, button):is(.secondary, .icon-btn, .hide-button):hover { background: var(--color-cream) !important; color: var(--color-primary) !important; }
+body.admin-body .admin-content .popover :is(.btn, button) :is(span, strong) { color: inherit !important; }
+body.auth-page.botanical-edition:not(.garden-home):not(:has(.admin-shell)) .auth-visual .auth-visual-copy :is(p, .eyebrow) { color: var(--color-surface) !important; }
+/* Legacy account/admin sheets also style popovers outside .admin-content. */
+body.admin-body.botanical-edition,
+body.profile-page:not(.admin-body) { background: var(--color-page) !important; color: var(--color-text) !important; }
+body.admin-body.botanical-edition .admin-sidebar { background: var(--color-cream) !important; }
+body.admin-body.botanical-edition .admin-sidebar nav a { background: transparent !important; color: var(--color-primary) !important; }
+body.admin-body.botanical-edition .admin-sidebar nav a:is(:hover, .active, [aria-current='page']) { background: var(--color-green-light) !important; }
+body.admin-body .admin-content .admin-title p { color: var(--color-text-secondary) !important; }
+body.admin-body .admin-content .overview-category-feature { background: var(--color-cream) !important; }
+body.admin-body :is(.flash, .product-message) { background: var(--color-cream) !important; color: var(--color-text) !important; }
+body.admin-body :is(.pill, .badge, .status) { background: var(--color-green-light) !important; color: var(--color-primary) !important; }
+body.admin-body .popover :is(.btn, button),
+body.profile-page:not(.admin-body) :is(.btn, button.btn) { background: var(--color-primary) !important; color: var(--color-surface) !important; }
+body.admin-body .popover :is(.btn, button):hover,
+body.profile-page:not(.admin-body) .btn:hover { background: var(--color-primary-hover) !important; }
+body.admin-body .popover :is(.btn.secondary, .icon-btn) { background: var(--color-green-light) !important; color: var(--color-primary) !important; }
+body.admin-body .popover :is(.btn, button) :is(span, strong, small) { color: inherit !important; }
+body.admin-body.admin-reports .admin-content .reports-hero .reports-workspace-tag { background: var(--color-cream) !important; color: var(--color-primary) !important; }
+body.profile-page:not(.admin-body) :is(.header, .page-main, .panel, .popover, .popover .field) { background: var(--color-surface) !important; color: var(--color-text) !important; }
+body.profile-page:not(.admin-body) .header :is(.logo, .logo-sub, .main-nav a, .account-link) { color: var(--color-primary) !important; }
+body.profile-page:not(.admin-body) .popover :is(h1, h2, h3, strong) { color: var(--color-primary) !important; }
+body :is(.account-avatar, .ac-avatar) { background: var(--color-primary) !important; color: var(--color-surface) !important; }
+body:not(.admin-body) .header .header-actions > a.login-cta { color: var(--color-surface) !important; background: var(--color-primary) !important; }
+body:not(.admin-body) .header .bag-link .bag-count { background: var(--color-alert) !important; color: var(--color-surface) !important; }
+body:not(.admin-body) .cx-line-img > span { color: var(--color-surface) !important; }
+body a.skip { background: var(--color-primary) !important; color: var(--color-surface) !important; }
+body.profile-page:not(.admin-body) .page-heading { background: var(--color-cream) !important; }
+body.profile-page:not(.admin-body) :is(.page-heading h1, .panel h2, .panel h3) { color: var(--color-primary) !important; }
+body.profile-page:not(.admin-body) :is(.page-heading .eyebrow, .page-heading p, .panel .small, .panel .label) { color: var(--color-text-secondary) !important; }
+body.profile-page:not(.admin-body) .footer { background: var(--color-primary) !important; }
+body.profile-page:not(.admin-body) .footer :is(.footer-title, .footer-bottom, .footer-bottom span) { color: var(--color-cream) !important; }
+body.admin-body .admin-sidebar .profile-link :is(small, .profile-arrow) { color: var(--color-text-secondary) !important; }
+body.admin-body .admin-content .kpi-card { background-color: var(--color-primary) !important; }
+body.admin-body .admin-content .admin-photo-strip { background-color: var(--color-primary) !important; }
+body.admin-body .admin-content .dashboard-footer-note { color: var(--color-text-secondary) !important; }
+body.nabta-product-body .nabta-detail .nd-card-arrow { background: var(--color-primary) !important; color: var(--color-surface) !important; }
+body.nabta-product-body .nabta-detail :is(.nd-view-reviews, .nd-modal-review-list .nd-stars) { color: var(--color-link) !important; }
+body.nabta-product-body :is(.nd-modal-review-list .nd-review-person span, .nd-modal-page-info) { color: var(--color-text-secondary) !important; }
+body.admin-body .table-scroll tbody td[data-label]::before { color: var(--color-text-secondary) !important; }

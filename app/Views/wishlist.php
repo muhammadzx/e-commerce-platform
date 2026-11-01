@@ -177,6 +177,7 @@ $homeUrl = nabta_public_url('index.php');
   <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/site-header.css')) ?>">
   <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/warm-theme.css?v=' . (int) @filemtime(__DIR__ . '/../../public/assets/css/warm-theme.css'))) ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
+  <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../public/assets/css/palette-overrides.css'))) ?>">
 </head>
 <body class="botanical-edition wishlist-page">
 <a class="skip" href="#main">Skip to content</a>

@@ -2430,19 +2430,19 @@ body:has(.admin-shell) {
 }
 
 .admin-overview .chart-best {
-  --chart-image: url("../img/chart-best-sellers.png");
+  --chart-image: none;
 }
 
 .admin-overview .chart-category {
-  --chart-image: url("../img/chart-category-sales.png");
+  --chart-image: none;
 }
 
 .admin-overview .chart-weekly {
-  --chart-image: url("../img/chart-weekly-sales.png");
+  --chart-image: none;
 }
 
 .admin-overview .chart-orders {
-  --chart-image: url("../img/chart-orders-status.png");
+  --chart-image: none;
 }
 
 .admin-overview .overview-chart-card h2 {

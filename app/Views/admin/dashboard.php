@@ -24,6 +24,8 @@ if (!isset($overviewStats)) {
 <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css')), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/ui.css?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/css/ui.css')), ENT_QUOTES, 'UTF-8') ?>">
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/ui.js?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/js/ui.js')), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-overview">
@@ -108,7 +110,7 @@ if (!isset($overviewStats)) {
               <div class="eyebrow">BEST SELLERS</div>
               <h2 id="best-chart-title">Products &amp; packages sold</h2>
               <div class="overview-canvas-wrap">
-                <canvas id="bestSellersChart" aria-label="Top five products and packages by units sold"></canvas>
+                <canvas role="img" id="bestSellersChart" aria-label="Top five products and packages by units sold"></canvas>
               </div>
               <p class="overview-chart-note">Ranked by quantity sold across completed orders.</p>
             </section>
@@ -116,7 +118,7 @@ if (!isset($overviewStats)) {
               <div class="eyebrow">CATEGORY PERFORMANCE</div>
               <h2 id="category-chart-title">Sales by category</h2>
               <div class="overview-canvas-wrap">
-                <canvas id="categorySalesChart" aria-label="Sales grouped by product category and packages"></canvas>
+                <canvas role="img" id="categorySalesChart" aria-label="Sales grouped by product category and packages"></canvas>
               </div>
               <p class="overview-chart-note">Package sales are shown as a separate group.</p>
             </section>
@@ -177,14 +179,14 @@ if (!isset($overviewStats)) {
               <div class="eyebrow">LAST SEVEN DAYS</div>
               <h2 id="weekly-chart-title">Daily sales</h2>
               <div class="overview-canvas-wrap">
-                <canvas id="weeklySalesChart" aria-label="Completed order sales for the last seven days"></canvas>
+                <canvas role="img" id="weeklySalesChart" aria-label="Completed order sales for the last seven days"></canvas>
               </div>
             </section>
             <section class="panel overview-chart-card chart-orders" aria-labelledby="orders-chart-title">
               <div class="eyebrow">ORDER WORKFLOW</div>
               <h2 id="orders-chart-title">Orders by status</h2>
               <div class="overview-canvas-wrap">
-                <canvas id="ordersStatusChart" aria-label="Order counts grouped by order status"></canvas>
+                <canvas role="img" id="ordersStatusChart" aria-label="Order counts grouped by order status"></canvas>
               </div>
             </section>
           </div>
@@ -214,11 +216,13 @@ if (!isset($overviewStats)) {
           </div>
         </dialog>
 
-        <div class="dashboard-footer-note">welcome.
+  <section class="chart-data-tables" aria-label="Chart data tables"><h2>Dashboard data</h2><p>The same figures are available below, including when charts cannot load.</p><?php foreach (['bestSellers'=>'Best sellers (units)', 'categories'=>'Sales by category (JOD)', 'weekly'=>'Daily sales (JOD)', 'orders'=>'Orders by status (count)'] as $key=>$title): ?><details><summary><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></summary><table class="chart-data-table"><thead><tr><th scope="col">Label</th><th scope="col">Value</th></tr></thead><tbody><?php foreach ($chartData[$key]['labels'] as $i=>$label): ?><tr><th scope="row"><?= htmlspecialchars((string)$label, ENT_QUOTES, 'UTF-8') ?></th><td><?= htmlspecialchars((string)($chartData[$key]['values'][$i] ?? 0), ENT_QUOTES, 'UTF-8') ?></td></tr><?php endforeach; ?><?php if (!$chartData[$key]['labels']): ?><tr><td colspan="2">No data available</td></tr><?php endif; ?></tbody></table></details><?php endforeach; ?></section>
+        <div class="dashboard-footer-note">Store figures are based on the data currently available.
         </div>
       </div>
     </div>
   </main>
+
 
   <script id="overview-chart-data" type="application/json">
   <?= json_encode(
@@ -226,7 +230,7 @@ if (!isset($overviewStats)) {
     JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT
   ) ?>
 </script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js" defer></script>
   <script src="<?= htmlspecialchars(nabta_public_url('assets/js/admin.js'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </body>
 

@@ -48,6 +48,8 @@ $total = count($orders);
         .flash.error { background: rgba(176, 80, 64, .2); border: 1px solid rgba(176, 80, 64, .6); }
     </style>
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css')), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/ui.css?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/css/ui.css')), ENT_QUOTES, 'UTF-8') ?>">
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/ui.js?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/js/ui.js')), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </head>
 <body class="admin-body botanical-edition workspace-page admin-orders">
     <main id="main">
@@ -63,7 +65,7 @@ $total = count($orders);
                 <div class="admin-title">
                     <div>
                         <h1>Orders</h1>
-                        <p>Track every order from basket to delivery.</p>
+                        <p>Track orders from basket to delivery. Pending checkout requests still require customer approval of delivery costs and payment arrangements.</p>
                     </div>
                 </div>
 

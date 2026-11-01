@@ -10,7 +10,7 @@ require_once __DIR__ . '/bootstrap.php';
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Plants, pots &amp; everyday growing | Nabta Botanical</title>
   <meta name="description"
-    content="Buy and sell plants, ceramic pots, soil, tools, botanical decor and plant-care essentials at Nabta. A little nature, closer to home." />
+    content="Shop plants, ceramic pots, soil, tools, botanical decor and plant-care essentials at Nabta. A little nature, closer to home." />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#FFF9EF" />
   <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml" />
@@ -488,7 +488,7 @@ require_once __DIR__ . '/bootstrap.php';
             </div>
           </div>
           <div class="hero-media">
-            <img src="assets/img/garden-sky.jpg"
+            <img src="assets/img/garden-sky-optimized.jpg"
               alt="Sunlit nursery garden with terracotta pots, green foliage and open blue sky" width="1536"
               height="1024" fetchpriority="high" /><span class="hero-tag">NABTA / BOTANICAL LIVING</span>
             <div class="hero-caption">
@@ -692,20 +692,20 @@ require_once __DIR__ . '/bootstrap.php';
             <?= csrf_field() ?>
             <div class="contact-fields"><label>Your name<input type="text" name="name"
                   placeholder="How should we call you?" autocomplete="name"
-                  value="<?= e($_POST['name'] ?? ($_SESSION['full_name'] ?? '')) ?>" maxlength="100"
+                  value="<?= e($_SESSION['contact_old']['name'] ?? $_POST['name'] ?? ($_SESSION['full_name'] ?? '')) ?>" minlength="2" maxlength="100" minlength="2"
                   required></label><label>Email address<input type="email" name="email" placeholder="you@example.com"
-                  autocomplete="email" value="<?= e($_POST['email'] ?? ($_SESSION['user_email'] ?? '')) ?>"
+                  autocomplete="email" value="<?= e($_SESSION['contact_old']['email'] ?? $_POST['email'] ?? ($_SESSION['user_email'] ?? '')) ?>"
                   maxlength="150" required></label></div>
             <label>What can we help with?<select name="topic" required>
-                <option value="" selected disabled>Choose a topic</option>
-                <option>Plant care advice</option>
-                <option>Order or delivery</option>
-                <option>Product question</option>
-                <option>Returns and exchanges</option>
-                <option>Something else</option>
+                <option value="" <?= empty($_SESSION['contact_old']['topic']) ? 'selected' : '' ?> disabled>Choose a topic</option>
+                <option <?= ($_SESSION['contact_old']['topic'] ?? '') === 'Plant care advice' ? 'selected' : '' ?>>Plant care advice</option>
+                <option <?= ($_SESSION['contact_old']['topic'] ?? '') === 'Order or delivery' ? 'selected' : '' ?>>Order or delivery</option>
+                <option <?= ($_SESSION['contact_old']['topic'] ?? '') === 'Product question' ? 'selected' : '' ?>>Product question</option>
+                <option <?= ($_SESSION['contact_old']['topic'] ?? '') === 'Returns and exchanges' ? 'selected' : '' ?>>Returns and exchanges</option>
+                <option <?= ($_SESSION['contact_old']['topic'] ?? '') === 'Something else' ? 'selected' : '' ?>>Something else</option>
               </select></label>
             <label>Your message<textarea name="message" rows="4" minlength="5" maxlength="5000"
-                placeholder="Tell us a little more…" required></textarea></label>
+                placeholder="Tell us a little more…" required><?= e($_SESSION['contact_old']['message'] ?? '') ?></textarea></label>
             <button class="btn btn-primary contact-submit" type="submit">Send your message <span
                 aria-hidden="true">↗</span></button>
             <p class="contact-privacy">By sending this form, you agree that we may use your details to reply to your
@@ -765,8 +765,7 @@ require_once __DIR__ . '/bootstrap.php';
                 <summary><span class="faq-number">03</span><span class="faq-question">Can I sell my own plants or
                     supplies?</span><span class="faq-chevron" aria-hidden="true">+</span></summary>
                 <div class="faq-answer">
-                  <p>Yes. Use Sell with Nabta to prepare a listing with product details, photos, and a price. Listings
-                    are reviewed before publication in the marketplace flow.</p>
+                  <p>Selling and listing your own products is not currently available. The catalogue contains items managed by Nabta.</p>
                 </div>
               </details>
               <details class="faq-item">

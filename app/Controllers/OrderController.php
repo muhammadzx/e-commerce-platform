@@ -69,6 +69,13 @@ class OrderController
             return;
         }
 
+        $account = $this->cart->getCustomer((int) $_SESSION['user_id']);
+        $email = trim((string) ($_POST['email'] ?? ''));
+        if (!$account || !filter_var($email, FILTER_VALIDATE_EMAIL) || strcasecmp($email, (string) $account['email']) !== 0) {
+            http_response_code(422);
+            echo json_encode(['success'=>false,'message'=>'Use your current account email. Refresh checkout after updating your account.']);
+            return;
+        }
         $name = trim((string) ($_POST["full_name"] ?? ""));
         $phone = trim((string) ($_POST["phone"] ?? ""));
         $street = trim((string) ($_POST["street"] ?? ""));

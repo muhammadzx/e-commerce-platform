@@ -301,7 +301,7 @@ body:not(.admin-body) .ac-avatar { background: linear-gradient(135deg, var(--col
   border-color: rgba(248, 217, 174, .72) !important;
   background-image:
     linear-gradient(90deg, rgba(52, 69, 47, .90) 0%, rgba(52, 69, 47, .64) 43%, rgba(52, 69, 47, .30) 100%),
-    url("../img/garden-sky.jpg");
+    url("../img/garden-sky-optimized.jpg");
   box-shadow: inset 0 1px rgba(255, 254, 250, .18), 0 18px 42px rgba(70, 58, 36, .15) !important;
 }
 .admin-body .admin-photo-strip::before {

@@ -36,7 +36,7 @@ foreach (array_slice(preg_split('/\s+/', trim((string) $account['full_name'])) ?
 </div>
 
 <?php require __DIR__ . "/layouts/header.php"; ?>
-<main class="cx-page">
+<main id="main" tabindex="-1" class="cx-page">
 
     <h1 class="cx-title">My account</h1>
 

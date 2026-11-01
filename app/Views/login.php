@@ -25,7 +25,7 @@
         </label>
         <button class="btn btn-primary auth-submit" type="submit">Sign in <span aria-hidden="true">↗</span></button>
       </form>
-      <p class="auth-switch">New to Nabta? <a href="register.php">Create an account</a></p>
+      <p><a href="account-help.php">Need help accessing your account?</a></p><p class="auth-switch">New to Nabta? <a href="register.php">Create an account</a></p>
       <p class="auth-inline-note">For your privacy, we won’t tell you whether an email or password was incorrect.</p>
     </section>
 <?php require __DIR__ . '/layouts/auth-layout-bottom.php'; ?>

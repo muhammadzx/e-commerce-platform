@@ -1558,7 +1558,7 @@ button.btn:hover,
       color-mix(in srgb, var(--forest) 76%, transparent) 52%,
       color-mix(in srgb, var(--deep) 87%, transparent)
     ),
-    url("../img/garden-sky.jpg") !important;
+    url("../img/garden-sky-optimized.jpg") !important;
   background-size: cover !important;
   background-position: center !important;
   background-attachment: fixed;
@@ -2161,7 +2161,7 @@ button.btn:hover,
       color-mix(in srgb, var(--deep) 70%, transparent),
       transparent 60%
     ),
-    url("../img/garden-sky.jpg") center 48% / cover no-repeat;
+    url("../img/garden-sky-optimized.jpg") center 48% / cover no-repeat;
 }
 .about-hero::after {
   content: "";
@@ -3300,7 +3300,7 @@ body.auth-page {
   background-color: #061b18 !important;
   background-image:
     linear-gradient(115deg, rgba(3, 19, 17, .79), rgba(5, 28, 23, .48) 50%, rgba(3, 18, 16, .74)),
-    url("../img/hero.jpg") !important;
+    url("../img/hero-optimized.jpg") !important;
   background-size: cover !important;
   background-position: center 48% !important;
   background-attachment: fixed !important;

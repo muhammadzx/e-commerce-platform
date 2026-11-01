@@ -4,7 +4,7 @@ const chartDataElement = document.getElementById("overview-chart-data");
 const overviewData = chartDataElement ? JSON.parse(chartDataElement.textContent) : null;
 
 function createOverviewCharts() {
-  if (!window.Chart || !overviewData) return;
+  if (!window.Chart || !overviewData) { const tables = document.querySelector('.chart-data-tables'); if (tables) { const note = document.createElement('p'); note.setAttribute('role', 'status'); note.textContent = 'Charts could not load. The full figures are available in the data tables below.'; tables.prepend(note); tables.querySelectorAll('details').forEach(el => { el.open = true; }); } return; }
 
   const colors = [
     "#286148",
@@ -80,7 +80,7 @@ function createOverviewCharts() {
           },
           y: {
             grid: { display: false },
-            ticks: { color: tickColor }
+            ticks: { color: tickColor, autoSkip: false, callback: function(value) { const words = String(this.getLabelForValue(value)).split(" "); const lines = []; let line = ""; words.forEach(word => { if ((line + " " + word).trim().length > 18 && line) { lines.push(line); line = word; } else line = (line + " " + word).trim(); }); if (line) lines.push(line); return lines; } }
           }
         }
       }
@@ -213,7 +213,8 @@ function connectBestSellersDialog() {
   });
 }
 
-createOverviewCharts();
+if (document.fonts?.ready) document.fonts.ready.then(createOverviewCharts);
+else createOverviewCharts();
 connectBestSellersDialog();
 
 

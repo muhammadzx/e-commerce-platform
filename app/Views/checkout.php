@@ -1,10 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/paths.php';
 // OrderController provides $items, $itemCount, $subtotal, $customer and $cities.
-$img = static function (?string $url): string {
-    if (!$url) return '';
-    return preg_match('~^https?://~i', $url) ? $url : nabta_public_url('assets/img/' . ltrim($url, '/'));
-};
+$img = static fn(?string $url): string => nabta_image_url($url);
 $u = static fn(string $path): string => htmlspecialchars(nabta_public_url($path), ENT_QUOTES, 'UTF-8');
 $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 ?>
@@ -36,7 +33,8 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 </div>
 
 <?php require __DIR__ . "/layouts/header.php"; ?>
-<main class="cx-page">
+<main id="main" tabindex="-1" class="cx-page">
+<h1 class="page-title">Request order confirmation</h1>
 
     <div class="cx-grid" id="checkout-root">
 
@@ -47,37 +45,37 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
                 <span data-step="3">03 / CONFIRM</span>
             </div>
 
-            <h2>Delivery details</h2>
+            <h2>Delivery details</h2><p>Delivery fields are optional at this stage. This sends a request for cost confirmation. Delivery fees, payment arrangements and availability require your approval before fulfilment.</p><p><a href="index.php?page=information">Delivery, returns and store information</a></p>
 
             <form class="cx-form" id="delivery-form" novalidate>
                 <?= csrf_field() ?>
 
                 <div class="cx-field cx-field-wide">
-                    <label for="full_name">Full name</label>
+                    <label for="full_name">Full name (optional)</label>
                     <input id="full_name" name="full_name" type="text" maxlength="100" autocomplete="name"
                            value="<?= e($customer['full_name'] ?? '') ?>">
                 </div>
 
                 <div class="cx-field">
                     <label for="email">Email address</label>
-                    <input id="email" name="email" type="email" maxlength="150" autocomplete="email"
-                           value="<?= e($customer['email'] ?? '') ?>">
+                    <input id="email" name="email" type="email" maxlength="150" autocomplete="email" readonly aria-describedby="checkout-email-note"
+                           value="<?= e($customer['email'] ?? '') ?>"><small id="checkout-email-note">Your account email is used for this request. Change it in your account settings.</small>
                 </div>
 
                 <div class="cx-field">
-                    <label for="phone">Phone number</label>
+                    <label for="phone">Phone number (optional)</label>
                     <input id="phone" name="phone" type="tel" maxlength="20" autocomplete="tel"
                            value="<?= e($customer['phone'] ?? '') ?>">
                 </div>
 
                 <div class="cx-field cx-field-wide">
-                    <label for="street">Street address</label>
+                    <label for="street">Street address (optional)</label>
                     <input id="street" name="street" type="text" maxlength="150" autocomplete="street-address"
                            value="<?= e($customer['address'] ?? '') ?>">
                 </div>
 
                 <div class="cx-field">
-                    <label for="city">City</label>
+                    <label for="city">City (optional)</label>
                     <select id="city" name="city">
                         <?php foreach ($cities as $city): ?>
                             <option value="<?= e($city) ?>"><?= e($city) ?></option>
@@ -120,7 +118,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
             <aside class="cx-card" aria-label="Order summary">
                 <h2>Order summary</h2>
                 <div class="cx-row"><span>Subtotal · <?= (int) $itemCount ?> item<?= $itemCount === 1 ? '' : 's' ?></span><span><?= $money($subtotal) ?></span></div>
-                <div class="cx-row"><span>Delivery</span><span>Confirmed before order</span></div>
+                <div class="cx-row"><span>Delivery</span><span>Not yet calculated</span></div>
                 <div class="cx-row cx-row-total"><span>Total before delivery</span><strong><?= $money($subtotal) ?></strong></div>
             </aside>
         </div>
@@ -134,7 +132,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
     <div class="cx-dialog">
         <div id="review-content">
             <h3 id="review-title">One last look.</h3>
-            <p>Check your details before we place your order.</p>
+            <p>Review your request. Delivery costs and payment arrangements are not yet specified. Sending this request does not approve any undisclosed charges.</p>
 
             <dl class="cx-review" id="review-details"></dl>
 
@@ -142,7 +140,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
                 <?php foreach ($items as $item): ?>
                     <div><dt><?= e($item['name']) ?> × <?= (int) $item['quantity'] ?></dt><dd><?= $money((float) $item['price'] * (int) $item['quantity']) ?></dd></div>
                 <?php endforeach; ?>
-                <div><dt>Delivery</dt><dd>Confirmed before order</dd></div>
+                <div><dt>Delivery</dt><dd>Not yet calculated</dd></div>
                 <div><dt><strong>Total before delivery</strong></dt><dd><strong><?= $money($subtotal) ?></strong></dd></div>
             </dl>
 
@@ -150,7 +148,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 
             <div class="cx-dialog-actions">
                 <button class="cx-btn cx-btn-ghost" type="button" id="review-edit">Edit details</button>
-                <button class="cx-btn" type="button" id="review-confirm">Confirm order</button>
+                <button class="cx-btn" type="button" id="review-confirm">Send confirmation request</button>
             </div>
         </div>
 
@@ -158,7 +156,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
         <div class="cx-success" id="review-success" hidden>
             <div class="cx-check" aria-hidden="true">✓</div>
             <h3>Thank you.</h3>
-            <p id="success-text">Your order has been placed.</p>
+            <p id="success-text">Your request has been saved. No payment has been taken.</p>
             <a class="cx-btn cx-btn-block" href="<?= $u('index.php?page=products') ?>">Continue shopping <span aria-hidden="true">→</span></a>
         </div>
     </div>
@@ -169,6 +167,6 @@ window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;
 window.NABTA_CSRF = <?= json_encode(csrf_token()) ?>;
 </script>
 <script src="<?= $u('assets/js/nature-bg.js') ?>" defer></script>
-<script src="<?= $u('assets/js/cart.js?v=2') ?>" defer></script>
+<script src="<?= $u('assets/js/cart.js?v=20261102') ?>" defer></script>
 </body>
 </html>

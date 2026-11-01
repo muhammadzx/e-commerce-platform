@@ -155,7 +155,7 @@
     color: #fff;
     background:
         linear-gradient(90deg, #14291dc9, #14291d20),
-        url("../img/garden-sky.jpg") center 45% / cover no-repeat;
+        url("../img/garden-sky-optimized.jpg") center 45% / cover no-repeat;
 }
 
 .admin-photo-strip span {

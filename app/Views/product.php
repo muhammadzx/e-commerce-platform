@@ -1,10 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/paths.php';
 // ProductController provides $product, $relatedProducts, $reviews, $reviewSummary.
-$img = static function (?string $url): string {
-    if (!$url) return '';
-    return preg_match('~^https?://~i', $url) ? $url : nabta_public_url('assets/img/' . ltrim($url, '/'));
-};
+$img = static fn(?string $url): string => nabta_image_url($url);
 $esc = static fn($value) => htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
 $average = (float) ($reviewSummary['average'] ?? 0);
 $total = (int) ($reviewSummary['total'] ?? 0);
@@ -12,7 +9,7 @@ $rounded = max(0, min(5, (int) round($average)));
 $inStock = (int) ($product['quantity'] ?? 0) > 0;
 
 // All images belonging to this product
-$productImages = $productImages ?? [];
+$productImages = array_values(array_filter($productImages ?? [], static fn($image) => nabta_image_url($image['image_url'] ?? '') !== ''));
 
 // Use the existing main image as a fallback
 if (empty($productImages) && !empty($product['image_url'])) {
@@ -37,6 +34,7 @@ $mainImage = $imageCount > 0
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= $esc($product['name']) ?> | NABTA Botanical</title>
+<meta name="description" content="<?= $esc(mb_substr((string) ($product['description'] ?? $product['name']), 0, 155)) ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
@@ -49,7 +47,7 @@ $mainImage = $imageCount > 0
 <body class="nabta-product-body">
 <?php require __DIR__ . '/layouts/cart-link.php'; ?>
 <?php require __DIR__ . "/layouts/header.php"; ?>
-<main class="nabta-detail">
+<main id="main" tabindex="-1" class="nabta-detail">
     <nav class="nd-crumbs" aria-label="Breadcrumb">
         <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">Shop All</a><span aria-hidden="true">/</span>
         <span><?= $esc($product['name']) ?></span>
@@ -65,7 +63,9 @@ $mainImage = $imageCount > 0
         <?php if ($mainImage): ?>
 
             <img
-                id="main-product-image"
+                id="main-product-image" width="960" height="1104" fetchpriority="high"
+                srcset="<?= $esc(nabta_image_srcset($productImages[0]['image_url'] ?? '')) ?>" sizes="(max-width: 760px) 100vw, 50vw"
+                data-fallback="<?= $esc($productImages[0]['image_url'] ?? '') ?>"
                 src="<?= $esc($mainImage) ?>"
                 alt="<?= $esc($product['name']) ?>"
             >
@@ -137,7 +137,7 @@ $mainImage = $imageCount > 0
                 <p class="nd-rating nd-rating-empty">No reviews yet</p>
             <?php endif; ?>
             <div class="nd-rule"></div>
-            <p class="nd-description"><?= nl2br($esc($product['description'] ?? '')) ?></p>
+            <dl class="product-facts"><div><dt>Category</dt><dd><?= $esc($product['category'] ?? 'Growing essentials') ?></dd></div><div><dt>Availability</dt><dd><?= $inStock ? 'In stock' : 'Out of stock' ?></dd></div><div><dt>Size &amp; measurements</dt><dd>Not provided. Ask the store before approving your purchase.</dd></div></dl><p class="nd-description"><?= nl2br($esc($product['description'] ?? '')) ?></p>
             <button class="nd-cart" type="button" data-product-id="<?= (int) $product['pro_id'] ?>" <?= $inStock ? '' : 'disabled' ?>>
                 <span><?= $inStock ? 'Add to cart' : 'Currently unavailable' ?></span><span aria-hidden="true">↗</span>
             </button>

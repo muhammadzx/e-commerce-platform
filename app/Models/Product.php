@@ -171,8 +171,13 @@ public function getPaginatedProducts(
     }
 
     if ($category !== "all") {
-        $sql .= " AND c.name = :category";
-        $params[":category"] = $category;
+        if (ctype_digit($category)) {
+            $sql .= " AND p.cat_id = :category_id";
+            $params[":category_id"] = (int) $category;
+        } else {
+            $sql .= " AND c.name = :category";
+            $params[":category"] = $category;
+        }
     }
 
     switch ($sort) {
@@ -197,7 +202,11 @@ public function getPaginatedProducts(
     $stmt = $this->conn->prepare($sql);
 
     foreach ($params as $key => $value) {
-        $stmt->bindValue($key, $value, PDO::PARAM_STR);
+        $stmt->bindValue(
+            $key,
+            $value,
+            $key === ":category_id" ? PDO::PARAM_INT : PDO::PARAM_STR
+        );
     }
 
     $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
@@ -232,12 +241,24 @@ public function countProducts(
     }
 
     if ($category !== "all") {
-        $sql .= " AND c.name = :category";
-        $params[":category"] = $category;
+        if (ctype_digit($category)) {
+            $sql .= " AND p.cat_id = :category_id";
+            $params[":category_id"] = (int) $category;
+        } else {
+            $sql .= " AND c.name = :category";
+            $params[":category"] = $category;
+        }
     }
 
     $stmt = $this->conn->prepare($sql);
-    $stmt->execute($params);
+    foreach ($params as $key => $value) {
+        $stmt->bindValue(
+            $key,
+            $value,
+            $key === ":category_id" ? PDO::PARAM_INT : PDO::PARAM_STR
+        );
+    }
+    $stmt->execute();
 
     return (int) $stmt->fetchColumn();
 }
@@ -250,7 +271,7 @@ public function countProducts(
 // Get categories that contain active products
 public function getAllCategories()
 {
-    $sql = "SELECT DISTINCT c.name
+    $sql = "SELECT DISTINCT c.cat_id, c.name
             FROM categories c
             INNER JOIN product p ON p.cat_id = c.cat_id
             WHERE p.status = 'active'

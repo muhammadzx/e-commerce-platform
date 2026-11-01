@@ -415,14 +415,16 @@ card.appendChild(wishlistButton);
 
                 categories.forEach(category => {
                     const option = document.createElement("option");
-                    option.value = category.name;
+                    option.value = String(category.cat_id ?? category.name);
                     option.textContent = category.name;
                     categorySelect.appendChild(option);
                 });
 
                 if (requestedCategory) {
                     const matchingOption = [...categorySelect.options].find(
-                        option => option.value.toLocaleLowerCase() === requestedCategory.toLocaleLowerCase()
+                        option =>
+                            option.value === requestedCategory ||
+                            option.textContent.toLocaleLowerCase() === requestedCategory.toLocaleLowerCase()
                     );
                     if (matchingOption) categorySelect.value = matchingOption.value;
                 }

@@ -597,7 +597,7 @@ require_once __DIR__ . '/bootstrap.php';
               $categoryName = (string) $category['name'];
               $categoryDescription = trim((string) ($category['description'] ?? ''));
               $categoryImage = $categoryImages[$categoryId] ?? 'plant.jpg';
-              $categoryUrl = nabta_public_url('index.php?page=products&category=' . rawurlencode($categoryName));
+              $categoryUrl = nabta_public_url('index.php?page=products&category=' . $categoryId);
             ?>
               <a class="path-card" href="<?= htmlspecialchars($categoryUrl, ENT_QUOTES, 'UTF-8') ?>" aria-label="Shop <?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>">
                 <img src="<?= htmlspecialchars(nabta_public_url('assets/img/' . $categoryImage), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>" loading="lazy" width="600" height="700" />

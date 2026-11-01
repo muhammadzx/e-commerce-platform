@@ -1,18 +1,20 @@
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
+require_once __DIR__ . '/../../../config/paths.php';
 require_once __DIR__ . '/../../Core/AdminAccess.php';
-$adminUser = require_admin_access();
-require_once __DIR__ . '/../../../config/paths.php';
-=======
-require_once __DIR__ . '/../../../config/paths.php';
-// Opened directly (not through the controller): send the visitor to the real page
-if (!isset($orders)) {
+require_once __DIR__ . '/../../Core/AdminSupport.php';
+
+$adminUser = $GLOBALS['admin_user'] ?? require_admin_access();
+
+if (!isset($orders) || !is_array($orders)) {
     header('Location: ' . nabta_public_url('admin/orders.php'));
     exit;
 }
 
-// Provided by AdminOrderController: $orders, $itemsByOrder, $search, $flash, $csrfToken
+$itemsByOrder = $itemsByOrder ?? [];
+$search = $search ?? '';
+$flash = $flash ?? null;
+$csrfToken = $csrfToken ?? AdminSupport::csrfToken();
+
 $e = static fn($value) => AdminSupport::e($value);
 $statusLabels = [
     'pending' => 'Pending',
@@ -24,40 +26,13 @@ $statusLabels = [
 $money = static fn($value) => number_format((float) $value, 2) . ' JOD';
 $formAction = nabta_public_url('admin/orders.php');
 $total = count($orders);
->>>>>>> 24d0e2a2c4d6faa9f96aa68644886762c776df04
-=======
-require_once __DIR__ . '/../../Core/AdminAccess.php';
-$adminUser = require_admin_access();
-require_once __DIR__ . '/../../../config/paths.php';
->>>>>>> 762eb24f391f21bd6900764f732171216007a8a9
 ?>
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Manage orders | Nabta Botanical</title>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 762eb24f391f21bd6900764f732171216007a8a9
-    <meta
-      name="description"
-      content="Manage orders — plants and growing essentials at Nabta."
-    />
-    <meta name="robots" content="noindex,nofollow" />
-    <meta name="theme-color" content="#c5d4b4" />
-    <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
-  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
-  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
-  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/canopy.css'), ENT_QUOTES, 'UTF-8') ?>">
-  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
-      <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
-</head>
-  <body class="admin-body botanical-edition workspace-page admin-orders">
-<<<<<<< HEAD
-=======
     <meta name="description" content="Manage orders — plants and growing essentials at Nabta.">
     <meta name="robots" content="noindex,nofollow">
     <meta name="theme-color" content="#c5d4b4">
@@ -65,18 +40,15 @@ require_once __DIR__ . '/../../../config/paths.php';
     <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/shared.css')) ?>">
     <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/style.css')) ?>">
     <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/canopy.css')) ?>">
+    <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/admin.css')) ?>">
+    <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/popups.css')) ?>">
     <style>
         .flash { margin: 0 0 16px; padding: 12px 16px; border-radius: 10px; font-size: 14px; }
         .flash.success { background: rgba(130, 152, 117, .25); border: 1px solid rgba(130, 152, 117, .6); }
         .flash.error { background: rgba(176, 80, 64, .2); border: 1px solid rgba(176, 80, 64, .6); }
-        .toolbar form { display: contents; }
     </style>
 </head>
-
 <body class="admin-body botanical-edition workspace-page admin-orders">
->>>>>>> 24d0e2a2c4d6faa9f96aa68644886762c776df04
-=======
->>>>>>> 762eb24f391f21bd6900764f732171216007a8a9
     <main id="main">
         <div class="admin-shell">
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>

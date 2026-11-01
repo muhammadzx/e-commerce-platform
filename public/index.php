@@ -16,7 +16,8 @@ $page = $_GET["page"] ?? "home";
 switch ($page) {
 
     case "home":
-        require __DIR__ . "/../app/Views/home.php";
+        require_once __DIR__ . "/../app/Controllers/HomeController.php";
+        (new HomeController())->show();
         break;
 
     case "products":
@@ -40,6 +41,17 @@ switch ($page) {
     case "checkout":
         $controller = new OrderController();
         $controller->checkout();
+        break;
+
+    case "wishlist":
+        require_once __DIR__ . "/../app/Controllers/WishlistController.php";
+        (new WishlistController())->handle();
+        break;
+
+    case "contact":
+        require_once __DIR__ . "/../config/connection.php";
+        require_once __DIR__ . "/../app/Controllers/ContactController.php";
+        (new ContactController($db))->submit();
         break;
 
     case "profile":

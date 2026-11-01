@@ -54,7 +54,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
 
             <section class="panel">
                 <div class="toolbar">
-                    <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" class="product-search">
+                    <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" class="admin-search product-search">
                         <label class="sr-only" for="search-records">Search products</label>
                         <input class="control" id="search-records" name="search" type="search"
                                value="<?= htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8') ?>"
@@ -69,12 +69,12 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                         <thead>
                         <tr>
                             <th>Product</th><th>Category</th><th>Price</th>
-                            <th>Stock</th><th>Status</th><th>Actions</th>
+                            <th>Stock</th><th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php if (empty($products)): ?>
-                            <tr><td colspan="6">No products found.</td></tr>
+                            <tr><td colspan="5">No products found.</td></tr>
                         <?php else: ?>
                             <?php foreach ($products as $product): ?>
                                 <?php $productId = (int) $product['pro_id']; ?>
@@ -93,7 +93,6 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                                     <td data-label="Category"><?= htmlspecialchars($product['category'] ?? 'Uncategorized', ENT_QUOTES, 'UTF-8') ?></td>
                                     <td data-label="Price"><?= number_format((float) $product['price'], 2) ?> JOD</td>
                                     <td data-label="Stock"><?= (int) $product['quantity'] ?></td>
-                                    <td data-label="Status"><span class="pill"><?= htmlspecialchars($product['status'], ENT_QUOTES, 'UTF-8') ?></span></td>
                                     <td data-label="Actions">
                                         <div class="table-actions">
                                             <button class="table-button" type="button" popovertarget="view-product-<?= $productId ?>">View</button>

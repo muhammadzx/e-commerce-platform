@@ -15,13 +15,13 @@ require_once __DIR__ . '/bootstrap.php';
   <meta name="theme-color" content="#051f20" />
   <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />
-  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/home.css?v=18'), ENT_QUOTES, 'UTF-8') ?>">
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/botanical.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/layout-review.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/bundlesLandingPage.css?v=11'), ENT_QUOTES, 'UTF-8') ?>" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/alive.css?v=12'), ENT_QUOTES, 'UTF-8') ?>" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css?v=18'), ENT_QUOTES, 'UTF-8') ?>" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme-copy.css?v=18'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="garden-home botanical-edition index-page">
@@ -478,10 +478,10 @@ require_once __DIR__ . '/bootstrap.php';
               thoughtful objects, and everything that helps life grow.
             </p>
             <div class="cta-row">
-              <a class="btn" href="products.html">Shop the collection
+              <a class="btn" href="index.php?page=products">Shop the collection
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg></a><a class="link" href="assistant.html">Find your plant ↗</a>
+                </svg></a><a class="link" href="index.php?page=products">Find your plant ↗</a>
             </div>
             <div class="hero-bottom">
               <span>PLANTS / OBJECTS / EVERYDAY CARE</span><span>01 / 03</span>
@@ -496,7 +496,7 @@ require_once __DIR__ . '/bootstrap.php';
                 <p>FIELD NOTES / 01</p>
                 <h2>A corner worth growing.</h2>
               </div>
-              <a class="icon-btn" href="products.html" aria-label="Explore this promotion"><svg class="icon"
+              <a class="icon-btn" href="index.php?page=products" aria-label="Explore this promotion"><svg class="icon"
                   viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" />
                 </svg></a>
@@ -515,10 +515,10 @@ require_once __DIR__ . '/bootstrap.php';
               Discover premium seeds, decorative trees, bouquets, and smart sprayers.
             </p>
             <div class="cta-row">
-              <a class="btn" href="products.html">Shop plants & seeds
+              <a class="btn" href="index.php?page=products">Shop plants & seeds
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6"></path>
-                </svg></a><a class="link" href="assistant.html">Explore bouquets ↗</a>
+                </svg></a><a class="link" href="index.php?page=products">Browse products ↗</a>
             </div>
             <div class="hero-bottom">
               <span>TREES / FLOWERS / SEEDS & SPRAYERS</span><span>02 / 03</span>
@@ -532,7 +532,7 @@ require_once __DIR__ . '/bootstrap.php';
                 <p>THE DESK GARDEN</p>
                 <h2>Last come</h2>
               </div>
-              <a class="icon-btn" href="product-decor.html" aria-label="Explore this promotion"><svg class="icon"
+              <a class="icon-btn" href="index.php?page=products" aria-label="Explore this promotion"><svg class="icon"
                   viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" />
                 </svg></a>
@@ -552,10 +552,10 @@ require_once __DIR__ . '/bootstrap.php';
               for the next step in your growing journey.
             </p>
             <div class="cta-row">
-              <a class="btn" href="products.html">Shop growing essentials
+              <a class="btn" href="index.php?page=products">Shop growing essentials
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg></a><a class="link" href="assistant.html">Find your plant ↗</a>
+                </svg></a><a class="link" href="index.php?page=products">Find your plant ↗</a>
             </div>
             <div class="hero-bottom">
               <span>PLANTS / OBJECTS / EVERYDAY CARE</span><span>03 / 03</span>
@@ -569,7 +569,7 @@ require_once __DIR__ . '/bootstrap.php';
                 <p>GROWING ESSENTIALS</p>
                 <h2>Start with the basics.</h2>
               </div>
-              <a class="icon-btn" href="products.html" aria-label="Explore this promotion"><svg class="icon"
+              <a class="icon-btn" href="index.php?page=products" aria-label="Explore this promotion"><svg class="icon"
                   viewBox="0 0 24 24" aria-hidden="true">
                   <path d="M5 12h14m-6-6 6 6-6 6" />
                 </svg></a>
@@ -585,55 +585,32 @@ require_once __DIR__ . '/bootstrap.php';
       <section class="garden-paths screen" aria-labelledby="paths-title">
         <div class="section-top">
           <div>
-            <div class="eyebrow">SIX WAYS TO GROW</div>
+            <div class="eyebrow">SHOP BY CATEGORY</div>
             <h2 id="paths-title">Follow your nature.</h2>
           </div>
           <p>Find the right place to begin.</p>
         </div>
         <div class="paths-grid">
-          <a class="path-card" href="products.html#category-0"><img src="assets/img/plant.jpg" alt="" loading="lazy"
-              width="600" height="700" /><span class="path-number">01</span>
-            <div>
-              <h3>Plants</h3>
-              <p>A living beginning.</p>
-            </div>
-            <span class="path-arrow" aria-hidden="true">↗</span>
-          </a><a class="path-card" href="products.html#category-1"><img src="assets/img/pot.jpg" alt="" loading="lazy"
-              width="600" height="700" /><span class="path-number">02</span>
-            <div>
-              <h3>Pots</h3>
-              <p>Made to put down roots.</p>
-            </div>
-            <span class="path-arrow" aria-hidden="true">↗</span>
-          </a><a class="path-card" href="products.html#category-2"><img src="assets/img/soil.jpg" alt="" loading="lazy"
-              width="600" height="700" /><span class="path-number">03</span>
-            <div>
-              <h3>Soil & nutrition</h3>
-              <p>Good things start below.</p>
-            </div>
-            <span class="path-arrow" aria-hidden="true">↗</span>
-          </a><a class="path-card" href="products.html#category-3"><img src="assets/img/tools.jpg" alt="" loading="lazy"
-              width="600" height="700" /><span class="path-number">04</span>
-            <div>
-              <h3>Garden tools</h3>
-              <p>A little care, every day.</p>
-            </div>
-            <span class="path-arrow" aria-hidden="true">↗</span>
-          </a><a class="path-card" href="products.html#category-4"><img src="assets/img/decor.jpg" alt="" loading="lazy"
-              width="600" height="700" /><span class="path-number">05</span>
-            <div>
-              <h3>Botanical objects</h3>
-              <p>Nature, in the details.</p>
-            </div>
-            <span class="path-arrow" aria-hidden="true">↗</span>
-          </a><a class="path-card" href="products.html#category-5"><img src="assets/img/care.jpg" alt="" loading="lazy"
-              width="600" height="700" /><span class="path-number">06</span>
-            <div>
-              <h3>Plant care</h3>
-              <p>Keep your green thriving.</p>
-            </div>
-            <span class="path-arrow" aria-hidden="true">↗</span>
-          </a>
+          <?php if (!empty($categories)): ?>
+            <?php foreach ($categories as $category):
+              $categoryId = (int) $category['cat_id'];
+              $categoryName = (string) $category['name'];
+              $categoryDescription = trim((string) ($category['description'] ?? ''));
+              $categoryImage = $categoryImages[$categoryId] ?? 'plant.jpg';
+              $categoryUrl = nabta_public_url('index.php?page=products&category=' . rawurlencode($categoryName));
+            ?>
+              <a class="path-card" href="<?= htmlspecialchars($categoryUrl, ENT_QUOTES, 'UTF-8') ?>" aria-label="Shop <?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>">
+                <img src="<?= htmlspecialchars(nabta_public_url('assets/img/' . $categoryImage), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>" loading="lazy" width="600" height="700" />
+                <div class="category-card-copy">
+                  <h3><?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?></h3>
+                  <p><?= htmlspecialchars($categoryDescription !== '' ? $categoryDescription : 'Explore this category.', ENT_QUOTES, 'UTF-8') ?></p>
+                </div>
+                <span class="path-arrow" aria-hidden="true">↗</span>
+              </a>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p class="category-empty-state">No categories are available right now.</p>
+          <?php endif; ?>
         </div>
       </section>
       <!-- Curated collection -->
@@ -644,97 +621,46 @@ require_once __DIR__ . '/bootstrap.php';
             <h2 id="collection-title">Fresh from the greenhouse.</h2>
             <p class="collection-intro">Thoughtful plant companions for a calmer, greener everyday.</p>
           </div>
-          <a class="link collection-all-link" href="products.html">Shop all products
+          <a class="link collection-all-link" href="index.php?page=products">Shop all products
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M5 12h14m-6-6 6 6-6 6" />
             </svg>
           </a>
         </div>
         <div class="products-grid collection-products-grid">
-          <article class="product-card collection-product-card">
-            <a class="product-visual collection-product-visual" href="product-plant.html"
-              aria-label="View The Rubber Plant">
-              <img src="assets/img/plant.jpg" width="900" height="1058" loading="lazy"
-                alt="The Rubber Plant — indoor greenery" />
-              <span class="product-tag">A greener corner</span>
-            </a>
-            <div class="product-info collection-product-info">
-              <div class="collection-product-copy">
-                <h3><a href="product-plant.html">The Rubber Plant</a></h3>
-                <span class="price">24.00 JOD</span>
-                <p>Plants <span aria-hidden="true">·</span> Indoor</p>
-              </div>
-              <a class="product-card-action" href="product-plant.html" aria-label="Explore The Rubber Plant">
-                <span>Explore product</span><span class="product-card-action-icon" aria-hidden="true"><svg class="icon"
-                    viewBox="0 0 24 24">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg></span>
-              </a>
-            </div>
-          </article>
-          <article class="product-card collection-product-card">
-            <a class="product-visual collection-product-visual" href="product-pot.html"
-              aria-label="View The Stone Planter">
-              <img src="assets/img/pot.jpg" width="900" height="1058" loading="lazy"
-                alt="The Stone Planter in warm ivory" />
-              <span class="product-tag">Made to pair</span>
-            </a>
-            <div class="product-info collection-product-info">
-              <div class="collection-product-copy">
-                <h3><a href="product-pot.html">The Stone Planter</a></h3>
-                <span class="price">18.00 JOD</span>
-                <p>Pots <span aria-hidden="true">·</span> Warm ivory</p>
-              </div>
-              <a class="product-card-action" href="product-pot.html" aria-label="Explore The Stone Planter">
-                <span>Explore product</span><span class="product-card-action-icon" aria-hidden="true"><svg class="icon"
-                    viewBox="0 0 24 24">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg></span>
-              </a>
-            </div>
-          </article>
-          <article class="product-card collection-product-card">
-            <a class="product-visual collection-product-visual" href="product-decor.html"
-              aria-label="View The Desk Garden">
-              <img src="assets/img/decor.jpg" width="900" height="1058" loading="lazy"
-                alt="The Desk Garden with a succulent and pot" />
-              <span class="product-tag">Save 4 JOD</span>
-            </a>
-            <div class="product-info collection-product-info">
-              <div class="collection-product-copy">
-                <h3><a href="product-decor.html">The Desk Garden</a></h3>
-                <span class="price collection-sale-price"><del>18.00</del> 14.00 JOD</span>
-                <p>Decor <span aria-hidden="true">·</span> Succulent &amp; pot</p>
-              </div>
-              <a class="product-card-action" href="product-decor.html" aria-label="Explore The Desk Garden">
-                <span>Explore product</span><span class="product-card-action-icon" aria-hidden="true"><svg class="icon"
-                    viewBox="0 0 24 24">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg></span>
-              </a>
-            </div>
-          </article>
-          <article class="product-card collection-product-card">
-            <a class="product-visual collection-product-visual" href="product-care.html"
-              aria-label="View Leaf-care Treatment">
-              <img src="assets/img/care.jpg" width="900" height="1058" loading="lazy"
-                alt="Leaf-care Treatment, a 250 ml plant-care solution" />
-              <span class="product-tag">Plant-care range</span>
-            </a>
-            <div class="product-info collection-product-info">
-              <div class="collection-product-copy">
-                <h3><a href="product-care.html">Leaf-care Treatment</a></h3>
-                <span class="price">12.00 JOD</span>
-                <p>Care &amp; treatments <span aria-hidden="true">·</span> 250 ml</p>
-              </div>
-              <a class="product-card-action" href="product-care.html" aria-label="Explore Leaf-care Treatment">
-                <span>Explore product</span><span class="product-card-action-icon" aria-hidden="true"><svg class="icon"
-                    viewBox="0 0 24 24">
-                    <path d="M5 12h14m-6-6 6 6-6 6" />
-                  </svg></span>
-              </a>
-            </div>
-          </article>
+          <?php if (!empty($featuredProducts)): ?>
+            <?php foreach ($featuredProducts as $featuredProduct):
+              $featuredId = (int) ($featuredProduct['pro_id'] ?? 0);
+              $featuredName = (string) ($featuredProduct['name'] ?? 'Product');
+              $featuredUrl = nabta_public_url('index.php?page=product&id=' . $featuredId);
+              $featuredImage = trim((string) ($featuredProduct['image_url'] ?? ''));
+              $featuredImageSrc = $featuredImage === '' ? '' : (preg_match('~^https?://|^/~i', $featuredImage) ? $featuredImage : nabta_public_url('assets/img/' . ltrim($featuredImage, '/')));
+              $featuredCategory = trim((string) ($featuredProduct['category'] ?? 'Nabta favourite'));
+            ?>
+              <article class="product-card collection-product-card">
+                <a class="product-visual collection-product-visual" href="<?= htmlspecialchars($featuredUrl, ENT_QUOTES, 'UTF-8') ?>" aria-label="View <?= htmlspecialchars($featuredName, ENT_QUOTES, 'UTF-8') ?>">
+                  <?php if ($featuredImage !== ''): ?>
+                    <img src="<?= htmlspecialchars($featuredImageSrc, ENT_QUOTES, 'UTF-8') ?>" width="900" height="1058" loading="lazy" alt="<?= htmlspecialchars($featuredName, ENT_QUOTES, 'UTF-8') ?>" />
+                  <?php else: ?>
+                    <span class="product-image-placeholder" aria-label="No product image available">Image coming soon</span>
+                  <?php endif; ?>
+                  <span class="product-tag"><?= htmlspecialchars($featuredCategory, ENT_QUOTES, 'UTF-8') ?></span>
+                </a>
+                <div class="product-info collection-product-info">
+                  <div class="collection-product-copy">
+                    <h3><a href="<?= htmlspecialchars($featuredUrl, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars($featuredName, ENT_QUOTES, 'UTF-8') ?></a></h3>
+                    <span class="price"><?= number_format((float) ($featuredProduct['price'] ?? 0), 2) ?> JOD</span>
+                    <p><?= htmlspecialchars($featuredCategory, ENT_QUOTES, 'UTF-8') ?></p>
+                  </div>
+                  <a class="product-card-action" href="<?= htmlspecialchars($featuredUrl, ENT_QUOTES, 'UTF-8') ?>" aria-label="Explore <?= htmlspecialchars($featuredName, ENT_QUOTES, 'UTF-8') ?>">
+                    <span>Explore product</span><span class="product-card-action-icon" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></svg></span>
+                  </a>
+                </div>
+              </article>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p class="collection-empty-state">No products are available right now.</p>
+          <?php endif; ?>
         </div>
         <div class="section-base collection-section-base">
           <span>PLANTS / POTS / SOIL / TOOLS / DECOR / CARE</span><span>THOUGHTFULLY BROUGHT TOGETHER</span>
@@ -748,18 +674,18 @@ require_once __DIR__ . '/bootstrap.php';
           <p>Plant questions, order support, or a little advice for your growing space — send us a note. A real person
             from our team will get back to you.</p>
           <div class="contact-details">
-            <a href="mailto:hello@nabta.example"><span class="contact-icon">✉</span><span><small>EMAIL OUR
-                  TEAM</small><strong>hello@nabta.example</strong></span></a>
+            <a href="#contact-form"><span class="contact-icon">✉</span><span><small>GET IN TOUCH</small><strong>Send us a message</strong></span></a>
             <div><span class="contact-icon">⌁</span><span><small>ROOTED IN</small><strong>Amman, Jordan</strong></span>
             </div>
             <div><span class="contact-icon">◷</span><span><small>RESPONSE TIME</small><strong>Usually within 1–2
                   business days</strong></span></div>
           </div>
         </div>
-        <div class="contact-form-card">
+        <div class="contact-form-card" id="contact-form">
           <div class="contact-form-heading"><span class="eyebrow">SEND A MESSAGE</span><span class="contact-sprout"
               aria-hidden="true">✳</span></div>
-          <form class="contact-form" action="contact.php" method="post">
+          <?php if (is_authenticated()): ?>
+          <form class="contact-form" action="<?= htmlspecialchars(nabta_public_url('index.php?page=contact'), ENT_QUOTES, 'UTF-8') ?>" method="post">
             <?= csrf_field() ?>
             <div class="contact-fields"><label>Your name<input type="text" name="name"
                   placeholder="How should we call you?" autocomplete="name"
@@ -782,6 +708,10 @@ require_once __DIR__ . '/bootstrap.php';
             <p class="contact-privacy">By sending this form, you agree that we may use your details to reply to your
               message.</p>
           </form>
+          <?php else: ?>
+            <p>Sign in to send a message to our team.</p>
+            <a class="btn btn-primary" href="<?= htmlspecialchars(nabta_public_url('login.php'), ENT_QUOTES, 'UTF-8') ?>">Sign in to contact us</a>
+          <?php endif; ?>
         </div>
       </section>
       <section class="screen faq-refresh" id="faq" aria-labelledby="faq-title">
@@ -794,7 +724,7 @@ require_once __DIR__ . '/bootstrap.php';
             <h2 id="faq-title">Growing questions.<br><em>Clear answers.</em></h2>
             <p>From choosing your first plant to keeping it thriving, find simple guidance for greener everyday living.
             </p>
-            <a class="faq-assistant-link" href="assistant.html">Meet the plant assistant <span
+            <a class="faq-assistant-link" href="index.php?page=products">Browse plants and growing essentials <span
                 aria-hidden="true">↗</span></a>
             <div class="faq-intro-image">
               <img src="assets/img/plant.jpg" alt="A young green plant growing in soft natural light" width="1100"

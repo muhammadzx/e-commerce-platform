@@ -62,7 +62,7 @@ $total = count($customers);
 
                 <section class="panel">
                     <div class="toolbar">
-                        <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
+                        <form class="admin-search" method="get" action="<?= htmlspecialchars(nabta_public_url('admin/customers.php'), ENT_QUOTES, 'UTF-8') ?>">
                             <label class="sr-only" for="search-records">Search customers</label>
                             <input class="control" id="search-records" name="q" type="search"
                                 placeholder="Search by name, email or phone" value="<?= $e($search) ?>">

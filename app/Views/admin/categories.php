@@ -60,7 +60,7 @@ $total = count($categories);
 
                 <section class="panel">
                     <div class="toolbar">
-                        <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/categories.php'), ENT_QUOTES, 'UTF-8') ?>">
+                        <form class="admin-search" method="get" action="<?= htmlspecialchars(nabta_public_url('admin/categories.php'), ENT_QUOTES, 'UTF-8') ?>">
                             <label class="sr-only" for="search-records">Search categories</label>
                             <input class="control" id="search-records" name="q" type="search"
                                 placeholder="Search categories" value="<?= $e($search) ?>">

@@ -36,6 +36,7 @@ $cxLimit = PHP_INT_MAX;
             background: linear-gradient(160deg, #1d5446, #0f3029);
         }
     </style>
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="collections-page">
 

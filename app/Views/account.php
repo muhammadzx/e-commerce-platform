@@ -22,6 +22,7 @@ foreach (array_slice(preg_split('/\s+/', trim((string) $account['full_name'])) ?
     <!-- These two stay LAST so they win over the older sheets -->
     <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=1') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/account.css?v=4') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="cx-body">
 

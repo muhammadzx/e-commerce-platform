@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/css/nabta-theme.css">
     <link rel="stylesheet" href="assets/css/about.css">
         <link rel="stylesheet" href="assets/css/nabta-theme.css">
+    <link rel="stylesheet" href="assets/css/store-responsive.css?v=20261101">
 </head>
 
 <body class="about-page">

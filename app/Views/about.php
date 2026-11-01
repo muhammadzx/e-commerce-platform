@@ -18,7 +18,7 @@
 <body class="about-page">
 
     <!-- Replace with your existing shared navbar -->
-    <header class="about-navbar">
+    <!-- <header class="about-navbar">
         <a class="about-logo" href="index.php">
             NABTA<span> BOTANICAL</span>
         </a>
@@ -29,7 +29,11 @@
             <a href="index.php?page=about" aria-current="page">Our Story</a>
             <a href="index.php?page=products">Find Your Plant ↗</a>
         </nav>
-    </header>
+    </header> -->
+
+
+    <?php require __DIR__ . '/layouts/cart-link.php'; ?>
+  <?php require __DIR__ . "/layouts/header.php"; ?>
 
     <main>
 

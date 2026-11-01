@@ -12,7 +12,7 @@ require_once __DIR__ . '/bootstrap.php';
   <meta name="description"
     content="Buy and sell plants, ceramic pots, soil, tools, botanical decor and plant-care essentials at Nabta. A little nature, closer to home." />
   <meta name="robots" content="index,follow" />
-  <meta name="theme-color" content="#051f20" />
+  <meta name="theme-color" content="#FFF9EF" />
   <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/botanical.css?v=10'), ENT_QUOTES, 'UTF-8') ?>" />

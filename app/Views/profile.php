@@ -7,13 +7,14 @@
   <title>My account | Nabta Botanical</title>
   <meta name="description" content="Manage your Nabta account details." />
   <meta name="robots" content="noindex,nofollow" />
-  <meta name="theme-color" content="#c5d4b4" />
+  <meta name="theme-color" content="#FFF9EF" />
 
   <link rel="icon" href="../../public/assets/img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="../../public/assets/css/shared.css">
   <link rel="stylesheet" href="../../public/assets/css/style.css">
   <link rel="stylesheet" href="../../public/assets/css/canopy.css">
   <link rel="stylesheet" href="../../public/assets/css/popups.css">
+  <link rel="stylesheet" href="../../public/assets/css/palette-overrides.css?v=20261101-colors">
 </head>
 
 <body class="botanical-edition profile-page">

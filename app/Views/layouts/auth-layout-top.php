@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#051f20">
+  <meta name="theme-color" content="#FFF9EF">
   <meta name="robots" content="noindex, nofollow">
   <title><?= e($pageTitle ?? 'Your Nabta account') ?> | Nabta Botanical</title>
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="assets/css/nabta-theme-copy.css?v=18">
   <link rel="stylesheet" href="assets/css/store-responsive.css?v=20261101">
   <link rel="stylesheet" href="assets/css/warm-theme.css?v=<?= (int) @filemtime(__DIR__ . '/../../../public/assets/css/warm-theme.css') ?>">
+  <link rel="stylesheet" href="assets/css/palette-overrides.css?v=<?= (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css') ?>">
 </head>
 
 <body class="auth-page botanical-edition<?= !empty($isRegister) ? ' is-register' : '' ?>">

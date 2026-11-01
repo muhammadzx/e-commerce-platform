@@ -7,25 +7,33 @@ function createOverviewCharts() {
   if (!window.Chart || !overviewData) return;
 
   const colors = [
-    "#829875",
-    "#a6b293",
-    "#b89b6c",
-    "#789183",
-    "#8e9878",
-    "#a88b6c",
-    "#7f999c"
+    "#3B7950",
+    "#6DAA73",
+    "#D5A34E",
+    "#D77A5D",
+    "#7195A2",
+    "#89765C",
+    "#9CA76A"
   ];
-  const gridColor = "rgba(224, 227, 211, .17)";
-  const tickColor = "#e5e8dc";
+  const gridColor = "rgba(52, 69, 47, .12)";
+  const tickColor = "#625B4B";
+  const statusColor = label => {
+    const value = String(label).toLowerCase();
+    if (value.includes("cancel") || value.includes("reject")) return "#D77A5D";
+    if (value.includes("pending")) return "#D5A34E";
+    if (value.includes("process") || value.includes("ship")) return "#7195A2";
+    if (value.includes("complete") || value.includes("deliver") || value.includes("approve")) return "#3B9B63";
+    return colors[0];
+  };
   const money = value => `${Number(value).toLocaleString()} JOD`;
 
   Chart.defaults.color = tickColor;
   Chart.defaults.font.family = "DM Sans, Arial, sans-serif";
   Chart.defaults.plugins.legend.labels.usePointStyle = true;
-  Chart.defaults.plugins.tooltip.backgroundColor = "rgba(20, 35, 26, .96)";
-  Chart.defaults.plugins.tooltip.titleColor = "#f2eee2";
-  Chart.defaults.plugins.tooltip.bodyColor = "#dce3d4";
-  Chart.defaults.plugins.tooltip.borderColor = "rgba(184, 155, 108, .55)";
+  Chart.defaults.plugins.tooltip.backgroundColor = "rgba(52, 69, 47, .96)";
+  Chart.defaults.plugins.tooltip.titleColor = "#FFFEFA";
+  Chart.defaults.plugins.tooltip.bodyColor = "#FFF3DE";
+  Chart.defaults.plugins.tooltip.borderColor = "#E8D5B8";
   Chart.defaults.plugins.tooltip.borderWidth = 1;
   Chart.defaults.plugins.tooltip.padding = 10;
   Chart.defaults.plugins.tooltip.cornerRadius = 8;
@@ -78,7 +86,7 @@ function createOverviewCharts() {
         datasets: [{
           data: overviewData.categories.values,
           backgroundColor: colors,
-          borderColor: "#203528",
+          borderColor: "#FFFEFA",
           borderWidth: 3,
           hoverOffset: 7
         }]
@@ -110,15 +118,15 @@ function createOverviewCharts() {
         datasets: [{
           label: "Sales",
           data: overviewData.weekly.values,
-          borderColor: "#b5c29a",
-          backgroundColor: "rgba(164, 180, 139, .2)",
+          borderColor: "#3B7950",
+          backgroundColor: "rgba(59, 155, 99, .16)",
           fill: true,
           tension: .38,
           borderWidth: 2.5,
           pointRadius: 3,
           pointHoverRadius: 5,
-          pointBackgroundColor: "#d1b17d",
-          pointBorderColor: "#253a2b",
+          pointBackgroundColor: "#F8D9AE",
+          pointBorderColor: "#34452F",
           pointBorderWidth: 2
         }]
       },
@@ -159,7 +167,10 @@ function createOverviewCharts() {
         datasets: [{
           label: "Orders",
           data: overviewData.orders.values,
-          backgroundColor: colors.slice(0, overviewData.orders.values.length),
+          backgroundColor: overviewData.orders.labels.map((label, index) => {
+            const color = statusColor(label);
+            return color === colors[0] ? colors[index % colors.length] : color;
+          }),
           borderRadius: 7,
           maxBarThickness: 44
         }]

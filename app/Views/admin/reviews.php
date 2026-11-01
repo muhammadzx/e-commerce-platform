@@ -13,7 +13,7 @@ require_once __DIR__ . '/../../../config/paths.php';
   <title>Reviews | Nabta Botanical</title>
   <meta name="description" content="Read customer reviews — plants and growing essentials at Nabta." />
   <meta name="robots" content="noindex,nofollow" />
-  <meta name="theme-color" content="#c5d4b4" />
+  <meta name="theme-color" content="#FFF9EF" />
 
   <link rel="icon" href="<?= htmlspecialchars(nabta_public_url('assets/img/favicon.svg'), ENT_QUOTES, 'UTF-8') ?>" type="image/svg+xml">
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
@@ -46,6 +46,7 @@ require_once __DIR__ . '/../../../config/paths.php';
     }
   </style>
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
+  <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css')), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-reviews">

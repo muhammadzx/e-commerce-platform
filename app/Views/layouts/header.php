@@ -10,6 +10,7 @@ $navFirstName =explode(' ', trim((string) ($_SESSION['full_name'] ?? '')))[0] ?:
 ?>
 <link rel="stylesheet" href="<?= $navUrl('assets/css/site-header.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/site-header.css')) ?>">
 <link rel="stylesheet" href="<?= $navUrl('assets/css/warm-theme.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/warm-theme.css')) ?>">
+<link rel="stylesheet" href="<?= $navUrl('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css')) ?>">
 <a class="skip" href="#main">Skip to content</a>
 <header class="header">
   <div class="container header-row">

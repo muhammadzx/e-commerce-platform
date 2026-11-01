@@ -1,5 +1,6 @@
 <?php
 <<<<<<< HEAD
+<<<<<<< HEAD
 require_once __DIR__ . '/../../Core/AdminAccess.php';
 $adminUser = require_admin_access();
 require_once __DIR__ . '/../../../config/paths.php';
@@ -24,6 +25,11 @@ $money = static fn($value) => number_format((float) $value, 2) . ' JOD';
 $formAction = nabta_public_url('admin/orders.php');
 $total = count($orders);
 >>>>>>> 24d0e2a2c4d6faa9f96aa68644886762c776df04
+=======
+require_once __DIR__ . '/../../Core/AdminAccess.php';
+$adminUser = require_admin_access();
+require_once __DIR__ . '/../../../config/paths.php';
+>>>>>>> 762eb24f391f21bd6900764f732171216007a8a9
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,6 +39,9 @@ $total = count($orders);
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Manage orders | Nabta Botanical</title>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 762eb24f391f21bd6900764f732171216007a8a9
     <meta
       name="description"
       content="Manage orders — plants and growing essentials at Nabta."
@@ -47,6 +56,7 @@ $total = count($orders);
       <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
   <body class="admin-body botanical-edition workspace-page admin-orders">
+<<<<<<< HEAD
 =======
     <meta name="description" content="Manage orders — plants and growing essentials at Nabta.">
     <meta name="robots" content="noindex,nofollow">
@@ -65,6 +75,8 @@ $total = count($orders);
 
 <body class="admin-body botanical-edition workspace-page admin-orders">
 >>>>>>> 24d0e2a2c4d6faa9f96aa68644886762c776df04
+=======
+>>>>>>> 762eb24f391f21bd6900764f732171216007a8a9
     <main id="main">
         <div class="admin-shell">
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>

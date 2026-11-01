@@ -300,9 +300,11 @@
 
         </section>
 
+
     </main>
 
     <script src="assets/js/about.js" defer></script>
+<?php require __DIR__ . "/layouts/footer.php"; ?>
 
 </body>
 </html>

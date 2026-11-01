@@ -15,6 +15,8 @@
   <link rel="stylesheet" href="assets/css/store-responsive.css?v=20261101">
   <link rel="stylesheet" href="assets/css/warm-theme.css?v=<?= (int) @filemtime(__DIR__ . '/../../../public/assets/css/warm-theme.css') ?>">
   <link rel="stylesheet" href="assets/css/palette-overrides.css?v=<?= (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css') ?>">
+<link rel="stylesheet" href="assets/css/ui.css?v=20261102">
+<script src="assets/js/ui.js?v=20261102" defer></script>
 </head>
 
 <body class="auth-page botanical-edition<?= !empty($isRegister) ? ' is-register' : '' ?>">

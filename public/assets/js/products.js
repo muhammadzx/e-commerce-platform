@@ -27,7 +27,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const searchInput = document.getElementById("product-search");
     const categorySelect = document.getElementById("category-filter");
     const sortSelect = document.getElementById("sort-filter");
-    const requestedCategory = new URLSearchParams(window.location.search).get("category");
+    const initialQuery = new URLSearchParams(window.location.search);
+    const requestedCategory = initialQuery.get('category');
+    if (searchInput) searchInput.value = initialQuery.get('search') || '';
+    if (sortSelect) sortSelect.value = initialQuery.get('sort') || 'default';
 
     // Only run Shop All functionality on the Shop All page
     if (
@@ -47,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             container.after(pagination);
         }
 
-        let currentPage = 1;
+        let currentPage = Math.max(1, Number(initialQuery.get('p')) || 1);
         let totalPages = 0;
         let requestController = null;
         let searchTimer = null;
@@ -90,6 +93,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             image.alt = product.name;
             image.loading = "lazy";
+            image.width = 640; image.height = 720;
+            if (product.image_url?.startsWith("https://res.cloudinary.com/") && product.image_url.includes("/image/upload/")) {
+              image.dataset.fallback = product.image_url;
+              image.src = product.image_url.replace("/image/upload/", "/image/upload/f_auto,q_auto,c_limit,w_640/");
+            }
 
             imageWrap.appendChild(image);
 
@@ -275,6 +283,7 @@ wishlistState.then((state) => {
                 requestController.abort();
             }
 
+            container.setAttribute('aria-busy', 'true');
             const controller = new AbortController();
             requestController = controller;
 
@@ -339,17 +348,18 @@ wishlistState.then((state) => {
                 if (error.name === "AbortError") return;
 
                 console.error(error);
-                showMessage("Unable to load products.");
+                showMessage("Unable to load products. Please try again or reload the page.");
                 pagination.innerHTML = "";
 
                 if (countEl) {
-                    countEl.textContent = "";
+                    countEl.textContent = "Unable to load products. Please try again.";
                 }
 
             } finally {
 
                 if (requestController === controller) {
                     requestController = null;
+                    container.setAttribute('aria-busy', 'false');
                 }
             }
         }
@@ -369,12 +379,14 @@ wishlistState.then((state) => {
             }
 
             await loadProducts(page);
+            syncUrl();
+            document.getElementById('results-title')?.focus({ preventScroll: true });
 
             const top = document.getElementById("shop-area");
 
             if (top) {
                 top.scrollIntoView({
-                    behavior: "smooth",
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
                     block: "start"
                 });
             }
@@ -386,7 +398,7 @@ wishlistState.then((state) => {
 
         function applyFilters() {
             currentPage = 1;
-            loadProducts(1);
+            loadProducts(1).then(syncUrl);
         }
 
         // Search
@@ -458,8 +470,25 @@ wishlistState.then((state) => {
         // INITIALIZE SHOP
         // ==========================================
 
+        function syncUrl() {
+          const url = new URL(window.location.href);
+          url.searchParams.set('page', 'products');
+          for (const [key, value] of Object.entries({p: String(currentPage), search: searchInput.value.trim(), category: categorySelect.value, sort: sortSelect.value})) {
+            if (!value || (key === 'p' && value === '1') || value === 'all' || value === 'default') url.searchParams.delete(key);
+            else url.searchParams.set(key, value);
+          }
+          if (url.href !== window.location.href) history.pushState({}, '', url);
+        }
+        window.addEventListener('popstate', () => {
+          const query = new URLSearchParams(window.location.search);
+          searchInput.value = query.get('search') || '';
+          categorySelect.value = query.get('category') || 'all';
+          sortSelect.value = query.get('sort') || 'default';
+          loadProducts(Math.max(1, Number(query.get('p')) || 1));
+        });
+        searchInput.closest('form')?.addEventListener('submit', event => { event.preventDefault(); applyFilters(); });
         await populateCategories();
-        await loadProducts(1);
+        await loadProducts(currentPage);
     }
 
     // ==========================================
@@ -475,10 +504,15 @@ wishlistState.then((state) => {
 
         thumbnails.forEach((thumbnail) => {
 
-            thumbnail.addEventListener("click", () => {
+            thumbnail.addEventListener("click", async () => {
+                const candidate = thumbnail.dataset.image;
+                const loaded = await new Promise(resolve => { const probe = new Image(); probe.onload = () => resolve(true); probe.onerror = () => resolve(false); probe.src = candidate; });
+                if (!loaded) { thumbnail.hidden = true; return; }
 
                 // Change the large product image
-                mainImage.src = thumbnail.dataset.image;
+                mainImage.removeAttribute('srcset');
+                mainImage.removeAttribute('data-fallback');
+                mainImage.src = candidate;
 
                 // Update active thumbnail
                 thumbnails.forEach((item) => {

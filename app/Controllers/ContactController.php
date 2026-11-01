@@ -15,6 +15,7 @@ final class ContactController
             exit;
         }
 
+        $_SESSION['contact_old'] = array_intersect_key($_POST, array_flip(['name','email','topic','message']));
         $success = false;
         $error = '';
         if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
@@ -38,12 +39,18 @@ final class ContactController
                 if (app_length($name) < 2 || app_length($name) > 100 || !$email
                     || !in_array($topic, $validTopics, true) || app_length($message) < 5
                     || app_length($message) > 5000) {
-                    $error = 'Please check the form and enter a valid name, email, topic, and message.';
+                    $problems = [];
+                    if (app_length($name) < 2 || app_length($name) > 100) $problems[] = 'Name must contain 2 to 100 characters.';
+                    if (!$email) $problems[] = 'Enter a valid email address.';
+                    if (!in_array($topic, $validTopics, true)) $problems[] = 'Choose one of the listed topics.';
+                    if (app_length($message) < 5 || app_length($message) > 5000) $problems[] = 'Message must contain 5 to 5000 characters.';
+                    $error = implode(' ', $problems);
                 } else {
                     try {
                         $fullMessage = "From: {$name}\nEmail: {$email}\nTopic: {$topic}\n\n{$message}";
                         (new ContactMessage($this->db))->create((int) $user['user_id'], $fullMessage);
                         $success = true;
+                        unset($_SESSION['contact_old']);
                     } catch (PDOException $exception) {
                         error_log('Nabta contact form database error: ' . $exception->getMessage());
                         $error = 'Your message could not be saved right now. Please try again.';

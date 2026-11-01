@@ -36,7 +36,7 @@ $footUrl = static fn(string $path): string => htmlspecialchars(nabta_public_url(
         </nav>
       </div>
       <div>
-        <div class="footer-title">ROOTED IN THE EVERYDAY</div>
+        <div class="footer-title">STORE INFORMATION</div><nav class="footer-links"><a href="<?= $footUrl('index.php?page=information') ?>">Delivery, returns, terms &amp; privacy</a><a href="<?= $footUrl('account-help.php') ?>">Account access help</a></nav>
         <p>
           For windowsills, balconies, and the small corners that make a
           home.
@@ -44,7 +44,7 @@ $footUrl = static fn(string $path): string => htmlspecialchars(nabta_public_url(
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Nabta Botanical · Storefront concept</span><span>Jordan
+      <span>&copy; <?= date("Y") ?> Nabta Botanical</span><span>Jordan
         / JOD</span>
     </div>
   </div>

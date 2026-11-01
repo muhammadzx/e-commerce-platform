@@ -1182,12 +1182,12 @@ body:not(:has(.admin-shell)) .page-main {
   background:
     radial-gradient(ellipse at 82% 4%, #83ad5d10, transparent 38%),
     linear-gradient(180deg, #101c14aa, #0b1510ee),
-    url(../img/garden-sky.jpg) center top/100% auto fixed !important;
+    url(../img/garden-sky-optimized.jpg) center top/100% auto fixed !important;
 }
 body:not(:has(.admin-shell)) .page-heading {
   background:
     linear-gradient(105deg, #14291de8, #1a3625c9 62%, #263c2b88),
-    url(../img/hero.jpg) center 48% / cover !important;
+    url(../img/hero-optimized.jpg) center 48% / cover !important;
   border: 1px solid #cced9c25 !important;
   border-radius: 18px 42px 18px 18px !important;
   box-shadow:
@@ -1197,7 +1197,7 @@ body:not(:has(.admin-shell)) .page-heading {
 body:not(:has(.admin-shell)) .page-heading:before {
   background:
     linear-gradient(100deg, #102319d9, #173322a8 55%, #21362448),
-    url(../img/hero.jpg) center/cover !important;
+    url(../img/hero-optimized.jpg) center/cover !important;
   opacity: 1;
 }
 body:not(:has(.admin-shell)) .page-heading h1 {
@@ -1324,7 +1324,7 @@ body:not(:has(.admin-shell)) tbody tr:hover td {
 body:not(:has(.admin-shell)) .account-nav {
   background:
     linear-gradient(145deg, #203b29ed, #14251adf),
-    url(../img/garden-sky.jpg) center/cover !important;
+    url(../img/garden-sky-optimized.jpg) center/cover !important;
   border: 1px solid #c5e79935;
   border-radius: 18px !important;
 }
@@ -1336,7 +1336,7 @@ body:not(:has(.admin-shell)) .account-nav a.active {
 body:not(:has(.admin-shell)) .auth-layout {
   background:
     linear-gradient(125deg, #152a1de8, #102017ef 55%, #1b3424d9),
-    url(../img/garden-sky.jpg) center/cover !important;
+    url(../img/garden-sky-optimized.jpg) center/cover !important;
   border: 1px solid #c7e89538 !important;
   border-radius: 20px 46px 20px 20px !important;
 }
@@ -1360,7 +1360,7 @@ body:not(:has(.admin-shell)) .popover::backdrop {
 body:not(:has(.admin-shell)) .footer {
   background:
     linear-gradient(115deg, #10251aeb, #183623df),
-    url(../img/garden-sky.jpg) center 58% / cover !important;
+    url(../img/garden-sky-optimized.jpg) center 58% / cover !important;
   border-top: 1px solid #caeaa227;
   color: #e6eddf !important;
 }
@@ -1387,12 +1387,12 @@ body:not(:has(.admin-shell)) .benefit h3 {
 body:has(.admin-shell) .admin-sidebar {
   background:
     linear-gradient(180deg, #102118d9, #0c1912ef),
-    url(../img/garden-sky.jpg) 64% center/cover !important;
+    url(../img/garden-sky-optimized.jpg) 64% center/cover !important;
 }
 body:has(.admin-shell) .admin-content .admin-title {
   background:
     linear-gradient(100deg, #142b1ee8, #173222d9 65%, #24452b72),
-    url(../img/hero.jpg) right 42% / cover;
+    url(../img/hero-optimized.jpg) right 42% / cover;
   border: 1px solid #c4e28b2a;
   border-radius: 18px 38px 18px 18px;
   padding: 22px 25px;
@@ -1577,7 +1577,7 @@ body:has(.admin-shell) .admin-content .table-product img {
 .garden-home .garden-paths {
   background:
     linear-gradient(120deg, #0c1a12f2, #13271be6 58%, #183324cc),
-    url(../img/hero.jpg) center/cover fixed !important;
+    url(../img/hero-optimized.jpg) center/cover fixed !important;
   color: #e8efdf !important;
 }
 .garden-home .collection {
@@ -1589,7 +1589,7 @@ body:has(.admin-shell) .admin-content .table-product img {
 .garden-home #edit {
   background:
     linear-gradient(110deg, #0d1b13ee, #14251be0 55%, #1b3022c9),
-    url(../img/garden-sky.jpg) center/cover fixed !important;
+    url(../img/garden-sky-optimized.jpg) center/cover fixed !important;
   color: #e8efdf !important;
 }
 .garden-home .editorial-content {
@@ -1608,7 +1608,7 @@ body:has(.admin-shell) .admin-content .table-product img {
 .garden-home #faq {
   background:
     linear-gradient(115deg, #0b1711ed, #14281be8 55%, #1b3323d9),
-    url(../img/hero.jpg) center/cover fixed !important;
+    url(../img/hero-optimized.jpg) center/cover fixed !important;
   color: #e8efdf !important;
 }
 .garden-home #faq .faq-item {
@@ -1634,7 +1634,7 @@ body:has(.admin-shell) .admin-content .table-product img {
 .footer {
   background:
     linear-gradient(115deg, #0c1a12ef, #173221df),
-    url(../img/garden-sky.jpg) center 56% / cover !important;
+    url(../img/garden-sky-optimized.jpg) center 56% / cover !important;
   color: #e8efdf !important;
 }
 body:not(:has(.admin-shell)) .shop-toolbar,
@@ -1674,7 +1674,7 @@ body:not(:has(.admin-shell)) .account-nav a {
   border: 1px solid #c9e9953b;
   background:
     linear-gradient(90deg, #0b1711e8 0%, #0b17119e 43%, #0b17114d 100%),
-    url(../img/garden-sky.jpg) center 48% / cover;
+    url(../img/garden-sky-optimized.jpg) center 48% / cover;
   box-shadow:
     inset 0 1px #ffffff18,
     0 18px 42px #0004;
@@ -1801,12 +1801,12 @@ body:not(:has(.admin-shell)) .page-main {
   background:
     radial-gradient(ellipse at 80% 6%, #3e633022, transparent 38%),
     linear-gradient(180deg, #16271cc4, #14231ae8),
-    url(../img/garden-sky.jpg) center top/100% auto fixed !important;
+    url(../img/garden-sky-optimized.jpg) center top/100% auto fixed !important;
 }
 body:not(:has(.admin-shell)) .page-heading {
   background:
     linear-gradient(105deg, #1d3928ef, #31533ac9 62%, #4a663a96),
-    url(../img/hero.jpg) center 48% / cover !important;
+    url(../img/hero-optimized.jpg) center 48% / cover !important;
   border: 1px solid #b6d58a40 !important;
   box-shadow:
     inset 0 1px #ffffff16,
@@ -1815,7 +1815,7 @@ body:not(:has(.admin-shell)) .page-heading {
 body:not(:has(.admin-shell)) .page-heading:before {
   background:
     linear-gradient(100deg, #1c3727df, #31533ab8 55%, #536d4580),
-    url(../img/hero.jpg) center/cover !important;
+    url(../img/hero-optimized.jpg) center/cover !important;
 }
 body:not(:has(.admin-shell)) .panel,
 body:not(:has(.admin-shell)) .shop-filter,
@@ -1904,7 +1904,7 @@ body:not(:has(.admin-shell)) tbody tr:hover td {
 body:not(:has(.admin-shell)) .account-nav {
   background:
     linear-gradient(145deg, #294a34ef, #1b3022ed),
-    url(../img/garden-sky.jpg) center/cover !important;
+    url(../img/garden-sky-optimized.jpg) center/cover !important;
   border: 1px solid #9db77b66 !important;
 }
 body:not(:has(.admin-shell)) .account-nav a {
@@ -1917,7 +1917,7 @@ body:not(:has(.admin-shell)) .account-nav a.active {
 body:not(:has(.admin-shell)) .auth-layout {
   background:
     linear-gradient(125deg, #21392aeb, #1a2c20ef 55%, #2a4730d9),
-    url(../img/garden-sky.jpg) center/cover !important;
+    url(../img/garden-sky-optimized.jpg) center/cover !important;
   border: 1px solid #82986d88 !important;
 }
 body:not(:has(.admin-shell)) .popover {
@@ -1940,7 +1940,7 @@ body:not(:has(.admin-shell)) .footer,
 .footer {
   background:
     linear-gradient(115deg, #173323f5, #244631eb),
-    url(../img/garden-sky.jpg) center 56% / cover !important;
+    url(../img/garden-sky-optimized.jpg) center 56% / cover !important;
   color: #e8efdf !important;
   border-top: 1px solid #78926188 !important;
 }
@@ -1970,7 +1970,7 @@ body:not(:has(.admin-shell)) .benefit h3 {
 .garden-home .garden-paths {
   background:
     linear-gradient(120deg, #183323ef, #2b4935dd 58%, #415936bb),
-    url(../img/hero.jpg) center/cover fixed !important;
+    url(../img/hero-optimized.jpg) center/cover fixed !important;
   color: #edf2e3 !important;
 }
 .garden-home .collection {
@@ -1982,7 +1982,7 @@ body:not(:has(.admin-shell)) .benefit h3 {
 .garden-home #edit {
   background:
     linear-gradient(110deg, #1a3022ed, #263d2de3 55%, #31482fd4),
-    url(../img/garden-sky.jpg) center/cover fixed !important;
+    url(../img/garden-sky-optimized.jpg) center/cover fixed !important;
   color: #e8efdf !important;
 }
 .garden-home .editorial-content {
@@ -2000,7 +2000,7 @@ body:not(:has(.admin-shell)) .benefit h3 {
 .garden-home #faq {
   background:
     linear-gradient(115deg, #1a3526ed, #294633df 55%, #3c5537c4),
-    url(../img/hero.jpg) center/cover fixed !important;
+    url(../img/hero-optimized.jpg) center/cover fixed !important;
   color: #edf2e3 !important;
 }
 .garden-home #faq .faq-item {
@@ -2106,17 +2106,17 @@ body:has(.admin-shell) {
 .admin-sidebar {
   background:
     linear-gradient(180deg, #102118e8, #0c1912f2),
-    url(../img/garden-sky.jpg) center/cover !important;
+    url(../img/garden-sky-optimized.jpg) center/cover !important;
 }
 .admin-photo-strip {
   background:
     linear-gradient(90deg, #10251bd9, #173323aa 48%, #1c302266),
-    url(../img/garden-sky.jpg) center 48% / cover !important;
+    url(../img/garden-sky-optimized.jpg) center 48% / cover !important;
 }
 .admin-content .admin-title {
   background:
     linear-gradient(100deg, #203c2bef, #31553acb 65%, #4c653b91),
-    url(../img/hero.jpg) right 42% / cover !important;
+    url(../img/hero-optimized.jpg) right 42% / cover !important;
 }
 .admin-content .admin-title h1,
 .admin-content .admin-title p,
@@ -2204,7 +2204,7 @@ body:not(:has(.admin-shell)) .page-main {
   background:
     radial-gradient(ellipse at 80% 6%, #5577402b, transparent 38%),
     linear-gradient(180deg, #1b2c20c4, #192920e8),
-    url(../img/garden-sky.jpg) center top/100% auto fixed !important;
+    url(../img/garden-sky-optimized.jpg) center top/100% auto fixed !important;
 }
 body:not(:has(.admin-shell)) .panel,
 body:not(:has(.admin-shell)) .shop-filter,
@@ -2225,7 +2225,7 @@ body:not(:has(.admin-shell)) .product-card {
 .garden-home #edit {
   background:
     linear-gradient(110deg, #1f3528ed, #2b432de3 55%, #3a5034d4),
-    url(../img/garden-sky.jpg) center/cover fixed !important;
+    url(../img/garden-sky-optimized.jpg) center/cover fixed !important;
 }
 .garden-home .editorial-content {
   background: linear-gradient(145deg, #2b412ff2, #203427ee) !important;

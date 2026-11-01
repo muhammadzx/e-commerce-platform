@@ -69,8 +69,8 @@ public function show()
     $id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 
     if (!$id || $id <= 0) {
-        http_response_code(400);
-        echo "Invalid product ID";
+        http_response_code(404);
+        require __DIR__ . "/../Views/404.php";
         return;
     }
 
@@ -89,7 +89,7 @@ if (empty($_SESSION["csrf_token"])) {
 
     if (!$product) {
         http_response_code(404);
-        echo "Product not found";
+        require __DIR__ . "/../Views/404.php";
         return;
     }
 

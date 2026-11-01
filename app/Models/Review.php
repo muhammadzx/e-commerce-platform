@@ -20,14 +20,14 @@ class Review
                 "SELECT r.rating, r.comment, r.created_at, u.full_name AS reviewer_name
                  FROM reviews r
                  LEFT JOIN users u ON u.user_id = r.user_id
-                 WHERE r.pro_id = :id
+                 WHERE r.pro_id = :id AND r.is_hidden = 0
                  ORDER BY r.review_id DESC"
             );
             $stmt->execute([":id" => $proId]);
         } catch (PDOException $e) {
             $stmt = $this->conn->prepare(
                 "SELECT rating, comment, created_at, 'Customer' AS reviewer_name
-                 FROM reviews WHERE pro_id = :id ORDER BY review_id DESC"
+                 FROM reviews WHERE pro_id = :id AND is_hidden = 0 ORDER BY review_id DESC"
             );
             $stmt->execute([":id" => $proId]);
         }
@@ -45,7 +45,7 @@ public function getTopReviews(int $proId): array
             FROM reviews r
             LEFT JOIN users u
                 ON u.user_id = r.user_id
-            WHERE r.pro_id = :id
+            WHERE r.pro_id = :id AND r.is_hidden = 0
             ORDER BY
                 r.rating DESC,
                 r.created_at DESC,
@@ -66,7 +66,7 @@ public function getTopReviews(int $proId): array
     {
         $stmt = $this->conn->prepare(
             "SELECT COUNT(*) AS total, COALESCE(AVG(rating), 0) AS average
-             FROM reviews WHERE pro_id = :id"
+             FROM reviews WHERE pro_id = :id AND is_hidden = 0"
         );
         $stmt->execute([":id" => $proId]);
         return $stmt->fetch(PDO::FETCH_ASSOC);

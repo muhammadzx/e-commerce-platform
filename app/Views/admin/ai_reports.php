@@ -26,6 +26,8 @@ if (!isset($reportHistory)) {
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/ai-reports.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css')), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/ui.css?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/css/ui.css')), ENT_QUOTES, 'UTF-8') ?>">
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/ui.js?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/js/ui.js')), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </head>
 
 <body class="admin-body botanical-edition workspace-page admin-overview admin-reports">
@@ -189,9 +191,9 @@ if (!isset($reportHistory)) {
                                                 <td><?= htmlspecialchars($report['title'], ENT_QUOTES, 'UTF-8') ?></td>
                                                 <td><?= htmlspecialchars($report['generated_at'], ENT_QUOTES, 'UTF-8') ?></td>
                                                 <td>
-                                                    <?= htmlspecialchars($report['date_from'], ENT_QUOTES, 'UTF-8') ?>
+                                                    <span class="report-date"><?= htmlspecialchars($report['date_from'], ENT_QUOTES, 'UTF-8') ?></span>
                                                     to
-                                                    <?= htmlspecialchars($report['date_to'], ENT_QUOTES, 'UTF-8') ?>
+                                                    <span class="report-date"><?= htmlspecialchars($report['date_to'], ENT_QUOTES, 'UTF-8') ?></span>
                                                 </td>
                                                 <td>Store admin</td>
                                                 <td>

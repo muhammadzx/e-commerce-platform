@@ -1,10 +1,7 @@
 <?php
 require_once __DIR__ . '/../../config/paths.php';
 // CartController provides $items, $itemCount and $subtotal.
-$img = static function (?string $url): string {
-    if (!$url) return '';
-    return preg_match('~^https?://~i', $url) ? $url : nabta_public_url('assets/img/' . ltrim($url, '/'));
-};
+$img = static fn(?string $url): string => nabta_image_url($url);
 $u = static fn(string $path): string => htmlspecialchars(nabta_public_url($path), ENT_QUOTES, 'UTF-8');
 $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 ?>
@@ -35,7 +32,8 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 </div>
 
 <?php require __DIR__ . "/layouts/header.php"; ?>
-<main class="cx-page">
+<main id="main" tabindex="-1" class="cx-page">
+<h1 class="page-title">Your basket</h1>
 
     <?php if (!$items): ?>
 
@@ -110,10 +108,10 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
             <aside class="cx-card" aria-label="Basket summary">
                 <h2>Your basket</h2>
                 <div class="cx-row"><span>Subtotal · <?= (int) $itemCount ?> item<?= $itemCount === 1 ? '' : 's' ?></span><span><?= $money($subtotal) ?></span></div>
-                <div class="cx-row"><span>Delivery</span><span>At checkout</span></div>
+                <div class="cx-row"><span>Delivery</span><span>Not yet calculated</span></div>
                 <div class="cx-row cx-row-total"><span>Total</span><strong><?= $money($subtotal) ?></strong></div>
                 <a class="cx-btn cx-btn-block cx-summary-btn" href="<?= $u('index.php?page=checkout') ?>">Continue to checkout <span aria-hidden="true">→</span></a>
-                <p class="cx-note">Delivery costs will be confirmed before you place an order.</p>
+                <p class="cx-note">Checkout sends a request for confirmation. Delivery costs and payment arrangements require your later approval.</p>
             </aside>
 
         </div>

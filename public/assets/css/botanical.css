@@ -255,7 +255,7 @@ p {
       color-mix(in srgb, var(--leaf) 71%, transparent) 60%,
       color-mix(in srgb, var(--wood) 20%, transparent)
     ),
-    url(garden-sky.jpg);
+    url(garden-sky-optimized.jpg);
 }
 
 .sell-page .page-heading:before {
@@ -634,7 +634,7 @@ input.control::placeholder {
       color-mix(in srgb, var(--wood) 92.9%, transparent),
       color-mix(in srgb, var(--wood) 65.1%, transparent)
     ),
-    url(garden-sky.jpg) center/cover;
+    url(garden-sky-optimized.jpg) center/cover;
   border-radius: 3px 24px 3px 3px;
   min-height: 340px;
   height: fit-content;
@@ -682,7 +682,7 @@ input.control::placeholder {
       color-mix(in srgb, var(--wood) 73.3%, transparent),
       color-mix(in srgb, var(--wood) 92.2%, transparent)
     ),
-    url(garden-sky.jpg) center/cover;
+    url(garden-sky-optimized.jpg) center/cover;
   padding: 32px;
   color: var(--mint);
   min-height: 490px;
@@ -738,7 +738,7 @@ input.control::placeholder {
       color-mix(in srgb, var(--wood) 96.9%, transparent) 35%,
       color-mix(in srgb, var(--wood) 65.9%, transparent)
     ),
-    url(garden-sky.jpg) 60% center/cover;
+    url(garden-sky-optimized.jpg) 60% center/cover;
   color: var(--mint);
   padding: 30px 22px;
   border-color: var(--sage);
@@ -970,7 +970,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--wood) 96.1%, transparent),
       color-mix(in srgb, var(--leaf) 91%, transparent)
     ),
-    url(garden-sky.jpg) center 70% / cover;
+    url(garden-sky-optimized.jpg) center 70% / cover;
   color: var(--mint);
   padding: 44px 0 20px;
 }
@@ -1500,7 +1500,7 @@ tbody tr:hover td {
         color-mix(in srgb, var(--mint) 92.9%, transparent),
         color-mix(in srgb, var(--sage) 92.9%, transparent)
       ),
-      url(garden-sky.jpg) center/cover;
+      url(garden-sky-optimized.jpg) center/cover;
   }
 
   .auth-form {
@@ -1541,7 +1541,7 @@ tbody tr:hover td {
         color-mix(in srgb, var(--wood) 90.2%, transparent),
         color-mix(in srgb, var(--wood) 87.1%, transparent)
       ),
-      url(garden-sky.jpg) center/cover;
+      url(garden-sky-optimized.jpg) center/cover;
   }
 
   .admin-sidebar nav {
@@ -2036,7 +2036,7 @@ body {
       color-mix(in srgb, var(--sage) 96.1%, transparent),
       color-mix(in srgb, var(--sage) 91%, transparent)
     ),
-    url(garden-sky.jpg) center/cover;
+    url(garden-sky-optimized.jpg) center/cover;
   background-attachment: fixed;
 }
 
@@ -2209,7 +2209,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--wood) 92.2%, transparent),
       color-mix(in srgb, var(--wood) 53.3%, transparent)
     ),
-    url(garden-sky.jpg) 60% center/cover;
+    url(garden-sky-optimized.jpg) 60% center/cover;
 }
 
 .chart-col div {
@@ -2241,7 +2241,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--wood) 91%, transparent),
       color-mix(in srgb, var(--wood) 78%, transparent)
     ),
-    url(garden-sky.jpg) center 65% / cover;
+    url(garden-sky-optimized.jpg) center 65% / cover;
 }
 
 .garden-home .hero-bottom {
@@ -2332,7 +2332,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--sage) 85.1%, transparent),
       color-mix(in srgb, var(--sage) 85.1%, transparent)
     ),
-    url(garden-sky.jpg) center/cover;
+    url(garden-sky-optimized.jpg) center/cover;
   background-attachment: fixed;
 }
 
@@ -2381,7 +2381,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--mint) 92.9%, transparent),
       color-mix(in srgb, var(--mint) 92.9%, transparent)
     ),
-    url(garden-sky.jpg) center/cover;
+    url(garden-sky-optimized.jpg) center/cover;
 }
 
 /* Content stays visible in browsers without scroll-linked animation support. */
@@ -2517,7 +2517,7 @@ tbody tr:hover td {
         color-mix(in srgb, var(--mint) 91%, transparent),
         color-mix(in srgb, var(--sage) 87.8%, transparent)
       ),
-      url(garden-sky.jpg) center/cover;
+      url(garden-sky-optimized.jpg) center/cover;
   }
 
   .table-scroll tr {
@@ -2613,7 +2613,7 @@ body {
       color-mix(in srgb, var(--sage) 96.1%, transparent) 55%,
       color-mix(in srgb, var(--sage) 96.1%, transparent)
     ),
-    url(garden-sky.jpg) center/cover fixed;
+    url(garden-sky-optimized.jpg) center/cover fixed;
 }
 
 .header {
@@ -2793,7 +2793,7 @@ select.control:focus {
       color-mix(in srgb, var(--leaf) 92.9%, transparent) 65%,
       color-mix(in srgb, var(--leaf) 85.9%, transparent)
     ),
-    url(garden-sky.jpg) center/cover;
+    url(garden-sky-optimized.jpg) center/cover;
 }
 
 .admin-sidebar nav a.active {
@@ -2849,7 +2849,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--leaf) 94.9%, transparent),
       color-mix(in srgb, var(--leaf) 86.3%, transparent)
     ),
-    url(garden-sky.jpg) center/cover;
+    url(garden-sky-optimized.jpg) center/cover;
 }
 
 .account-nav a,
@@ -2889,7 +2889,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--sage) 92.9%, transparent),
       color-mix(in srgb, var(--sage) 92.9%, transparent)
     ),
-    url(garden-sky.jpg) center/cover fixed;
+    url(garden-sky-optimized.jpg) center/cover fixed;
 }
 
 .garden-home #faq {
@@ -2989,7 +2989,7 @@ tbody tr:hover td {
       color-mix(in srgb, var(--leaf) 93.7%, transparent),
       color-mix(in srgb, var(--leaf) 91%, transparent)
     ),
-    url(garden-sky.jpg) center 65% / cover;
+    url(garden-sky-optimized.jpg) center 65% / cover;
 }
 
 .footer-grid,
@@ -3064,7 +3064,7 @@ tbody tr:hover td {
         color-mix(in srgb, var(--sage) 96.1%, transparent) 55%,
         color-mix(in srgb, var(--sage) 96.1%, transparent)
       ),
-      url(garden-sky.jpg) center/cover;
+      url(garden-sky-optimized.jpg) center/cover;
   }
 
   .garden-home .garden-paths,

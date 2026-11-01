@@ -564,7 +564,7 @@ body.admin-body.botanical-edition.workspace-page .admin-photo-strip {
   padding: 24px !important;
   border: 1px solid #345A42 !important;
   border-radius: 16px;
-  background: linear-gradient(90deg, #173C2BDE 0%, #173C2BBF 58%, #173C2B88 100%), url('../img/garden-sky.jpg') center 48% / cover !important;
+  background: linear-gradient(90deg, #173C2BDE 0%, #173C2BBF 58%, #173C2B88 100%), url('../img/garden-sky-optimized.jpg') center 48% / cover !important;
   box-shadow: none !important;
 }
 body.admin-body.botanical-edition.workspace-page .admin-photo-strip::before { background: none !important; }
@@ -599,7 +599,7 @@ body.admin-body.botanical-edition.workspace-page :is(.admin-title p, .desk-intro
 body.admin-body.botanical-edition.workspace-page .admin-content :is(input.control, input[type='search'], select.control, textarea.control) {
   background: var(--color-surface) !important;
   color: var(--color-text) !important;
-  border: 1px solid #A5B49D !important;
+  border: 1px solid var(--ui-field-border, #7B846D) !important;
   border-radius: 10px !important;
   box-shadow: none !important;
 }
@@ -609,7 +609,7 @@ body.admin-body.botanical-edition.workspace-page .admin-content th { background:
 body.admin-body.botanical-edition.workspace-page .admin-content td { background: #FFFFFF !important; color: var(--color-text) !important; }
 body.admin-body.botanical-edition.workspace-page .admin-content tbody tr:hover td { background: #F1F6EC !important; }
 body.admin-body.botanical-edition.workspace-page .admin-content :is(.btn, button) { border-radius: 10px !important; box-shadow: none !important; }
-body.admin-body.botanical-edition.workspace-page .admin-content .btn.secondary { border: 1px solid #A5B49D !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content .btn.secondary { border: 1px solid var(--ui-field-border, #7B846D) !important; }
 body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) { border-radius: 18px !important; border-color: var(--color-border) !important; background: #FFFFFF !important; color: var(--color-text) !important; }
 @media (min-width: 901px) and (max-height: 740px) {
   body.admin-body.botanical-edition.workspace-page .admin-sidebar { gap: 14px; padding: 18px 16px 14px !important; }
@@ -650,7 +650,7 @@ body.admin-body.botanical-edition.workspace-page :is(.desk-intro h1, .kpi-card s
 }
 /* Photographic page introductions and legible charts/popovers. */
 body.admin-body.botanical-edition.workspace-page :is(.admin-title, .desk-intro) {
-  background: linear-gradient(90deg, #173C2BE8, #173C2BA6), #234333 url('../img/garden-sky.jpg') center 48% / cover !important;
+  background: linear-gradient(90deg, #173C2BE8, #173C2BA6), #234333 url('../img/garden-sky-optimized.jpg') center 48% / cover !important;
   background-color: #234333 !important;
   border-color: #42674B !important;
 }
@@ -674,10 +674,10 @@ body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) 
 body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal)::backdrop { background: #10271EB3 !important; }
 body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) :is(h2, h3, strong, .overview-item-name strong) { color: #284E3C !important; }
 body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) :is(p, label, small, .summary-row, .overview-quantity) { color: #526253 !important; }
-body.admin-body.botanical-edition.workspace-page .popover :is(input:not([type='checkbox']):not([type='radio']), select, textarea, .field, .image-input-row) { background: #FFFFFF !important; color: #263D31 !important; border-color: #A5B49D !important; color-scheme: light; }
+body.admin-body.botanical-edition.workspace-page .popover :is(input:not([type='checkbox']):not([type='radio']), select, textarea, .field, .image-input-row) { background: #FFFFFF !important; color: #263D31 !important; border-color: var(--ui-field-border, #7B846D) !important; color-scheme: light; }
 body.admin-body.botanical-edition.workspace-page .popover :is(input, textarea)::placeholder { color: #62705E !important; }
 body.admin-body.botanical-edition.workspace-page :is(.popover-top, .overview-modal-head) { background: #FFFFFF !important; border-color: #D7DFD3 !important; }
-body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) :is(.icon-btn, .overview-modal-close) { background: #EDF2E8 !important; color: #284E3C !important; border-color: #A5B49D !important; }
+body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) :is(.icon-btn, .overview-modal-close) { background: #EDF2E8 !important; color: #284E3C !important; border-color: var(--ui-field-border, #7B846D) !important; }
 body.admin-body.botanical-edition.workspace-page .popover .product-image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); }
 body.admin-body.botanical-edition.workspace-page .popover :is(.summary-row, .image-input-row) { overflow-wrap: anywhere; }
 @media (max-width: 520px) {
@@ -693,7 +693,7 @@ body.admin-body.botanical-edition.workspace-page .admin-content .overview-show-a
   padding: 8px 12px;
   background: #EDF2E8 !important;
   color: #284E3C !important;
-  border: 1px solid #A5B49D !important;
+  border: 1px solid var(--ui-field-border, #7B846D) !important;
 }
 body.admin-body.botanical-edition.workspace-page .admin-content .overview-show-all:hover { background: #E0ECD8 !important; }
 body.admin-body.botanical-edition.workspace-page .admin-sidebar::before { display: none !important; }
@@ -711,7 +711,7 @@ body.admin-body.botanical-edition.workspace-page .table-actions .table-button {
   border: 1px solid #284E3C !important;
   text-decoration: none;
 }
-body.admin-body.botanical-edition.workspace-page .table-actions :is([popovertarget^='delete-'], form .table-button) { background: #A63F2D !important; border-color: #A63F2D !important; color: #FFFFFF !important; }
+body.admin-body.botanical-edition.workspace-page .table-actions :is([popovertarget^='delete-'], form .table-button[value='delete']) { background: #A63F2D !important; border-color: #A63F2D !important; color: #FFFFFF !important; }
 body.admin-body.botanical-edition.workspace-page .table-actions :is([popovertarget^='delete-'], form .table-button):hover { background: #873020 !important; }
 body.admin-body.botanical-edition.workspace-page .table-actions .delete-button { background: #A63F2D !important; border-color: #A63F2D !important; color: #FFFFFF !important; }
 @media (min-width: 901px) {

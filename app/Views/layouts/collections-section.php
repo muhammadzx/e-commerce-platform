@@ -25,23 +25,10 @@ usort($cxCollections, static fn(array $a, array $b): int =>
     ?: (int) $b['collection_id'] <=> (int) $a['collection_id']);
 $cxCollections = array_slice($cxCollections, 0, $cxLimit);
 
-$cxMoney = static fn(float $amount): string => 'JD ' . number_format($amount, 2);
-$cxImage = static function (?string $path): string {
-    if (!$path) {
-        return '';
-    }
-
-    if (preg_match('~^https?://~i', $path)) {
-        return $path;
-    }
-
-    // A missing file would show a broken-image icon, so skip it
-    return is_file(__DIR__ . '/../../../public/assets/img/' . ltrim($path, '/'))
-        ? nabta_public_url('assets/img/' . ltrim($path, '/'))
-        : '';
-};
+$cxMoney = static fn(float $amount): string => number_format($amount, 2) . ' JOD';
+$cxImage = static fn(?string $path): string => nabta_image_url($path, 800);
 ?>
-<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=2'), ENT_QUOTES, 'UTF-8') ?>">
+
 <meta name="cart-csrf" content="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
 <section class="section bundles-section" id="bundles" aria-labelledby="bundles-title">
   <div class="container">
@@ -79,7 +66,7 @@ $cxImage = static function (?string $path): string {
             <div class="bundle-items-heading">Inside this set</div>
             <div class="bundle-items-list" aria-label="Products included in <?= htmlspecialchars($collection['name'], ENT_QUOTES, 'UTF-8') ?>">
               <?php foreach ($collection['products'] as $product): ?>
-                <span><i aria-hidden="true">✓</i><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?><?= (int) $product['quantity'] > 1 ? ' × ' . (int) $product['quantity'] : '' ?></span>
+                <span><a href="<?= htmlspecialchars(nabta_public_url('index.php?page=product&id=' . (int)$product['pro_id']), ENT_QUOTES, 'UTF-8') ?>"><?php /* included product */ ?><i aria-hidden="true">&#10003;</i><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?><?= (int) $product['quantity'] > 1 ? ' &times; ' . (int) $product['quantity'] : '' ?></a></span>
               <?php endforeach; ?>
             </div>
             <div class="bundle-card-bottom">
@@ -106,4 +93,4 @@ $cxImage = static function (?string $path): string {
 </section>
 <div class="cx-toast" id="cx-toast" role="status" aria-live="polite"></div>
 <script>window.NABTA_PUBLIC_URL = window.NABTA_PUBLIC_URL || <?= json_encode(nabta_public_url()) ?>;</script>
-<script src="<?= htmlspecialchars(nabta_public_url('assets/js/cart.js?v=2'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/cart.js?v=20261102'), ENT_QUOTES, 'UTF-8') ?>" defer></script>

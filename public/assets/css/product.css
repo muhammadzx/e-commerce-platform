@@ -127,7 +127,7 @@ main,
             rgba(14, 59, 42, 0.68) 48%,
             rgba(14, 59, 42, 0.08)
         ),
-        url("../img/garden-sky.jpg")
+        url("../img/garden-sky-optimized.jpg")
         center / cover no-repeat;
 
     background-color: #34452F;

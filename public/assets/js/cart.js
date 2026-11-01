@@ -149,11 +149,14 @@
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         formError.textContent = "";
+        if (!form.reportValidity()) return;
 
         var phone = value("phone");
 
         if (phone !== "" && !/^[0-9+()\-\s.]{6,20}$/.test(phone)) {
             formError.textContent = "Enter a valid phone number, or leave the field empty.";
+            form.elements.phone.setAttribute("aria-invalid", "true");
+            form.elements.phone.focus();
             return;
         }
 
@@ -196,7 +199,7 @@
                 }
 
                 if (!data.success) {
-                    orderError.textContent = data.message || "We could not place your order.";
+                    orderError.textContent = data.message || "We could not save your request.";
                     confirmButton.disabled = false;
                     return;
                 }
@@ -204,7 +207,7 @@
                 document.getElementById("review-content").hidden = true;
                 document.getElementById("review-success").hidden = false;
                 document.getElementById("success-text").textContent =
-                    "Your order #" + data.order_id + " has been placed. We will confirm delivery details with you soon.";
+                    "Your order #" + data.order_id + " is saved as a pending confirmation request. Delivery costs and payment arrangements still need your approval. No payment has been taken.";
                 setStep(3);
                 setCount(0);
             })

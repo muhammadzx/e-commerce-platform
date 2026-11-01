@@ -230,7 +230,7 @@
     border-radius: 18px !important;
     background:
         linear-gradient(135deg, #10231aef, #152d21f2),
-        url("../img/garden-sky.jpg") center / cover no-repeat !important;
+        url("../img/garden-sky-optimized.jpg") center / cover no-repeat !important;
     color: #e7eee0 !important;
     box-shadow: 0 14px 32px #0003 !important;
 }

@@ -24,6 +24,8 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/admin.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/popups.css'), ENT_QUOTES, 'UTF-8') ?>">
   <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/palette-overrides.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/palette-overrides.css')), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/ui.css?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/css/ui.css')), ENT_QUOTES, 'UTF-8') ?>">
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/ui.js?v=' . (int) filemtime(__DIR__ . '/../../../public/assets/js/ui.js')), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </head>
 <body class="admin-body botanical-edition workspace-page admin-products">
 <main id="main">
@@ -101,7 +103,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                                             <form method="post" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>">
                                                 <input type="hidden" name="action" value="hide">
                                                 <input type="hidden" name="product_id" value="<?= $productId ?>">
-                                                <button class="table-button" type="submit">Delete</button>
+                                                <button class="table-button delete-button" type="submit">Delete</button>
                                             </form>
                                         </div>
                                     </td>
@@ -139,8 +141,10 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                     <?php else: ?>
                         <?php foreach ($images as $image): ?>
                             <div class="product-image-card">
-                                <img src="<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8') ?>"
+                                <?php $adminImageUrl = nabta_image_url($image['image_url'], 640); if ($adminImageUrl): ?>
+                                <img src="<?= htmlspecialchars($adminImageUrl, ENT_QUOTES, 'UTF-8') ?>"
                                      alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                <?php else: ?><span class="image-fallback">Image unavailable: <?= e($product['name']) ?></span><?php endif; ?>
                                 <?php if ((int) $image['is_primary'] === 1): ?>
                                     <span class="pill">Primary image</span>
                                 <?php endif; ?>
@@ -223,8 +227,10 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                             <?php foreach ($images as $image): ?>
                                 <?php $imageId = (int) $image['image_id']; ?>
                                 <div class="product-image-card">
-                                    <img src="<?= htmlspecialchars($image['image_url'], ENT_QUOTES, 'UTF-8') ?>"
+                                    <?php $adminImageUrl = nabta_image_url($image['image_url'], 640); if ($adminImageUrl): ?>
+                                    <img src="<?= htmlspecialchars($adminImageUrl, ENT_QUOTES, 'UTF-8') ?>"
                                          alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                    <?php else: ?><span class="image-fallback">Image unavailable: <?= e($product['name']) ?></span><?php endif; ?>
                                     <?php if ((int) $image['is_primary'] === 1): ?>
                                         <span class="pill">Primary image</span>
                                     <?php else: ?>
@@ -250,7 +256,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
                                         <input type="hidden" name="action" value="delete_image">
                                         <input type="hidden" name="product_id" value="<?= $productId ?>">
                                         <input type="hidden" name="image_id" value="<?= $imageId ?>">
-                                        <button class="table-button" type="submit">Remove image</button>
+                                        <button class="table-button delete-button" type="submit">Remove image</button>
                                     </form>
                                 </div>
                             <?php endforeach; ?>

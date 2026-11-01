@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Our Story | NABTA Botanical</title>
+<meta name="description" content="Meet Nabta Botanical and discover our approach to plants, growing essentials and greener everyday spaces.">
 
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/shared.css">
     <link rel="stylesheet" href="assets/css/nabta-theme.css">
     <link rel="stylesheet" href="assets/css/about.css">
-        <link rel="stylesheet" href="assets/css/nabta-theme.css">
+        
     <link rel="stylesheet" href="assets/css/store-responsive.css?v=20261101">
     <link rel="stylesheet" href="assets/css/palette-overrides.css?v=20261101-colors">
+<link rel="stylesheet" href="assets/css/ui.css?v=20261102">
+<script src="assets/js/ui.js?v=20261102" defer></script>
 </head>
 
 <body class="about-page">
@@ -36,7 +39,7 @@
     <?php require __DIR__ . '/layouts/cart-link.php'; ?>
   <?php require __DIR__ . "/layouts/header.php"; ?>
 
-    <main>
+    <main id="main" tabindex="-1">
 
         <!-- HERO -->
         <section class="about-hero" id="about-hero">

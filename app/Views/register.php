@@ -28,10 +28,10 @@
             <div class="password-rules" id="password-rules" data-password-rules aria-live="polite" hidden>
               <p class="password-rules-title">Your password should include:</p>
               <ul class="password-rules-list">
-                <li data-rule="length" aria-checked="false">At least 8 characters</li>
-                <li data-rule="letter" aria-checked="false">At least one letter</li>
-                <li data-rule="number" aria-checked="false">At least one number</li>
-                <li data-rule="symbol" aria-checked="false">At least one symbol</li>
+                <li data-rule="length">At least 8 characters</li>
+                <li data-rule="letter">At least one letter</li>
+                <li data-rule="number">At least one number</li>
+                <li data-rule="symbol">At least one symbol</li>
               </ul>
               <div class="password-progress" role="progressbar" aria-label="Password requirements met" aria-valuemin="0" aria-valuemax="4"><span data-password-meter></span></div>
             </div>

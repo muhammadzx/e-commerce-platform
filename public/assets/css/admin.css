@@ -445,3 +445,284 @@
   .admin-body.admin-reviews .admin-search .btn { flex: 1 1 calc(50% - 6px); }
   .admin-body.admin-reviews .admin-search > .label { flex-basis: 100%; margin-left: 0; }
 }
+
+/* Unified admin workspace. Scoped above legacy Canopy/palette specificity. */
+body.admin-body.botanical-edition.workspace-page {
+  --color-page: #F3F5EF;
+  --color-surface: #FFFFFF;
+  --color-cream: #EDF2E8;
+  --color-peach: #DCE7D5;
+  --color-primary: #284E3C;
+  --color-primary-hover: #35634B;
+  --color-text: #263D31;
+  --color-text-secondary: #526253;
+  --color-text-muted: #5D6C5C;
+  --color-link: #326044;
+  --color-border: #D7DFD3;
+  --color-green: #356C49;
+  --color-green-light: #E7F0E2;
+  --ad-bg: var(--color-page);
+  --ad-paper: var(--color-surface);
+  --ad-ink: var(--color-text);
+  --ad-muted: var(--color-text-secondary);
+  background: var(--color-page) !important;
+  color: var(--color-text) !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-shell {
+  display: grid;
+  grid-template-columns: 246px minmax(0, 1fr) !important;
+  align-items: start;
+  background: transparent !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-sidebar {
+  position: sticky !important;
+  top: 0;
+  align-self: start;
+  box-sizing: border-box;
+  height: 100dvh !important;
+  min-height: 0;
+  max-height: none !important;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 24px;
+  padding: 26px 18px 20px !important;
+  background: linear-gradient(180deg, #173C2BE6, #173C2BF2), url('../img/editorial.jpg') center / cover !important;
+  color: #F5F8F0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-sidebar::after { display: none !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar :is(.logo, .logo-sub, .profile-link, .profile-copy, .profile-copy strong) { color: #F5F8F0 !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar :is(.eyebrow, .profile-copy small, .profile-arrow) { color: #C5D5BE !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar .leaf-logo { stroke: #C5D5BE !important; }
+body.admin-body.botanical-edition.workspace-page .admin-navigation {
+  width: 100%;
+  flex: 0 0 auto;
+  min-height: 0;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-sidebar nav { gap: 4px; overflow: visible !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar nav a {
+  min-height: 42px;
+  padding: 10px 12px !important;
+  color: #ECF2E7 !important;
+  background: transparent !important;
+  font-size: 14px !important;
+  line-height: 1.35;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-sidebar nav a:is(:hover, .active, [aria-current='page']) {
+  background: #E0ECD8 !important;
+  color: #234333 !important;
+  border-color: #E0ECD8 !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-sidebar nav a .icon { stroke: currentColor !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar .store-link { margin-top: 8px; border-top-color: #54715B !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar .admin-bottom {
+  margin-top: auto;
+  width: 100%;
+  padding-top: 16px;
+  border-top: 1px solid #54715B;
+}
+body.admin-body.botanical-edition.workspace-page .admin-sidebar .profile-link { padding: 8px 4px; border-radius: 12px; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar .profile-link:is(.active, [aria-current='page']) { background: #355740 !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar .account-avatar { background: #E0ECD8 !important; color: #234333 !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content { width: 100%; max-width: 1560px; padding: 24px clamp(20px, 3vw, 44px) 44px !important; }
+body.admin-body.botanical-edition.workspace-page .admin-top {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  margin-bottom: 20px !important;
+  color: var(--color-text-secondary) !important;
+}
+body.admin-body.botanical-edition.workspace-page :is(.admin-title, .desk-intro) {
+  padding: 22px 24px !important;
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 16px;
+  box-shadow: none !important;
+  gap: 16px;
+}
+body.admin-body.botanical-edition.workspace-page :is(.panel, .overview-section, .overview-chart-card, .overview-category-feature, .report-form-background, .ai-report-panel, .table-scroll, .product-image-card) {
+  background: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 18px #263D3107 !important;
+}
+body.admin-body.botanical-edition.workspace-page .overview-category-feature { background: var(--color-cream) !important; }
+body.admin-body.botanical-edition.workspace-page .admin-photo-strip {
+  min-height: 106px;
+  height: auto;
+  margin-bottom: 20px;
+  padding: 24px !important;
+  border: 1px solid #345A42 !important;
+  border-radius: 16px;
+  background: linear-gradient(90deg, #173C2BDE 0%, #173C2BBF 58%, #173C2B88 100%), url('../img/garden-sky.jpg') center 48% / cover !important;
+  box-shadow: none !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-photo-strip::before { background: none !important; }
+body.admin-body.botanical-edition.workspace-page .admin-photo-strip :is(span, small, h1, p, .eyebrow, .reports-hero-kicker) { color: #F5F8F0 !important; text-shadow: none !important; }
+body.admin-body.botanical-edition.workspace-page .admin-photo-strip .reports-workspace-tag { background: #E0ECD8 !important; color: #234333 !important; }
+body.admin-body.botanical-edition.workspace-page .desk-kpis { gap: 14px; margin-block: 20px; }
+body.admin-body.botanical-edition.workspace-page .admin-content .kpi-card {
+  min-height: 116px;
+  padding: 20px !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 16px;
+  background: var(--color-surface) !important;
+  box-shadow: 0 4px 18px #263D3107 !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-content .kpi-card::before,
+body.admin-body.botanical-edition.workspace-page .admin-content .kpi-card::after { display: none !important; background: none !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content .kpi-card :is(small, p, span) { color: var(--color-text-secondary) !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content .kpi-card strong { color: var(--color-primary) !important; font-size: 28px; }
+body.admin-body.botanical-edition.workspace-page .admin-content .kpi-card i { background: var(--color-green) !important; }
+body.admin-body.botanical-edition.workspace-page :is(.table-product img, .product-image-card img) {
+  object-fit: contain !important;
+  object-position: center;
+  background: #F0F3EB;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+}
+body.admin-body.botanical-edition.workspace-page .product-image-card img { width: 100%; height: 150px; }
+body.admin-body.botanical-edition.workspace-page .product-image-card { overflow: hidden; padding: 12px; }
+body.admin-body.botanical-edition.workspace-page .product-image-gallery { gap: 14px; }
+body.admin-body.botanical-edition.workspace-page :is(.admin-title h1, .admin-content h2, .admin-content h3) { color: var(--color-primary) !important; }
+body.admin-body.botanical-edition.workspace-page :is(.admin-title p, .desk-intro p, .dashboard-footer-note) { color: var(--color-text-secondary) !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content :is(input.control, input[type='search'], select.control, textarea.control) {
+  background: var(--color-surface) !important;
+  color: var(--color-text) !important;
+  border: 1px solid #A5B49D !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-content :is(input, textarea)::placeholder { color: #62705E !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content :is(input, select, textarea):focus { outline: 2px solid #356C4966; outline-offset: 2px; }
+body.admin-body.botanical-edition.workspace-page .admin-content th { background: #EDF2E8 !important; color: #465943 !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content td { background: #FFFFFF !important; color: var(--color-text) !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content tbody tr:hover td { background: #F1F6EC !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content :is(.btn, button) { border-radius: 10px !important; box-shadow: none !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content .btn.secondary { border: 1px solid #A5B49D !important; }
+body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) { border-radius: 18px !important; border-color: var(--color-border) !important; background: #FFFFFF !important; color: var(--color-text) !important; }
+@media (min-width: 901px) and (max-height: 740px) {
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar { gap: 14px; padding: 18px 16px 14px !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar nav { gap: 2px; }
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar nav a { min-height: 36px; padding: 8px 10px !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-navigation > .eyebrow { padding-bottom: 8px !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar .admin-bottom { padding-top: 10px; }
+}
+@media (min-width: 901px) and (max-height: 560px) {
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar { position: relative !important; height: auto !important; min-height: 100dvh; }
+}
+@media (max-width: 900px) {
+  body.admin-body.botanical-edition.workspace-page .admin-shell { display: block; grid-template-columns: minmax(0, 1fr) !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar {
+    position: relative !important;
+    height: auto !important;
+    min-height: 68px;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0;
+    padding: 12px 18px !important;
+  }
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar .admin-menu-toggle { color: #F5F8F0 !important; background: #355740 !important; border-color: #6B8565 !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-menu-bars span { background: #E0ECD8 !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar .admin-navigation { margin-top: 12px; border-color: #54715B; }
+  body.admin-body.botanical-edition.workspace-page .admin-sidebar .admin-bottom { margin-top: 12px; }
+  body.admin-body.botanical-edition.workspace-page .admin-content { padding: 18px 16px 32px !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-title { padding: 18px !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-photo-strip { min-height: 96px; padding: 20px !important; }
+  body.admin-body.botanical-edition.workspace-page .admin-photo-strip.reports-hero { flex-wrap: wrap; }
+}
+body.admin-body.botanical-edition.workspace-page .admin-photo-strip { background-color: #234333 !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content .desk-date { background: var(--color-cream) !important; color: #465943 !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content .overview-section { padding: 22px; margin-block: 20px; }
+body.admin-body.botanical-edition.workspace-page :is(.desk-intro h1, .kpi-card strong, .admin-title h1) { font-family: 'Manrope', 'DM Sans', sans-serif !important; }
+@media (max-width: 520px) {
+  body.admin-body.botanical-edition.workspace-page .admin-content .overview-section { padding: 16px; }
+}
+/* Photographic page introductions and legible charts/popovers. */
+body.admin-body.botanical-edition.workspace-page :is(.admin-title, .desk-intro) {
+  background: linear-gradient(90deg, #173C2BE8, #173C2BA6), #234333 url('../img/garden-sky.jpg') center 48% / cover !important;
+  background-color: #234333 !important;
+  border-color: #42674B !important;
+}
+body.admin-body.botanical-edition.workspace-page :is(.admin-title, .desk-intro) :is(h1, p, .eyebrow, .season-mark) { color: #F5F8F0 !important; text-shadow: 0 1px 4px #122A2140; }
+body.admin-body.botanical-edition.workspace-page :is(.admin-title, .desk-intro) .btn { background: #E0ECD8 !important; color: #234333 !important; }
+body.admin-body.botanical-edition.workspace-page :is(.admin-title, .desk-intro) .btn:hover { background: #F5F8F0 !important; color: #234333 !important; }
+body.admin-body.botanical-edition.workspace-page :is(.admin-title, .desk-intro) .btn :is(span, strong) { color: inherit !important; }
+body.admin-body.botanical-edition.workspace-page .overview-canvas-wrap { height: 300px; min-height: 300px; }
+body.admin-body.botanical-edition.workspace-page .chart-category .overview-canvas-wrap { height: 360px; min-height: 360px; }
+body.admin-body.botanical-edition.workspace-page .overview-chart-card { min-width: 0; }
+body.admin-body.botanical-edition.workspace-page .overview-chart-card :is(h2, .eyebrow, .overview-chart-note) { text-shadow: none !important; }
+body.admin-body.botanical-edition.workspace-page .overview-chart-note { color: #526253 !important; }
+body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) {
+  --popup-surface: #FFFFFF;
+  --popup-surface-raised: #EDF2E8;
+  --popup-text: #263D31;
+  --popup-muted: #526253;
+  --popup-border: #D7DFD3;
+  color-scheme: light;
+}
+body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal)::backdrop { background: #10271EB3 !important; }
+body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) :is(h2, h3, strong, .overview-item-name strong) { color: #284E3C !important; }
+body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) :is(p, label, small, .summary-row, .overview-quantity) { color: #526253 !important; }
+body.admin-body.botanical-edition.workspace-page .popover :is(input:not([type='checkbox']):not([type='radio']), select, textarea, .field, .image-input-row) { background: #FFFFFF !important; color: #263D31 !important; border-color: #A5B49D !important; color-scheme: light; }
+body.admin-body.botanical-edition.workspace-page .popover :is(input, textarea)::placeholder { color: #62705E !important; }
+body.admin-body.botanical-edition.workspace-page :is(.popover-top, .overview-modal-head) { background: #FFFFFF !important; border-color: #D7DFD3 !important; }
+body.admin-body.botanical-edition.workspace-page :is(.popover, .overview-modal) :is(.icon-btn, .overview-modal-close) { background: #EDF2E8 !important; color: #284E3C !important; border-color: #A5B49D !important; }
+body.admin-body.botanical-edition.workspace-page .popover .product-image-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr)); }
+body.admin-body.botanical-edition.workspace-page .popover :is(.summary-row, .image-input-row) { overflow-wrap: anywhere; }
+@media (max-width: 520px) {
+  body.admin-body.botanical-edition.workspace-page .overview-canvas-wrap { height: 310px; min-height: 310px; }
+  body.admin-body.botanical-edition.workspace-page .chart-category .overview-canvas-wrap { height: 410px; min-height: 410px; }
+  body.admin-body.botanical-edition.workspace-page .popover { padding: 20px !important; }
+  body.admin-body.botanical-edition.workspace-page .popover-top { top: -20px; margin: -20px -20px 18px !important; padding: 16px 20px !important; }
+  body.admin-body.botanical-edition.workspace-page .popover .form-grid { grid-template-columns: minmax(0, 1fr) !important; }
+}
+body.admin-body.botanical-edition.workspace-page .admin-sidebar { background-color: #173C2B !important; }
+body.admin-body.botanical-edition.workspace-page .admin-content .overview-show-all {
+  min-height: 40px;
+  padding: 8px 12px;
+  background: #EDF2E8 !important;
+  color: #284E3C !important;
+  border: 1px solid #A5B49D !important;
+}
+body.admin-body.botanical-edition.workspace-page .admin-content .overview-show-all:hover { background: #E0ECD8 !important; }
+body.admin-body.botanical-edition.workspace-page .admin-sidebar::before { display: none !important; }
+@media (max-width: 640px) {
+  body.admin-body.botanical-edition.workspace-page.admin-profile .panel > .flex.between { flex-wrap: wrap; gap: 18px; }
+  body.admin-body.botanical-edition.workspace-page.admin-profile .profile-actions { width: 100%; flex-wrap: wrap; gap: 10px; }
+  body.admin-body.botanical-edition.workspace-page.admin-profile .profile-actions .btn { flex: 1 1 120px; min-width: 0; justify-content: center; }
+  body.admin-body.botanical-edition.workspace-page.admin-profile .panel > .flex.between > .flex { min-width: 0; overflow-wrap: anywhere; }
+}
+body.admin-body.botanical-edition.workspace-page .table-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+body.admin-body.botanical-edition.workspace-page .table-actions .table-button {
+  min-height: 40px;
+  padding: 8px 12px !important;
+  line-height: 1.4;
+  border: 1px solid #284E3C !important;
+  text-decoration: none;
+}
+body.admin-body.botanical-edition.workspace-page .table-actions :is([popovertarget^='delete-'], form .table-button) { background: #A63F2D !important; border-color: #A63F2D !important; color: #FFFFFF !important; }
+body.admin-body.botanical-edition.workspace-page .table-actions :is([popovertarget^='delete-'], form .table-button):hover { background: #873020 !important; }
+body.admin-body.botanical-edition.workspace-page .table-actions .delete-button { background: #A63F2D !important; border-color: #A63F2D !important; color: #FFFFFF !important; }
+@media (min-width: 901px) {
+  body.admin-body.botanical-edition.workspace-page.admin-reviews form.admin-search {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(140px, 190px) auto auto;
+    max-width: none;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  body.admin-body.botanical-edition.workspace-page.admin-reviews form.admin-search :is(input, select) { width: 100%; min-width: 0; }
+}
+body.admin-body.botanical-edition.workspace-page .popover[id^='delete-'] button[type='submit'] { background: #A63F2D !important; color: #FFFFFF !important; border-color: #A63F2D !important; }
+body.admin-body.botanical-edition.workspace-page .popover[id^='delete-'] button[type='submit']:hover { background: #873020 !important; }

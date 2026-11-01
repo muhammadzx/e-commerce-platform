@@ -28,7 +28,7 @@ require_once __DIR__ . '/../../../config/paths.php';
 
     .hidden-label {
       margin-left: 8px;
-      font-size: 11px;
+      font-size: 13px;
     }
 
     .table-actions {
@@ -204,7 +204,7 @@ require_once __DIR__ . '/../../../config/paths.php';
                 <td data-label="Item">Organic Care Collection</td>
 
                 <td data-label="Type">
-                  <span class="pill">Collection</span>
+                  <span class="pill">Package</span>
                 </td>
 
                 <td data-label="Customer">Yasmin Samir</td>
@@ -278,7 +278,7 @@ require_once __DIR__ . '/../../../config/paths.php';
       <button class="icon-btn" popovertarget="view-6" popovertargetaction="hide" aria-label="Close window">×</button>
     </div>
 
-    <div class="summary-row"><span>Collection</span><span>Organic Care Collection</span></div>
+    <div class="summary-row"><span>Package</span><span>Organic Care Collection</span></div>
     <div class="summary-row"><span>Customer</span><span>Yasmin Samir</span></div>
     <div class="summary-row"><span>Rating</span><span class="rating">★★★★☆</span></div>
     <div class="summary-row"><span>From order</span><span>#6</span></div>

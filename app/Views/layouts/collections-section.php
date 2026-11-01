@@ -41,7 +41,7 @@ $cxImage = static function (?string $path): string {
         : '';
 };
 ?>
-<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">
+<link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=2'), ENT_QUOTES, 'UTF-8') ?>">
 <meta name="cart-csrf" content="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
 <section class="section bundles-section" id="bundles" aria-labelledby="bundles-title">
   <div class="container">
@@ -58,7 +58,7 @@ $cxImage = static function (?string $path): string {
       <?php foreach ($cxCollections as $collection): ?>
         <?php
         $count = count($collection['products']);
-        $image = $cxImage($collection['image'] ?? null);
+        $image = $cxImage($collection['image'] ?? null) ?: $cxImage($collection['fallback_image'] ?? null);
         $inStock = (int) $collection['available_sets'] > 0;
         $saving = (float) $collection['saving'];
         ?>

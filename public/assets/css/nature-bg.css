@@ -14,8 +14,8 @@
     pointer-events: none;
 
     background:
-        radial-gradient(80% 60% at 8% 0%, #235347 0%, rgba(35, 83, 71, 0) 65%),
-        linear-gradient(180deg, #0b2b26 0%, #051f20 100%);
+        radial-gradient(80% 60% at 8% 0%, #F8D9AE 0%, rgba(255, 217, 160, 0) 65%),
+        linear-gradient(180deg, #fff3de 0%, #FFF9EF 100%);
 }
 
 /* Page content sits above the background */
@@ -109,22 +109,22 @@
 
     background: conic-gradient(
         from 92deg at 4% -6%,
-        rgba(218, 241, 222, 0)    0deg,
-        rgba(218, 241, 222, 0.16) 4deg,
-        rgba(218, 241, 222, 0)    9deg,
-        rgba(218, 241, 222, 0)    14deg,
-        rgba(218, 241, 222, 0.22) 18deg,
-        rgba(218, 241, 222, 0)    24deg,
-        rgba(218, 241, 222, 0)    30deg,
-        rgba(218, 241, 222, 0.14) 34deg,
-        rgba(218, 241, 222, 0)    40deg,
-        rgba(218, 241, 222, 0)    47deg,
-        rgba(218, 241, 222, 0.20) 52deg,
-        rgba(218, 241, 222, 0)    58deg,
-        rgba(218, 241, 222, 0)    64deg,
-        rgba(218, 241, 222, 0.12) 69deg,
-        rgba(218, 241, 222, 0)    75deg,
-        rgba(218, 241, 222, 0)    90deg
+        rgba(255, 196, 110, 0)    0deg,
+        rgba(255, 196, 110, 0.16) 4deg,
+        rgba(255, 196, 110, 0)    9deg,
+        rgba(255, 196, 110, 0)    14deg,
+        rgba(255, 196, 110, 0.22) 18deg,
+        rgba(255, 196, 110, 0)    24deg,
+        rgba(255, 196, 110, 0)    30deg,
+        rgba(255, 196, 110, 0.14) 34deg,
+        rgba(255, 196, 110, 0)    40deg,
+        rgba(255, 196, 110, 0)    47deg,
+        rgba(255, 196, 110, 0.20) 52deg,
+        rgba(255, 196, 110, 0)    58deg,
+        rgba(255, 196, 110, 0)    64deg,
+        rgba(255, 196, 110, 0.12) 69deg,
+        rgba(255, 196, 110, 0)    75deg,
+        rgba(255, 196, 110, 0)    90deg
     );
 
     animation: rays-breathe 10s ease-in-out infinite alternate;
@@ -138,22 +138,22 @@
 
     background: conic-gradient(
         from 98deg at 4% -6%,
-        rgba(218, 241, 222, 0)    0deg,
-        rgba(218, 241, 222, 0.10) 7deg,
-        rgba(218, 241, 222, 0)    13deg,
-        rgba(218, 241, 222, 0)    22deg,
-        rgba(218, 241, 222, 0.14) 27deg,
-        rgba(218, 241, 222, 0)    33deg,
-        rgba(218, 241, 222, 0)    40deg,
-        rgba(218, 241, 222, 0.09) 44deg,
-        rgba(218, 241, 222, 0)    50deg,
-        rgba(218, 241, 222, 0)    57deg,
-        rgba(218, 241, 222, 0.13) 61deg,
-        rgba(218, 241, 222, 0)    67deg,
-        rgba(218, 241, 222, 0)    76deg,
-        rgba(218, 241, 222, 0.08) 80deg,
-        rgba(218, 241, 222, 0)    86deg,
-        rgba(218, 241, 222, 0)    90deg
+        rgba(255, 196, 110, 0)    0deg,
+        rgba(255, 196, 110, 0.10) 7deg,
+        rgba(255, 196, 110, 0)    13deg,
+        rgba(255, 196, 110, 0)    22deg,
+        rgba(255, 196, 110, 0.14) 27deg,
+        rgba(255, 196, 110, 0)    33deg,
+        rgba(255, 196, 110, 0)    40deg,
+        rgba(255, 196, 110, 0.09) 44deg,
+        rgba(255, 196, 110, 0)    50deg,
+        rgba(255, 196, 110, 0)    57deg,
+        rgba(255, 196, 110, 0.13) 61deg,
+        rgba(255, 196, 110, 0)    67deg,
+        rgba(255, 196, 110, 0)    76deg,
+        rgba(255, 196, 110, 0.08) 80deg,
+        rgba(255, 196, 110, 0)    86deg,
+        rgba(255, 196, 110, 0)    90deg
     );
 
     animation: rays-breathe 15s ease-in-out infinite alternate-reverse;
@@ -171,10 +171,10 @@
     will-change: transform, opacity;
 
     background:
-        radial-gradient(280px 150px at 46% 30%, rgba(218, 241, 222, 0.15), rgba(218, 241, 222, 0) 70%),
-        radial-gradient(230px 130px at 72% 58%, rgba(218, 241, 222, 0.12), rgba(218, 241, 222, 0) 70%),
-        radial-gradient(320px 170px at 30% 78%, rgba(218, 241, 222, 0.10), rgba(218, 241, 222, 0) 70%),
-        radial-gradient(190px 110px at 88% 22%, rgba(218, 241, 222, 0.10), rgba(218, 241, 222, 0) 70%);
+        radial-gradient(280px 150px at 46% 30%, rgba(255, 196, 110, 0.15), rgba(255, 196, 110, 0) 70%),
+        radial-gradient(230px 130px at 72% 58%, rgba(255, 196, 110, 0.12), rgba(255, 196, 110, 0) 70%),
+        radial-gradient(320px 170px at 30% 78%, rgba(255, 196, 110, 0.10), rgba(255, 196, 110, 0) 70%),
+        radial-gradient(190px 110px at 88% 22%, rgba(255, 196, 110, 0.10), rgba(255, 196, 110, 0) 70%);
 
     animation: glints-drift 12s ease-in-out infinite alternate;
 }

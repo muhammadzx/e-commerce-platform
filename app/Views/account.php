@@ -17,10 +17,10 @@ foreach (array_slice(preg_split('/\s+/', trim((string) $account['full_name'])) ?
     <link rel="icon" href="<?= $u('assets/img/favicon.svg') ?>" type="image/svg+xml">
     <link rel="stylesheet" href="<?= $u('assets/css/style.css') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/shared.css') ?>">
-    <link rel="stylesheet" href="<?= $u('assets/css/nature-bg.css') ?>">
+    <link rel="stylesheet" href="<?= $u('assets/css/nature-bg.css?v=2') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/nabta-theme.css') ?>">
     <!-- These two stay LAST so they win over the older sheets -->
-    <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=1') ?>">
+    <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=2') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/account.css?v=4') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>

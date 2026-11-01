@@ -1,19 +1,19 @@
 /* Cart, checkout and bag icon. Loaded after nabta-theme.css. */
 
 :root {
-    --cx-card: rgba(22, 56, 50, 0.74);
-    --cx-card-line: rgba(142, 182, 155, 0.28);
-    --cx-field: #12241b;
-    --cx-text: #daf1de;
-    --cx-muted: #8eb69b;
-    --cx-lime: #d4f27b;
-    --cx-mint: #a5e8a6;
-    --cx-ink: #15231a;
+    --cx-card: rgba(255, 254, 250, 0.74);
+    --cx-card-line: rgba(232, 213, 184, 0.28);
+    --cx-field: #FFFEFA;
+    --cx-text: #34452F;
+    --cx-muted: #82765B;
+    --cx-lime: #3B9B63;
+    --cx-mint: #3B9B63;
+    --cx-ink: #FFFEFA;
 }
 
 .cx-body {
     min-height: 100vh;
-    background: var(--nabta-1, #051f20);
+    background: var(--nabta-1, #FFF9EF);
     color: var(--cx-text);
     font-family: "Manrope", "DM Sans", system-ui, sans-serif;
 }
@@ -58,7 +58,7 @@
     color: var(--cx-muted);
     font-weight: 600;
     letter-spacing: 0.2em;
-    font-size: 11px;
+    font-size: 13px;
 }
 
 .cx-top-links {
@@ -106,7 +106,7 @@
     padding: 32px;
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+    box-shadow: 0 24px 60px rgba(70, 58, 36, 0.22);
 }
 
 .cx-card h2 {
@@ -135,7 +135,7 @@
     height: 150px;
     border-radius: 18px;
     overflow: hidden;
-    background: #eef3ee;
+    background: #34452F;
 }
 
 .cx-line-img img {
@@ -149,8 +149,8 @@
     display: grid;
     place-items: center;
     height: 100%;
-    color: #4d6b57;
-    font-size: 11px;
+    color: #4F5945;
+    font-size: 13px;
     letter-spacing: 0.15em;
 }
 
@@ -169,7 +169,7 @@
 .cx-line-meta {
     margin: 0 0 14px;
     color: var(--cx-muted);
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .cx-qty {
@@ -180,7 +180,7 @@
     border: 1px solid var(--cx-card-line);
     background: var(--cx-field);
     color: var(--cx-text);
-    font: 600 17px "Manrope", "DM Sans", sans-serif;
+    font: 600 18px "Manrope", "DM Sans", sans-serif;
 }
 
 .cx-line-side {
@@ -192,7 +192,7 @@
 }
 
 .cx-line-price {
-    font-size: 22px;
+    font-size: 20px;
     letter-spacing: -0.02em;
 }
 
@@ -242,7 +242,7 @@
     font: 700 16px "Manrope", "DM Sans", sans-serif;
     text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 14px 34px rgba(165, 232, 166, 0.22);
+    box-shadow: 0 14px 34px rgba(47, 158, 90, 0.22);
     transition: transform 0.2s, filter 0.2s;
 }
 
@@ -281,7 +281,7 @@
     gap: 16px;
     padding: 18px 0;
     border-bottom: 1px solid var(--cx-card-line);
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .cx-row:last-of-type {
@@ -290,11 +290,11 @@
 
 .cx-row-total {
     padding-top: 22px;
-    font-size: 26px;
+    font-size: 24px;
 }
 
 .cx-row-total strong {
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 500;
     letter-spacing: -0.03em;
 }
@@ -342,7 +342,7 @@
 
 .cx-field label {
     color: var(--cx-muted);
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .cx-field input,
@@ -354,7 +354,7 @@
     border: 1px solid var(--cx-card-line);
     background: var(--cx-field);
     color: var(--cx-text);
-    font: 500 17px "Manrope", "DM Sans", sans-serif;
+    font: 500 18px "Manrope", "DM Sans", sans-serif;
 }
 
 .cx-field input:focus,
@@ -367,7 +367,7 @@
 .cx-form-error {
     grid-column: 1 / -1;
     margin: 0;
-    color: #ffb4a8;
+    color: #B84E3A;
     min-height: 1em;
 }
 
@@ -385,7 +385,7 @@
     height: 88px;
     border-radius: 12px;
     object-fit: cover;
-    background: #eef3ee;
+    background: #34452F;
 }
 
 .cx-pick strong {
@@ -397,7 +397,7 @@
 
 .cx-pick span {
     color: var(--cx-muted);
-    font-size: 15px;
+    font-size: 16px;
 }
 
 /* ---------- Empty basket ---------- */
@@ -421,7 +421,7 @@
     display: none;
     place-items: center;
     padding: 20px;
-    background: rgba(2, 12, 10, 0.72);
+    background: rgba(70, 58, 36, 0.18);
     backdrop-filter: blur(6px);
 }
 
@@ -433,16 +433,16 @@
     width: min(560px, 100%);
     max-height: 90vh;
     overflow: auto;
-    background: #0e2a24;
+    background: #FFFEFA;
     border: 1px solid var(--cx-card-line);
     border-radius: 28px;
     padding: 34px;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 30px 80px rgba(70, 58, 36, 0.22);
 }
 
 .cx-dialog h3 {
     margin: 0 0 6px;
-    font-size: 34px;
+    font-size: 38px;
     font-weight: 500;
     letter-spacing: -0.03em;
 }
@@ -466,7 +466,7 @@
     display: flex;
     justify-content: space-between;
     gap: 18px;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 .cx-review dt {
@@ -499,7 +499,7 @@
     border-radius: 50%;
     background: linear-gradient(90deg, var(--cx-lime), var(--cx-mint));
     color: var(--cx-ink);
-    font-size: 34px;
+    font-size: 38px;
 }
 
 /* ---------- Bag icon + toast (shop pages) ---------- */
@@ -514,7 +514,7 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(11, 43, 38, 0.88);
+    background: rgba(255, 243, 222, 0.88);
     border: 1px solid var(--cx-card-line);
     color: var(--cx-text);
     backdrop-filter: blur(8px);
@@ -540,7 +540,7 @@
     border-radius: 11px;
     background: var(--cx-lime);
     color: var(--cx-ink);
-    font: 800 12px/22px "Manrope", sans-serif;
+    font: 800 13px/22px "Manrope", sans-serif;
     text-align: center;
 }
 
@@ -557,11 +557,11 @@
     gap: 16px;
     padding: 14px 22px;
     border-radius: 999px;
-    background: #0e2a24;
+    background: #FFFEFA;
     border: 1px solid var(--cx-card-line);
     color: var(--cx-text);
-    font: 600 15px "Manrope", "DM Sans", sans-serif;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+    font: 600 16px "Manrope", "DM Sans", sans-serif;
+    box-shadow: 0 18px 40px rgba(70, 58, 36, 0.22);
     transition: opacity 0.25s, transform 0.25s;
 }
 
@@ -610,7 +610,7 @@
 
     .cx-steps {
         gap: 14px;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .cx-dialog-actions {

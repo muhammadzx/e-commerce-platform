@@ -115,10 +115,10 @@ class AIReportController
                 ],
                 'summary' => $summary,
                 'products' => $items['products'],
-                'collections' => $items['collections'],
+                'packages' => $items['collections'],
                 'verified_calculations' => [
                     'product_sales_total' => round($productSalesTotal, 2),
-                    'collection_sales_total' => round($collectionSalesTotal, 2),
+                    'package_sales_total' => round($collectionSalesTotal, 2),
                     'itemized_sales_total' => $itemizedSalesTotal,
                     'completed_orders_sales_total' => round($orderSalesTotal, 2),
                     'reconciliation_difference' => $difference

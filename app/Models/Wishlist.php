@@ -87,7 +87,7 @@ class Wishlist
             $row['available'] = $row['collection_status'] === 'active'
                 && $base !== null
                 && (int) $row['unavailable_parts'] === 0;
-            $row['category'] = 'Collection';
+            $row['category'] = 'Package';
         } else {
             $row['price'] = (float) $row['product_price'];
             $row['discount_label'] = '';
@@ -107,6 +107,17 @@ class Wishlist
         $stmt->execute([":user" => $userId, ":pro" => $productId]);
 
         return (int) $stmt->fetchColumn() > 0;
+    }
+
+    // Ids of the products saved by a user (used to fill the hearts on the shop page)
+    public function productIds(int $userId): array
+    {
+        $stmt = $this->conn->prepare(
+            "SELECT pro_id FROM wishlist WHERE user_id = :user AND pro_id IS NOT NULL"
+        );
+        $stmt->execute([":user" => $userId]);
+
+        return array_map('intval', $stmt->fetchAll(PDO::FETCH_COLUMN));
     }
 
     public function productExists(int $productId): bool
@@ -153,7 +164,7 @@ class Wishlist
         $sql = "SELECT COALESCE(SUM(ci.quantity), 0) ";
         $sql .= "FROM cart c ";
         $sql .= "INNER JOIN cart_items ci ON ci.cart_id = c.cart_id ";
-        $sql .= "WHERE c.user_id = :user AND c.status = 'pending'";
+        $sql .= "WHERE c.user_id = :user AND c.status = 'cart'";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([":user" => $userId]);
@@ -162,7 +173,7 @@ class Wishlist
     }
 
     // Puts one unit of a wishlist item into the user's basket.
-    // The basket is the user's cart row with status 'pending'.
+    // The basket is the user's cart row with status 'cart'.
     // $item must come from findForUser() so the price is the server's price.
     // Returns [true|false, message].
     public function addToBasket(int $userId, array $item): array
@@ -232,7 +243,7 @@ class Wishlist
     {
         $stmt = $this->conn->prepare(
             "SELECT cart_id FROM cart
-             WHERE user_id = :user AND status = 'pending'
+             WHERE user_id = :user AND status = 'cart'
              ORDER BY cart_id DESC LIMIT 1"
         );
         $stmt->execute([":user" => $userId]);
@@ -245,7 +256,7 @@ class Wishlist
         // The address is required by the table, it is filled in at checkout
         $stmt = $this->conn->prepare(
             "INSERT INTO cart (user_id, delivery_address_at_order, status, total_price, delivery_fee)
-             VALUES (:user, '', 'pending', 0, 0)"
+             VALUES (:user, '', 'cart', 0, 0)"
         );
         $stmt->execute([":user" => $userId]);
 

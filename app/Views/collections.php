@@ -8,32 +8,32 @@ $cxLimit = PHP_INT_MAX;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Collections | NABTA Botanical</title>
+    <title>Packages | NABTA Botanical</title>
     <meta name="description" content="Thoughtfully paired sets of plants, pots, soil and tools from Nabta.">
     <link rel="icon" href="<?= $u('assets/img/favicon.svg') ?>" type="image/svg+xml">
     <link rel="stylesheet" href="<?= $u('assets/css/style.css') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/shared.css') ?>">
-    <link rel="stylesheet" href="<?= $u('assets/css/nature-bg.css') ?>">
+    <link rel="stylesheet" href="<?= $u('assets/css/nature-bg.css?v=2') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/nabta-theme.css') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/bundlesLandingPage.css?v=11') ?>">
     <!-- Cart styles stay LAST so they win over the older sheets -->
-    <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=1') ?>">
+    <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=2') ?>">
     <style>
         /* The card colours come from sheets this page does not load, so set them here */
         .collections-page .bundle-card {
-            background: rgba(22, 56, 50, 0.78);
-            border: 1px solid rgba(142, 182, 155, 0.3);
+            background: rgba(255, 254, 250, 0.94);
+            border: 1px solid #E8D5B8;
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 28px rgba(70, 58, 36, 0.08);
         }
 
         .collections-page .bundle-card:hover {
-            border-color: rgba(212, 242, 123, 0.55);
+            border-color: #3B9B63;
         }
 
         .collections-page .bundle-photo {
-            background: linear-gradient(160deg, #1d5446, #0f3029);
+            background: linear-gradient(160deg, #FFF3DE, #F8D9AE);
         }
     </style>
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">

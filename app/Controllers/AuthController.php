@@ -12,10 +12,18 @@ final class AuthController
         $this->users = new User($db);
     }
 
+    // Admins land on the dashboard after signing in; everyone else on the storefront
+    private static function homeUrlFor(string $role): string
+    {
+        require_once __DIR__ . '/../../config/paths.php';
+
+        return $role === 'admin' ? nabta_public_url('admin/dashboard.php') : 'index.php';
+    }
+
     public function login(): void
     {
         if (is_authenticated()) {
-            header('Location: index.php');
+            header('Location: ' . self::homeUrlFor((string) ($_SESSION['role'] ?? '')));
             exit;
         }
 
@@ -56,7 +64,7 @@ final class AuthController
                         $_SESSION['role'] = (string) $user['role'];
                         $_SESSION['auth_time'] = time();
                         $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
-                        header('Location: index.php');
+                        header('Location: ' . self::homeUrlFor((string) $user['role']));
                         exit;
                     }
 

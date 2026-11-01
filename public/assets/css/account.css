@@ -43,7 +43,7 @@
     border-radius: 999px;
     border: 1px solid var(--cx-card-line);
     color: var(--cx-mint);
-    font-size: 12px;
+    font-size: 13px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
 }
@@ -77,7 +77,7 @@
 
 .ac-info dd {
     margin: 6px 0 0;
-    font-size: 19px;
+    font-size: 18px;
     word-break: break-word;
 }
 
@@ -107,13 +107,13 @@
 }
 
 .ac-flash.success {
-    border-color: rgba(165, 232, 166, 0.6);
+    border-color: rgba(47, 158, 90, 0.6);
     color: var(--cx-mint);
 }
 
 .ac-flash.error {
-    border-color: rgba(255, 180, 168, 0.6);
-    color: #ffb4a8;
+    border-color: rgba(217, 67, 43, 0.6);
+    color: #B84E3A;
 }
 
 @media (max-width: 860px) {
@@ -143,7 +143,7 @@
 /* Explicit colours: the older sheets give every th a light background */
 .ac-table th {
     padding: 14px 16px;
-    background: rgba(8, 31, 26, 0.92);
+    background: rgba(255, 249, 239, 0.92);
     color: var(--cx-text);
     font-size: 13px;
     font-weight: 600;
@@ -165,11 +165,11 @@
     vertical-align: top;
     background: transparent;
     color: var(--cx-text);
-    border-bottom: 1px solid rgba(142, 182, 155, 0.14);
+    border-bottom: 1px solid rgba(232, 213, 184, 0.14);
 }
 
 .ac-table tbody tr:hover td {
-    background: rgba(165, 232, 166, 0.08);
+    background: rgba(47, 158, 90, 0.08);
 }
 
 .ac-table tbody tr:last-child td {
@@ -193,7 +193,7 @@
 
 .ac-status-pending {
     color: var(--cx-lime);
-    border-color: rgba(212, 242, 123, 0.5);
+    border-color: rgba(70, 58, 36, 0.5);
 }
 
 .ac-status-shipped {
@@ -203,7 +203,7 @@
 
 .ac-status-completed {
     color: var(--cx-mint);
-    border-color: rgba(165, 232, 166, 0.5);
+    border-color: rgba(47, 158, 90, 0.5);
 }
 
 .ac-empty {
@@ -241,7 +241,7 @@
         content: attr(data-label);
         display: block;
         color: var(--cx-muted);
-        font-size: 12px;
+        font-size: 13px;
         letter-spacing: 0.14em;
         text-transform: uppercase;
     }
@@ -273,8 +273,8 @@
 }
 
 .ac-status-out {
-    color: #ffb4a8;
-    border-color: rgba(255, 180, 168, 0.5);
+    color: #B84E3A;
+    border-color: rgba(217, 67, 43, 0.5);
 }
 
 .ac-link-btn {
@@ -288,7 +288,7 @@
 }
 
 .ac-link-btn:hover {
-    color: #ffb4a8;
+    color: #B84E3A;
 }
 
 .ac-table form {
@@ -313,13 +313,13 @@
     overflow-y: auto;
     border: 1px solid var(--cx-card-line);
     border-radius: 28px;
-    background: #123a33;
+    background: #FFFEFA;
     color: var(--cx-text);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 30px 80px rgba(70, 58, 36, 0.22);
 }
 
 .ac-popover::backdrop {
-    background: rgba(2, 14, 12, 0.66);
+    background: rgba(70, 58, 36, 0.18);
     backdrop-filter: blur(4px);
 }
 
@@ -333,7 +333,7 @@
 
 .ac-popover-top h2 {
     margin: 0;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 500;
     letter-spacing: -0.03em;
 }

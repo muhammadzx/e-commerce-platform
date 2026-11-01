@@ -160,13 +160,13 @@ class Cart
         $parts = $this->getCollectionParts($collectionId);
 
         if (!$parts) {
-            return [false, "This collection is not available."];
+            return [false, "This package is not available."];
         }
 
         $sets = (int) $parts["pricing"]["available_sets"];
 
         if ($sets < 1) {
-            return [false, "This collection is out of stock."];
+            return [false, "This package is out of stock."];
         }
 
         return $this->addLine($userId, "collection_id", $collectionId, $quantity, (float) $parts["pricing"]["price"], $sets);
@@ -230,7 +230,7 @@ class Cart
                 "name" => $parts["collection"]["name"],
                 "price" => $parts["pricing"]["price"],
                 "stock" => $parts["pricing"]["available_sets"],
-                "category" => "Collection",
+                "category" => "Package",
                 "image_url" => $parts["collection"]["image"],
                 "includes" => array_map(
                     static fn(array $p): string => $p["name"] . ((int) $p["quantity"] > 1 ? " × " . (int) $p["quantity"] : ""),
@@ -428,7 +428,7 @@ class Cart
 
                     if (!$parts) {
                         $this->conn->rollBack();
-                        return [false, "A collection in your basket is no longer available. Please update your basket.", null];
+                        return [false, "A package in your basket is no longer available. Please update your basket.", null];
                     }
 
                     $name = $parts["collection"]["name"];

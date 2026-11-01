@@ -17,10 +17,10 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
     <link rel="icon" href="<?= $u('assets/img/favicon.svg') ?>" type="image/svg+xml">
     <link rel="stylesheet" href="<?= $u('assets/css/style.css') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/shared.css') ?>">
-    <link rel="stylesheet" href="<?= $u('assets/css/nature-bg.css') ?>">
+    <link rel="stylesheet" href="<?= $u('assets/css/nature-bg.css?v=2') ?>">
     <link rel="stylesheet" href="<?= $u('assets/css/nabta-theme.css') ?>">
     <!-- Cart styles stay LAST so they win over the older sheets -->
-    <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=1') ?>">
+    <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=2') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="cx-body">

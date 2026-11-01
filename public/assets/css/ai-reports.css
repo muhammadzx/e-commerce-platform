@@ -24,7 +24,7 @@
 .admin-reports .reports-hero-kicker {
     margin-bottom: 9px;
     color: #d4f27b;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .18em;
     text-transform: uppercase;
@@ -57,7 +57,7 @@
     border-radius: 999px;
     background: #e9efdded;
     color: #294a36;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .08em;
     box-shadow: 0 8px 24px #07140e40;
@@ -94,13 +94,13 @@
 .admin-reports .report-form-background h3 {
     margin: 0 0 8px;
     color: #edf3e7 !important;
-    font-size: 19px;
+    font-size: 18px;
 }
 
 .admin-reports .report-form-background > p.small {
     margin: 0 0 15px;
     color: #c2d0bc !important;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .admin-reports .report-generation-form {
@@ -116,7 +116,7 @@
     display: block;
     margin-bottom: 6px;
     color: #e1ead9 !important;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .admin-reports .report-form-background input.control,
@@ -150,7 +150,7 @@
     display: block;
     margin-top: 6px;
     color: #c2d0bc !important;
-    font-size: 11px;
+    font-size: 13px;
 }
 
 .admin-reports .report-form-actions {
@@ -173,7 +173,7 @@
     padding: 11px 14px;
     border: 1px solid transparent;
     border-radius: 11px;
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.5;
 }
 
@@ -267,7 +267,7 @@
 }
 
 .admin-reports .ai-report-content h3 {
-    font-size: 17px;
+    font-size: 18px;
 }
 
 .admin-reports .ai-report-content p,
@@ -351,7 +351,7 @@
     width: fit-content;
     margin: 12px auto 0;
     color: #d4f27b;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
 }
@@ -387,7 +387,7 @@
     border: 1px solid #b8d38c55;
     border-radius: 999px;
     color: #e8f0df;
-    font-size: 11px;
+    font-size: 13px;
     white-space: nowrap;
 }
 
@@ -503,7 +503,7 @@
 
     .admin-reports .reports-history tbody td:not([colspan]):before {
         color: #b8c8ad;
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 700;
         line-height: 1.4;
     }

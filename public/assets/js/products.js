@@ -1,5 +1,20 @@
 const publicBasePath = window.NABTA_PUBLIC_URL || "";
 
+// Signed-in state, saved product ids and the CSRF token for the wishlist hearts
+const wishlistState = fetch(`${publicBasePath}/index.php?api=wishlist-state`, {
+    credentials: "same-origin"
+})
+    .then((response) => response.json())
+    .catch(() => ({ logged_in: false, ids: [], csrf_token: "" }));
+
+function setHeart(button, isActive) {
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+    button.setAttribute(
+        "aria-label",
+        isActive ? "Remove from wishlist" : "Add to wishlist"
+    );
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -126,6 +141,12 @@ wishlistButton.innerHTML = `
 `;
 
 card.appendChild(wishlistButton);
+
+wishlistState.then((state) => {
+    if (state.ids && state.ids.includes(Number(product.pro_id))) {
+        setHeart(wishlistButton, true);
+    }
+});
 
 
 
@@ -711,11 +732,11 @@ document.addEventListener("click", (event) => {
  // WISHLIST HEART - INTEGRATION EVENT
  // ==========================================
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", async (event) => {
 
     const button = event.target.closest(".wishlist-heart");
 
-    if (!button) return;
+    if (!button || button.disabled) return;
 
     const productId = Number(button.dataset.productId);
 
@@ -724,30 +745,40 @@ document.addEventListener("click", (event) => {
         return;
     }
 
-    const isActive = button.classList.toggle("active");
+    const state = await wishlistState;
 
-    button.setAttribute(
-        "aria-pressed",
-        String(isActive)
-    );
+    if (!state.logged_in) {
+        window.location.href = `${publicBasePath}/login.php`;
+        return;
+    }
 
-    button.setAttribute(
-        "aria-label",
-        isActive ? "Remove from wishlist" : "Add to wishlist"
-    );
+    const wasActive = button.classList.contains("active");
 
-    document.dispatchEvent(
-        new CustomEvent("nabta:wishlist-toggle", {
-            detail: {
-                productId,
-                action: isActive ? "add" : "remove"
-            }
-        })
-    );
+    // Show the new state at once, put it back if the server says no
+    setHeart(button, !wasActive);
+    button.disabled = true;
 
-    console.log("Wishlist request:", {
-        productId,
-        action: isActive ? "add" : "remove"
-    });
+    try {
+        const body = new FormData();
+        body.set("pro_id", String(productId));
+        body.set("csrf_token", state.csrf_token || "");
+
+        const response = await fetch(
+            `${publicBasePath}/index.php?api=wishlist-toggle`,
+            { method: "POST", body, credentials: "same-origin" }
+        );
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message || "Wishlist request failed");
+        }
+
+        setHeart(button, Boolean(data.in_wishlist));
+    } catch (error) {
+        console.error("Wishlist error:", error);
+        setHeart(button, wasActive);
+    } finally {
+        button.disabled = false;
+    }
 
 });

@@ -1,5 +1,5 @@
 .contact-result-main { min-height: 55vh; padding-block: clamp(48px, 10vw, 110px); }
 .contact-result-card { max-width: 720px; margin-inline: auto; padding: clamp(24px, 5vw, 48px); }
 .contact-result-card h1 { margin-block: 8px 16px; font-size: clamp(28px, 5vw, 42px); }
-.contact-result-card p { font-size: 17px; line-height: 1.65; }
+.contact-result-card p { font-size: 18px; line-height: 1.65; }
 @media (max-width: 480px) { .contact-result-main { padding-inline: 16px; } .contact-result-card p { font-size: 16px; } }

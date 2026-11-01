@@ -88,7 +88,7 @@ require_once __DIR__ . '/../../../config/paths.php';
       <!-- REVIEWS TABLE -->
       <section class="panel">
 
-        <form class="toolbar" method="get" action="#">
+        <form class="toolbar admin-search" method="get" action="<?= htmlspecialchars(nabta_public_url('admin/reviews.php'), ENT_QUOTES, 'UTF-8') ?>">
           <label class="sr-only" for="search-records">Search reviews</label>
 
           <input
@@ -99,7 +99,7 @@ require_once __DIR__ . '/../../../config/paths.php';
             placeholder="Search by item, customer or text"
           >
 
-          <select class="control" name="rating" aria-label="Filter by rating">
+          <select class="control" id="rating-filter" name="rating" aria-label="Filter by rating">
             <option value="">All ratings</option>
             <option value="5">5 stars</option>
             <option value="4">4 stars</option>
@@ -291,10 +291,29 @@ require_once __DIR__ . '/../../../config/paths.php';
   const reviewsTable = document.getElementById("reviews-table");
   const recordCount = document.getElementById("record-count");
 
+  const searchForm = document.querySelector('.admin-search');
+  const searchInput = document.getElementById('search-records');
+  const ratingFilter = document.getElementById('rating-filter');
+
   function updateCount() {
-    const count = reviewsTable.querySelectorAll("tr").length;
-    recordCount.textContent = `${count} records`;
+    const visibleRows = [...reviewsTable.querySelectorAll('tr')].filter((row) => !row.hidden).length;
+    recordCount.textContent = `${visibleRows} record${visibleRows === 1 ? '' : 's'}`;
   }
+
+  function filterReviews() {
+    const term = searchInput.value.trim().toLocaleLowerCase();
+    const rating = ratingFilter.value;
+    reviewsTable.querySelectorAll('tr').forEach((row) => {
+      const textMatches = row.textContent.toLocaleLowerCase().includes(term);
+      const stars = row.querySelector('.rating')?.textContent.trim().match(/★/g)?.length ?? 0;
+      row.hidden = !textMatches || (rating !== '' && stars !== Number(rating));
+    });
+    updateCount();
+  }
+
+  searchForm.addEventListener('submit', (event) => { event.preventDefault(); filterReviews(); });
+  searchInput.addEventListener('input', filterReviews);
+  ratingFilter.addEventListener('change', filterReviews);
 
   reviewsTable.addEventListener("click", function (event) {
     const button = event.target.closest("button[data-action]");

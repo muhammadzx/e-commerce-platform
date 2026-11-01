@@ -72,7 +72,7 @@ $total = count($orders);
 
                 <section class="panel">
                     <div class="toolbar">
-                        <form method="get" action="<?= $e($formAction) ?>">
+                        <form class="admin-search" method="get" action="<?= $e($formAction) ?>">
                             <label class="sr-only" for="search-records">Search orders</label>
                             <input class="control" id="search-records" name="q" type="search"
                                 placeholder="Search by order #, customer or status" value="<?= $e($search) ?>">

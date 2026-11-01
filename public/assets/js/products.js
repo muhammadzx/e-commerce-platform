@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const searchInput = document.getElementById("product-search");
     const categorySelect = document.getElementById("category-filter");
     const sortSelect = document.getElementById("sort-filter");
+    const requestedCategory = new URLSearchParams(window.location.search).get("category");
 
     // Only run Shop All functionality on the Shop All page
     if (
@@ -413,15 +414,18 @@ card.appendChild(wishlistButton);
                 categorySelect.appendChild(allOption);
 
                 categories.forEach(category => {
-
                     const option = document.createElement("option");
-
                     option.value = category.name;
                     option.textContent = category.name;
-
                     categorySelect.appendChild(option);
                 });
 
+                if (requestedCategory) {
+                    const matchingOption = [...categorySelect.options].find(
+                        option => option.value.toLocaleLowerCase() === requestedCategory.toLocaleLowerCase()
+                    );
+                    if (matchingOption) categorySelect.value = matchingOption.value;
+                }
             } catch (error) {
                 console.error("Categories error:", error);
             }

@@ -21,6 +21,10 @@ $money = static fn($value) => number_format((float) $value, 2) . ' JOD';
 $formAction = nabta_public_url('index.php?page=wishlist');
 $shopUrl = nabta_public_url('index.php?page=products');
 $wishlistUrl = nabta_public_url('index.php?page=wishlist');
+$accountUrl = nabta_public_url('index.php?page=profile');
+$cartUrl = nabta_public_url('index.php?page=cart');
+$logoutUrl = nabta_public_url('logout.php');
+$homeUrl = nabta_public_url('index.php');
 ?>
 <!doctype html>
 <html lang="en">
@@ -170,42 +174,43 @@ $wishlistUrl = nabta_public_url('index.php?page=wishlist');
       .wishlist-page .wishlist-grid{grid-template-columns:1fr}
     }
   </style>
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="botanical-edition wishlist-page">
 <a class="skip" href="#main">Skip to content</a>
 
 <header class="header"><div class="container header-row">
-  <a class="logo" href="<?= $e($shopUrl) ?>" aria-label="Nabta home"><svg class="leaf-logo" viewBox="0 0 36 36" aria-hidden="true"><path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z"/><path d="M8 31 23 12"/></svg>NABTA<span class="logo-sub">BOTANICAL</span></a>
+  <a class="logo" href="<?= $e($homeUrl) ?>" aria-label="Nabta home"><svg class="leaf-logo" viewBox="0 0 36 36" aria-hidden="true"><path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z"/><path d="M8 31 23 12"/></svg>NABTA<span class="logo-sub">BOTANICAL</span></a>
   <nav class="main-nav" aria-label="Main navigation">
     <a href="<?= $e($shopUrl) ?>">Shop all</a>
-    <a href="#">Find your plant ↗</a>
+    <a href="<?= $e($shopUrl) ?>">Find your plant ↗</a>
   </nav>
   <div class="header-actions">
-    <a href="#" aria-label="Search products"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></a>
+    <a href="<?= $e($shopUrl) ?>" aria-label="Search products"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg></a>
     <a href="<?= $e($wishlistUrl) ?>" aria-label="My wishlist"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg></a>
-    <a class="account-link" href="#">My account</a>
-    <a class="account-link register-link" href="#">Sign out</a>
-    <a class="bag-link" href="#" aria-label="Shopping basket"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="bag-count"><?= (int) $basketCount ?></span></a>
+    <a class="account-link" href="<?= $e(nabta_public_url('index.php?page=profile')) ?>">My account</a>
+    <form class="logout-form" action="<?= $e($logoutUrl) ?>" method="post"><input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>"><button class="account-link register-link" type="submit">Sign out</button></form>
+    <a class="bag-link" href="<?= $e(nabta_public_url('index.php?page=cart')) ?>" aria-label="Shopping basket"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14l1 14H4L5 7Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="bag-count"><?= (int) $basketCount ?></span></a>
     <details class="mobile-nav"><summary aria-label="Open navigation">☰</summary><nav>
       <a href="<?= $e($shopUrl) ?>">Shop plants &amp; essentials</a>
-      <a href="#">Plant assistant</a>
-      <a href="#">My account</a>
+      <a href="<?= $e($shopUrl) ?>">Shop plants</a>
+      <a href="<?= $e($accountUrl) ?>">My account</a>
       <a href="<?= $e($wishlistUrl) ?>">My wishlist</a>
-      <a href="#">Sign out</a>
+      <form class="logout-form" action="<?= $e($logoutUrl) ?>" method="post"><input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>"><button type="submit">Sign out</button></form>
     </nav></details>
   </div>
 </div></header>
 
 <main id="main"><div class="container page-main">
-  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="<?= $e($shopUrl) ?>">Home</a><span>/</span><span>My wishlist</span></nav>
+  <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="<?= $e($homeUrl) ?>">Home</a><span>/</span><span>My wishlist</span></nav>
   <div class="page-heading"><div><div class="eyebrow">SAVED FOR LATER</div><h1>Your wishlist.</h1><p>The pieces you love, all in one place.</p></div></div>
 
   <div class="account-layout" style="display:block">
     <div class="flex" style="flex-wrap:wrap;gap:12px;margin-bottom:24px">
-      <a class="btn secondary" href="#">Personal information</a>
-      <a class="btn secondary" href="#">My orders</a>
+      <a class="btn secondary" href="<?= $e($accountUrl) ?>">Personal information</a>
+      <a class="btn secondary" href="<?= $e($accountUrl) ?>#orders">My orders</a>
       <a class="btn" href="<?= $e($wishlistUrl) ?>">My wishlist</a>
-      <a class="btn secondary" href="#">Sign out</a>
+      <form class="logout-form" action="<?= $e($logoutUrl) ?>" method="post"><input type="hidden" name="csrf_token" value="<?= $e($csrfToken) ?>"><button class="btn secondary" type="submit">Sign out</button></form>
     </div>
 
     <section>
@@ -217,7 +222,7 @@ $wishlistUrl = nabta_public_url('index.php?page=wishlist');
         <div class="empty-state">
           <h3>Please sign in</h3>
           <p>Sign in to see the plants and essentials you saved.</p>
-          <a class="btn" href="<?= $e(nabta_public_url('test-login.php')) ?>">Sign in</a>
+          <a class="btn" href="<?= $e(nabta_public_url('login.php')) ?>">Sign in</a>
         </div>
       <?php elseif (!$items): ?>
         <div class="empty-state">
@@ -231,7 +236,7 @@ $wishlistUrl = nabta_public_url('index.php?page=wishlist');
               $wid = (int) $item['wishlist_id'];
               $isCollection = $item['collection_id'] !== null;
               $link = $isCollection
-                  ? '#'
+                  ? nabta_public_url('index.php?page=collections')
                   : nabta_public_url('index.php?page=product&id=' . (int) $item['pro_id']);
               $tag = 'Collection';
               if ($item['discount_label'] !== '') {
@@ -275,15 +280,15 @@ $wishlistUrl = nabta_public_url('index.php?page=wishlist');
 <footer class="footer"><div class="container">
   <div class="footer-grid">
     <div>
-      <a class="logo" href="<?= $e($shopUrl) ?>" aria-label="Nabta home"><svg class="leaf-logo" viewBox="0 0 36 36" aria-hidden="true"><path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z"/><path d="M8 31 23 12"/></svg>NABTA<span class="logo-sub">BOTANICAL</span></a>
+      <a class="logo" href="<?= $e($homeUrl) ?>" aria-label="Nabta home"><svg class="leaf-logo" viewBox="0 0 36 36" aria-hidden="true"><path d="M28 5C9 4 4 15 10 24c8 7 21-2 18-19Z"/><path d="M8 31 23 12"/></svg>NABTA<span class="logo-sub">BOTANICAL</span></a>
       <p>A little nature, closer to home.<br>Plants, thoughtful objects, and everyday growing essentials.</p>
     </div>
     <div><div class="footer-title">GROW YOUR SPACE</div><nav class="footer-links">
       <a href="<?= $e($shopUrl) ?>">Shop the collection</a>
-      <a href="#">Plant assistant</a>
+      <a href="<?= $e($shopUrl) ?>">Shop plants</a>
     </nav></div>
     <div><div class="footer-title">YOUR NABTA</div><nav class="footer-links">
-      <a href="#">My account</a>
+      <a href="<?= $e($accountUrl) ?>">My account</a>
       <a href="<?= $e($wishlistUrl) ?>">My wishlist</a>
     </nav></div>
     <div><div class="footer-title">ROOTED IN THE EVERYDAY</div><p>For windowsills, balconies, and the small corners that make a home.</p></div>

@@ -39,7 +39,7 @@ body.nabta-product-body {
     align-items: center;
     flex-wrap: wrap;
     gap: 16px;
-    padding: 36px 0 48px;
+    padding: 26px 0 18px;
     font-size: 13px;
     color: var(--muted);
     background: none;
@@ -64,7 +64,7 @@ body.nabta-product-body {
     grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr);
     gap: clamp(40px, 6vw, 100px);
     align-items: center;
-    padding: 0 0 110px;
+    /* padding: 0 0 110px; */
     background: none;
     border: 0;
 }
@@ -293,7 +293,6 @@ body.nabta-product-body {
 ========================================== */
 
 .nabta-detail .nd-reviews {
-    padding: 54px 0 90px;
     border-top: 1px solid var(--line);
     background: none;
 }
@@ -643,8 +642,8 @@ body.nabta-product-body {
 /* Customer review form */
 
 .nd-review-form-container {
-    margin-top: 48px;
-    padding: 32px;
+    margin-top: 28px;
+padding:20px;
     background: rgba(255, 254, 250, 0.55);
     border: 1px solid rgba(232, 213, 184, 0.2);
     border-radius: 20px;
@@ -1086,7 +1085,7 @@ body.nabta-product-body {
 /* Frequently Bought Together */
 
 .nd-frequently-bought {
-    padding: 75px 0;
+    padding: 45px 0;
 }
 
 .nd-fbt-grid {

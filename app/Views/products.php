@@ -61,7 +61,7 @@ require_once __DIR__ . '/../../config/paths.php';
         <section class="shop-content">
 
             <div class="section-heading">
-                <p id="product-count"></p>
+                <!-- <p id="product-count"></p> -->
             </div>
 
             <section class="welcome" id="welcome">

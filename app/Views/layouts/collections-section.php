@@ -17,7 +17,8 @@ try {
 }
 
 // The landing page shows only a few sets: the ones in stock first, then the newest
-$cxLimit = 4;
+// (the collections page sets $cxLimit before including this file to show them all)
+$cxLimit = $cxLimit ?? 4;
 
 usort($cxCollections, static fn(array $a, array $b): int =>
     ((int) $b['available_sets'] > 0) <=> ((int) $a['available_sets'] > 0)
@@ -30,9 +31,14 @@ $cxImage = static function (?string $path): string {
         return '';
     }
 
-    return preg_match('~^https?://~i', $path)
-        ? $path
-        : nabta_public_url('assets/img/' . ltrim($path, '/'));
+    if (preg_match('~^https?://~i', $path)) {
+        return $path;
+    }
+
+    // A missing file would show a broken-image icon, so skip it
+    return is_file(__DIR__ . '/../../../public/assets/img/' . ltrim($path, '/'))
+        ? nabta_public_url('assets/img/' . ltrim($path, '/'))
+        : '';
 };
 ?>
 <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">

@@ -28,6 +28,10 @@ switch ($page) {
         $controller->show();
         break;
 
+    case "collections":
+        require __DIR__ . "/../app/Views/collections.php";
+        break;
+
     case "cart":
         $controller = new CartController();
         $controller->show();

@@ -21,7 +21,7 @@ $navFirstName = explode(' ', trim((string) ($_SESSION['full_name'] ?? '')))[0] ?
       <a href="<?= $navUrl('index.php') ?>">Home</a>
       <a href="<?= $navUrl('index.php?page=products') ?>">Shop</a>
       <a href="<?= $navUrl('index.php?page=about') ?>">About Us</a>
-      <a href="<?= $navUrl('index.php?page=products') ?>">Collections</a>
+      <a href="<?= $navUrl('index.php?page=collections') ?>">Collections</a>
     </nav>
 
     <div class="header-actions">
@@ -39,7 +39,7 @@ $navFirstName = explode(' ', trim((string) ($_SESSION['full_name'] ?? '')))[0] ?
         <nav>
           <a href="<?= $navUrl('index.php') ?>">Home</a><a href="<?= $navUrl('index.php?page=products') ?>">Shop</a><a
             href="<?= $navUrl('index.php?page=about') ?>">About us</a><a
-            href="<?= $navUrl('index.php?page=products') ?>">Collections</a><?php if (is_authenticated()): ?><a
+            href="<?= $navUrl('index.php?page=collections') ?>">Collections</a><?php if (is_authenticated()): ?><a
               href="<?= $navUrl('index.php?page=profile') ?>">My account</a>
             <form class="logout-form" action="<?= $navUrl('logout.php') ?>" method="post"><?= csrf_field() ?><button type="submit">Sign
                 out</button></form><?php else: ?><a href="<?= $navUrl('login.php') ?>">Login</a><?php endif; ?>

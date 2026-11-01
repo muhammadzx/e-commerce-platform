@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="assets/css/nabta-theme.css?v=18">
   <link rel="stylesheet" href="assets/css/nabta-theme-copy.css?v=18">
   <link rel="stylesheet" href="assets/css/store-responsive.css?v=20261101">
+  <link rel="stylesheet" href="assets/css/warm-theme.css?v=<?= (int) @filemtime(__DIR__ . '/../../../public/assets/css/warm-theme.css') ?>">
 </head>
 
 <body class="auth-page botanical-edition<?= !empty($isRegister) ? ' is-register' : '' ?>">

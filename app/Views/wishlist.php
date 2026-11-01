@@ -34,7 +34,7 @@ $homeUrl = nabta_public_url('index.php');
   <title>My wishlist | Nabta Botanical</title>
   <meta name="description" content="Your saved plants and essentials at Nabta." />
   <meta name="robots" content="noindex,nofollow" />
-  <meta name="theme-color" content="#c5d4b4" />
+  <meta name="theme-color" content="#FFF9EF" />
   <link rel="icon" href="<?= $e(nabta_public_url('assets/img/favicon.svg')) ?>" type="image/svg+xml">
   <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/shared.css')) ?>">
   <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/style.css')) ?>">
@@ -43,9 +43,9 @@ $homeUrl = nabta_public_url('index.php');
   <style>
     /* ===== Wishlist page only ===== */
     .wishlist-page{
-      --wl-accent:#d5f56b;               /* لون السعر والزر الرئيسي: غيّره من هون */
-      --wl-card:rgba(10,28,20,.62);
-      --wl-border:rgba(255,255,255,.14);
+      --wl-accent:#3B7950;               /* لون السعر والزر الرئيسي: غيّره من هون */
+      --wl-card:#FFFEFA;
+      --wl-border:#E8D5B8;
     }
 
     .wishlist-page .wishlist-grid{
@@ -70,8 +70,8 @@ $homeUrl = nabta_public_url('index.php');
     }
     .wishlist-page .wishlist-card:hover{
       transform:translateY(-4px);
-      border-color:rgba(213,245,107,.55);
-      box-shadow:0 14px 34px rgba(0,0,0,.35);
+      border-color:#3B9B63;
+      box-shadow:0 16px 34px rgba(70,58,36,.13);
     }
 
     /* الصورة: نسبة ثابتة عشان كل الكروت تطلع بنفس الحجم */
@@ -98,11 +98,11 @@ $homeUrl = nabta_public_url('index.php');
       top:12px;
       left:12px;
       padding:6px 12px;
-      font-size:.72rem;
+      font-size:13px;
       font-weight:700;
       letter-spacing:.04em;
-      color:#10231a;
-      background:var(--wl-accent);
+      color:#FFFEFA;
+      background:#34452F;
       border-radius:999px;
     }
 
@@ -116,13 +116,13 @@ $homeUrl = nabta_public_url('index.php');
     }
     .wishlist-page .wishlist-card .product-info h3{
       margin:0;
-      font-size:1.12rem;
+      font-size:18px;
       line-height:1.25;
     }
     .wishlist-page .wishlist-card .product-info h3 a{color:inherit;text-decoration:none}
     .wishlist-page .wishlist-card .product-info p{
       margin:0;
-      font-size:.88rem;
+      font-size:14px;
       opacity:.7;
     }
 
@@ -130,7 +130,7 @@ $homeUrl = nabta_public_url('index.php');
     .wishlist-page .wishlist-card .price{
       display:block;
       margin-top:2px;
-      font-size:1.35rem;
+      font-size:20px;
       font-weight:700;
       line-height:1.2;
       color:var(--wl-accent);
@@ -152,13 +152,13 @@ $homeUrl = nabta_public_url('index.php');
       width:100%;
       min-height:44px;
       padding:0 10px;
-      font-size:.88rem;
+      font-size:14px;
       white-space:nowrap;
       border-radius:999px;
     }
     .wishlist-page .wishlist-actions .btn.secondary:hover{
-      border-color:#ff8a80;
-      color:#ff8a80;
+      border-color:#F36C50;
+      color:#B84E3A;
     }
     .wishlist-page .wishlist-actions .btn:disabled{
       opacity:.5;
@@ -166,14 +166,16 @@ $homeUrl = nabta_public_url('index.php');
     }
 
     /* رسائل النجاح والخطأ */
-    .wishlist-page .flash{margin:0 0 20px;padding:12px 16px;border-radius:12px;font-size:.92rem}
-    .wishlist-page .flash.success{background:rgba(130,152,117,.25);border:1px solid rgba(130,152,117,.6)}
-    .wishlist-page .flash.error{background:rgba(176,80,64,.2);border:1px solid rgba(176,80,64,.6)}
+    .wishlist-page .flash{margin:0 0 20px;padding:12px 16px;border-radius:12px;font-size:16px}
+    .wishlist-page .flash.success{background:#EAF4E9;color:#318253;border:1px solid #3B9B63}
+    .wishlist-page .flash.error{background:#FCEAE5;color:#B84E3A;border:1px solid #F36C50}
 
     @media (max-width:520px){
       .wishlist-page .wishlist-grid{grid-template-columns:1fr}
     }
   </style>
+  <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/site-header.css')) ?>">
+  <link rel="stylesheet" href="<?= $e(nabta_public_url('assets/css/warm-theme.css?v=' . (int) @filemtime(__DIR__ . '/../../public/assets/css/warm-theme.css'))) ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 <body class="botanical-edition wishlist-page">
@@ -238,7 +240,7 @@ $homeUrl = nabta_public_url('index.php');
               $link = $isCollection
                   ? nabta_public_url('index.php?page=collections')
                   : nabta_public_url('index.php?page=product&id=' . (int) $item['pro_id']);
-              $tag = 'Collection';
+              $tag = 'Package';
               if ($item['discount_label'] !== '') {
                   $tag .= ' · -' . $item['discount_label'] . '%';
               }

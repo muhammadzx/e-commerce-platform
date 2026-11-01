@@ -100,7 +100,7 @@ public function getSalesByCategory()
 
     if ($collectionSales > 0) {
         $sales[] = [
-            'category_name' => 'Collections',
+            'category_name' => 'Packages',
             'category_sales' => $collectionSales
         ];
     }
@@ -184,7 +184,7 @@ public function getBestSellingItems()
     $collectionsSql = "SELECT
                            collections.collection_id AS item_id,
                            collections.name AS item_name,
-                           'Collection' AS item_type,
+                           'Package' AS item_type,
                            COALESCE(SUM(
                                CASE
                                    WHEN cart.status = 'completed'

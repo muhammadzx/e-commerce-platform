@@ -91,6 +91,20 @@ class WishlistController
         AdminSupport::redirect($pageUrl);
     }
 
+    // JSON API: who is signed in, their saved product ids and the token the heart buttons send back
+    public function state()
+    {
+        header('Content-Type: application/json; charset=utf-8');
+
+        $userId = $this->currentUserId();
+
+        echo json_encode([
+            'logged_in' => $userId > 0,
+            'ids' => $userId > 0 ? $this->wishlist->productIds($userId) : [],
+            'csrf_token' => AdminSupport::csrfToken()
+        ]);
+    }
+
     // JSON API used by the heart button on the product page
     public function toggle()
     {

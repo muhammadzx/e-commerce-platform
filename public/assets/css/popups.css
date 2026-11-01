@@ -101,7 +101,7 @@ dialog.overview-modal::backdrop {
   border-radius: 50% !important;
   background: transparent !important;
   color: var(--popup-text) !important;
-  font-size: 22px;
+  font-size: 20px;
   line-height: 1;
   cursor: pointer;
 }

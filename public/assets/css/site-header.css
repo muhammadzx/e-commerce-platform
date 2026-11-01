@@ -5,25 +5,25 @@ body:not(.garden-home) .header {
     position: sticky;
     top: 0;
     z-index: 60;
-    background: rgba(5, 31, 32, 0.9);
+    background: rgba(255, 249, 239, 0.94);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(142, 182, 155, 0.22);
-    color: #daf1de;
+    border-bottom: 1px solid #E8D5B8;
+    color: #34452F;
 }
 
 body:not(.garden-home) .header .logo,
 body:not(.garden-home) .header .logo-sub {
-    color: #daf1de;
+    color: #34452F;
 }
 
 body:not(.garden-home) .header .logo-sub {
-    color: #8eb69b;
+    color: #82765B;
 }
 
 body:not(.garden-home) .header .leaf-logo {
     fill: none;
-    stroke: #d4f27b;
+    stroke: #3B9B63;
 }
 
 body:not(.garden-home) .header .main-nav a,
@@ -31,13 +31,13 @@ body:not(.garden-home) .header .header-actions a,
 body:not(.garden-home) .header .account-link,
 body:not(.garden-home) .header .logout-form button,
 body:not(.garden-home) .header .mobile-nav summary {
-    color: #daf1de;
+    color: #34452F;
 }
 
 body:not(.garden-home) .header .main-nav a:hover,
 body:not(.garden-home) .header .header-actions a:hover,
 body:not(.garden-home) .header .logout-form button:hover {
-    color: #d4f27b;
+    color: #294B32;
 }
 
 body:not(.garden-home) .header .icon {
@@ -63,16 +63,16 @@ body:not(.garden-home) .header .bag-link {
 }
 
 body:not(.garden-home) .header .bag-count {
-    background: #d4f27b;
-    color: #15231a;
+    background: #F36C50;
+    color: #fff;
 }
 
 body:not(.garden-home) .header .mobile-nav nav {
-    background: #0b2a27;
-    border: 1px solid rgba(142, 182, 155, 0.28);
+    background: #FFF3DE;
+    border: 1px solid #E8D5B8;
 }
 
 body:not(.garden-home) .header .mobile-nav nav a,
 body:not(.garden-home) .header .mobile-nav nav button {
-    color: #daf1de;
+    color: #34452F;
 }

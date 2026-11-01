@@ -101,6 +101,29 @@ function handleApiRequest()
             $controller->count();
             break;
 
+        // Heart buttons: saved products + token (GET), save / unsave a product (POST)
+        case "wishlist-state":
+        case "wishlist-toggle":
+
+            $expected = $api === "wishlist-state" ? "GET" : "POST";
+
+            if ($_SERVER["REQUEST_METHOD"] !== $expected) {
+                header("Allow: " . $expected);
+                http_response_code(405);
+
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Method not allowed"
+                ]);
+                return;
+            }
+
+            require_once __DIR__ . "/app/Controllers/WishlistController.php";
+
+            $controller = new WishlistController();
+            $api === "wishlist-state" ? $controller->state() : $controller->toggle();
+            break;
+
         // Confirm the order
         case "place-order":
 

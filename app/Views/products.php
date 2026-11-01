@@ -12,10 +12,10 @@ require_once __DIR__ . '/../../config/paths.php';
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/style.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/shared.css'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/product.css'), ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nature-bg.css'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nature-bg.css?v=2'), ENT_QUOTES, 'UTF-8') ?>">
     <!-- Theme must stay LAST so it overrides the colours above -->
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/nabta-theme.css'), ENT_QUOTES, 'UTF-8') ?>">
-    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=1'), ENT_QUOTES, 'UTF-8') ?>">
+    <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/cart.css?v=2'), ENT_QUOTES, 'UTF-8') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
 
@@ -144,7 +144,7 @@ require_once __DIR__ . '/../../config/paths.php';
 
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/nature-bg.js'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 <script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
-<script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=20261101'), ENT_QUOTES, 'UTF-8') ?>"></script>
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=20261101b'), ENT_QUOTES, 'UTF-8') ?>"></script>
 
 </body>
 </html>

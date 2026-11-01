@@ -5,9 +5,11 @@ require_once __DIR__ . '/../../Core/Security.php';
 require __DIR__ . '/cart-count.php';
 
 $navUrl = static fn(string $path): string => htmlspecialchars(nabta_public_url($path), ENT_QUOTES, 'UTF-8');
-$navFirstName = explode(' ', trim((string) ($_SESSION['full_name'] ?? '')))[0] ?: 'there';
+$navIsAdmin = is_authenticated() && ($_SESSION['role'] ?? '') === 'admin';
+$navFirstName =explode(' ', trim((string) ($_SESSION['full_name'] ?? '')))[0] ?: 'there';
 ?>
-<link rel="stylesheet" href="<?= $navUrl('assets/css/site-header.css?v=1') ?>">
+<link rel="stylesheet" href="<?= $navUrl('assets/css/site-header.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/site-header.css')) ?>">
+<link rel="stylesheet" href="<?= $navUrl('assets/css/warm-theme.css?v=' . (int) @filemtime(__DIR__ . '/../../../public/assets/css/warm-theme.css')) ?>">
 <a class="skip" href="#main">Skip to content</a>
 <header class="header">
   <div class="container header-row">
@@ -21,7 +23,8 @@ $navFirstName = explode(' ', trim((string) ($_SESSION['full_name'] ?? '')))[0] ?
       <a href="<?= $navUrl('index.php') ?>">Home</a>
       <a href="<?= $navUrl('index.php?page=products') ?>">Shop</a>
       <a href="<?= $navUrl('index.php?page=about') ?>">About Us</a>
-      <a href="<?= $navUrl('index.php?page=collections') ?>">Collections</a>
+      <a href="<?= $navUrl('index.php?page=collections') ?>">Packages</a>
+      <?php if ($navIsAdmin): ?><a href="<?= $navUrl('admin/dashboard.php') ?>">Dashboard</a><?php endif; ?>
     </nav>
 
     <div class="header-actions">
@@ -39,7 +42,7 @@ $navFirstName = explode(' ', trim((string) ($_SESSION['full_name'] ?? '')))[0] ?
         <nav>
           <a href="<?= $navUrl('index.php') ?>">Home</a><a href="<?= $navUrl('index.php?page=products') ?>">Shop</a><a
             href="<?= $navUrl('index.php?page=about') ?>">About us</a><a
-            href="<?= $navUrl('index.php?page=collections') ?>">Collections</a><?php if (is_authenticated()): ?><a
+            href="<?= $navUrl('index.php?page=collections') ?>">Packages</a><?php if ($navIsAdmin): ?><a href="<?= $navUrl('admin/dashboard.php') ?>">Dashboard</a><?php endif; ?><?php if (is_authenticated()): ?><a
               href="<?= $navUrl('index.php?page=profile') ?>">My account</a>
             <form class="logout-form" action="<?= $navUrl('logout.php') ?>" method="post"><?= csrf_field() ?><button type="submit">Sign
                 out</button></form><?php else: ?><a href="<?= $navUrl('login.php') ?>">Login</a><?php endif; ?>

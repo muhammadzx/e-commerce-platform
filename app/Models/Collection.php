@@ -42,10 +42,33 @@ class Collection
             $byCollection[(int) $row["collection_id"]][] = $row;
         }
 
+        // Hosted (Cloudinary) product photos: a package without its own usable image shows its first product's
+        $stmt = $this->conn->prepare(
+            "SELECT pro_id, image_url FROM product_images
+             WHERE image_url LIKE 'http%'
+             ORDER BY is_primary DESC, image_id ASC"
+        );
+        $stmt->execute();
+
+        $productImages = [];
+
+        foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+            $productImages[(int) $row["pro_id"]] ??= $row["image_url"];
+        }
+
         foreach ($collections as &$collection) {
             $products = $byCollection[(int) $collection["collection_id"]] ?? [];
 
             $collection["products"] = $products;
+            $collection["fallback_image"] = null;
+
+            foreach ($products as $product) {
+                if (isset($productImages[(int) $product["pro_id"]])) {
+                    $collection["fallback_image"] = $productImages[(int) $product["pro_id"]];
+                    break;
+                }
+            }
+
             $collection = array_merge($collection, self::pricing($collection, $products));
         }
         unset($collection);

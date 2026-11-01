@@ -74,17 +74,17 @@
 
 .admin-body .admin-sidebar nav a { font-size: 14px; }
 .admin-body .admin-sidebar .admin-bottom { font-size: 13px; }
-.admin-body .admin-content { font-size: 15px; }
+.admin-body .admin-content { font-size: 16px; }
 .admin-body .admin-top { font-size: 13px !important; }
 .admin-body .admin-content table { font-size: 14px; }
-.admin-body .admin-content th { font-size: 11px; }
+.admin-body .admin-content th { font-size: 13px; }
 .admin-body .admin-content td { font-size: 14px; }
 .admin-body .admin-content .label,
 .admin-body .admin-content .field label { font-size: 13px; }
 .admin-body .admin-content .control,
 .admin-body .admin-content input,
 .admin-body .admin-content select,
-.admin-body .admin-content textarea { font-size: 15px; }
+.admin-body .admin-content textarea { font-size: 16px; }
 .admin-body.admin-products .toolbar {
   display: flex;
   align-items: center;
@@ -216,7 +216,7 @@
     padding: 11px 13px !important;
     border-radius: 10px !important;
     white-space: normal;
-    font-size: 15px !important;
+    font-size: 16px !important;
     transform: none !important;
   }
   .admin-body .admin-sidebar .admin-navigation nav .icon { width: 19px; height: 19px; flex: 0 0 19px; }
@@ -232,7 +232,7 @@
   .admin-body .admin-sidebar.is-open > .admin-bottom { display: block !important; }
   .admin-body .admin-sidebar .profile-link { min-height: 48px; padding: 4px 8px; font-size: 14px; }
   .admin-body .admin-sidebar .profile-copy strong { font-size: 14px; }
-  .admin-body .admin-sidebar .profile-copy small { font-size: 12px; }
+  .admin-body .admin-sidebar .profile-copy small { font-size: 13px; }
   .admin-body .admin-content { width: 100%; max-width: none !important; padding: 18px clamp(15px, 4vw, 28px) 36px !important; }
   .admin-body .admin-top { height: auto !important; min-height: 42px; gap: 8px 12px; margin-bottom: 18px !important; padding-bottom: 10px; }
   .admin-body .admin-title,
@@ -297,7 +297,7 @@
   .admin-body .table-scroll table:has(tbody td[data-label]) tbody td:before {
     content: attr(data-label);
     color: #9fb397;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .04em;
     line-height: 1.35;
@@ -335,7 +335,7 @@
   .admin-body .admin-sidebar { padding-inline: 12px !important; }
   .admin-body .admin-menu-toggle { min-width: 88px; min-height: 42px; padding-inline: 10px; }
   .admin-body .admin-content { padding-inline: 12px !important; font-size: 16px; }
-  .admin-body .admin-content p { font-size: 15px; line-height: 1.55; }
+  .admin-body .admin-content p { font-size: 16px; line-height: 1.55; }
   .admin-body .admin-photo-strip { min-height: 90px; }
   .admin-body .admin-title { padding: 15px !important; }
   .admin-body .admin-title .btn,
@@ -372,13 +372,13 @@
 .admin-body.admin-profile .admin-sidebar .profile-link[aria-current='page'] .profile-arrow { color: #304734; }
 
 /* Shared admin search control and more readable workspace typography. */
-.admin-body .admin-sidebar nav a { font-size: 15px; }
+.admin-body .admin-sidebar nav a { font-size: 16px; }
 .admin-body .admin-sidebar .admin-bottom { font-size: 14px; }
 .admin-body .admin-content { font-size: 16px; }
 .admin-body .admin-top { font-size: 14px !important; }
-.admin-body .admin-content table { font-size: 15px; }
+.admin-body .admin-content table { font-size: 16px; }
 .admin-body .admin-content th { font-size: 13px; }
-.admin-body .admin-content td { font-size: 15px; }
+.admin-body .admin-content td { font-size: 16px; }
 .admin-body .admin-content .label,
 .admin-body .admin-content .field label { font-size: 14px; }
 .admin-body .admin-content .control,
@@ -431,7 +431,7 @@
 .admin-body .admin-content .popover,
 .admin-body .admin-content .flash,
 .admin-body .admin-content .product-message { font-size: 16px; }
-.admin-body .admin-content .table-scroll table:has(tbody td[data-label]) tbody td:before { font-size: 12px; }
+.admin-body .admin-content .table-scroll table:has(tbody td[data-label]) tbody td:before { font-size: 13px; }
 
 @media (max-width: 760px) {
   .admin-body .admin-content .toolbar > form.admin-search,

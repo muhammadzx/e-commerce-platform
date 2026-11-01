@@ -34,7 +34,7 @@ body:has(.admin-shell) {
 }
 .admin-sidebar:after {
   content: "GROW / GATHER / REVIEW";
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.24em;
   color: #b5c5a7;
   writing-mode: vertical-rl;
@@ -45,7 +45,7 @@ body:has(.admin-shell) {
 }
 .admin-sidebar .logo {
   color: #f5f0dc !important;
-  font-size: 19px;
+  font-size: 18px;
   letter-spacing: 0.1em;
 }
 .admin-sidebar .leaf-logo {
@@ -53,7 +53,7 @@ body:has(.admin-shell) {
 }
 .admin-sidebar .eyebrow {
   color: #a9bea1 !important;
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.2em;
 }
 .admin-sidebar nav {
@@ -68,7 +68,7 @@ body:has(.admin-shell) {
   border: 1px solid transparent;
   border-radius: 11px !important;
   color: #dce3d1 !important;
-  font-size: 12px;
+  font-size: 13px;
   transition: 0.25s;
 }
 .admin-sidebar nav a:hover {
@@ -92,7 +92,7 @@ body:has(.admin-shell) {
 .admin-sidebar .admin-bottom {
   border-top: 1px solid #ffffff25;
   padding-top: 18px;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   color: #ecf0e6;
 }
@@ -108,7 +108,7 @@ body:has(.admin-shell) {
   border-bottom: 1px solid var(--ad-line);
   margin-bottom: 30px !important;
   color: var(--ad-muted) !important;
-  font-size: 11px !important;
+  font-size: 13px !important;
 }
 .admin-top .pill {
   background: #e0e5d6 !important;
@@ -182,13 +182,13 @@ body:has(.admin-shell) {
 }
 .admin-content .stat .label {
   color: var(--ad-muted) !important;
-  font-size: 10px !important;
+  font-size: 13px !important;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .admin-content .stat .value {
   font-family: "Manrope";
-  font-size: 29px !important;
+  font-size: 30px !important;
   letter-spacing: -0.05em;
   color: var(--ad-ink) !important;
 }
@@ -218,13 +218,13 @@ body:has(.admin-shell) {
 .admin-content table {
   border-collapse: separate !important;
   border-spacing: 0 !important;
-  font-size: 12px;
+  font-size: 13px;
 }
 .admin-content th {
   background: #eff0e8 !important;
   color: #677563 !important;
   text-transform: uppercase;
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.1em;
   border-bottom: 1px solid var(--ad-line) !important;
 }
@@ -290,7 +290,7 @@ body:has(.admin-shell) {
   padding: 2px 0 20px;
 }
 .desk-intro .season-mark {
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.18em;
   color: #7a896e;
 }
@@ -309,7 +309,7 @@ body:has(.admin-shell) {
   background: #e3e7d9;
   border-radius: 99px;
   color: #456148;
-  font-size: 11px;
+  font-size: 13px;
   white-space: nowrap;
 }
 .garden-hero {
@@ -351,7 +351,7 @@ body:has(.admin-shell) {
 }
 .garden-chart .chart-summary span {
   color: #c2d0b5;
-  font-size: 11px;
+  font-size: 13px;
 }
 .garden-chart svg {
   width: 100%;
@@ -364,7 +364,7 @@ body:has(.admin-shell) {
   display: flex;
   justify-content: space-between;
   color: #c3cfb9;
-  font-size: 9px;
+  font-size: 13px;
   margin-top: -5px;
 }
 .pulse-card {
@@ -393,7 +393,7 @@ body:has(.admin-shell) {
   margin: 23px 0 10px;
 }
 .pulse-card p {
-  font-size: 12px;
+  font-size: 13px;
   color: #536852;
 }
 .pulse-card .btn {
@@ -416,18 +416,18 @@ body:has(.admin-shell) {
 }
 .kpi-card small {
   color: #778373;
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .kpi-card strong {
   display: block;
-  font: 500 25px "Manrope";
+  font: 500 24px "Manrope";
   letter-spacing: -0.05em;
   margin: 10px 0 4px;
 }
 .kpi-card span {
-  font-size: 10px;
+  font-size: 13px;
   color: #66805e;
 }
 .kpi-card i {
@@ -463,11 +463,11 @@ body:has(.admin-shell) {
   flex-shrink: 0;
 }
 .green-note b {
-  font-size: 12px;
+  font-size: 13px;
 }
 .green-note p {
   margin: 4px 0 0;
-  font-size: 11px;
+  font-size: 13px;
   color: #778373;
 }
 .ring-stat {
@@ -489,12 +489,12 @@ body:has(.admin-shell) {
 }
 .ring-stat strong {
   position: relative;
-  font: 500 25px "Manrope";
+  font: 500 24px "Manrope";
 }
 .dashboard-footer-note {
   margin-top: 14px;
   color: #899486;
-  font-size: 10px;
+  font-size: 13px;
   text-align: right;
 }
 @media (max-width: 1050px) {
@@ -763,7 +763,7 @@ body:has(.admin-shell) {
   padding: 9px 0 22px;
 }
 .canopy-overline {
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.24em;
   color: #9abe83;
 }
@@ -782,7 +782,7 @@ body:has(.admin-shell) {
   border: 1px solid #a4cb7740;
   border-radius: 99px;
   padding: 11px 15px;
-  font-size: 10px;
+  font-size: 13px;
   color: #d6ecb8;
   background: #a0d05c10;
   box-shadow: 0 0 28px #a7dd5810;
@@ -806,7 +806,7 @@ body:has(.admin-shell) {
   position: absolute;
   right: 19px;
   top: 18px;
-  font-size: 8px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   color: #b8ce9b88;
 }
@@ -817,7 +817,7 @@ body:has(.admin-shell) {
   align-items: start;
 }
 .river-title h2 {
-  font: 400 23px "Manrope";
+  font: 400 24px "Manrope";
   letter-spacing: -0.035em;
   margin: 7px 0;
 }
@@ -833,7 +833,7 @@ body:has(.admin-shell) {
   color: #f0f5e8;
 }
 .river-total span {
-  font-size: 11px;
+  font-size: 13px;
   color: var(--lime);
 }
 .river-chart {
@@ -847,7 +847,7 @@ body:has(.admin-shell) {
   display: flex;
   justify-content: space-between;
   color: #91a78e;
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.08em;
 }
 .season-card {
@@ -873,18 +873,18 @@ body:has(.admin-shell) {
     0 0 0 74px #c5e77705;
 }
 .season-label {
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.2em;
   color: #b4d48a;
 }
 .season-card h2 {
-  font: 400 28px/1.15 "Manrope";
+  font: 400 30px/1.15 "Manrope";
   letter-spacing: -0.04em;
   max-width: 210px;
   margin: 15px 0;
 }
 .season-card p {
-  font-size: 12px;
+  font-size: 13px;
   color: #a9b9a4;
   max-width: 230px;
 }
@@ -928,19 +928,19 @@ body:has(.admin-shell) {
 .canopy-stat small {
   display: block;
   color: #8fa38a;
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 .canopy-stat strong {
   display: block;
-  font: 500 26px "Manrope";
+  font: 500 24px "Manrope";
   letter-spacing: -0.06em;
   color: #f0f5e8;
   margin: 10px 0 4px;
 }
 .canopy-stat span {
-  font-size: 10px;
+  font-size: 13px;
   color: #c5e879;
 }
 .canopy-bottom {
@@ -983,16 +983,16 @@ body:has(.admin-shell) {
   box-shadow: 0 0 14px #7bd9ae;
 }
 .feed-line b {
-  font-size: 11px;
+  font-size: 13px;
   color: #e3ebdd;
 }
 .feed-line p {
-  font-size: 10px;
+  font-size: 13px;
   color: #91a18e;
   margin: 4px 0 0;
 }
 .feed-line time {
-  font-size: 9px;
+  font-size: 13px;
   color: #82947f;
 }
 .category-rhythm {
@@ -1005,7 +1005,7 @@ body:has(.admin-shell) {
   grid-template-columns: 100px 1fr 38px;
   align-items: center;
   gap: 10px;
-  font-size: 10px;
+  font-size: 13px;
   color: #b8c6b3;
 }
 .rhythm-track {
@@ -1030,7 +1030,7 @@ body:has(.admin-shell) {
   background: linear-gradient(90deg, #7b9a6b, #c7d67f);
 }
 .canopy-disclaimer {
-  font-size: 9px;
+  font-size: 13px;
   color: #738570;
   text-align: right;
   margin-top: 12px;
@@ -1113,7 +1113,7 @@ body:has(.admin-shell) {
     padding: 17px !important;
   }
   .river-total strong {
-    font-size: 34px;
+    font-size: 38px;
   }
 }
 @media (max-width: 390px) {
@@ -1694,7 +1694,7 @@ body:not(:has(.admin-shell)) .account-nav a {
   bottom: 20px;
   color: #f0f5e8;
   font:
-    500 12px "Manrope",
+    500 13px "Manrope",
     sans-serif;
   letter-spacing: 0.22em;
   text-shadow: 0 2px 15px #000;
@@ -1704,7 +1704,7 @@ body:not(:has(.admin-shell)) .account-nav a {
   margin-top: 6px;
   color: #d4f27b;
   font:
-    9px "DM Sans",
+    13px "DM Sans",
     sans-serif;
   letter-spacing: 0.16em;
 }
@@ -1720,7 +1720,7 @@ body:not(:has(.admin-shell)) .account-nav a {
   .admin-photo-strip span {
     left: 16px;
     bottom: 15px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .garden-home .collection,
   .garden-home #edit,
@@ -2286,7 +2286,7 @@ body:has(.admin-shell) {
   border-radius: 50%;
   background: #d4ddbf !important;
   color: #264332 !important;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .admin-sidebar .profile-link strong,
@@ -2295,12 +2295,12 @@ body:has(.admin-shell) {
 }
 
 .admin-sidebar .profile-link strong {
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .admin-sidebar .profile-link small {
   color: #b9c9aa;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .admin-sidebar .profile-arrow {
@@ -2342,7 +2342,7 @@ body:has(.admin-shell) {
 }
 
 .admin-overview .overview-alert p {
-  font-size: 12px;
+  font-size: 13px;
   color: #e5d4b8;
   margin-top: 3px;
 }
@@ -2350,7 +2350,7 @@ body:has(.admin-shell) {
 .admin-overview .overview-alert a {
   white-space: nowrap;
   color: #f1ce91;
-  font-size: 11px;
+  font-size: 13px;
   border-bottom: 1px solid currentColor;
   padding-bottom: 2px;
 }
@@ -2369,7 +2369,7 @@ body:has(.admin-shell) {
 
 .admin-overview .overview-section-heading h2 {
   margin: 5px 0 0;
-  font-size: 21px;
+  font-size: 20px;
 }
 
 .admin-overview .overview-chart-grid {
@@ -2446,7 +2446,7 @@ body:has(.admin-shell) {
 }
 
 .admin-overview .overview-chart-card h2 {
-  font-size: 19px;
+  font-size: 18px;
   margin: 5px 0 15px;
   color: #f2f5e9 !important;
 }
@@ -2492,7 +2492,7 @@ body:has(.admin-shell) {
 .admin-overview .overview-best-list li:before {
   content: counter(best, decimal-leading-zero);
   color: #c5e879;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .admin-overview .overview-item-name {
@@ -2501,7 +2501,7 @@ body:has(.admin-shell) {
 
 .admin-overview .overview-item-name strong {
   display: block;
-  font-size: 12px;
+  font-size: 13px;
   color: #e8efdf;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -2512,11 +2512,11 @@ body:has(.admin-shell) {
   display: block;
   margin-top: 3px;
   color: #9eaf9b;
-  font-size: 9px;
+  font-size: 13px;
 }
 
 .admin-overview .overview-quantity {
-  font-size: 11px;
+  font-size: 13px;
   color: #d5e8bd;
   white-space: nowrap;
 }
@@ -2524,7 +2524,7 @@ body:has(.admin-shell) {
 .admin-overview .overview-empty {
   padding: 26px 0;
   color: #a9b9a4;
-  font-size: 12px;
+  font-size: 13px;
 }
 
 .admin-overview .overview-show-all {
@@ -2533,7 +2533,7 @@ body:has(.admin-shell) {
   background: none;
   color: #d4f27b;
   font: inherit;
-  font-size: 11px;
+  font-size: 13px;
   cursor: pointer;
 }
 
@@ -2552,27 +2552,27 @@ body:has(.admin-shell) {
 
 .admin-overview .overview-category-feature small {
   color: #bfd49f;
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .admin-overview .overview-category-feature h3 {
-  font-size: 23px;
+  font-size: 24px;
   color: #f0f5e8;
   margin: 18px 0 8px;
 }
 
 .admin-overview .overview-category-feature strong {
   font:
-    500 32px "Manrope",
+    500 30px "Manrope",
     sans-serif;
   color: #d4f27b;
   letter-spacing: -0.04em;
 }
 
 .admin-overview .overview-category-feature p {
-  font-size: 11px;
+  font-size: 13px;
   color: #b5c5af;
 }
 
@@ -2605,7 +2605,7 @@ body:has(.admin-shell) {
 }
 
 .admin-overview .overview-modal-head h2 {
-  font-size: 21px;
+  font-size: 20px;
 }
 
 .admin-overview .overview-modal-close {
@@ -2627,7 +2627,7 @@ body:has(.admin-shell) {
 .admin-overview .overview-chart-note {
   margin-top: 10px;
   color: #9eaf9b;
-  font-size: 10px;
+  font-size: 13px;
 }
 
 .admin-overview .desk-kpis {
@@ -2702,11 +2702,11 @@ body:has(.admin-shell) {
 
 .admin-overview .kpi-card small {
   color: #d4e0c3;
-  font-size: 9px;
+  font-size: 13px;
 }
 
 .admin-overview .kpi-card strong {
-  font-size: 21px;
+  font-size: 20px;
   margin: 5px 0 0;
   color: #fff;
 }
@@ -2871,7 +2871,7 @@ body:has(.admin-shell) .popover {
     padding: 11px 13px !important;
     border-radius: 10px !important;
     white-space: normal;
-    font-size: 15px !important;
+    font-size: 16px !important;
     transform: none !important;
   }
   body:has(.admin-shell) .admin-sidebar .admin-navigation nav .icon { width: 19px; height: 19px; flex: 0 0 19px; }
@@ -2892,7 +2892,7 @@ body:has(.admin-shell) .popover {
     font-size: 14px;
   }
   body:has(.admin-shell) .admin-sidebar .profile-link strong { font-size: 14px; }
-  body:has(.admin-shell) .admin-sidebar .profile-link small { font-size: 12px; }
+  body:has(.admin-shell) .admin-sidebar .profile-link small { font-size: 13px; }
   body:has(.admin-shell) .admin-content { width: 100%; max-width: none !important; padding: 18px clamp(16px, 4vw, 28px) 36px !important; }
   body:has(.admin-shell) .admin-top { height: auto !important; min-height: 42px; gap: 8px 12px; margin-bottom: 18px !important; padding-bottom: 10px; font-size: 13px !important; }
   body:has(.admin-shell) .admin-photo-strip { min-height: 110px; }
@@ -2949,7 +2949,7 @@ body:has(.admin-shell) .popover {
   body:has(.admin-shell) .table-scroll table:has(tbody td[data-label]) tbody td:before {
     content: attr(data-label);
     color: #9fb397;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: .04em;
     line-height: 1.35;
@@ -2994,7 +2994,7 @@ body:has(.admin-shell) .popover {
   body:has(.admin-shell) .overview-chart-card { padding: 15px !important; }
   body:has(.admin-shell) .table-scroll table:has(tbody td[data-label]) tbody tr { gap: 4px 7px; padding: 8px; }
   body:has(.admin-shell) .table-scroll table:has(tbody td[data-label]) tbody td { grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); gap: 6px; padding: 8px 7px !important; font-size: 14px; }
-  body:has(.admin-shell) .table-scroll table:has(tbody td[data-label]) tbody td:before { font-size: 10px; }
+  body:has(.admin-shell) .table-scroll table:has(tbody td[data-label]) tbody td:before { font-size: 13px; }
   body:has(.admin-shell) .toolbar form { grid-template-columns: 1fr; }
   body:has(.admin-shell) .toolbar form .btn { width: 100%; }
   body:has(.admin-shell) .reports-history table { min-width: 570px !important; }

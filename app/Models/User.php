@@ -129,7 +129,7 @@ class User
 
                 $items[] = [
                     "wishlist_id" => (int) $row["wishlist_id"],
-                    "type" => "Collection",
+                    "type" => "Package",
                     "name" => $row["collection_name"],
                     "price" => $pricing["price"],
                     "in_stock" => $row["collection_status"] === "active" && $pricing["available_sets"] > 0,

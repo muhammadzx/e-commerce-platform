@@ -250,7 +250,7 @@ hr {
 }
 .main-nav a {
   position: relative;
-  font-size: 12px;
+  font-size: 13px;
   letter-spacing: 0.025em;
   transition: color 0.2s ease;
 }
@@ -323,7 +323,7 @@ hr {
   padding: 0;
   color: var(--mint);
   background: transparent;
-  font-size: 12px;
+  font-size: 13px;
 }
 .logout-form button:hover {
   color: var(--sage);
@@ -642,7 +642,7 @@ hr {
 }
 .contact-form label {
   color: var(--mint) !important;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 650;
 }
 .contact-form input,
@@ -711,7 +711,7 @@ select option {
 }
 .contact-privacy {
   color: var(--muted) !important;
-  font-size: 10px !important;
+  font-size: 13px !important;
   line-height: 1.7;
 }
 .about-strip {
@@ -879,7 +879,7 @@ button.btn:hover,
 }
 .auth-visual-copy .eyebrow {
   color: var(--sage) !important;
-  font-size: 10px;
+  font-size: 13px;
 }
 .auth-visual-copy h1 {
   font-family: Georgia, serif;
@@ -904,7 +904,7 @@ button.btn:hover,
 .auth-visual-foot {
   position: relative;
   z-index: 1;
-  font-size: 11px;
+  font-size: 13px;
 }
 .auth-panel {
   display: flex;
@@ -927,7 +927,7 @@ button.btn:hover,
 }
 .auth-back {
   color: var(--muted) !important;
-  font-size: 12px;
+  font-size: 13px;
   display: inline-flex;
   gap: 8px;
   align-items: center;
@@ -950,7 +950,7 @@ button.btn:hover,
   display: grid;
   gap: 8px;
   color: var(--mint) !important;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 650;
   min-width: 0;
 }
@@ -979,7 +979,7 @@ button.btn:hover,
   color: var(--sage);
   border: 0;
   border-radius: 8px;
-  font-size: 11px;
+  font-size: 13px;
 }
 .password-toggle:hover {
   background: color-mix(in srgb, var(--leaf) 45%, transparent);
@@ -996,7 +996,7 @@ button.btn:hover,
 .auth-switch {
   margin-top: 24px;
   color: var(--muted) !important;
-  font-size: 12px;
+  font-size: 13px;
   text-align: center;
 }
 .auth-switch a {
@@ -1014,7 +1014,7 @@ button.btn:hover,
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--mint) !important;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.65;
   margin-bottom: 18px;
 }
@@ -1058,7 +1058,7 @@ button.btn:hover,
 }
 .password-rules-title {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   margin-bottom: 9px;
 }
 .password-rules-list {
@@ -1074,7 +1074,7 @@ button.btn:hover,
   align-items: center;
   gap: 8px;
   color: var(--muted);
-  font-size: 11px;
+  font-size: 13px;
   transition: color 0.18s ease;
 }
 .password-rules-list li::before {
@@ -1087,7 +1087,7 @@ button.btn:hover,
   border: 1px solid var(--leaf);
   border-radius: 50%;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 13px;
 }
 .password-rules-list li.is-met {
   color: var(--mint);
@@ -1115,7 +1115,7 @@ button.btn:hover,
 }
 .auth-inline-note {
   color: var(--muted) !important;
-  font-size: 11px;
+  font-size: 13px;
   margin-top: -5px;
   line-height: 1.6;
 }
@@ -1278,7 +1278,7 @@ button.btn:hover,
     margin-bottom: 24px;
   }
   .auth-card h2 {
-    font-size: 35px;
+    font-size: 38px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1405,13 +1405,13 @@ button.btn:hover,
   text-decoration: none;
 }
 .garden-home .product-info .price {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 750;
   letter-spacing: -0.015em;
 }
 .garden-home .product-info p {
   margin: 0;
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.5;
 }
 .product-rating {
@@ -1419,14 +1419,14 @@ button.btn:hover,
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-1);
-  font-size: 11px;
+  font-size: 13px;
   color: var(--sage) !important;
   min-height: 16px;
 }
 .product-rating .stars {
   color: var(--sage) !important;
   letter-spacing: 0.08em;
-  font-size: 11px;
+  font-size: 13px;
 }
 .product-rating .rating-value {
   color: var(--mint) !important;
@@ -1434,7 +1434,7 @@ button.btn:hover,
 }
 .product-rating .rating-note {
   color: var(--muted) !important;
-  font-size: 9px;
+  font-size: 13px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -1464,7 +1464,7 @@ button.btn:hover,
   gap: var(--space-2);
   padding-block: var(--space-2) !important;
   margin-top: var(--space-2);
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.08em;
 }
 
@@ -1780,10 +1780,10 @@ button.btn:hover,
   }
   .garden-home .product-rating {
     gap: 4px;
-    font-size: 10px;
+    font-size: 13px;
   }
   .garden-home .product-rating .stars {
-    font-size: 10px;
+    font-size: 13px;
   }
   .garden-home .product-browse {
     opacity: 1;
@@ -1825,7 +1825,7 @@ button.btn:hover,
     aspect-ratio: 4 / 4.2;
   }
   .auth-card h2 {
-    font-size: 32px !important;
+    font-size: 30px !important;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -2218,7 +2218,7 @@ button.btn:hover,
   margin-top: clamp(48px, 9vh, 104px);
   color: var(--sage);
   letter-spacing: 0.16em;
-  font-size: 10px;
+  font-size: 13px;
 }
 .about-story {
   display: grid;
@@ -2304,7 +2304,7 @@ button.btn:hover,
 }
 .about-value > span {
   color: var(--sage);
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.16em;
 }
 .about-value h3 {
@@ -2354,7 +2354,7 @@ button.btn:hover,
   }
   .about-hero-note {
     margin-top: 48px;
-    font-size: 9px;
+    font-size: 13px;
   }
   .about-story {
     grid-template-columns: 1fr;
@@ -2443,7 +2443,7 @@ button.btn:hover,
   border-radius: 999px !important;
   text-decoration: none !important;
   white-space: nowrap;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
   transition:
@@ -2491,7 +2491,7 @@ button.btn:hover,
   .header .register-cta {
     min-height: 36px;
     padding: 7px 11px !important;
-    font-size: 11px;
+    font-size: 13px;
   }
   .header-actions {
     gap: 7px !important;
@@ -2642,7 +2642,7 @@ button.btn:hover,
 }
 .auth-form label > .field-label-row > .optional-tag {
   color: var(--muted) !important;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 400 !important;
 }
 
@@ -2803,7 +2803,7 @@ button.btn:hover,
   border-radius: 999px;
   background: rgba(5, 31, 32, 0.82) !important;
   color: #f1f4e9 !important;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.035em;
   line-height: 1.2;
@@ -2843,7 +2843,7 @@ button.btn:hover,
   display: block;
   margin: 0 0 8px !important;
   color: #d8e9ce !important;
-  font-size: 15px !important;
+  font-size: 16px !important;
   font-weight: 700 !important;
   letter-spacing: 0.015em;
   line-height: 1.4;
@@ -2851,14 +2851,14 @@ button.btn:hover,
 .garden-home .collection-refresh .collection-product-info .collection-sale-price del {
   margin-right: 5px;
   color: #aabbb0 !important;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 400;
   text-decoration-color: #aabbb0;
 }
 .garden-home .collection-refresh .collection-product-info p {
   margin: 0 !important;
   color: #c0d0c4 !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
   line-height: 1.6;
 }
 .garden-home .collection-refresh .product-card-action {
@@ -2872,7 +2872,7 @@ button.btn:hover,
   border-top: 1px solid rgba(185, 213, 184, 0.18);
   color: #e6efe0 !important;
   text-decoration: none !important;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.12em;
   line-height: 1.3;
@@ -2944,7 +2944,7 @@ button.btn:hover,
     top: 9px;
     left: 9px;
     padding: 6px 8px;
-    font-size: 9px;
+    font-size: 13px;
   }
   .garden-home .collection-refresh .collection-product-info {
     gap: 15px;
@@ -2958,12 +2958,12 @@ button.btn:hover,
     font-size: 13px !important;
   }
   .garden-home .collection-refresh .collection-product-info p {
-    font-size: 10px !important;
+    font-size: 13px !important;
   }
   .garden-home .collection-refresh .product-card-action {
     gap: 6px;
     padding-top: 11px;
-    font-size: 8px;
+    font-size: 13px;
     letter-spacing: 0.08em;
   }
   .garden-home .collection-refresh .product-card-action-icon {
@@ -2983,13 +2983,13 @@ button.btn:hover,
     padding: 18px !important;
   }
   .garden-home .collection-refresh .collection-product-info h3 {
-    font-size: 23px !important;
+    font-size: 24px !important;
   }
   .garden-home .collection-refresh .collection-product-info .price {
-    font-size: 15px !important;
+    font-size: 16px !important;
   }
   .garden-home .collection-refresh .collection-product-info p {
-    font-size: 12px !important;
+    font-size: 13px !important;
   }
 }
 
@@ -2997,7 +2997,7 @@ button.btn:hover,
 /* V18 refinements: high-contrast collection heading, editorial FAQ, botanical auth glass. */
 .garden-home .collection-refresh .collection-section-top .eyebrow {
   color: #b9d8ad !important;
-  font-size: 10px !important;
+  font-size: 13px !important;
   font-weight: 750 !important;
   letter-spacing: .19em !important;
   line-height: 1.6 !important;
@@ -3069,7 +3069,7 @@ button.btn:hover,
 }
 .garden-home #faq .faq-intro-top .eyebrow {
   color: #bfd7af !important;
-  font-size: 9px !important;
+  font-size: 13px !important;
   letter-spacing: .17em;
   line-height: 1.7;
 }
@@ -3082,7 +3082,7 @@ button.btn:hover,
   border: 1px solid rgba(193, 221, 180, .32);
   border-radius: 50%;
   color: #c7dfb8;
-  font-size: 17px;
+  font-size: 18px;
 }
 .garden-home #faq .faq-intro-card h2 {
   margin: 34px 0 17px !important;
@@ -3113,7 +3113,7 @@ button.btn:hover,
   padding: 0 0 8px;
   border-bottom: 1px solid rgba(197, 222, 185, .5);
   color: #f3f5e9 !important;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 750;
   letter-spacing: .055em;
   text-decoration: none;
@@ -3166,7 +3166,7 @@ button.btn:hover,
 }
 .garden-home #faq .faq-image-caption span {
   color: #d0e4c5;
-  font-size: 8px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: .16em;
 }
@@ -3189,13 +3189,13 @@ button.btn:hover,
   padding: 3px 1px 19px;
   border-bottom: 1px solid rgba(192, 219, 184, .18);
   color: #b9d7a9;
-  font-size: 9px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: .16em;
 }
 .garden-home #faq .faq-list-heading span:last-child {
   color: #91a99a;
-  font-size: 8px;
+  font-size: 13px;
   letter-spacing: .12em;
 }
 .garden-home #faq .faq-accordion {
@@ -3235,7 +3235,7 @@ button.btn:hover,
   align-self: start;
   padding-top: 2px;
   color: #99ba8c;
-  font-size: 10px;
+  font-size: 13px;
   font-weight: 800;
   letter-spacing: .04em;
 }
@@ -3250,7 +3250,7 @@ button.btn:hover,
   border: 1px solid rgba(197, 222, 185, .27);
   border-radius: 50%;
   color: #c7dfb8;
-  font-size: 19px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 1;
   transition: transform .24s ease, background .24s ease, color .24s ease;
@@ -3268,7 +3268,7 @@ button.btn:hover,
   max-width: 600px;
   margin: 0 !important;
   color: #c1d0c5 !important;
-  font-size: 12px !important;
+  font-size: 13px !important;
   line-height: 1.9 !important;
 }
 .garden-home #faq .faq-bottom-note {
@@ -3277,7 +3277,7 @@ button.btn:hover,
   gap: 10px;
   padding-top: 22px;
   color: #aabdb0;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.7;
 }
 .garden-home #faq .faq-bottom-dot {
@@ -3408,7 +3408,7 @@ body.auth-page .auth-visual-foot {
     grid-template-columns: 23px minmax(0, 1fr) 30px;
     gap: 9px;
     padding: 17px 0 !important;
-    font-size: 12px !important;
+    font-size: 13px !important;
   }
   .garden-home #faq .faq-answer {
     padding: 0 8px 18px 32px;

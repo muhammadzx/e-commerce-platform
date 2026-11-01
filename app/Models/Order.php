@@ -73,7 +73,7 @@ class Order
 
         $sql = "SELECT ci.cart_id, ci.quantity, ci.unit_price_at_purchase, ";
         $sql .= "COALESCE(p.name, col.name, 'Removed item') AS item_name, ";
-        $sql .= "CASE WHEN ci.collection_id IS NOT NULL THEN 'Collection' ELSE 'Product' END AS item_type ";
+        $sql .= "CASE WHEN ci.collection_id IS NOT NULL THEN 'Package' ELSE 'Product' END AS item_type ";
         $sql .= "FROM cart_items ci ";
         $sql .= "LEFT JOIN product p ON p.pro_id = ci.pro_id ";
         $sql .= "LEFT JOIN collections col ON col.collection_id = ci.collection_id ";

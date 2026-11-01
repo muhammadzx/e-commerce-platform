@@ -102,7 +102,7 @@ if (!isset($reportHistory)) {
                             <div class="field">
                                 <label for="request-prompt">What should the report analyze?</label>
                                 <textarea class="control" id="request-prompt" name="request_prompt" rows="5"
-                                    placeholder="For example: Compare product and collection sales, summarize order trends, and identify products that may need restocking."
+                                    placeholder="For example: Compare product and package sales, summarize order trends, and identify products that may need restocking."
                                     required></textarea>
                                 <small class="small">Describe the questions you want the report to answer.</small>
                             </div>

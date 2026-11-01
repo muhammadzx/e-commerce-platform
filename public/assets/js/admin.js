@@ -7,28 +7,38 @@ function createOverviewCharts() {
   if (!window.Chart || !overviewData) return;
 
   const colors = [
-    "#3B7950",
-    "#6DAA73",
-    "#D5A34E",
-    "#D77A5D",
-    "#7195A2",
-    "#89765C",
-    "#9CA76A"
+    "#286148",
+    "#216B95",
+    "#925914",
+    "#A13D58",
+    "#6655A3",
+    "#A34B26",
+    "#52652C",
+    "#245A72",
+    "#786033",
+    "#7B3E80",
+    "#4C6D6A",
+    "#8A4F46"
   ];
-  const gridColor = "rgba(52, 69, 47, .12)";
-  const tickColor = "#625B4B";
+  const gridColor = "rgba(38, 61, 49, .18)";
+  const tickColor = "#334638";
   const statusColor = label => {
     const value = String(label).toLowerCase();
-    if (value.includes("cancel") || value.includes("reject")) return "#D77A5D";
-    if (value.includes("pending")) return "#D5A34E";
-    if (value.includes("process") || value.includes("ship")) return "#7195A2";
-    if (value.includes("complete") || value.includes("deliver") || value.includes("approve")) return "#3B9B63";
+    if (value.includes("cancel") || value.includes("reject")) return "#A13D58";
+    if (value.includes("pending")) return "#925914";
+    if (value.includes("process")) return "#216B95";
+    if (value.includes("ship")) return "#6655A3";
+    if (value.includes("complete") || value.includes("deliver") || value.includes("approve")) return "#286148";
     return colors[0];
   };
   const money = value => `${Number(value).toLocaleString()} JOD`;
 
   Chart.defaults.color = tickColor;
   Chart.defaults.font.family = "DM Sans, Arial, sans-serif";
+  Chart.defaults.font.size = 13;
+  Chart.defaults.font.weight = "500";
+  Chart.defaults.plugins.legend.labels.font = { size: 13, weight: "600" };
+  Chart.defaults.layout.padding = 6;
   Chart.defaults.plugins.legend.labels.usePointStyle = true;
   Chart.defaults.plugins.tooltip.backgroundColor = "rgba(52, 69, 47, .96)";
   Chart.defaults.plugins.tooltip.titleColor = "#FFFEFA";
@@ -97,7 +107,7 @@ function createOverviewCharts() {
         plugins: {
           legend: {
             position: "bottom",
-            labels: { color: tickColor, padding: 16, boxWidth: 8 }
+            labels: { color: tickColor, padding: 16, boxWidth: 12, boxHeight: 12 }
           },
           tooltip: {
             callbacks: {
@@ -118,14 +128,14 @@ function createOverviewCharts() {
         datasets: [{
           label: "Sales",
           data: overviewData.weekly.values,
-          borderColor: "#3B7950",
-          backgroundColor: "rgba(59, 155, 99, .16)",
+          borderColor: "#286148",
+          backgroundColor: "rgba(40, 97, 72, .12)",
           fill: true,
           tension: .38,
-          borderWidth: 2.5,
-          pointRadius: 3,
+          borderWidth: 3,
+          pointRadius: 4,
           pointHoverRadius: 5,
-          pointBackgroundColor: "#F8D9AE",
+          pointBackgroundColor: "#FFFFFF",
           pointBorderColor: "#34452F",
           pointBorderWidth: 2
         }]
@@ -167,10 +177,7 @@ function createOverviewCharts() {
         datasets: [{
           label: "Orders",
           data: overviewData.orders.values,
-          backgroundColor: overviewData.orders.labels.map((label, index) => {
-            const color = statusColor(label);
-            return color === colors[0] ? colors[index % colors.length] : color;
-          }),
+          backgroundColor: overviewData.orders.labels.map(statusColor),
           borderRadius: 7,
           maxBarThickness: 44
         }]

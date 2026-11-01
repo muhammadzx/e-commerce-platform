@@ -510,8 +510,7 @@ body.garden-home #faq .faq-assistant-link,
 body.garden-home #faq .faq-assistant-link span { color: var(--color-link) !important; }
 body.garden-home #faq .faq-image-caption { background: var(--color-primary) !important; }
 body.garden-home #faq .faq-image-caption :is(span, strong, small) { color: var(--color-surface) !important; }
-body.garden-home.index-page .header,
-body.garden-home.index-page .header:not(.is-scrolled),
+body.garden-home.index-page .header:not(.is-scrolled) { background: transparent !important; border-color: transparent !important; }
 body.garden-home.index-page .header.is-scrolled { background: var(--color-page) !important; border-color: var(--color-border) !important; }
 body.garden-home #faq.faq-refresh .faq-intro-top .eyebrow { color: var(--color-text-secondary) !important; }
 body.garden-home #faq.faq-refresh .faq-intro-card h2 em { color: var(--color-primary) !important; }
@@ -590,3 +589,21 @@ body.nabta-product-body .nabta-detail .nd-card-arrow { background: var(--color-p
 body.nabta-product-body .nabta-detail :is(.nd-view-reviews, .nd-modal-review-list .nd-stars) { color: var(--color-link) !important; }
 body.nabta-product-body :is(.nd-modal-review-list .nd-review-person span, .nd-modal-page-info) { color: var(--color-text-secondary) !important; }
 body.admin-body .table-scroll tbody td[data-label]::before { color: var(--color-text-secondary) !important; }
+/* Readable transparent navigation across all hero photographs. */
+body.garden-home.index-page .header:not(.is-scrolled) .header-row {
+  background: rgba(20, 45, 32, .74);
+  border: 1px solid rgba(236, 244, 229, .22);
+  border-radius: 18px;
+  padding-inline: 22px;
+}
+body.garden-home.index-page .header:not(.is-scrolled) :is(.logo, .logo-sub, .main-nav a, .account-link, .mobile-nav > summary) {
+  color: #FFFEFA !important;
+  text-shadow: 0 1px 3px rgba(9, 27, 17, .45) !important;
+}
+body.garden-home.index-page .header:not(.is-scrolled) :is(.leaf-logo, .leaf-logo path, .icon) { stroke: #FFFEFA !important; }
+body.garden-home.index-page .header:not(.is-scrolled) .main-nav a:hover { color: #E0ECD8 !important; }
+body.garden-home.index-page .header:not(.is-scrolled) .main-nav a::after { background: #E0ECD8 !important; }
+body.garden-home.index-page .header:not(.is-scrolled) .mobile-nav nav :is(a, button) { color: #284E3C !important; text-shadow: none !important; }
+@media (max-width: 600px) {
+  body.garden-home.index-page .header:not(.is-scrolled) .header-row { padding-inline: 12px; border-radius: 12px; }
+}

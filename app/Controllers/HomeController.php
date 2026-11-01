@@ -17,28 +17,53 @@ class HomeController
             static fn(array $category): bool => in_array($category["name"], $activeCategoryNames, true)
         ));
 
-        $categoryImages = [];
-        $defaultImages = ["plant.jpg", "pot.jpg", "soil.jpg", "tools.jpg", "decor.jpg", "care.jpg"];
-        foreach ($categories as $index => $category) {
-            $name = strtolower((string) ($category["name"] ?? ""));
-            $image = $defaultImages[$index % count($defaultImages)];
+$categoryImages = [];
 
-            if (strpos($name, "soil") !== false || strpos($name, "fertil") !== false || strpos($name, "nutri") !== false || strpos($name, "تربة") !== false || strpos($name, "سماد") !== false) {
-                $image = "soil.jpg";
-            } elseif (strpos($name, "pot") !== false || strpos($name, "planter") !== false || strpos($name, "أصيص") !== false || strpos($name, "اصيص") !== false) {
-                $image = "pot.jpg";
-            } elseif (strpos($name, "tool") !== false || strpos($name, "prun") !== false || strpos($name, "أدوات") !== false) {
-                $image = "tools.jpg";
-            } elseif (strpos($name, "decor") !== false || strpos($name, "gift") !== false || strpos($name, "ديكور") !== false) {
-                $image = "decor.jpg";
-            } elseif (strpos($name, "care") !== false || strpos($name, "spray") !== false || strpos($name, "treat") !== false || strpos($name, "عناية") !== false) {
-                $image = "care.jpg";
-            } elseif (strpos($name, "plant") !== false || strpos($name, "flower") !== false || strpos($name, "cact") !== false || strpos($name, "نبات") !== false || strpos($name, "زهور") !== false) {
-                $image = "plant.jpg";
-            }
+// Keyword => image file (checked in order, first match wins)
+$imageRules = [
+    'cact'      => 'cacti.png',
+    'succulent' => 'cacti.png',
+    'indoor'    => 'indoor.png',
+    'outdoor'   => 'outdoor.png',
+    'seed'      => 'seeds.png',
+    'fertil'    => 'fertilizers.png',
+    'nutri'     => 'fertilizers.png',
+    'سماد'      => 'fertilizers.png',
+    'soil'      => 'soil.png',
+    'تربة'      => 'soil.png',
+    'pot'       => 'pots.png',
+    'planter'   => 'pots.png',
+    'أصيص'      => 'pots.png',
+    'اصيص'      => 'pots.png',
+    'tool'      => 'Tools.png',
+    'prun'      => 'Tools.png',
+    'أدوات'     => 'Tools.png',
+    'decor'     => 'decor.png',
+    'gift'      => 'decor.png',
+    'ديكور'     => 'decor.png',
+    'treat'     => 'treatments.png',
+    'spray'     => 'treatments.png',
+    'care'      => 'treatments.png',
+    'عناية'     => 'treatments.png',
+    'plant'     => 'indoor.png',
+    'flower'    => 'outdoor.png',
+    'نبات'      => 'indoor.png',
+    'زهور'      => 'outdoor.png',
+];
 
-            $categoryImages[(int) $category["cat_id"]] = $image;
+foreach ($categories as $category) {
+    $name  = mb_strtolower((string) ($category['name'] ?? ''), 'UTF-8');
+    $image = 'indoor.png'; // fallback that exists
+
+    foreach ($imageRules as $keyword => $file) {
+        if (mb_strpos($name, $keyword) !== false) {
+            $image = $file;
+            break;
         }
+    }
+
+    $categoryImages[(int) $category['cat_id']] = $image;
+}
 
         require __DIR__ . "/../Views/home.php";
     }

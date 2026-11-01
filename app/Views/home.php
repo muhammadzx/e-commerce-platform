@@ -596,11 +596,14 @@ require_once __DIR__ . '/bootstrap.php';
               $categoryId = (int) $category['cat_id'];
               $categoryName = (string) $category['name'];
               $categoryDescription = trim((string) ($category['description'] ?? ''));
+              
               $categoryImage = $categoryImages[$categoryId] ?? 'plant.jpg';
               $categoryUrl = nabta_public_url('index.php?page=products&category=' . $categoryId);
             ?>
-              <a class="path-card" href="<?= htmlspecialchars($categoryUrl, ENT_QUOTES, 'UTF-8') ?>" aria-label="Shop <?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>">
-                <img src="<?= htmlspecialchars(nabta_public_url('assets/img/' . $categoryImage), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>" loading="lazy" width="600" height="700" />
+            
+            <a class="path-card" href="<?= htmlspecialchars($categoryUrl, ENT_QUOTES, 'UTF-8') ?>" aria-label="Shop <?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>">
+            <!-- DEBUG: id=<?= $categoryId ?> image=<?= htmlspecialchars($categoryImage) ?> url=<?= htmlspecialchars(nabta_public_url('assets/img/categories/' . ltrim($categoryImage, '/'))) ?> -->
+            <img src="<?= htmlspecialchars(nabta_public_url('assets/img/categories/' . ltrim($categoryImage, '/')), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?>" loading="lazy" width="600" height="700" />
                 <div class="category-card-copy">
                   <h3><?= htmlspecialchars($categoryName, ENT_QUOTES, 'UTF-8') ?></h3>
                   <p><?= htmlspecialchars($categoryDescription !== '' ? $categoryDescription : 'Explore this category.', ENT_QUOTES, 'UTF-8') ?></p>

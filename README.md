@@ -4,23 +4,6 @@ Nabta Botanical is a PHP e-commerce website for plants, pots, seeds, gardening t
 
 **Current checkout scope:** checkout creates a pending request for order confirmation. It does not collect payment. Delivery fees, payment arrangements and availability require later approval.
 
-## Six-minute presentation
-
-[Download the English PowerPoint](docs/presentation/Nabta-Botanical-6-Minute-Presentation.pptx)
-
-The eight-slide deck includes actual website screenshots and an English script in the speaker notes. Screenshots show recognizable original products and packages, rather than temporary test entries. Open PowerPoint's Notes or Presenter View to follow the script. Rehearse at your own pace; slides do not advance automatically. Screenshot figures represent local demonstration data, not verified business results.
-
-| Slide | Topic | Time | Duration |
-| --- | --- | --- | --- |
-| 1 | Project introduction | 0:00–0:30 | 30 seconds |
-| 2 | Product discovery | 0:30–1:15 | 45 seconds |
-| 3 | Product details and packages | 1:15–2:00 | 45 seconds |
-| 4 | Basket and order confirmation | 2:00–2:50 | 50 seconds |
-| 5 | Admin workspace | 2:50–3:40 | 50 seconds |
-| 6 | Product management and store operations | 3:40–4:25 | 45 seconds |
-| 7 | AI reports | 4:25–5:25 | 60 seconds |
-| 8 | Technical foundation and current scope | 5:25–6:00 | 35 seconds |
-
 ## Features
 
 ### Customer storefront
@@ -152,7 +135,6 @@ public/
   index.php          Storefront entry point and API dispatch
 routes.php           API route handling
 composer.json        PHP dependencies
-docs/presentation/   Six-minute project presentation
 ```
 
 The interface calls bundled product groups **Packages**. Internal routes, model names and database tables retain the `collection`/`collections` terminology.

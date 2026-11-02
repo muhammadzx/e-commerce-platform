@@ -44,9 +44,7 @@ $total = count($categories);
         <div class="admin-shell">
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
             <div class="admin-content">
-                <div class="admin-top"><span>Workspace / Categories</span>
-                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Categories</span></div>
-                </div>
+                <?php $adminHeaderTitle = 'Categories'; require __DIR__ . '/../layouts/admin-header.php'; ?>
                 <div class="admin-photo-strip" role="img" aria-label="Soft-focus botanical greenhouse photograph">
                     <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span>
                 </div>

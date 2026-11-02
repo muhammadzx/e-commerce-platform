@@ -13,7 +13,7 @@ $asset = static fn($name) => e(nabta_public_url('assets/' . $name));
 </head><body class="admin-body botanical-edition workspace-page admin-reviews">
 <main id="main" tabindex="-1"><div class="admin-shell">
 <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
-<div class="admin-content"><div class="admin-top"><span>Workspace / Reviews</span><span><?= e($adminUser['full_name']) ?></span></div>
+<div class="admin-content"><?php $adminHeaderTitle = 'Reviews'; require __DIR__ . '/../layouts/admin-header.php'; ?>
 <div class="admin-photo-strip" aria-hidden="true"></div><div class="admin-title"><div><h1>Reviews</h1><p>Manage customer feedback. Hidden reviews are excluded from public ratings.</p></div></div>
 <?php if ($flash): ?><p class="flash <?= e($flash['type']) ?>" role="status"><?= e($flash['message']) ?></p><?php endif; ?>
 <section class="panel"><form class="toolbar admin-search" method="get">
@@ -25,11 +25,11 @@ $asset = static fn($name) => e(nabta_public_url('assets/' . $name));
 <?php foreach (['Item','Type','Customer','Rating','Review','Status','Actions'] as $heading): ?><th scope="col"><?= $heading ?></th><?php endforeach; ?></tr></thead><tbody>
 <?php if (!$reviews): ?><tr><td colspan="7">No reviews match these filters. <a href="<?= e(nabta_public_url('admin/reviews.php')) ?>">Clear filters</a></td></tr><?php endif; ?>
 <?php foreach ($reviews as $review): $id=(int)$review['review_id']; ?>
-<tr><td data-label="Item"><?= e($review['item_name']) ?></td><td data-label="Type"><?= e($review['item_type']) ?></td><td data-label="Customer"><?= e($review['customer_name'] ?? 'Customer') ?></td>
+<tr class="<?= $review['is_hidden'] ? 'is-hidden-review' : 'is-published-review' ?>"><td data-label="Item"><?= e($review['item_name']) ?></td><td data-label="Type"><?= e($review['item_type']) ?></td><td data-label="Customer"><?= e($review['customer_name'] ?? 'Customer') ?></td>
 <td data-label="Rating"><span class="rating" aria-label="<?= (int)$review['rating'] ?> out of 5 stars"><?= str_repeat('★', (int)$review['rating']) . str_repeat('☆', 5-(int)$review['rating']) ?></span></td>
-<td data-label="Review"><?= e($review['comment']) ?></td><td data-label="Status"><?= $review['is_hidden'] ? 'Hidden' : 'Published' ?></td>
+<td data-label="Review"><?= e($review['comment']) ?></td><td data-label="Status"><span class="review-status"><?= $review['is_hidden'] ? 'Hidden' : 'Published' ?></span></td>
 <td data-label="Actions"><div class="table-actions"><button class="table-button" type="button" popovertarget="review-<?= $id ?>">View</button>
-<form method="post"><input type="hidden" name="csrf_token" value="<?= e($csrfToken) ?>"><input type="hidden" name="review_id" value="<?= $id ?>"><input type="hidden" name="action" value="<?= $review['is_hidden'] ? 'unhide' : 'hide' ?>"><button class="table-button hide-button"><?= $review['is_hidden'] ? 'Publish' : 'Hide' ?></button></form>
+<form method="post"><input type="hidden" name="csrf_token" value="<?= e($csrfToken) ?>"><input type="hidden" name="review_id" value="<?= $id ?>"><input type="hidden" name="action" value="<?= $review['is_hidden'] ? 'unhide' : 'hide' ?>"><button class="table-button hide-button <?= $review['is_hidden'] ? 'publish-review' : 'hide-review' ?>"><?= $review['is_hidden'] ? 'Publish' : 'Hide' ?></button></form>
 <button class="table-button delete-button" type="button" popovertarget="delete-review-<?= $id ?>">Delete</button></div></td></tr>
 <?php endforeach; ?></tbody></table></div></section></div></div>
 <?php foreach ($reviews as $review): $id=(int)$review['review_id']; ?>

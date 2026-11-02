@@ -12,7 +12,7 @@ $inStock = (int) ($product['quantity'] ?? 0) > 0;
 $productImages = array_values(array_filter($productImages ?? [], static fn($image) => nabta_image_url($image['image_url'] ?? '') !== ''));
 
 // Use the existing main image as a fallback
-if (empty($productImages) && !empty($product['image_url'])) {
+if (empty($productImages) && $img($product['image_url'] ?? '') !== '') {
     $productImages = [
         [
             'image_url' => $product['image_url'],
@@ -21,6 +21,12 @@ if (empty($productImages) && !empty($product['image_url'])) {
     ];
 }
 
+// Count each usable image URL once, including duplicated database rows.
+$uniqueProductImages = [];
+foreach ($productImages as $image) {
+    $uniqueProductImages[$img($image['image_url'])] ??= $image;
+}
+$productImages = array_values($uniqueProductImages);
 $imageCount = count($productImages);
 $mainImage = $imageCount > 0
     ? $img($productImages[0]['image_url'])
@@ -116,7 +122,7 @@ $mainImage = $imageCount > 0
         <span>THE NABTA COLLECTION</span>
 
         <span id="image-counter">
-            01 / <?= str_pad((string) $imageCount, 2, '0', STR_PAD_LEFT) ?>
+            <?= $imageCount > 0 ? '01' : '00' ?> / <?= str_pad((string) $imageCount, 2, '0', STR_PAD_LEFT) ?>
         </span>
 
     </div>
@@ -490,7 +496,7 @@ $mainImage = $imageCount > 0
 <?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <script>window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;</script>
-<script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=reviews5'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
+<script src="<?= htmlspecialchars(nabta_public_url('assets/js/products.js?v=' . (int)filemtime(__DIR__ . '/../../public/assets/js/products.js')), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/cart.js?v=1'), ENT_QUOTES, 'UTF-8') ?>" defer></script>
 </body>
 </html>

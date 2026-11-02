@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../Core/AIReportResponse.php';
 
 class AIReport
 {
@@ -23,6 +24,11 @@ class AIReport
         $stmt->execute([$dateFrom, $dateTo]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function getEarliestDate(): ?string
+    {
+        $value = $this->db->query("SELECT DATE(MIN(created_at)) FROM cart WHERE status = 'completed'")->fetchColumn();
+        return $value ? (string)$value : null;
     }
     public function getItemsSummary($dateFrom, $dateTo)
     {
@@ -69,22 +75,35 @@ class AIReport
 
     public function saveReport($userId, $title, $requestPrompt, $dateFrom, $dateTo, $reportContent)
     {
+        AIReportResponse::assertContent($reportContent);
+        $ownsTransaction = !$this->db->inTransaction();
+        if ($ownsTransaction) $this->db->beginTransaction();
+        try {
         $sql = "INSERT INTO reports_ai
             (user_id, title, request_prompt, date_from, date_to, report_content, generated_at)
             VALUES (?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $this->db->prepare($sql);
 
-        $stmt->execute([
+        if (!$stmt->execute([
             $userId,
             $title,
             $requestPrompt,
             $dateFrom,
             $dateTo,
             $reportContent
-        ]);
+        ])) throw new RuntimeException('Report generation failed: the report could not be saved.');
 
-        return $this->db->lastInsertId();
+        $reportId = $this->db->lastInsertId();
+        if (!$reportId || !ctype_digit((string)$reportId) || (int)$reportId < 1) {
+            throw new RuntimeException('Report generation failed: the saved report could not be verified.');
+        }
+        if ($ownsTransaction) $this->db->commit();
+        return $reportId;
+        } catch (Throwable $exception) {
+            if ($ownsTransaction && $this->db->inTransaction()) $this->db->rollBack();
+            throw $exception;
+        }
     }
 
     public function getReportsByUser($userId)

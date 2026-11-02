@@ -109,6 +109,43 @@ class CartController
     }
 
     // API: number shown on the bag icon
+    public function remove(): void
+    {
+        if (!is_authenticated()) {
+            http_response_code(401);
+            echo json_encode(['success' => false, 'login' => true, 'message' => 'Please sign in again.']);
+            return;
+        }
+        if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+            http_response_code(403);
+            echo json_encode(['success' => false, 'message' => 'Your session expired. Refresh the page and try again.']);
+            return;
+        }
+        $id = filter_var($_POST['cart_item_id'] ?? null, FILTER_VALIDATE_INT);
+        if (!$id || $id < 1) {
+            http_response_code(422);
+            echo json_encode(['success' => false, 'message' => 'Invalid basket item.']);
+            return;
+        }
+        try {
+            $userId = (int) $_SESSION['user_id'];
+            $this->cart->removeItem($userId, $id);
+            $items = $this->cart->getItems($userId);
+            $count = 0;
+            $subtotal = 0.0;
+            foreach ($items as $item) {
+                $count += (int)$item['quantity'];
+                $subtotal += (float)$item['price'] * (int)$item['quantity'];
+            }
+            echo json_encode(['success' => true, 'count' => $count, 'subtotal' => round($subtotal, 2),
+                'item_ids' => array_map(static fn($item) => (int)$item['cart_item_id'], $items)]);
+        } catch (Throwable $exception) {
+            http_response_code(500);
+            echo json_encode(['success' => false, 'message' => 'We could not update your basket. Please refresh and try again.']);
+        }
+    }
+
+    // API: number shown on the bag icon
     public function count()
     {
         $count = is_authenticated()

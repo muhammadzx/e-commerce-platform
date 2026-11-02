@@ -51,7 +51,7 @@ $cxLimit = PHP_INT_MAX;
 
 <?php require __DIR__ . '/layouts/header.php'; ?>
 
-<main id="main" tabindex="-1" style="padding-top: 48px"><div class="container"><h1 class="page-title">Plant &amp; growing collections</h1></div>
+<main id="main" tabindex="-1" style="padding-top: 48px"><div class="container"><h1 class="page-title">Plant &amp; growing packages</h1></div>
 
     <?php require __DIR__ . '/layouts/collections-section.php'; ?>
 </main>

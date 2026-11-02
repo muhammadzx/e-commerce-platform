@@ -2,6 +2,8 @@
 require_once __DIR__ . '/../../config/paths.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../Models/AIReport.php';
+require_once __DIR__ . '/../Core/ReportPeriod.php';
+require_once __DIR__ . '/../Core/AIReportResponse.php';
 
 class AIReportController
 {
@@ -9,6 +11,8 @@ class AIReportController
     {
         $userId = (int) ($adminUser['user_id'] ?? $_SESSION['user_id'] ?? 0);
         $reportTitle = '';
+        $inputDateFrom = '';
+        $inputDateTo = '';
         $reportId = null;
         require __DIR__ . '/../../config/connection.php';
         $reportModel = new AIReport($db);
@@ -52,8 +56,10 @@ class AIReportController
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $dateFrom = trim($_POST['date_from'] ?? '');
-            $dateTo = trim($_POST['date_to'] ?? '');
+            $inputDateFrom = trim((string) ($_POST['date_from'] ?? ''));
+            $dateFrom = $inputDateFrom;
+            $inputDateTo = trim((string) ($_POST['date_to'] ?? ''));
+            $dateTo = $inputDateTo;
             $requestPrompt = trim($_POST['request_prompt'] ?? '');
             $reportTitle = trim($_POST['report_title'] ?? '');
             $message = '';
@@ -61,28 +67,25 @@ class AIReportController
 
 
 
-            if (
-                $reportTitle === '' ||
-                $dateFrom === '' ||
-                $dateTo === '' ||
-                $requestPrompt === ''
-            ) {
-                $message = 'Please fill in all fields.';
-            } elseif (
-                !DateTime::createFromFormat('Y-m-d', $dateFrom) ||
-                !DateTime::createFromFormat('Y-m-d', $dateTo)
-            ) {
-                $message = 'Please enter valid dates.';
-            } elseif ($dateTo < $dateFrom) {
-                $message = 'The end date must be after or equal to the start date.';
-            } elseif ($dateFrom > date('Y-m-d') || $dateTo > date('Y-m-d')) {
-                $message = 'Report dates cannot be in the future.';
-            } else {
-                $message = 'The form data is valid.';
+            try {
+                if ($requestPrompt === '') {
+                    throw new InvalidArgumentException('Please describe what the report should analyze.');
+                }
+                $period = ReportPeriod::resolve($dateFrom, $dateTo,
+                    $dateFrom === '' && $dateTo !== '' ? $reportModel->getEarliestDate() : null);
+                $dateFrom = $period['from'];
+                $dateTo = $period['to'];
+                if ($reportTitle === '') {
+                    $reportTitle = 'Store report: ' . $dateFrom . ' to ' . $dateTo;
+                }
+            } catch (InvalidArgumentException $exception) {
+                $message = $exception->getMessage();
+                $reportHistory = $reportModel->getReportsByUser($userId);
+                require __DIR__ . '/../Views/admin/ai_reports.php';
+                return;
             }
 
-
-
+            try {
             $summary = $reportModel->getPeriodSummary($dateFrom, $dateTo);
             $items = $reportModel->getItemsSummary($dateFrom, $dateTo);
             $productSalesTotal = 0;
@@ -134,7 +137,7 @@ class AIReportController
                 Store data:
                 " . json_encode(
                 $reportData,
-                JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT
+                JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR
             );
             $reportContent = $this->generateWithGemini($aiPrompt);
 
@@ -156,8 +159,6 @@ class AIReportController
             $converter = new \League\CommonMark\MarkdownConverter($environment);
 
             $reportHtml = $converter->convert($reportContent)->getContent();
-
-            $reportHtml = $converter->convert($reportContent)->getContent();
             $reportId = $reportModel->saveReport(
                 $userId,
                 $reportTitle,
@@ -166,6 +167,21 @@ class AIReportController
                 $dateTo,
                 $reportContent
             );
+            } catch (Throwable $exception) {
+                $message = $exception instanceof RuntimeException && str_starts_with($exception->getMessage(), 'Report generation failed')
+                    ? $exception->getMessage()
+                    : 'Report generation failed. The report could not be completed or saved. Please try again.';
+                $reportContent = '';
+                $reportHtml = '';
+                $reportId = null;
+                try {
+                    $reportHistory = $reportModel->getReportsByUser($userId);
+                } catch (Throwable $historyException) {
+                    $reportHistory = [];
+                }
+                require __DIR__ . '/../Views/admin/ai_reports.php';
+                return;
+            }
             header('Location: ' . nabta_public_url('admin/ai_reports.php') . '?report_id=' . $reportId);
             exit;
 
@@ -179,7 +195,9 @@ class AIReportController
     {
         $apiKey = require __DIR__ . '/../../config/gemini.php';
 
-        //$url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent';
+        if (!is_string($apiKey) || trim($apiKey) === '') {
+            throw new RuntimeException('Report generation failed: the AI service is not configured.');
+        }
         $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent';
 
         $data = [
@@ -192,37 +210,28 @@ class AIReportController
             ]
         ];
 
+        $payload = json_encode($data, JSON_THROW_ON_ERROR);
         $curl = curl_init($url);
-
-        curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'x-goog-api-key: ' . $apiKey
-        ]);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 60);
-        $response = curl_exec($curl);
-        $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-
-        if ($response === false) {
-            $error = curl_error($curl);
+        if ($curl === false) throw new RuntimeException('Report generation failed: the AI connection could not be initialized.');
+        try {
+            if (!curl_setopt_array($curl, [
+                CURLOPT_POST => true,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HTTPHEADER => ['Content-Type: application/json', 'x-goog-api-key: ' . $apiKey],
+                CURLOPT_POSTFIELDS => $payload,
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_TIMEOUT => 60,
+            ])) throw new RuntimeException('Report generation failed: the AI connection could not be configured.');
+            $response = curl_exec($curl);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            if ($response === false || curl_errno($curl) !== 0) {
+                throw new RuntimeException('Report generation failed: the AI service could not be reached. Please try again later.');
+            }
+        } finally {
             curl_close($curl);
-            return 'cURL error: ' . $error;
         }
 
-        curl_close($curl);
-
-        $result = json_decode($response, true);
-
-        if ($httpCode !== 200) {
-            return 'HTTP ' . $httpCode . ': ' .
-                ($result['error']['message'] ?? 'Unknown Gemini error');
-        }
-
-        return $result['candidates'][0]['content']['parts'][0]['text']
-            ?? 'Gemini returned an empty response.';
+        return AIReportResponse::content((int)$httpCode, $response);
     }
 
     public function download($reportId, ?array $adminUser = null)

@@ -106,6 +106,52 @@
     var formError = document.getElementById("form-error");
     var orderError = document.getElementById("order-error");
     var confirmButton = document.getElementById("review-confirm");
+    var selectionsModal = document.getElementById("checkout-selections-details");
+    if (selectionsModal) selectionsModal.addEventListener("click", async function (event) {
+        var button = event.target.closest("[data-remove-checkout-item]");
+        if (!button || button.disabled) return;
+        var error = document.getElementById("checkout-remove-error");
+        error.textContent = "";
+        var buttons = [...selectionsModal.querySelectorAll("[data-remove-checkout-item]")];
+        buttons.forEach(function (item) { item.disabled = true; });
+        var nextIndex = buttons.indexOf(button);
+        var body = new FormData();
+        body.set("csrf_token", window.NABTA_CSRF || "");
+        body.set("cart_item_id", button.dataset.removeCheckoutItem);
+        try {
+            var response = await fetch(apiUrl("cart-remove"), { method: "POST", body: body, credentials: "same-origin" });
+            var data = await response.json();
+            if (data.login) { window.location.href = base + "/login.php"; return; }
+            if (!response.ok || !data.success) throw new Error(data.message || "Could not remove this item. Please try again.");
+            if (!Array.isArray(data.item_ids) || !Number.isFinite(data.subtotal) || !Number.isFinite(data.count)) throw new Error("Please refresh to see your updated basket.");
+            setCount(data.count);
+            if (!data.item_ids.length) { window.location.href = base + "/index.php?page=cart"; return; }
+            document.querySelectorAll("[data-checkout-item]").forEach(function (row) {
+                if (!data.item_ids.includes(Number(row.dataset.checkoutItem))) row.remove();
+            });
+            var rows = [...selectionsModal.querySelectorAll(".cx-pick")];
+            var preview = document.querySelector(".checkout-selections");
+            preview.querySelectorAll(".cx-pick").forEach(function (row) { row.remove(); });
+            var more = preview.querySelector(".checkout-selections-more");
+            rows.slice(0, 3).forEach(function (row) {
+                var clone = row.cloneNode(true);
+                clone.querySelector(".checkout-remove-item")?.remove();
+                preview.insertBefore(clone, more);
+            });
+            more.hidden = rows.length <= 3;
+            more.textContent = "See more (+" + Math.max(0, rows.length - 3) + ")";
+            document.getElementById("checkout-selections-title").textContent = "All your selections (" + rows.length + ")";
+            document.querySelectorAll("[data-checkout-subtotal]").forEach(function (el) { el.textContent = data.subtotal.toFixed(2) + " JOD"; });
+            document.querySelectorAll("[data-checkout-item-count]").forEach(function (el) { el.textContent = "Subtotal · " + data.count + " item" + (data.count === 1 ? "" : "s"); });
+            var remainingButtons = [...selectionsModal.querySelectorAll("[data-remove-checkout-item]")];
+            remainingButtons.forEach(function (el) { el.disabled = false; });
+            (remainingButtons[Math.min(nextIndex, remainingButtons.length - 1)] || selectionsModal.querySelector(".checkout-selections-close")).focus();
+        } catch (exception) {
+            error.textContent = exception.message || "We could not update your basket. Please try again.";
+        } finally {
+            buttons.forEach(function (item) { item.disabled = false; });
+        }
+    });
 
     function setStep(step) {
         document.querySelectorAll(".cx-steps [data-step]").forEach(function (el) {

@@ -21,7 +21,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
     <link rel="stylesheet" href="<?= $u('assets/css/popups.css') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
-<body class="cx-body">
+<body class="cx-body checkout-page">
 
 <div class="nature-bg" aria-hidden="true">
     <div class="tree" id="tree"></div>
@@ -45,12 +45,12 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
                 <span data-step="3">03 / CONFIRM</span>
             </div>
 
-            <h2>Delivery details</h2><p>Delivery fields are optional at this stage. This sends a request for cost confirmation. Delivery fees, payment arrangements and availability require your approval before fulfilment.</p><p><a href="index.php?page=information">Delivery, returns and store information</a></p>
+            <h2>Delivery details</h2><p class="checkout-intro">Request only. Delivery details are optional; delivery costs, payment and availability need your approval before fulfilment. <a href="index.php?page=information">Store information</a></p>
 
             <form class="cx-form" id="delivery-form" novalidate>
                 <?= csrf_field() ?>
 
-                <div class="cx-field cx-field-wide">
+                <div class="cx-field">
                     <label for="full_name">Full name (optional)</label>
                     <input id="full_name" name="full_name" type="text" maxlength="100" autocomplete="name"
                            value="<?= e($customer['full_name'] ?? '') ?>">
@@ -59,19 +59,13 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
                 <div class="cx-field">
                     <label for="email">Email address</label>
                     <input id="email" name="email" type="email" maxlength="150" autocomplete="email" readonly aria-describedby="checkout-email-note"
-                           value="<?= e($customer['email'] ?? '') ?>"><small id="checkout-email-note">Your account email is used for this request. Change it in your account settings.</small>
+                           value="<?= e($customer['email'] ?? '') ?>"><small id="checkout-email-note">Account email. Change it in account settings.</small>
                 </div>
 
                 <div class="cx-field">
                     <label for="phone">Phone number (optional)</label>
                     <input id="phone" name="phone" type="tel" maxlength="20" autocomplete="tel"
                            value="<?= e($customer['phone'] ?? '') ?>">
-                </div>
-
-                <div class="cx-field cx-field-wide">
-                    <label for="street">Street address (optional)</label>
-                    <input id="street" name="street" type="text" maxlength="150" autocomplete="street-address"
-                           value="<?= e($customer['address'] ?? '') ?>">
                 </div>
 
                 <div class="cx-field">
@@ -81,6 +75,12 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
                             <option value="<?= e($city) ?>"><?= e($city) ?></option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+
+                <div class="cx-field">
+                    <label for="street">Street address (optional)</label>
+                    <input id="street" name="street" type="text" maxlength="150" autocomplete="street-address"
+                           value="<?= e($customer['address'] ?? '') ?>">
                 </div>
 
                 <div class="cx-field">
@@ -97,11 +97,11 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
         </section>
 
         <div class="cx-stack">
-            <aside class="cx-card" aria-label="Your selections">
+            <aside class="cx-card checkout-selections" aria-label="Your selections">
                 <h2>Your selections</h2>
-                <?php foreach ($items as $item): ?>
+                <?php foreach (array_slice($items, 0, 3) as $item): ?>
                     <?php $image = $img($item['image_url'] ?? null); ?>
-                    <div class="cx-pick">
+                    <div class="cx-pick" data-checkout-item="<?= (int)$item['cart_item_id'] ?>">
                         <?php if ($image): ?>
                             <img src="<?= e($image) ?>" alt="<?= e($item['name']) ?>" loading="lazy">
                         <?php else: ?>
@@ -113,19 +113,45 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
                         </div>
                     </div>
                 <?php endforeach; ?>
+                <?php if (count($items) > 3): ?>
+                    <button class="checkout-selections-more" type="button" popovertarget="checkout-selections-details" aria-label="See more: view all selected items">See more (+<?= count($items) - 3 ?>)</button>
+                <?php endif; ?>
             </aside>
 
             <aside class="cx-card" aria-label="Order summary">
                 <h2>Order summary</h2>
-                <div class="cx-row"><span>Subtotal · <?= (int) $itemCount ?> item<?= $itemCount === 1 ? '' : 's' ?></span><span><?= $money($subtotal) ?></span></div>
+                <div class="cx-row"><span data-checkout-item-count>Subtotal &middot; <?= (int) $itemCount ?> item<?= $itemCount === 1 ? '' : 's' ?></span><span data-checkout-subtotal><?= $money($subtotal) ?></span></div>
                 <div class="cx-row"><span>Delivery</span><span>Not yet calculated</span></div>
-                <div class="cx-row cx-row-total"><span>Total before delivery</span><strong><?= $money($subtotal) ?></strong></div>
+                <div class="cx-row cx-row-total"><span>Total before delivery</span><strong data-checkout-subtotal><?= $money($subtotal) ?></strong></div>
             </aside>
         </div>
 
     </div>
 </main>
 <?php require __DIR__ . "/layouts/footer.php"; ?>
+
+<?php if (count($items) > 3): ?>
+<section id="checkout-selections-details" class="popover checkout-selections-modal" popover role="dialog" aria-modal="true" aria-labelledby="checkout-selections-title">
+    <div class="checkout-selections-heading"><h2 id="checkout-selections-title">All your selections (<?= count($items) ?>)</h2><button class="checkout-selections-close" type="button" popovertarget="checkout-selections-details" popovertargetaction="hide" aria-label="Close selections">&times;</button></div>
+                <?php foreach ($items as $item): ?>
+                    <?php $image = $img($item['image_url'] ?? null); ?>
+                    <div class="cx-pick" data-checkout-item="<?= (int)$item['cart_item_id'] ?>">
+                        <?php if ($image): ?>
+                            <img src="<?= e($image) ?>" alt="<?= e($item['name']) ?>" loading="lazy">
+                        <?php else: ?>
+                            <div class="cx-pick-empty"></div>
+                        <?php endif; ?>
+                        <div>
+                            <strong><?= e($item['name']) ?></strong>
+                            <span><?= !empty($item['collection_id']) ? 'Package · ' : '' ?>Quantity <?= (int) $item['quantity'] ?> · <?= $money((float) $item['price'] * (int) $item['quantity']) ?></span>
+                        </div>
+                        <button class="checkout-remove-item" type="button" data-remove-checkout-item="<?= (int)$item['cart_item_id'] ?>" aria-label="Remove <?= e($item['name']) ?> from basket" title="Remove from basket"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 14h10l1-14M10 11v6m4-6v6"/></svg></button>
+                    </div>
+                <?php endforeach; ?>
+    <p id="checkout-remove-error" class="cx-form-error" role="alert"></p>
+    <div class="cx-row cx-row-total"><span>Subtotal before delivery</span><strong data-checkout-subtotal><?= $money($subtotal) ?></strong></div>
+</section>
+<?php endif; ?>
 
 <!-- Step 2: "One last look" -->
 <div class="cx-modal" id="review-modal" role="dialog" aria-modal="true" aria-labelledby="review-title">
@@ -138,10 +164,10 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 
             <dl class="cx-review">
                 <?php foreach ($items as $item): ?>
-                    <div><dt><?= e($item['name']) ?> × <?= (int) $item['quantity'] ?></dt><dd><?= $money((float) $item['price'] * (int) $item['quantity']) ?></dd></div>
+                    <div data-checkout-item="<?= (int)$item['cart_item_id'] ?>"><dt><?= e($item['name']) ?> × <?= (int) $item['quantity'] ?></dt><dd><?= $money((float) $item['price'] * (int) $item['quantity']) ?></dd></div>
                 <?php endforeach; ?>
                 <div><dt>Delivery</dt><dd>Not yet calculated</dd></div>
-                <div><dt><strong>Total before delivery</strong></dt><dd><strong><?= $money($subtotal) ?></strong></dd></div>
+                <div><dt><strong>Total before delivery</strong></dt><dd><strong data-checkout-subtotal><?= $money($subtotal) ?></strong></dd></div>
             </dl>
 
             <p class="cx-form-error" id="order-error" role="alert"></p>
@@ -167,6 +193,6 @@ window.NABTA_PUBLIC_URL = <?= json_encode(nabta_public_url()) ?>;
 window.NABTA_CSRF = <?= json_encode(csrf_token()) ?>;
 </script>
 <script src="<?= $u('assets/js/nature-bg.js') ?>" defer></script>
-<script src="<?= $u('assets/js/cart.js?v=20261102') ?>" defer></script>
+<script src="<?= $u('assets/js/cart.js?v=' . (int)filemtime(__DIR__ . '/../../public/assets/js/cart.js')) ?>" defer></script>
 </body>
 </html>

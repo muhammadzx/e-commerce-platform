@@ -1,0 +1,70 @@
+/* Collection management shares the existing admin surfaces and type palette. */
+.admin-collections .collection-list-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
+.admin-collections .admin-collection-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
+.admin-collections .admin-collection-card { border: 1px solid #D7DFD3; border-radius: 14px; background: #FFFFFF; overflow: hidden; min-width: 0; }
+.admin-collections .admin-collection-card > img { width: 100%; height: 190px; object-fit: cover; display: block; }
+.admin-collections .admin-collection-card > .image-fallback { min-height: 190px; box-sizing: border-box; }
+.admin-collections .admin-collection-card-content { padding: 20px; overflow-wrap: anywhere; }
+.admin-collections .admin-collection-card { display: flex; flex-direction: column; }
+.admin-collections .admin-collection-card-content { flex: 1; display: flex; flex-direction: column; align-items: start; }
+.admin-collections .admin-collection-card .collection-totals { width: 100%; margin-top: auto; }
+.admin-collections .package-card-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); width: 100%; gap: 10px; margin: 4px 0 16px; }
+.admin-collections .package-card-actions .btn { width: 100%; min-height: 44px; box-sizing: border-box; }
+body.admin-body.botanical-edition.workspace-page.admin-collections .package-delete-button { background: #A63F2D !important; color: #FFFFFF !important; border-color: #A63F2D !important; }
+body.admin-body.botanical-edition.workspace-page.admin-collections .package-delete-button:hover { background: #873020 !important; }
+.admin-collections .package-confirm-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.admin-collections label.package-remove-image { display: flex; align-items: center; gap: 10px; font-weight: 400; }
+.admin-collections .package-remove-image input { width: 18px; height: 18px; accent-color: #284E3C; flex: 0 0 18px; }
+.admin-collections .admin-collection-card h3 { margin: 12px 0; font-size: 22px; color: #284E3C; }
+.admin-collections .admin-collection-card p { color: #526253; line-height: 1.6; }
+.admin-collections .admin-collection-card ul { padding-left: 20px; margin: 16px 0; color: #263D31; }
+.admin-collections .admin-collection-card li { margin: 6px 0; }
+.admin-collections .collection-editor { display: grid; grid-template-columns: minmax(0, 1fr) 300px; align-items: start; gap: 20px; }
+.admin-collections .collection-editor-main { display: grid; gap: 20px; min-width: 0; }
+.admin-collections .collection-editor .panel { margin: 0; }
+.admin-collections .collection-fields { display: grid; gap: 18px; margin-top: 20px; }
+.admin-collections .collection-fields label, .admin-collections .collection-product-search { display: grid; gap: 8px; color: #263D31; font-size: 14px; font-weight: 600; min-width: 0; }
+.admin-collections .collection-fields label span { font-weight: 400; color: #526253; }
+.admin-collections .collection-fields .control { width: 100%; box-sizing: border-box; }
+.admin-collections .control { font-weight: 400; }
+.admin-collections .collection-field-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.admin-collections .collection-product-list { display: grid; gap: 10px; margin-top: 16px; }
+.admin-collections .collection-product-filters { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
+.admin-collections .collection-product-filters[hidden] { display: none; }
+.admin-collections .collection-product-filters > label { display: grid; gap: 7px; min-width: 0; color: #263D31; font-size: 13px; font-weight: 600; }
+.admin-collections .collection-product-filters .control { width: 100%; min-width: 0; box-sizing: border-box; }
+.admin-collections .collection-product-filters .collection-product-search { grid-column: 1 / -1; }
+.admin-collections .collection-filter-actions { display: flex; align-items: end; }
+.admin-collections .collection-filter-actions .btn { min-height: 44px; }
+.admin-collections .collection-product-row { display: grid; grid-template-columns: minmax(0, 1fr) 100px; gap: 14px; padding: 14px; border: 1px solid #D7DFD3; border-radius: 12px; align-items: center; }
+.admin-collections .collection-product-row[hidden] { display: none; }
+.admin-collections .collection-product-row.is-selected { background: #F0F4E9; border-color: #7B846D; }
+.admin-collections .collection-product-choice { display: flex; gap: 12px; align-items: center; min-width: 0; cursor: pointer; }
+.admin-collections .collection-product-choice > span { display: grid; gap: 5px; min-width: 0; overflow-wrap: anywhere; }
+.admin-collections .collection-product-choice strong { color: #284E3C; font-size: 14px; }
+.admin-collections .collection-product-choice small { color: #526253; font-size: 12px; line-height: 1.5; }
+.admin-collections .collection-product-choice input { flex: 0 0 20px; width: 20px; height: 20px; accent-color: #284E3C; }
+.admin-collections .collection-item-quantity { display: grid; gap: 6px; color: #526253; font-size: 12px; }
+.admin-collections .collection-item-quantity input { width: 100%; box-sizing: border-box; min-width: 0; }
+.admin-collections .collection-preview-image { width: 100%; max-height: 220px; object-fit: contain; border-radius: 12px; background: #F0F4E9; }
+.admin-collections .collection-preview-image[hidden] { display: none; }
+.admin-collections .collection-totals { margin: 20px 0; }
+.admin-collections .collection-totals > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid #D7DFD3; }
+.admin-collections .collection-totals dt { color: #526253; font-size: 13px; }
+.admin-collections .collection-totals dd { margin: 0; color: #284E3C; font-weight: 600; text-align: right; white-space: nowrap; }
+.admin-collections .collection-summary { position: sticky; top: 24px; }
+.admin-collections .collection-save-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+.admin-collections .small { color: #526253; line-height: 1.6; font-size: 13px; }
+.admin-collections .collection-notice { padding: 16px; background: #F0F4E9; border: 1px solid #A2B29B; border-radius: 12px; margin: 16px 0; color: #284E3C; }
+@media (max-width: 1100px) {
+  .admin-collections .collection-editor { grid-template-columns: minmax(0, 1fr); }
+  .admin-collections .collection-summary { position: static; }
+}
+@media (max-width: 480px) {
+  .admin-collections .collection-field-pair { grid-template-columns: minmax(0, 1fr); }
+  .admin-collections .collection-product-row { grid-template-columns: minmax(0, 1fr) 78px; padding: 12px; gap: 10px; }
+  .admin-collections .collection-product-choice { gap: 8px; }
+}
+@media (max-width: 380px) {
+  .admin-collections .collection-product-filters { grid-template-columns: minmax(0, 1fr); }
+}

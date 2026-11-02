@@ -84,6 +84,16 @@ function handleApiRequest()
             $controller->add();
             break;
 
+        case "cart-remove":
+            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+                header('Allow: POST');
+                http_response_code(405);
+                echo json_encode(['success' => false, 'message' => 'Method not allowed']);
+                return;
+            }
+            (new CartController())->remove();
+            break;
+
         // Number of items in the basket (bag icon)
         case "cart-count":
 

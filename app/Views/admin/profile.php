@@ -44,14 +44,7 @@ $profileInitials = strtoupper(($profileInitialCharacters[0] ?? 'A') . ($profileI
     <div class="admin-content">
 
       <!-- ADMIN HEADER -->
-      <div class="admin-top">
-        <span>Workspace / My profile</span>
-
-        <div class="flex">
-          <span>Nabta Botanical</span>
-          <span class="pill">Admin</span>
-        </div>
-      </div>
+      <?php $adminHeaderTitle = 'My profile'; require __DIR__ . '/../layouts/admin-header.php'; ?>
 
       <!-- BOTANICAL BANNER -->
       <div

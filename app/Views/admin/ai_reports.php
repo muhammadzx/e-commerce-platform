@@ -36,13 +36,7 @@ if (!isset($reportHistory)) {
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
 
             <div class="admin-content">
-                <div class="admin-top">
-                    <span>Workspace / AI Reports</span>
-                    <div class="flex">
-                        <span>NABTA Botanical</span>
-                        <span class="pill">Report studio</span>
-                    </div>
-                </div>
+                <?php $adminHeaderTitle = 'AI Reports'; require __DIR__ . '/../layouts/admin-header.php'; ?>
 
                 <section class="admin-photo-strip reports-hero" aria-labelledby="reports-title">
                     <div class="reports-hero-copy">
@@ -79,34 +73,36 @@ if (!isset($reportHistory)) {
                             </div>
                         <?php endif; ?>
 
-                        <p class="small">Select the dates and describe what you want the report to focus on.</p>
+                        <p class="small">Dates are optional. Describe what you want the report to focus on.</p>
 
                         <form class="report-generation-form" method="POST"
                             action="<?= htmlspecialchars(nabta_public_url('admin/ai_reports.php'), ENT_QUOTES, 'UTF-8') ?>">
                             <div class="field">
-                                <label for="report-title">Report name</label>
+                                <label for="report-title">Report name (optional)</label>
                                 <input class="control" id="report-title" name="report_title" type="text" maxlength="150"
                                     value="<?= htmlspecialchars($reportTitle ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                                    placeholder="For example: October sales analysis" required>
+                                    placeholder="For example: October sales analysis" aria-describedby="report-name-help">
+                                <small class="small" id="report-name-help">Leave empty to use a default name with the reporting period.</small>
                             </div>
 
                             <div class="form-grid">
                                 <div class="field">
-                                    <label for="date-from">Start date</label>
-                                    <input class="control" id="date-from" name="date_from" type="date" required>
+                                    <label for="date-from">Start date (optional)</label>
+                                    <input class="control" id="date-from" name="date_from" type="date" value="<?= htmlspecialchars($inputDateFrom ?? '', ENT_QUOTES, 'UTF-8') ?>" aria-describedby="report-date-help">
                                 </div>
 
                                 <div class="field">
-                                    <label for="date-to">End date</label>
-                                    <input class="control" id="date-to" name="date_to" type="date" required>
+                                    <label for="date-to">End date (optional)</label>
+                                    <input class="control" id="date-to" name="date_to" type="date" value="<?= htmlspecialchars($inputDateTo ?? '', ENT_QUOTES, 'UTF-8') ?>" aria-describedby="report-date-help">
                                 </div>
                             </div>
 
+                            <p class="small" id="report-date-help">No dates: the last month through today. Start only: that date through today. End only: the earliest recorded sales through that date. Both dates: your selected period.</p>
                             <div class="field">
                                 <label for="request-prompt">What should the report analyze?</label>
                                 <textarea class="control" id="request-prompt" name="request_prompt" rows="5"
                                     placeholder="For example: Compare product and package sales, summarize order trends, and identify products that may need restocking."
-                                    required></textarea>
+                                    required><?= htmlspecialchars($requestPrompt ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
                                 <small class="small">Describe the questions you want the report to answer.</small>
                             </div>
 

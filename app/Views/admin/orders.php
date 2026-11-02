@@ -56,9 +56,7 @@ $total = count($orders);
         <div class="admin-shell">
             <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
             <div class="admin-content">
-                <div class="admin-top"><span>Workspace / Orders</span>
-                    <div class="flex"><span>Nabta Botanical</span><span class="pill">Orders</span></div>
-                </div>
+                <?php $adminHeaderTitle = 'Orders'; require __DIR__ . '/../layouts/admin-header.php'; ?>
                 <div class="admin-photo-strip" role="img" aria-label="Soft-focus botanical greenhouse photograph">
                     <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span>
                 </div>

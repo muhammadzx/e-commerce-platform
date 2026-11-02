@@ -20,7 +20,7 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
     <link rel="stylesheet" href="<?= $u('assets/css/cart.css?v=2') ?>">
     <link rel="stylesheet" href="<?= htmlspecialchars(nabta_public_url('assets/css/store-responsive.css?v=20261101'), ENT_QUOTES, 'UTF-8') ?>">
 </head>
-<body class="cx-body">
+<body class="cx-body basket-page">
 
 <div class="nature-bg" aria-hidden="true">
     <div class="tree" id="tree"></div>
@@ -52,43 +52,9 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
                     <?= csrf_field() ?>
                     <input type="hidden" name="action" value="update">
 
-                    <?php foreach ($items as $item): ?>
-                        <?php
-                        $image = $img($item['image_url'] ?? null);
-                        $isCollection = !empty($item['collection_id']);
-                        $href = $isCollection ? $u('index.php#bundles') : $u('index.php?page=product&id=' . (int) $item['pro_id']);
-                        ?>
-                        <article class="cx-line">
-                            <a class="cx-line-img" href="<?= $href ?>">
-                                <?php if ($image): ?>
-                                    <img src="<?= e($image) ?>" alt="<?= e($item['name']) ?>" loading="lazy">
-                                <?php else: ?>
-                                    <span>NABTA</span>
-                                <?php endif; ?>
-                            </a>
-
-                            <div>
-                                <h2 class="cx-line-name">
-                                    <a href="<?= $href ?>"><?= e($item['name']) ?></a>
-                                </h2>
-                                <p class="cx-line-meta">
-                                    <?= e($item['category'] ?? 'NABTA') ?>
-                                    <?php if ($isCollection && !empty($item['includes'])): ?>
-                                        · <?= e(implode(', ', $item['includes'])) ?>
-                                    <?php endif; ?>
-                                </p>
-                                <label class="sr-only" for="qty-<?= (int) $item['cart_item_id'] ?>" style="position:absolute;left:-9999px">Quantity for <?= e($item['name']) ?></label>
-                                <input class="cx-qty" id="qty-<?= (int) $item['cart_item_id'] ?>" type="number" inputmode="numeric"
-                                       name="qty[<?= (int) $item['cart_item_id'] ?>]" value="<?= (int) $item['quantity'] ?>"
-                                       min="1" max="<?= max(1, (int) $item['stock']) ?>">
-                            </div>
-
-                            <div class="cx-line-side">
-                                <span class="cx-line-price"><?= $money((float) $item['price'] * (int) $item['quantity']) ?></span>
-                                <button class="cx-remove" type="submit" form="remove-<?= (int) $item['cart_item_id'] ?>">Remove</button>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
+                    <?php $quantityPrefix = 'preview'; foreach (array_slice($items,0,3) as $item): require __DIR__ . '/layouts/basket-item.php'; endforeach; ?>
+                    <?php foreach (array_slice($items,3) as $item): ?><input type="hidden" data-basket-quantity="<?= (int)$item['cart_item_id'] ?>" name="qty[<?= (int)$item['cart_item_id'] ?>]" value="<?= (int)$item['quantity'] ?>"><?php endforeach; ?>
+                    <?php if (count($items) > 3): ?><button class="basket-see-more" type="button" popovertarget="basket-all-items">See more (+<?= count($items)-3 ?>)</button><?php endif; ?>
 
                     <div class="cx-actions">
                         <a class="cx-back" href="<?= $u('index.php?page=products') ?>">← Continue shopping</a>
@@ -116,10 +82,23 @@ $money = static fn($value): string => number_format((float) $value, 2) . ' JOD';
 
         </div>
 
+<?php if (count($items) > 3): ?>
+<section id="basket-all-items" class="package-detail-popover basket-all-modal" popover role="dialog" aria-modal="true" aria-labelledby="basket-all-title">
+    <div class="package-detail-heading"><h2 id="basket-all-title">All basket items (<?= count($items) ?>)</h2><button class="package-detail-close" type="button" popovertarget="basket-all-items" popovertargetaction="hide" aria-label="Close basket items">&times;</button></div>
+    <form method="post" action="<?= $u('index.php?page=cart') ?>" id="cart-all-form">
+        <?= csrf_field() ?><input type="hidden" name="action" value="update">
+        <?php $quantityPrefix = 'all'; foreach ($items as $item): require __DIR__ . '/layouts/basket-item.php'; endforeach; ?>
+        <div class="cx-row cx-row-total"><span>Subtotal before delivery</span><strong><?= $money($subtotal) ?></strong></div>
+        <div class="cx-actions"><button class="cx-btn cx-btn-small" type="submit">Update quantities</button><button class="basket-see-more" type="button" popovertarget="basket-all-items" popovertargetaction="hide">Close</button></div>
+    </form>
+</section>
+<?php endif; ?>
+
     <?php endif; ?>
 </main>
 <?php require __DIR__ . "/layouts/footer.php"; ?>
 
 <script src="<?= $u('assets/js/nature-bg.js') ?>" defer></script>
+<script src="<?= $u('assets/js/basket.js?v=' . (int)filemtime(__DIR__ . '/../../public/assets/js/basket.js')) ?>" defer></script>
 </body>
 </html>

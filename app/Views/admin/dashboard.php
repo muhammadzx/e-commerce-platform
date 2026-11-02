@@ -33,20 +33,13 @@ if (!isset($overviewStats)) {
     <div class="admin-shell">
       <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
       <div class="admin-content">
-        <div class="admin-top">
-          <span>Workspace / Overview</span>
-          <div class="flex">
-            <span>NABTA Botanical</span>
-            <span class="pill">Store overview</span>
-          </div>
-        </div>
+        <?php $adminHeaderTitle = 'Overview'; require __DIR__ . '/../layouts/admin-header.php'; ?>
 
-        <section class="desk-intro" aria-labelledby="overview-title">
-          <div>
+        <section class="desk-intro overview-welcome" aria-labelledby="overview-title">
+          <div class="overview-welcome-copy">
             <div class="season-mark">FIELD NOTES · <?= htmlspecialchars($fieldDate, ENT_QUOTES, 'UTF-8') ?></div>
             <h1 id="overview-title">Store overview</h1>
             <p>A clear view of sales, orders, products, and customer demand.</p>
-          </div>
           <div class="overview-intro-actions">
             <a class="btn overview-ai-button" href="<?= htmlspecialchars(nabta_public_url('admin/ai_reports.php'), ENT_QUOTES, 'UTF-8') ?>">Request an AI report <span
                 aria-hidden="true">↗</span></a>
@@ -54,6 +47,8 @@ if (!isset($overviewStats)) {
               / WEEK
               <?= htmlspecialchars($weekNumber, ENT_QUOTES, 'UTF-8') ?></span>
           </div>
+          </div>
+          <div class="overview-welcome-photo" aria-hidden="true"></div>
         </section>
 
         <?php if ($notes['low_stock_count'] > 0): ?>

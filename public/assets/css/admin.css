@@ -726,3 +726,24 @@ body.admin-body.botanical-edition.workspace-page .table-actions .delete-button {
 }
 body.admin-body.botanical-edition.workspace-page .popover[id^='delete-'] button[type='submit'] { background: #A63F2D !important; color: #FFFFFF !important; border-color: #A63F2D !important; }
 body.admin-body.botanical-edition.workspace-page .popover[id^='delete-'] button[type='submit']:hover { background: #873020 !important; }
+
+/* Product catalogue filters use GET, so searches can be bookmarked and reset. */
+body.admin-body.botanical-edition.workspace-page.admin-products .toolbar:has(.product-filters) { display: block; }
+body.admin-body.botanical-edition.workspace-page.admin-products form.product-filters {
+  display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%; max-width: none; gap: 16px; margin-bottom: 16px; align-items: end;
+}
+body.admin-body.botanical-edition.workspace-page.admin-products .product-filters label,
+body.admin-body.botanical-edition.workspace-page.admin-products .product-filter-search {
+  display: grid; gap: 7px; min-width: 0; font-size: 13px; font-weight: 600; color: #263D31;
+}
+body.admin-body.botanical-edition.workspace-page.admin-products .product-filters .control { box-sizing: border-box; width: 100%; min-width: 0; margin: 0; font-weight: 400; }
+body.admin-body.botanical-edition.workspace-page.admin-products .product-filters .filter-buttons { grid-column: 1 / -1; display: flex; gap: 10px; flex-wrap: wrap; }
+body.admin-body.botanical-edition.workspace-page.admin-products .product-filters .filter-buttons .btn { width: auto !important; min-height: 44px; }
+@media (max-width: 700px) {
+  body.admin-body.botanical-edition.workspace-page.admin-products form.product-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.admin-body.botanical-edition.workspace-page.admin-products .product-filter-search { grid-column: 1 / -1; }
+}
+@media (max-width: 380px) {
+  body.admin-body.botanical-edition.workspace-page.admin-products form.product-filters { grid-template-columns: minmax(0, 1fr); }
+}

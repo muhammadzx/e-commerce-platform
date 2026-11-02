@@ -51,6 +51,31 @@ class AdminProduct
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function filterProducts(array $filters): array
+    {
+        $where = ["p.status = 'active'"];
+        $params = [];
+        if ($filters['search'] !== '') {
+            $where[] = '(p.name LIKE :name OR p.description LIKE :description OR c.name LIKE :category_name)';
+            foreach (['name', 'description', 'category_name'] as $key) $params[$key] = '%' . $filters['search'] . '%';
+        }
+        if ($filters['category'] > 0) { $where[] = 'p.cat_id = :category_id'; $params['category_id'] = $filters['category']; }
+        if ($filters['stock'] === 'in') $where[] = 'p.quantity > 0';
+        if ($filters['stock'] === 'low') $where[] = 'p.quantity BETWEEN 1 AND 5';
+        if ($filters['stock'] === 'out') $where[] = 'p.quantity = 0';
+        foreach (['min_price' => '>=', 'max_price' => '<='] as $key => $operator) {
+            if ($filters[$key] !== '') { $where[] = "p.price {$operator} :{$key}"; $params[$key] = $filters[$key]; }
+        }
+        $sorts = ['newest'=>'p.pro_id DESC', 'name'=>'p.name ASC, p.pro_id DESC', 'price_low'=>'p.price ASC, p.pro_id DESC', 'price_high'=>'p.price DESC, p.pro_id DESC', 'stock_low'=>'p.quantity ASC, p.pro_id DESC'];
+        $order = $sorts[$filters['sort']] ?? $sorts['newest'];
+        $sql = "SELECT p.*, c.name AS category,
+            (SELECT pi.image_url FROM product_images pi WHERE pi.pro_id = p.pro_id ORDER BY pi.is_primary DESC, pi.image_id ASC LIMIT 1) AS image_url
+            FROM product p LEFT JOIN categories c ON c.cat_id = p.cat_id WHERE " . implode(' AND ', $where) . ' ORDER BY ' . $order;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute($params);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function addProduct(int $catId, string $name, string $description, float $price, int $quantity)
     {
         $sql = "INSERT INTO product (cat_id, name, description, price, quantity, status)

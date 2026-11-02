@@ -54,7 +54,7 @@ $cxImage = static fn(?string $path): string => nabta_image_url($path, 800);
             <?php if ($image): ?>
               <img src="<?= htmlspecialchars($image, ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($collection['name'], ENT_QUOTES, 'UTF-8') ?>" loading="lazy" width="900" height="1000">
             <?php endif; ?>
-            <span class="bundle-set-badge"><?= $count ?> <?= $count === 1 ? 'piece' : 'pieces' ?> · one thoughtful set</span>
+            <span class="bundle-set-badge"><?= $count ?> <?= $count === 1 ? 'piece' : 'pieces' ?> · one thoughtful package</span>
             <?php if ((float) $collection['discount'] > 0): ?>
               <span class="bundle-saving-badge">Save <?= rtrim(rtrim(number_format((float) $collection['discount'], 2), '0'), '.') ?>%</span>
             <?php endif; ?>
@@ -63,21 +63,22 @@ $cxImage = static fn(?string $path): string => nabta_image_url($path, 800);
             <div class="bundle-card-kicker"><span class="bundle-kicker-mark" aria-hidden="true">✳</span><span>THE NABTA EDIT</span><span class="bundle-count-pill"><?= $count ?> <?= $count === 1 ? 'item' : 'items' ?></span></div>
             <h3><?= htmlspecialchars($collection['name'], ENT_QUOTES, 'UTF-8') ?></h3>
             <p class="bundle-description"><?= htmlspecialchars((string) $collection['description'], ENT_QUOTES, 'UTF-8') ?></p>
-            <div class="bundle-items-heading">Inside this set</div>
+            <div class="bundle-items-heading">Inside this package</div>
             <div class="bundle-items-list" aria-label="Products included in <?= htmlspecialchars($collection['name'], ENT_QUOTES, 'UTF-8') ?>">
-              <?php foreach ($collection['products'] as $product): ?>
+              <?php foreach (array_slice($collection['products'],0,3) as $product): ?>
                 <span><a href="<?= htmlspecialchars(nabta_public_url('index.php?page=product&id=' . (int)$product['pro_id']), ENT_QUOTES, 'UTF-8') ?>"><?php /* included product */ ?><i aria-hidden="true">&#10003;</i><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?><?= (int) $product['quantity'] > 1 ? ' &times; ' . (int) $product['quantity'] : '' ?></a></span>
               <?php endforeach; ?>
             </div>
+            <?php if (count($collection['products']) > 3): ?><button class="package-show-more" type="button" popovertarget="store-package-details-<?= (int)$collection['collection_id'] ?>" aria-label="Show all <?= count($collection['products']) ?> products and details for <?= e($collection['name']) ?>">Show more <span aria-hidden="true">(+<?= count($collection['products'])-3 ?>)</span></button><?php endif; ?>
             <div class="bundle-card-bottom">
               <div class="bundle-price-row">
-                <div><small class="bundle-price-label">Set price</small><strong><?= $cxMoney((float) $collection['price']) ?></strong></div>
+                <div><small class="bundle-price-label">Package price</small><strong><?= $cxMoney((float) $collection['price']) ?></strong></div>
                 <?php if ($saving > 0): ?>
                   <div class="bundle-compare-price"><span>Individual total</span><del><?= $cxMoney((float) $collection['original_price']) ?></del><small>You save <?= $cxMoney($saving) ?></small></div>
                 <?php endif; ?>
               </div>
               <?php if ($inStock): ?>
-                <button class="btn btn-primary bundle-add-button" type="button" data-collection-id="<?= (int) $collection['collection_id'] ?>"><span>Add this set to basket</span><strong><?= $cxMoney((float) $collection['price']) ?></strong><span class="bundle-add-arrow" aria-hidden="true">↗</span></button>
+                <button class="btn btn-primary bundle-add-button" type="button" data-collection-id="<?= (int) $collection['collection_id'] ?>"><span>Add this package to basket</span><strong><?= $cxMoney((float) $collection['price']) ?></strong><span class="bundle-add-arrow" aria-hidden="true">↗</span></button>
               <?php else: ?>
                 <button class="btn btn-primary bundle-add-button" type="button" disabled><span>Currently unavailable</span><span class="bundle-add-arrow" aria-hidden="true">↗</span></button>
               <?php endif; ?>
@@ -86,11 +87,12 @@ $cxImage = static fn(?string $path): string => nabta_image_url($path, 800);
         </article>
       <?php endforeach; ?>
       <?php if (!$cxCollections): ?>
-        <p>New sets are on their way. Check back soon.</p>
+        <p>New packages are on their way. Check back soon.</p>
       <?php endif; ?>
     </div>
   </div>
 </section>
+<?php foreach ($cxCollections as $packageDetail): if (count($packageDetail['products']) > 3): $packageDetailId='store-package-details-'.(int)$packageDetail['collection_id']; require __DIR__ . '/package-details.php'; endif; endforeach; ?>
 <div class="cx-toast" id="cx-toast" role="status" aria-live="polite"></div>
 <script>window.NABTA_PUBLIC_URL = window.NABTA_PUBLIC_URL || <?= json_encode(nabta_public_url()) ?>;</script>
 <script src="<?= htmlspecialchars(nabta_public_url('assets/js/cart.js?v=20261102'), ENT_QUOTES, 'UTF-8') ?>" defer></script>

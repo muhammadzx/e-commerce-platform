@@ -93,11 +93,40 @@
       if (message) message.textContent = '';
     }
   });
+  const syncProductGallery = () => {
+    const gallery = document.querySelector('.nd-gallery');
+    if (!gallery) return;
+    const all = [...gallery.querySelectorAll('.nd-thumbnail')];
+    if (!all.length) return;
+    const visible = all.filter(item => !item.hidden);
+    let active = visible.find(item => item.classList.contains('active'));
+    if (!active && visible.length) {
+      active = visible[0];
+      const main = gallery.querySelector('#main-product-image');
+      if (main) {
+        main.removeAttribute('srcset');
+        main.removeAttribute('data-fallback');
+        main.src = active.dataset.image;
+      }
+    }
+    all.forEach(item => {
+      item.classList.toggle('active', item === active);
+      item.setAttribute('aria-pressed', String(item === active));
+    });
+    visible.forEach((item, index) => {
+      item.dataset.index = String(index + 1);
+      item.setAttribute('aria-label', 'View product image ' + (index + 1));
+    });
+    const counter = gallery.querySelector('#image-counter');
+    if (counter) counter.textContent = String(active ? visible.indexOf(active) + 1 : 0).padStart(2, '0') + ' / ' + String(visible.length).padStart(2, '0');
+  };
+  document.addEventListener('product-gallery-change', syncProductGallery);
   const showImageFailure = img => {
     if (!(img instanceof HTMLImageElement)) return;
+    if (img.hasAttribute('data-managed-preview')) return;
     img.dataset.fallbackApplied = 'true';
     const thumbnail = img.closest('.nd-thumbnail');
-    if (thumbnail) { thumbnail.hidden = true; return; }
+    if (thumbnail) { thumbnail.hidden = true; syncProductGallery(); return; }
     if (img.dataset.fallback && img.src !== img.dataset.fallback) { img.removeAttribute('srcset'); img.src = img.dataset.fallback; }
     else {
       const placeholder = document.createElement('span');

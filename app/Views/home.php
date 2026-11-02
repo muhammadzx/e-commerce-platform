@@ -29,6 +29,7 @@ require_once __DIR__ . '/bootstrap.php';
   <main id="main">
     <div class="container">
       <section class="promo-slider screen" aria-label="Seasonal promotions">
+        <div class="hero-nav-shade" aria-hidden="true"></div>
         <input class="slide-radio" type="radio" name="promotion" id="promo-0" checked
           aria-label="Promotion 1: Your everyday. A little wilder." /><input class="slide-radio" type="radio"
           name="promotion" id="promo-1" aria-label="Promotion 2: Small plant. Big difference." /><input

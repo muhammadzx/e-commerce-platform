@@ -507,7 +507,7 @@ wishlistState.then((state) => {
             thumbnail.addEventListener("click", async () => {
                 const candidate = thumbnail.dataset.image;
                 const loaded = await new Promise(resolve => { const probe = new Image(); probe.onload = () => resolve(true); probe.onerror = () => resolve(false); probe.src = candidate; });
-                if (!loaded) { thumbnail.hidden = true; return; }
+                if (!loaded) { thumbnail.hidden = true; document.dispatchEvent(new Event('product-gallery-change')); return; }
 
                 // Change the large product image
                 mainImage.removeAttribute('srcset');
@@ -531,7 +531,7 @@ wishlistState.then((state) => {
                     ).padStart(2, "0");
 
                     const total = String(
-                        thumbnails.length
+                        [...thumbnails].filter(item => !item.hidden).length
                     ).padStart(2, "0");
 
                     counter.textContent = `${current} / ${total}`;

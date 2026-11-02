@@ -95,10 +95,22 @@ class AdminProductController
             }
         }
 
-        $search = trim($_GET['search'] ?? '');
-        $products = $search === ''
-            ? $productModel->getAllProductsForAdmin()
-            : $productModel->searchProducts($search);
+        $readFilter = static fn(string $key): string => is_string($_GET[$key] ?? null) ? trim($_GET[$key]) : '';
+        $search = mb_substr($readFilter('search'), 0, 200);
+        $filters = ['search'=>$search, 'category'=>max(0, (int)$readFilter('category')),
+            'stock'=>$readFilter('stock'), 'sort'=>$readFilter('sort') ?: 'newest',
+            'min_price'=>$readFilter('min_price'), 'max_price'=>$readFilter('max_price')];
+        $filterError = '';
+        foreach (['min_price','max_price'] as $key) {
+            if ($filters[$key] !== '' && (!is_numeric($filters[$key]) || !is_finite((float)$filters[$key]) || (float)$filters[$key] < 0 || (float)$filters[$key] > 99999999.99)) {
+                $filterError = 'Enter valid, non-negative prices.';
+                $filters[$key] = '';
+            }
+        }
+        if ($filters['min_price'] !== '' && $filters['max_price'] !== '' && (float)$filters['min_price'] > (float)$filters['max_price']) $filterError = 'Minimum price must not exceed maximum price.';
+        if (!in_array($filters['stock'], ['', 'in', 'low', 'out'], true)) $filters['stock'] = '';
+        if (!in_array($filters['sort'], ['newest','name','price_low','price_high','stock_low'], true)) $filters['sort'] = 'newest';
+        $products = $filterError === '' ? $productModel->filterProducts($filters) : [];
         $categories = $productModel->getCategoriesForAdmin();
 
         $productImages = [];

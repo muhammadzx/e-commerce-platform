@@ -20,6 +20,7 @@
 </head>
 
 <body class="auth-page botanical-edition<?= !empty($isRegister) ? ' is-register' : '' ?>">
+  <?php require __DIR__ . '/report-shortcut.php'; ?>
   <aside class="auth-visual" aria-label="Nabta Botanical introduction">
     <a class="auth-brand" href="index.php" aria-label="Nabta Botanical home">
       <svg viewBox="0 0 36 36" aria-hidden="true">

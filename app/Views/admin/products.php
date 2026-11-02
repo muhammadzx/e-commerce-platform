@@ -32,10 +32,7 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
     <div class="admin-shell">
         <?php include __DIR__ . '/../layouts/admin-sidebar.html'; ?>
         <div class="admin-content">
-            <div class="admin-top">
-                <span>Workspace / Products</span>
-                <div class="flex"><span>Nabta Botanical</span><span class="pill">Products</span></div>
-            </div>
+            <?php $adminHeaderTitle = 'Products'; require __DIR__ . '/../layouts/admin-header.php'; ?>
 
             <div class="admin-photo-strip" role="img" aria-label="Botanical greenhouse">
                 <span>CANOPY / BOTANICAL OPERATIONS<small>GROWTH · STOCK · CUSTOMER CARE</small></span>
@@ -57,15 +54,21 @@ $openEditProductId = filter_input(INPUT_GET, 'edit_product', FILTER_VALIDATE_INT
 
             <section class="panel">
                 <div class="toolbar">
-                    <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" class="admin-search product-search">
-                        <label class="sr-only" for="search-records">Search products</label>
+                    <form method="get" action="<?= htmlspecialchars(nabta_public_url('admin/products.php'), ENT_QUOTES, 'UTF-8') ?>" class="admin-search product-search product-filters">
+                        <div class="product-filter-search"><label for="search-records">Search products</label>
                         <input class="control" id="search-records" name="search" type="search"
                                value="<?= htmlspecialchars($search ?? '', ENT_QUOTES, 'UTF-8') ?>"
-                               placeholder="Search products">
-                        <button class="btn secondary" type="submit">Search</button>
+                               placeholder="Search products"></div>
+                        <label>Category<select class="control" name="category"><option value="0">All categories</option><?php foreach ($categories as $category): ?><option value="<?= (int)$category['cat_id'] ?>" <?= $filters['category'] === (int)$category['cat_id'] ? 'selected' : '' ?>><?= e($category['name']) ?></option><?php endforeach; ?></select></label>
+                        <label>Stock<select class="control" name="stock"><?php foreach ([''=>'All stock levels','in'=>'In stock','low'=>'Low stock (1–5)','out'=>'Out of stock'] as $value=>$label): ?><option value="<?= e($value) ?>" <?= $filters['stock'] === $value ? 'selected' : '' ?>><?= e($label) ?></option><?php endforeach; ?></select></label>
+                        <label>Min price (JOD)<input class="control" type="number" name="min_price" min="0" max="99999999.99" step="0.01" value="<?= e($filters['min_price']) ?>" placeholder="No minimum"></label>
+                        <label>Max price (JOD)<input class="control" type="number" name="max_price" min="0" max="99999999.99" step="0.01" value="<?= e($filters['max_price']) ?>" placeholder="No maximum"></label>
+                        <label>Sort by<select class="control" name="sort"><?php foreach (['newest'=>'Newest first','name'=>'Name A–Z','price_low'=>'Price: low to high','price_high'=>'Price: high to low','stock_low'=>'Lowest stock first'] as $value=>$label): ?><option value="<?= e($value) ?>" <?= $filters['sort'] === $value ? 'selected' : '' ?>><?= e($label) ?></option><?php endforeach; ?></select></label>
+                        <div class="filter-buttons"><button class="btn secondary" type="submit">Apply filters</button><a class="btn secondary" href="<?= e(nabta_public_url('admin/products.php')) ?>">Reset</a></div>
                     </form>
-                    <span class="label"><?= count($products) ?> records</span>
+                    <span class="label" role="status"><?= count($products) ?> records</span>
                 </div>
+                <?php if ($filterError): ?><p class="field-error" role="alert"><?= e($filterError) ?></p><?php endif; ?>
 
                 <div class="table-scroll">
                     <table>

@@ -1,6 +1,19 @@
 /* Shared interaction contracts: modal focus, form feedback and resilient media. */
 (() => {
   'use strict';
+  const descriptionObserver = new ResizeObserver(entries => {
+    for (const { target } of entries) {
+      const button = target.parentElement.querySelector('.product-description-more');
+      if (button) button.hidden = target.scrollHeight <= target.clientHeight + 1;
+    }
+  });
+  function observeDescriptions() {
+    document.querySelectorAll('[data-description-preview] .product-description-text').forEach(text => {
+      descriptionObserver.observe(text);
+    });
+  }
+  observeDescriptions();
+  new MutationObserver(observeDescriptions).observe(document.body, { childList: true, subtree: true });
   let active = null;
   const focusable = root => [...root.querySelectorAll('a[href], button:not(:disabled), input:not(:disabled):not([type=hidden]), select:not(:disabled), textarea:not(:disabled), [tabindex="0"]')]
     .filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== 'hidden');

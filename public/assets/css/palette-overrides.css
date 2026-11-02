@@ -508,7 +508,7 @@ body.garden-home #faq :is(h2, h2 em, .faq-question, summary) { color: var(--colo
 body.garden-home #faq :is(.eyebrow, .faq-spark, .faq-intro-card > p, .faq-list-heading span, .faq-number, .faq-chevron, .faq-answer p, .faq-bottom-note) { color: var(--color-text-secondary) !important; }
 body.garden-home #faq .faq-assistant-link,
 body.garden-home #faq .faq-assistant-link span { color: var(--color-link) !important; }
-body.garden-home #faq .faq-image-caption { background: var(--color-primary) !important; }
+body.garden-home #faq .faq-image-caption { background: transparent !important; }
 body.garden-home #faq .faq-image-caption :is(span, strong, small) { color: var(--color-surface) !important; }
 body.garden-home.index-page .header:not(.is-scrolled) { background: transparent !important; border-color: transparent !important; }
 body.garden-home.index-page .header.is-scrolled { background: var(--color-page) !important; border-color: var(--color-border) !important; }

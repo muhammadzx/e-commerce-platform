@@ -94,7 +94,7 @@ $total = count($categories);
                                 <?php foreach ($categories as $c): $id = (int) $c['cat_id']; ?>
                                     <tr>
                                         <td data-label="Category"><?= $e($c['name']) ?></td>
-                                        <td data-label="Description"><?= $e($c['description'] ?: '—') ?></td>
+                                        <td data-label="Description"><span class="category-description-preview"><?= $e($c['description'] ?: '—') ?></span></td>
                                         <td data-label="Products"><?= (int) $c['products_count'] ?></td>
                                         <td data-label="Actions">
                                             <div class="table-actions"><button class="table-button" type="button"
@@ -121,7 +121,7 @@ $total = count($categories);
                             aria-label="Close window">×</button>
                     </div>
                     <div class="summary-row"><span>Category</span><span><?= $e($c['name']) ?></span></div>
-                    <div class="summary-row"><span>Description</span><span><?= $e($c['description'] ?: '—') ?></span></div>
+                    <div class="summary-row category-description-row"><span>Description</span><span class="category-description-full"><?= $e($c['description'] ?: '—') ?></span></div>
                     <div class="summary-row"><span>Products</span><span><?= (int) $c['products_count'] ?></span></div>
                 </section>
 

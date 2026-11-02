@@ -22,7 +22,7 @@ $footUrl = static fn(string $path): string => htmlspecialchars(nabta_public_url(
       <div>
         <div class="footer-title">GROW YOUR SPACE</div>
         <nav class="footer-links">
-          <a href="<?= $footUrl('index.php?page=products') ?>">Shop the collection</a><a
+          <a href="<?= $footUrl('index.php?page=collections') ?>">Shop the packages</a><a
             href="<?= $footUrl('index.php#bundles') ?>">Seasonal offers</a><a
             href="<?= $footUrl('index.php?page=about') ?>">About Nabta</a>
         </nav>

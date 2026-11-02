@@ -497,10 +497,6 @@ require_once __DIR__ . '/bootstrap.php';
                 <p>FIELD NOTES / 01</p>
                 <h2>A corner worth growing.</h2>
               </div>
-              <a class="icon-btn" href="index.php?page=products" aria-label="Explore this promotion"><svg class="icon"
-                  viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg></a>
             </div>
           </div>
         </div>
@@ -533,10 +529,6 @@ require_once __DIR__ . '/bootstrap.php';
                 <p>THE DESK GARDEN</p>
                 <h2>Last come</h2>
               </div>
-              <a class="icon-btn" href="index.php?page=products" aria-label="Explore this promotion"><svg class="icon"
-                  viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg></a>
             </div>
           </div>
         </div>
@@ -570,10 +562,6 @@ require_once __DIR__ . '/bootstrap.php';
                 <p>GROWING ESSENTIALS</p>
                 <h2>Start with the basics.</h2>
               </div>
-              <a class="icon-btn" href="index.php?page=products" aria-label="Explore this promotion"><svg class="icon"
-                  viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M5 12h14m-6-6 6 6-6 6" />
-                </svg></a>
             </div>
           </div>
         </div>
@@ -794,7 +782,7 @@ require_once __DIR__ . '/bootstrap.php';
     </div>
   </main>
   <?php require __DIR__ . "/layouts/footer.php"; ?>
-  <script src="assets/js/nabta-theme.js" defer></script>
+  <script src="assets/js/nabta-theme.js?v=<?= filemtime(__DIR__ . '/../../public/assets/js/nabta-theme.js') ?>" defer></script>
 </body>
 
 </html>

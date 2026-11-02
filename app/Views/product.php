@@ -132,18 +132,20 @@ $mainImage = $imageCount > 0
 
         <div class="nd-information">
             <p class="nd-kicker">BOTANICAL ESSENTIALS <span>— <?= $esc($product['category'] ?? 'NABTA') ?></span></p>
-            <h1><?= $esc($product['name']) ?></h1>
-            <div class="nd-price-row">
+            <div class="nd-title-price">
+                <h1><?= $esc($product['name']) ?></h1>
                 <p class="nd-price"><?= number_format((float) $product['price'], 2) ?> <small>JOD</small></p>
-                <span class="nd-availability <?= $inStock ? '' : 'is-out' ?>"><span class="nd-dot"></span><?= $inStock ? 'In stock' : 'Out of stock' ?></span>
             </div>
+            <div class="nd-review-stock">
             <?php if ($total > 0): ?>
                 <a class="nd-rating" href="#reviews"><span class="nd-stars"><?= str_repeat('★', $rounded) . str_repeat('☆', 5 - $rounded) ?></span><span><?= number_format($average, 1) ?> · <?= $total ?> review<?= $total === 1 ? '' : 's' ?></span></a>
             <?php else: ?>
                 <p class="nd-rating nd-rating-empty">No reviews yet</p>
             <?php endif; ?>
+                <span class="nd-availability <?= $inStock ? '' : 'is-out' ?>"><span class="nd-dot"></span><?= $inStock ? 'In stock' : 'Out of stock' ?></span>
+            </div>
             <div class="nd-rule"></div>
-            <dl class="product-facts"><div><dt>Category</dt><dd><?= $esc($product['category'] ?? 'Growing essentials') ?></dd></div><div><dt>Availability</dt><dd><?= $inStock ? 'In stock' : 'Out of stock' ?></dd></div><div><dt>Size &amp; measurements</dt><dd>Not provided. Ask the store before approving your purchase.</dd></div></dl><p class="nd-description"><?= nl2br($esc($product['description'] ?? '')) ?></p>
+            <dl class="product-facts"><div><dt>Category</dt><dd><?= $esc($product['category'] ?? 'Growing essentials') ?></dd></div><div><dt>Availability</dt><dd><?= $inStock ? 'In stock' : 'Out of stock' ?></dd></div><div><dt>Description</dt><dd><?php $descriptionProduct = $product; $descriptionId = 'product-description-' . (int) $product['pro_id']; require __DIR__ . '/layouts/product-description.php'; ?></dd></div></dl>
             <button class="nd-cart" type="button" data-product-id="<?= (int) $product['pro_id'] ?>" <?= $inStock ? '' : 'disabled' ?>>
                 <span><?= $inStock ? 'Add to cart' : 'Currently unavailable' ?></span><span aria-hidden="true">↗</span>
             </button>
@@ -406,7 +408,7 @@ $mainImage = $imageCount > 0
         )): ?>
 
             <p class="nd-empty">
-                Only customers who purchased this product can leave a review.
+                You can review this product after an order containing it is marked Completed. Pending confirmation requests are not yet eligible.
             </p>
 
         <?php elseif ($reviewModel->hasReviewed(

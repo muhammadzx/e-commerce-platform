@@ -265,7 +265,7 @@
                     everything you need to start growing.
                 </p>
 
-                <a href="index.php?page=products"
+                <a href="index.php?page=collections"
                    class="text-link">
                     Explore our collection <span>↗</span>
                 </a>

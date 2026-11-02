@@ -90,7 +90,7 @@ class ReviewController
 
             echo json_encode([
                 "success" => false,
-                "message" => "Only customers who purchased this product can review it."
+                "message" => "You can review this product after an order containing it is marked Completed. Pending confirmation requests are not yet eligible."
             ]);
             return;
         }

@@ -49,6 +49,12 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function findActiveById(int $id): ?array
+    {
+        $user = $this->find($id);
+        return $user && $user['status'] === 'active' ? $user : null;
+    }
+
     // Added: Find user by email for authentication
     public function findByEmail(string $email): ?array
     {

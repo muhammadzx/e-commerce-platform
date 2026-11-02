@@ -9,7 +9,7 @@
     window.addEventListener('scroll', updateHeader, { passive: true });
   }
 
-  // Automatic advance is opt-in, with a persistent pause control and reduced-motion support.
+  // Advance automatically, respecting reduced-motion preferences and keyboard focus.
   const slider = document.querySelector('.promo-slider');
   const slides = slider ? [...slider.querySelectorAll('.slide-radio')] : [];
   // The third hero slide uses a darker image treatment, so switch the transparent
@@ -24,17 +24,6 @@
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let timer = null;
     let paused = false;
-    let userPaused = true;
-    const pauseButton = document.createElement("button");
-    pauseButton.type = "button";
-    pauseButton.className = "slider-pause";
-    pauseButton.textContent = "Play slideshow";
-    pauseButton.setAttribute("aria-pressed", "false");
-    pauseButton.setAttribute("aria-label", "Automatic slideshow");
-    pauseButton.disabled = reduceMotion.matches;
-    if (reduceMotion.matches) pauseButton.textContent = "Slideshow paused (reduced motion)";
-    slider.appendChild(pauseButton);
-    pauseButton.addEventListener("click", () => { userPaused = !userPaused; pauseButton.textContent = userPaused ? "Play slideshow" : "Pause slideshow"; pauseButton.setAttribute("aria-pressed", String(!userPaused)); startTimer(); });
     const activeIndex = () => Math.max(0, slides.findIndex((radio) => radio.checked));
     const stopTimer = () => {
       if (timer !== null) window.clearInterval(timer);
@@ -42,15 +31,13 @@
     };
     const startTimer = () => {
       stopTimer();
-      if (userPaused || paused || document.hidden || reduceMotion.matches) return;
+      if (paused || document.hidden || reduceMotion.matches) return;
       timer = window.setInterval(() => {
         const next = (activeIndex() + 1) % slides.length;
         slides[next].checked = true;
         slides[next].dispatchEvent(new Event('change', { bubbles: true }));
-      }, 7000);
+      }, 5000);
     };
-    slider.addEventListener('mouseenter', () => { paused = true; stopTimer(); });
-    slider.addEventListener('mouseleave', () => { paused = false; startTimer(); });
     slider.addEventListener('focusin', () => { paused = true; stopTimer(); });
     slider.addEventListener('focusout', (event) => {
       if (!slider.contains(event.relatedTarget)) { paused = false; startTimer(); }
@@ -60,7 +47,7 @@
       startTimer();
     }));
     document.addEventListener('visibilitychange', startTimer);
-    reduceMotion.addEventListener?.('change', () => { userPaused = true; pauseButton.disabled = reduceMotion.matches; pauseButton.textContent = reduceMotion.matches ? 'Slideshow paused (reduced motion)' : 'Play slideshow'; pauseButton.setAttribute('aria-pressed', 'false'); startTimer(); });
+    reduceMotion.addEventListener?.('change', startTimer);
     startTimer();
   }
 

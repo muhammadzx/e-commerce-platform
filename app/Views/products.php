@@ -146,8 +146,8 @@ $catalogCategories = $catalogModel->getAllCategories();
         A lot more life.
     </h2>
 
-    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=products'), ENT_QUOTES, 'UTF-8') ?>">
-        Explore the collection ↗
+    <a href="<?= htmlspecialchars(nabta_public_url('index.php?page=collections'), ENT_QUOTES, 'UTF-8') ?>">
+        Explore the packages ↗
     </a>
 </section>
 <?php require __DIR__ . "/layouts/footer.php"; ?>
